@@ -26,6 +26,24 @@ public class Resources extends AssetManager{
 	//public String imgLoadingLogo = "splash/loading_logo.png";
 	public String imgLogo = "splash/logo.png";
 	
+	//GUI BUTTONS TEST
+	public String imgStartButton = "gui/Start_BTN.png";
+	public String imgExitButton = "gui/Exit_BTN.png";
+	
+	//GUI IMAGE BUTTONS TEST 
+	public String imgStartButtonON = "gui/buttons_on/Play_BTN.png";
+    public String imgStartButtonOFF = "gui/buttons_off/Play_BTN.png";
+    
+    public String imgCloseButtonON = "gui/buttons_on/Close_BTN.png";
+    public String imgCloseButtonOFF = "gui/buttons_off/Close_BTN.png";
+	
+    public String imgRatingButtonON = "gui/buttons_on/Rating_BTN.png";
+    public String imgRatingButtonOFF = "gui/buttons_off/Rating_BTN.png";
+    
+    public String imgSettingsButtonON = "gui/buttons_on/Settings_BTN.png";
+    public String imgSettingsButtonOFF = "gui/buttons_off/Settings_BTN.png";
+    
+	
 	//background test
 	public String imgBackground = "background/Background.png";
 	
@@ -61,6 +79,24 @@ public class Resources extends AssetManager{
 		//images
 		//load(imgLoadingLogo, Texture.class);
 		load(imgLogo, Texture.class);
+		
+		/////////////////////////////////////////////////////////////
+		load(imgStartButton, Texture.class);
+		load(imgExitButton, Texture.class);
+		
+		load(imgStartButtonON, Texture.class);
+		load(imgStartButtonOFF, Texture.class);
+	    
+		load(imgCloseButtonON, Texture.class);
+		load(imgCloseButtonOFF, Texture.class);
+		
+		load(imgRatingButtonON, Texture.class);
+		load(imgRatingButtonOFF, Texture.class);
+	    
+		load(imgSettingsButtonON, Texture.class);
+		load(imgSettingsButtonOFF, Texture.class);
+		////////////////////////////////////////////////////////////
+		
 		
 		load(imgBackground, Texture.class);
 		load(imgBackgroundParallaxBG, Texture.class);

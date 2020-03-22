@@ -3,6 +3,7 @@ package com.gdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +29,8 @@ public class GamePlayScreen implements Screen {
 	//////////////////////////////
 	private SpriteBatch spriteBatch;
 	
+	private Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/back_music.ogg"));
+	private float volumeMusic = 0.25f;
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
@@ -56,14 +59,20 @@ public class GamePlayScreen implements Screen {
 		Gdx.input.setInputProcessor(inGameUI);
 		
 		guiStage.showMenuGUI(true);
+		
+		music.setVolume(volumeMusic);
+		music.setLooping(true);
+		music.play();
 	}
 	
 	
 	public void startGame(boolean restart) {
-		guiStage.showMenuGUI(false);
-		
-		
-		
+		guiStage.showMenuGUI(false);	
+	}
+	
+	
+	public void resumeGame() {
+		music.play();
 	}
 
 	
@@ -105,12 +114,14 @@ public class GamePlayScreen implements Screen {
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
+		music.pause();
 		
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
+		music.play();
 		
 	}
 
@@ -123,6 +134,8 @@ public class GamePlayScreen implements Screen {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		spriteBatch.dispose();
+		music.dispose();
 		
 	}
 

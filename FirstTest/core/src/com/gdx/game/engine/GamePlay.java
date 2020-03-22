@@ -42,10 +42,10 @@ public class GamePlay {
 	private void initBackground() {
 		
 		 ParallaxLayer layers[] = new ParallaxLayer[4];
-	     layers[0] = new ParallaxLayer(0.15f, 0.0f);  //BG
-	     layers[1] = new ParallaxLayer(0.4f, 0.0f);   //Stars
-	     layers[2] = new ParallaxLayer(0.55f, 0.0f);  //Planets
-	     layers[3] = new ParallaxLayer(1.0f, 0.0f);   //Meteors
+	     layers[0] = new ParallaxLayer(0.0f, 0.15f);  //BG
+	     layers[1] = new ParallaxLayer(0.0f, 0.4f);   //Stars
+	     layers[2] = new ParallaxLayer(0.0f, 0.55f);  //Planets
+	     layers[3] = new ParallaxLayer(0.0f, 1.0f);   //Meteors
 	     
 	     
 	     layers[0].addPart(new TextureRegion(FirstTestGDX.resources.get(FirstTestGDX.resources.imgBackgroundParallaxBG, Texture.class)));
@@ -57,7 +57,7 @@ public class GamePlay {
 	}
 	
 	public void update(float delta){
-		parallaxBackground.move(delta, speedUpFactor * bgSpeed, 0.0f);
+		parallaxBackground.move(delta, 0.0f, speedUpFactor * bgSpeed);
 	}
 	
 	public void draw(SpriteBatch sb) {

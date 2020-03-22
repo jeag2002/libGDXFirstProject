@@ -43,6 +43,37 @@ public class ParallaxLayer {
 	protected void draw(SpriteBatch sb, float parentX, float parentY) {
 		
 		sb.draw(parts.get(activeIndex),
+				parentX, 
+				parentY + positionY);
+	
+		if ((positionY + (parts.get(activeIndex).getRegionHeight() )) < FirstTestGDX.screenHeight) {
+			
+			if (activeIndex == parts.size()-1)
+				sb.draw(parts.get( 0 ),
+						parentX,
+						parentY + positionY + (parts.get(activeIndex).getRegionHeight())
+						
+						);
+			else
+				sb.draw(parts.get(activeIndex +1 ), 
+						parentX,
+						parentY + positionY + (parts.get(activeIndex).getRegionHeight())
+						);
+		}
+		
+		
+		if (positionY <= (-parts.get(activeIndex ).getRegionHeight() )) {
+			positionY = 0;
+			activeIndex++;
+			if (activeIndex >= parts.size()) 
+				activeIndex = 0;
+		}
+		
+		
+		
+		
+		/*
+		sb.draw(parts.get(activeIndex),
 				parentX + positionX, 
 				parentY + positionY);
 	
@@ -65,7 +96,7 @@ public class ParallaxLayer {
 			if (activeIndex >= parts.size()) 
 				activeIndex = 0;
 		}
-
+		*/
 	}
 	
 	
