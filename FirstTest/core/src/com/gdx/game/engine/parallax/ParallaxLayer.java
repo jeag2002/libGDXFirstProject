@@ -69,34 +69,6 @@ public class ParallaxLayer {
 				activeIndex = 0;
 		}
 		
-		
-		
-		
-		/*
-		sb.draw(parts.get(activeIndex),
-				parentX + positionX, 
-				parentY + positionY);
-	
-		if ((positionX + (parts.get(activeIndex).getRegionWidth() )) < FirstTestGDX.screenWidth) {
-			
-			if (activeIndex == parts.size()-1)
-				sb.draw(parts.get( 0 ),
-						parentX + positionX + (parts.get(activeIndex).getRegionWidth()),
-						parentY + positionY);
-			else
-				sb.draw(parts.get(activeIndex +1 ), 
-						parentX + positionX + (parts.get(activeIndex).getRegionWidth()),
-						parentY + positionY);
-		}
-		
-		
-		if (positionX <= (-parts.get(activeIndex ).getRegionWidth() )) {
-			positionX = 0;
-			activeIndex++;
-			if (activeIndex >= parts.size()) 
-				activeIndex = 0;
-		}
-		*/
 	}
 	
 	

@@ -7,30 +7,48 @@ import com.gdx.game.screens.GamePlayScreen;
 
 public class GameInput implements InputProcessor{
 	
-	private GamePlayScreen gamePlayScreen;
 	private GamePlay gamePlay;
 	
-	public GameInput(GamePlayScreen screen, GamePlay gamePlay) {
-		this.gamePlayScreen = screen;
+	public GameInput(GamePlay gamePlay) {
 		this.gamePlay = gamePlay;
 	}
 
 	@Override
 	public boolean keyDown(int keycode) {
+		
+		if (gamePlay.isStarted()) {
+			if ((keycode == Keys.W) || (keycode == Keys.UP)) {
+				gamePlay.playerMoveUp();
+			}else if ((keycode == Keys.A) || (keycode == Keys.LEFT)) {
+				gamePlay.playerMoveLeft();
+			}else if ((keycode == Keys.D) || (keycode == Keys.RIGHT)) {
+				gamePlay.playerMoveRight();
+			}else if ((keycode == Keys.S) || (keycode == Keys.DOWN)) {
+				gamePlay.playerMoveDown();
+			}else if (keycode == Keys.SPACE) {
+				gamePlay.playerShoot();
+			}
+		}
+		if (keycode == Keys.ESCAPE) {
+			   Gdx.app.exit();
+		}
 		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if (keycode == Keys.SPACE
-				|| keycode == Keys.A
-				|| keycode == Keys.UP) {
-				gamePlayScreen.startGame(gamePlay.isGameover());
-		}else if (keycode == Keys.ESCAPE) {
-				Gdx.app.exit();
+		if (gamePlay.isStarted()) {
+			if ((keycode == Keys.W) || (keycode == Keys.UP)) {
+				gamePlay.playerMoveUp();
+			}else if ((keycode == Keys.A) || (keycode == Keys.LEFT)) {
+				gamePlay.playerMoveLeft();
+			}else if ((keycode == Keys.D) || (keycode == Keys.RIGHT)) {
+				gamePlay.playerMoveRight();
+			}else if ((keycode == Keys.S) || (keycode == Keys.DOWN)) {
+				gamePlay.playerMoveDown();
+			}
 		}
-		
 		return true;
 	}
 

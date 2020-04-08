@@ -1,0 +1,33 @@
+RUN HTML https://github.com/libgdx/libgdx/wiki/Gradle-on-the-Commandline#running-the-html-project
+
+gradlew html:dist
+
+This will compile your app to Javascript and place the resulting Javascript, HTML and asset files in the html/build/dist/ folder. The contents of this folder have to be served up by a web server, e.g. Apache or Nginx. Just treat the contents like you'd treat any other static HTML/Javascript site. There is no Java or Java Applets involved!
+
+With Python installed, you can test your distribution by executing the following in the html/build/dist folder:
+
+Python 2.x
+
+python -m SimpleHTTPServer
+
+Python 3.x
+
+python -m http.server 8000
+
+You can then open a browser to http://localhost:8000 and see your project in action.
+
+With Node.js npm install http-server -g then http-server html/build/dist and browse at http://localhost:8080. docs
+
+With PHP you may type php -S localhost:8000 and browse at http://localhost:8080. docs
+
+
+Box2D:
+https://github.com/libgdx/libgdx/wiki/box2d#contact-listeners
+
+Texture Atlas:
+https://www.reddit.com/r/libgdx/comments/28lzxz/creating_a_texture_atlas_from_a_sprite_sheet/
+
+
+java -cp d:\workspaces\runtimes\libgdx\jar_files\gdx-1.9.7.jar;d:\workspaces\runtimes\libgdx\jar_files\gdx-tools-1.9.7.jar com.badlogic.gdx.tools.imagepacker.ImagePacker d:\workspaces\workGameDev\workGDX_1\FirstTest\android\assets\player_1 d:\workspaces\workGameDev\workGDX_1\FirstTest\android\assets\player_1\res
+
+https://www.badlogicgames.com/forum/viewtopic.php?f=11&t=23183

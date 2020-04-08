@@ -1,19 +1,18 @@
 package com.gdx.game.engine;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.gdx.game.FirstTestGDX;
-import com.gdx.game.engine.parallax.ParallaxBackground;
-import com.gdx.game.engine.parallax.ParallaxLayer;
+import com.gdx.game.elements.background.Background;
+import com.gdx.game.elements.player.Player;
+import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.enums.PlayerMovements;
+
 import java.util.Random;
 
 public class GamePlay {
 	
-	private GamePlayScreen gamePlayScreen;
-	private ParallaxBackground parallaxBackground;
-	
+	private GameElementLogic gEL;
 	
 	//game states
 	private boolean started;
@@ -21,47 +20,76 @@ public class GamePlay {
 	private boolean paused;
 	
 	
-	//parallax
-	private float speedUpFactor;
-	private float bgSpeed = -500.0f;
+	private Player player;
+	private Background background;
 	
 	
 	public static Random random;
 	
 	public GamePlay(GamePlayScreen gs) {
-		this.gamePlayScreen = gs;
+		gEL = new GameElementLogic();
 		random = new Random(System.currentTimeMillis());
 		init();
 	}
 	
 	private void init() {
 		initBackground();
-		speedUpFactor = 1.0f;
+		initPlayer();
+	}
+
+	private void initBackground() {
+		background = new Background();
 	}
 	
-	private void initBackground() {
+	private void initPlayer() {
 		
-		 ParallaxLayer layers[] = new ParallaxLayer[4];
-	     layers[0] = new ParallaxLayer(0.0f, 0.15f);  //BG
-	     layers[1] = new ParallaxLayer(0.0f, 0.4f);   //Stars
-	     layers[2] = new ParallaxLayer(0.0f, 0.55f);  //Planets
-	     layers[3] = new ParallaxLayer(0.0f, 1.0f);   //Meteors
-	     
-	     
-	     layers[0].addPart(new TextureRegion(FirstTestGDX.resources.get(FirstTestGDX.resources.imgBackgroundParallaxBG, Texture.class)));
-	     layers[1].addPart(new TextureRegion(FirstTestGDX.resources.get(FirstTestGDX.resources.imgBackgroundParallaxStars, Texture.class)));
-	     layers[2].addPart(new TextureRegion(FirstTestGDX.resources.get(FirstTestGDX.resources.imgBackgroundParallaxPlanets, Texture.class)));
-	     layers[3].addPart(new TextureRegion(FirstTestGDX.resources.get(FirstTestGDX.resources.imgBackgroundParallaxMeteors, Texture.class)));
-	    
-	     parallaxBackground = new ParallaxBackground(layers);
+		player = new Player(this);
+		player.setSize(64, 64);
+		player.setPosition(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2 - 380);
+		player.setCollisionArea(0, 0, 64, 64);
+		
+	}
+	
+	public void playerMoveUp() {		
+		player.move(PlayerMovements.UP);
+	}
+	public void playerMoveLeft() {
+		player.move(PlayerMovements.LEFT);
+	}
+	public void playerMoveRight() {
+		player.move(PlayerMovements.RIGHT);
+	}
+	public void playerMoveDown() {
+		player.move(PlayerMovements.DOWN);
+	}
+	public void playerShoot() {
+		player.move(PlayerMovements.SHOOT);
 	}
 	
 	public void update(float delta){
-		parallaxBackground.move(delta, 0.0f, speedUpFactor * bgSpeed);
+		background.update(delta);
+		player.update(delta);
+		gEL.updateSpawns(delta);
 	}
 	
 	public void draw(SpriteBatch sb) {
-		parallaxBackground.draw(sb);
+		background.draw(sb);
+		if (started) {
+			player.draw(sb);
+			gEL.drawSpawns(sb);
+		}
+		
+	}
+	
+	public void dispose() {
+		if (started) {
+			player.dispose();
+		}
+	}
+	
+	
+	public boolean isStarted() {
+	    return started;
 	}
 	
     public boolean isGameover() {
@@ -71,6 +99,8 @@ public class GamePlay {
     public void start() {
         started = true;
         gameover = false;
+        
+        player.start();
     }
     
     public void pause() {
@@ -80,6 +110,11 @@ public class GamePlay {
     public void resume(){
         paused = false;
     }
+    
+    public GameElementLogic getgEL() {
+		return gEL;
+	}
+
 
 
 }

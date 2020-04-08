@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,7 +12,10 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.engine.GameInput;
 import com.gdx.game.engine.GamePlay;
+import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.GUIStage;
+import com.gdx.game.stages.elements.GUIStageMenu;
+import com.gdx.game.stages.enums.GUIEnum;
 
 public class GamePlayScreen implements Screen {
 	
@@ -21,19 +25,25 @@ public class GamePlayScreen implements Screen {
 	//stage for menu page; and in-game page
 	private GUIStage guiStage;
 	
-	
 	private GameInput gameInput;
 	private GamePlay gamePlay;
+	private GameLevelLogic gLL;
+	
 	private InputMultiplexer inGameUI;
 	
 	//////////////////////////////
 	private SpriteBatch spriteBatch;
 	
-	private Music music = Gdx.audio.newMusic(Gdx.files.internal("sounds/back_music.ogg"));
+	
 	private float volumeMusic = 0.25f;
+	private float volumeVoice = 2.0f;
+	
+	private Music music = null;
+	private Sound sound = null;
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
+		gLL = new GameLevelLogic();
 	}
 	
 	
@@ -41,7 +51,7 @@ public class GamePlayScreen implements Screen {
 		spriteBatch = new SpriteBatch();
 		StretchViewport viewport = new StretchViewport(game.screenWidth, game.screenHeight); 
 		Stage uiStage = new Stage(viewport);
-		guiStage = new GUIStage(uiStage);
+		guiStage = new GUIStage(uiStage, this);
 		guiStage.init();
 		
 		initGame();
@@ -50,7 +60,7 @@ public class GamePlayScreen implements Screen {
 	private void initGame() {
 		
 		gamePlay = new GamePlay(this);
-		gameInput = new GameInput(this, gamePlay);
+		gameInput = new GameInput(gamePlay);
 		
 		inGameUI = new InputMultiplexer();
 		inGameUI.addProcessor(guiStage.getStage());
@@ -58,16 +68,54 @@ public class GamePlayScreen implements Screen {
 		
 		Gdx.input.setInputProcessor(inGameUI);
 		
-		guiStage.showMenuGUI(true);
+		guiStage.activeGUI(GUIEnum.MENU);
 		
+		
+		setInitialMusic();
+	}
+	
+	
+	private void setInitialMusic() {
+		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_menu));
 		music.setVolume(volumeMusic);
 		music.setLooping(true);
 		music.play();
 	}
 	
 	
-	public void startGame(boolean restart) {
-		guiStage.showMenuGUI(false);	
+	private void closeMusic() {
+		music.stop();
+		music = null;
+	}
+	
+	
+	private void setLevelMusic() {
+				
+		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_level));
+		music.setVolume(volumeMusic);
+		music.setLooping(true);
+		music.play();	
+	}
+	
+	
+	private void setIntermissionVoice() {
+		sound = Gdx.audio.newSound(Gdx.files.internal(GameLevelLogic.sound_intermission));
+		sound.play();
+		
+	}
+	
+	
+	public void startIntermission() {
+		closeMusic();
+		guiStage.activeGUI(GUIEnum.INTERMISSION);
+	}
+	
+	
+	public void startGame() {
+		guiStage.activeGUI(GUIEnum.GAMEPLAY);
+		gamePlay.start();
+		setIntermissionVoice();
+		setLevelMusic();
 	}
 	
 	
@@ -135,8 +183,28 @@ public class GamePlayScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		spriteBatch.dispose();
-		music.dispose();
+		gamePlay.dispose();
+		//music.dispose();
 		
 	}
+	
+	public GamePlay getGamePlay() {
+		return gamePlay;
+	}
+
+
+	public void setGamePlay(GamePlay gamePlay) {
+		this.gamePlay = gamePlay;
+	}
+	
+	public GameLevelLogic getgLL() {
+		return gLL;
+	}
+
+
+	public void setgLL(GameLevelLogic gLL) {
+		this.gLL = gLL;
+	}
+	
 
 }
