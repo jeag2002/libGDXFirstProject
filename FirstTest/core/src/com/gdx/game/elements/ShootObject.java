@@ -16,7 +16,7 @@ import com.gdx.game.stages.enums.SpawnType;
  *
  */
 
-public class ShootObject extends CollisionObject {
+public abstract class ShootObject extends DynamicCollObject {
 	
 	 private static final int MAXGUNS = 10;
 
@@ -33,6 +33,17 @@ public class ShootObject extends CollisionObject {
 	 
 	 
 	private GamePlay gP;
+	
+	public ShootObject(GamePlay gP) {
+		super();
+		this.gP = gP;
+        for(int i=0; i<MAXGUNS; ++i) {
+            Gun gun = new Gun(0, 0);
+            guns[i] = gun;
+        }
+        shootEvent = false;
+        
+}
 	 
 	 
 	 public class Gun {
@@ -102,19 +113,6 @@ public class ShootObject extends CollisionObject {
 	public void setShootingInterval(float interval) {
 	     this.shootingInterval = interval;
 	}
-	
-	
-	public ShootObject(GamePlay gP) {
-			this.gP = gP;
-	        for(int i=0; i<MAXGUNS; ++i) {
-	            Gun gun = new Gun(0, 0);
-	            guns[i] = gun;
-	        }
-	        shootEvent = false;
-	        
-	}
-
-	
 	
 	public void init(SpawnType missilPool) {
 		this.missilesPool = missilPool;

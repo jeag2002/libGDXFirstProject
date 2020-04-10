@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.background.Background;
 import com.gdx.game.elements.player.Player;
+import com.gdx.game.elements.player.Player;
 import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.PlayerMovements;
@@ -44,10 +45,15 @@ public class GamePlay {
 	private void initPlayer() {
 		
 		player = new Player(this);
+		player.setLocationAndSize(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2-389, 64, 64);
+		player.setCollisionArea(0, 0, 64, 64);
+		
+		/*
+		player = new Player(this);
 		player.setSize(64, 64);
 		player.setPosition(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2 - 380);
 		player.setCollisionArea(0, 0, 64, 64);
-		
+		*/
 	}
 	
 	public void playerMoveUp() {		

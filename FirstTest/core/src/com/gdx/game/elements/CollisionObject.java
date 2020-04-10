@@ -36,26 +36,28 @@ public class CollisionObject{
     }
 
     public Rectangle getCollisionRectangle() {
-        rectCollision.setPosition(getX() + collOffsetX, getY() + collOffsetY);
+        rectCollision.setPosition(getXColl() + collOffsetX, getYColl() + collOffsetY);
         return rectCollision;
     }
 	
-    public float getX() {
+    
+    
+    public float getXColl() {
 		return X;
 	}
 
 
-	public void setX(float x) {
+	public void setXColl(float x) {
 		X = x;
 	}
 
 
-	public float getY() {
+	public float getYColl() {
 		return Y;
 	}
 
 
-	public void setY(float y) {
+	public void setYColl(float y) {
 		Y = y;
 	}
 }

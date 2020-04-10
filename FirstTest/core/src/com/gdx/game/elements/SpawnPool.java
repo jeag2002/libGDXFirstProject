@@ -3,6 +3,7 @@ package com.gdx.game.elements;
 import java.util.*;
 
 import com.gdx.game.elements.gun.Missile;
+import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.stages.enums.SpawnType;
 
 public class SpawnPool {

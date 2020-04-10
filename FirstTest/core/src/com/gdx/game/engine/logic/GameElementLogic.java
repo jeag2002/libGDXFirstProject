@@ -3,8 +3,8 @@ package com.gdx.game.engine.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.gdx.game.elements.SpawnObject;
 import com.gdx.game.elements.SpawnPool;
+import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.stages.enums.SpawnType;
 
 /**

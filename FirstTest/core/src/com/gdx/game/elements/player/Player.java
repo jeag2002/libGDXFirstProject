@@ -1,24 +1,28 @@
 package com.gdx.game.elements.player;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gdx.game.FirstTestGDX;
-import com.gdx.game.elements.CollisionObject;
 import com.gdx.game.elements.ShootObject;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
+import com.gdx.game.stages.enums.PlayerPartType;
 import com.gdx.game.stages.enums.SpawnType;
 
 public class Player extends ShootObject{
+
 	
-	
-	private static final String TAG = "[PLAYER]";
+	private float moveStepX;
+    private float moveStepY;
+	private PlayerMovements orientation;
+	private Sound sfxShot;
+	private float sfxShotVolume; 
 	
 	private static final int collisionMarginRight = 64;
     private static final int collisionMarginLeft = 30;
@@ -30,71 +34,88 @@ public class Player extends ShootObject{
     private static final float accelerationDown = 500;
     
     
-    private Texture[] rotateLeftPlayer;
-    private Texture[] rotateRightPlayer;
-    private Texture centerPlayer;
+    private static final int INDEX_SHADOW = 0;
+    private static final int INDEX_BOOST_LEFT = 1;
+    private static final int INDEX_BOOST_RIGHT = 2;
+    private static final int INDEX_EXHAUST_UL = 3;
+    private static final int INDEX_EXHAUST_UR = 4;
+    private static final int INDEX_EXHAUST_DL = 5;
+    private static final int INDEX_EXHAUST_DR = 6;
     
-    private Texture[] rotateLeftPlayerShw;
-    private Texture[] rotateRightPlayerShw;
-    private Texture centerPlayerShw;
     
-    private Texture[] exhaustTxt;
+    private static final int CENTER  = 0;
+    private static final int LEFT_1 = 1;
+    private static final int LEFT_2 = 2;
+    private static final int RIGHT_1 = 3;
+    private static final int RIGHT_2 = 4;
     
-    private Texture[] exhaustUL;
-    private Texture[] exhaustUR;
-    
-    private Texture[] exhaustDL;
-    private Texture[] exhaustDR;
-    
+	ArrayList<PlayerPart> player_parts;
 	
-    private Sprite spritePlayer;
-	private Sprite shadow;
+	boolean isAccX;
+	boolean isAccY;
 	
-	private Sprite exhaustLeft;
-	private Sprite exhaustRight;
-	
-	private Sprite exhaustSUL;
-	private Sprite exhaustSUR;
-	private Sprite exhaustSDL;
-	private Sprite exhaustSDR;
-	
-	
-	private float moveStepX;
-    private float moveStepY;
-	
-	private PlayerMovements orientation;
-	
-    private Sound sfxShot;
-	private float sfxShotVolume; 
-	
-	private GamePlay gP;
-
 	public Player(GamePlay gP) {
-		
 		super(gP);
 		
 		moveStepX = 0;
 	    moveStepY = 0;
-	    orientation = PlayerMovements.IDLE;
+	    orientation = PlayerMovements.IDLE; 
+	    sfxShotVolume = 0.97f;
+	   
+	    isAccX = false;
+	    isAccY = false;
+	    
+	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
+	    super.resetGuns();
 		
-		rotateLeftPlayer = new Texture[2];
-		rotateLeftPlayer[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_02,Texture.class);
-		rotateLeftPlayer[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_03,Texture.class);
+		player_parts = new ArrayList<PlayerPart>();
+	}
+	
+	public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
+	
+		setCollisionRef(iniPositionX, iniPositionY);
+		setAnimation(iniPositionX, iniPositionY, width, height);
+		setAnimationParts(iniPositionX, iniPositionY, width, height);
+	}
+	
+	
+	public void setAnimation(float iniPositionX, float iniPositionY, float width, float height) {
 		
-		rotateLeftPlayerShw = new Texture[2];
-		rotateLeftPlayerShw[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_02,Texture.class);
-		rotateLeftPlayerShw[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_03,Texture.class);
+		Texture[] playerTXT = new Texture[5];
+		playerTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_01,Texture.class);
+		playerTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_02,Texture.class);
+		playerTXT[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_03,Texture.class);
+		playerTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_04,Texture.class);
+		playerTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_05,Texture.class);
 		
-		rotateRightPlayer = new Texture[2];
-		rotateRightPlayer[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_04,Texture.class);
-		rotateRightPlayer[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_05,Texture.class);
+		init(playerTXT,0);
+		setSize(width, height);
+		setPosition(iniPositionX+16, iniPositionX+16);
+		setSpeed(0, 0);
 		
-		rotateRightPlayerShw = new Texture[2];
-		rotateRightPlayerShw[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_04,Texture.class);
-		rotateRightPlayerShw[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_05,Texture.class);
+	}
+	
+	
+	public void setAnimationParts(float iniPositionX, float iniPositionY, float width, float height) {
 		
 		
-		exhaustTxt = new Texture[7];
+		Texture[] shadowTXT = new Texture[5];
+		shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_01,Texture.class);
+		shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_02,Texture.class);
+		shadowTXT[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_03,Texture.class);
+		shadowTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_04,Texture.class);
+		shadowTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_05,Texture.class);
+		
+		//SHADOWS
+		PlayerPart shadow = new PlayerPart(PlayerPartType.SHADOW);
+		shadow.init(shadowTXT,0);
+		shadow.setSize(width/2, height/2);
+		shadow.setPosition(iniPositionX+16, iniPositionX+16);
+		shadow.setSpeed(0, 0);
+		player_parts.add(shadow);
+		
+		
+		Texture[] exhaustTxt = new Texture[7];
 		exhaustTxt[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_01,Texture.class); //(-)
 		exhaustTxt[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_02,Texture.class);
 		exhaustTxt[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_03,Texture.class); //(-+)
@@ -103,84 +124,82 @@ public class Player extends ShootObject{
 		exhaustTxt[5] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_06,Texture.class); //(-)
 		exhaustTxt[6] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class);
 		
+		//EXHAUST - CDL
+		PlayerPart exhaustLeft = new PlayerPart(PlayerPartType.BOOSTS);
+		exhaustLeft.init(exhaustTxt,6);
+		exhaustLeft.setSize(10, 32);
+		exhaustLeft.setPosition(iniPositionX+25, iniPositionY-32);
+		exhaustLeft.setSpeed(0, 0);
+		player_parts.add(exhaustLeft);
 		
+		//EXHAUST - CDR
+		PlayerPart exhaustRight = new PlayerPart(PlayerPartType.BOOSTS);
+		exhaustRight.init(exhaustTxt,6);
+		exhaustRight.setSize(10, 32);
+		exhaustRight.setPosition(iniPositionX+32, iniPositionY-32);
+		exhaustRight.setSpeed(0, 0);
+		player_parts.add(exhaustRight);
 		
-	    exhaustUL = new Texture[2];
-	    //0,0,32,32
+		//EXHAUST-UL
+		Texture[] exhaustUL = new Texture[3];
 	    exhaustUL[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroUL_1,Texture.class);
 	    exhaustUL[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroUL_2,Texture.class);
-	    		
-	    exhaustUR = new Texture[2];
+	    exhaustUL[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class);
+		PlayerPart exhaustSUL = new PlayerPart(PlayerPartType.EXHAUST_UL);
+		exhaustSUL.init(exhaustUL,2);
+		exhaustSUL.setSize(32, 32);
+		exhaustSUL.setPosition(iniPositionX-32, iniPositionY+32);
+		player_parts.add(exhaustSUL);
+	
+		//EXHAUST-UR
+		Texture[] exhaustUR = new Texture[3];
 	    exhaustUR[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroUR_1,Texture.class);
 	    exhaustUR[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroUR_2,Texture.class);
-	    
-	    exhaustDL = new Texture[2];
+	    exhaustUR[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class);
+	    PlayerPart exhaustSUR = new PlayerPart(PlayerPartType.EXHAUST_UR);
+	    exhaustSUR.init(exhaustUR,2);
+	    exhaustSUR.setSize(32, 32);
+	    exhaustSUR.setPosition(iniPositionX+64, iniPositionY+32);
+	    player_parts.add(exhaustSUR);
+		
+	    //EXHAUST-DL
+		Texture[] exhaustDL = new Texture[3];
 	    exhaustDL[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroDL_1,Texture.class);
 	    exhaustDL[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroDL_2,Texture.class);
-	    
-	    exhaustDR = new Texture[2];
+	    exhaustDL[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class);
+		PlayerPart exhaustSDL  = new PlayerPart(PlayerPartType.EXHAUST_DL);
+		exhaustSDL.init(exhaustDL,2);
+		exhaustSDL.setSize(32, 32);
+		exhaustSDL.setPosition(iniPositionX-32, iniPositionY-32);
+		player_parts.add(exhaustSDL);
+		
+		//EXHAUST-DR
+		Texture[] exhaustDR = new Texture[3];
 	    exhaustDR[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroDR_1,Texture.class);
 	    exhaustDR[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgRetroDR_2,Texture.class);
-		
-		
-		centerPlayer = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_01,Texture.class);
-		centerPlayerShw = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowPlayerRed_01,Texture.class);
-		
-	    spritePlayer = new Sprite(centerPlayer);
-	    shadow = new Sprite(centerPlayerShw);
-	    
-	    exhaustLeft = new Sprite(exhaustTxt[6]);
-	    exhaustRight = new Sprite(exhaustTxt[6]);
-	    
-		exhaustSUL = new Sprite(exhaustTxt[6]);
-		exhaustSUR = new Sprite(exhaustTxt[6]);
-		exhaustSDL = new Sprite(exhaustTxt[6]);
-		exhaustSDR = new Sprite(exhaustTxt[6]);
-		
-		
-		setShotSound("sounds/laser4.mp3", 0.97f);
-	    super.setCollisionRef(spritePlayer.getX(), spritePlayer.getY());
-	    super.resetGuns();
-		
-	}
-	
-	public void setSize(float width, float height) {
-		spritePlayer.setSize(width, height);
-		shadow.setSize(width/2, height/2);
-		
-		exhaustLeft.setSize(10, 32);
-		exhaustRight.setSize(10, 32);
-		
-		exhaustSUL.setSize(32, 32);
-		exhaustSUR.setSize(32, 32);
-		exhaustSDL.setSize(32, 32);
+	    exhaustDR[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class);
+		PlayerPart exhaustSDR = new PlayerPart(PlayerPartType.EXHAUST_DR);
+		exhaustSDR.init(exhaustDR,2);
 		exhaustSDR.setSize(32, 32);
-		
+		exhaustSDR.setPosition(iniPositionX+64, iniPositionY-32);
+		player_parts.add(exhaustSDR);
 	}
 	
-	public void setPosition(float x, float y) {
-		spritePlayer.setPosition(x, y);
-		shadow.setPosition(x+16, y+16);
-		
-		exhaustLeft.setPosition(x+25, y-32);
-		exhaustRight.setPosition(x+32, y-32);
-		
-		
-		exhaustSUL.setPosition(x-32, y+32);
-		exhaustSUR.setPosition(x+64, y+32);
-		exhaustSDL.setPosition(x-32, y-32);
-		exhaustSDR.setPosition(x+64, y-32);
-		
-	}
 	
 	public void start() {
 		super.init(SpawnType.MissilePlayer);
 		super.setShootingActive(true);
 	}
 	
-	
 	public void update(float delta) {
+		
 		movement(delta);
+		movementParts(delta);
+		
+		AnimationByMovement(orientation, this.moveStepX, this.moveStepY, false, false);
+		AnimationByMovementPart(orientation, this.moveStepX, this.moveStepY);
+		
+		collision(delta);
 		
 		if (super.isShootEvent()) {
 			setGun();
@@ -189,295 +208,203 @@ public class Player extends ShootObject{
 		super.update(delta);
 	}
 	
+	public void collision(float delta) {
+		setCollisionRef(getX(), getY());
+	}
 	
 	
 	public void movement(float delta) {
 		
 		if (orientation.equals(PlayerMovements.UP)) {
 			
-			spritePlayer.setTexture(centerPlayer);
-			shadow.setTexture(centerPlayerShw);
-			
 			if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) ) {
 				accelerateUpY(delta);
-				
-				//movement
-				if (spritePlayer.getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
-					spritePlayer.setY(FirstTestGDX.screenHeight - collisionMarginUp);
+				if (getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
+					setY(FirstTestGDX.screenHeight - collisionMarginUp);
 				}else {
-					spritePlayer.setY(spritePlayer.getY() +  moveStepY*delta);
+					setY(getY() +  moveStepY*delta);
 				}
-				
-				//exhaust
-				if (moveStepY <= 0) {
-					exhaustLeft.setTexture(exhaustTxt[6]);
-					exhaustRight.setTexture(exhaustTxt[6]);	
-				}else if ((moveStepY > 0) && (moveStepX<= 200)) {
-					exhaustLeft.setTexture(exhaustTxt[0]);
-					exhaustRight.setTexture(exhaustTxt[0]);	
-				}else if ((moveStepY > 200) && (moveStepX<= 400)) {
-					exhaustLeft.setTexture(exhaustTxt[1]);
-					exhaustRight.setTexture(exhaustTxt[1]);	
-				}else if (moveStepX > 400) {
-					exhaustLeft.setTexture(exhaustTxt[2]);
-					exhaustRight.setTexture(exhaustTxt[2]);	
-				}
-			}
-			else {fallY(delta);
-				
-				//exhaust
-				if (moveStepY <= 0) {
-					exhaustLeft.setTexture(exhaustTxt[6]);
-					exhaustRight.setTexture(exhaustTxt[6]);	
-				}else if ((moveStepY > 0) && (moveStepX<= 200)) {
-					exhaustLeft.setTexture(exhaustTxt[5]);
-					exhaustRight.setTexture(exhaustTxt[5]);	
-				}else if ((moveStepY > 200) && (moveStepX<= 400)) {
-					exhaustLeft.setTexture(exhaustTxt[4]);
-					exhaustRight.setTexture(exhaustTxt[4]);	
-				}else if (moveStepX > 400) {
-					exhaustLeft.setTexture(exhaustTxt[3]);
-					exhaustRight.setTexture(exhaustTxt[3]);	
-				}
-			}
+			}else {fallY(delta);}
 			
-			
-			exhaustSUL.setTexture(exhaustTxt[6]);
-			exhaustSUR.setTexture(exhaustTxt[6]);
-			exhaustSDL.setTexture(exhaustTxt[6]);
-			exhaustSDR.setTexture(exhaustTxt[6]);
-			
-				
-			
-			
-
 		}else if (orientation.equals(PlayerMovements.DOWN)) {
 			
-			spritePlayer.setTexture(centerPlayer);
-			shadow.setTexture(centerPlayerShw);
-			
-			
-			exhaustSUL.setTexture(exhaustTxt[6]);
-			exhaustSUR.setTexture(exhaustTxt[6]);
-			exhaustSDL.setTexture(exhaustTxt[6]);
-			exhaustSDR.setTexture(exhaustTxt[6]);
-			
-			
-			if (moveStepY <= 0) {
-				exhaustSUL.setTexture(exhaustTxt[6]);
-				exhaustSUR.setTexture(exhaustTxt[6]);
-			}else if ((moveStepY > 0) && (moveStepY <= 350)) {
-				exhaustSUL.setTexture(exhaustUL[0]);
-				exhaustSUR.setTexture(exhaustUR[0]);
-			}else if (moveStepY > 350) {
-				exhaustSUL.setTexture(exhaustUL[1]);
-				exhaustSUR.setTexture(exhaustUR[1]);
-			}
-			
-			//movement 
 			if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) ) {
 				 accelerateUpY(delta);
-				if ((spritePlayer.getY() + spritePlayer.getHeight()) < collisionMarginDown) {
-					spritePlayer.setY(spritePlayer.getHeight()-10);
+				if ((getY() + getHeight()) < collisionMarginDown) {
+					setY(getHeight()-10);
 				}else {
-					spritePlayer.setY(spritePlayer.getY()- moveStepY*delta);
+					setY(getY()- moveStepY*delta);
 				}			
 			}
 			else {fallY(delta);}
 			
-			exhaustLeft.setTexture(exhaustTxt[6]);
-			exhaustRight.setTexture(exhaustTxt[6]);	
 			
 		}else if (orientation.equals(PlayerMovements.LEFT)) {
 			
-			//animation player
-			if ((moveStepX < 350) && (moveStepX > 0)) {
-				spritePlayer.setTexture(rotateLeftPlayer[0]);
-				shadow.setTexture(rotateLeftPlayerShw[0]);
-			}else if ((moveStepX < 650) && (moveStepX >= 350)) {
-				spritePlayer.setTexture(rotateLeftPlayer[1]);
-				shadow.setTexture(rotateLeftPlayerShw[1]);
-			}else if (moveStepX <= 0) {
-				spritePlayer.setTexture(centerPlayer);
-				shadow.setTexture(centerPlayerShw);
-			}
-			
-			
-			exhaustSUL.setTexture(exhaustTxt[6]);
-			exhaustSUR.setTexture(exhaustTxt[6]);
-			exhaustSDL.setTexture(exhaustTxt[6]);
-			exhaustSDR.setTexture(exhaustTxt[6]);
-			
-			
-			if (moveStepX <= 0) {
-				exhaustSUR.setTexture(exhaustTxt[6]);
-				exhaustSDR.setTexture(exhaustTxt[6]);
-			}else if ((moveStepX > 0) && (moveStepX <= 350)) {
-				exhaustSUR.setTexture(exhaustUR[0]);
-				exhaustSDR.setTexture(exhaustDR[0]);
-			}else if (moveStepX > 350) {
-				exhaustSUR.setTexture(exhaustUR[1]);
-				exhaustSDR.setTexture(exhaustDR[1]);
-			}
-			
-
-			//movement player
 			if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) {
 				accelerateUpX(delta);
-				if (spritePlayer.getX() < this.collisionMarginLeft) {
-					spritePlayer.setX(this.collisionMarginLeft);
+				if (getX() < this.collisionMarginLeft) {
+					setX(this.collisionMarginLeft);
 				}else {
-					spritePlayer.setX(spritePlayer.getX() - moveStepX*delta);
+					setX(getX() - moveStepX*delta);
 				}
 			}
 			else {fallX(delta);}
 			
-			exhaustLeft.setTexture(exhaustTxt[6]);
-			exhaustRight.setTexture(exhaustTxt[6]);	
 			
 		}else if (orientation.equals(PlayerMovements.RIGHT)) {
-			
-			//animation player
-			if ((moveStepX < 350) && (moveStepX > 0)) {
-				spritePlayer.setTexture(rotateRightPlayer[0]);
-				shadow.setTexture(rotateRightPlayerShw[0]);
-			}else if ((moveStepX < 650) && (moveStepX >= 350)) {
-				spritePlayer.setTexture(rotateRightPlayer[1]);
-				shadow.setTexture(rotateRightPlayerShw[1]);
-			}else if (moveStepX <= 0) {
-				spritePlayer.setTexture(centerPlayer);
-				shadow.setTexture(centerPlayerShw);
-			}
-			
-			exhaustSUL.setTexture(exhaustTxt[6]);
-			exhaustSUR.setTexture(exhaustTxt[6]);
-			exhaustSDL.setTexture(exhaustTxt[6]);
-			exhaustSDR.setTexture(exhaustTxt[6]);
-			
-			
-			if (moveStepX <= 0) {
-				exhaustSUL.setTexture(exhaustTxt[6]);
-				exhaustSDL.setTexture(exhaustTxt[6]);
-			}else if ((moveStepX > 0) && (moveStepX <= 350)) {
-				exhaustSUL.setTexture(exhaustUL[0]);
-				exhaustSDL.setTexture(exhaustDL[0]);
-			}else if (moveStepX > 350) {
-				exhaustSUL.setTexture(exhaustUL[1]);
-				exhaustSDL.setTexture(exhaustDL[1]);
-			}
-			
 			
 			//movement player
 			if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) ) {
 				accelerateUpX(delta);
-				if ((spritePlayer.getX() + spritePlayer.getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
-					spritePlayer.setX(FirstTestGDX.screenWidth - collisionMarginRight);
+				if ((getX() + getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
+					setX(FirstTestGDX.screenWidth - collisionMarginRight);
 				}else {
-					spritePlayer.setX(spritePlayer.getX()+ moveStepX*delta);
+					setX(getX()+ moveStepX*delta);
 				}
 			}
 			else {fallX(delta);}
 			
-			exhaustLeft.setTexture(exhaustTxt[6]);
-			exhaustRight.setTexture(exhaustTxt[6]);		
 		}
-		
-		
-		
-		
-		shadow.setPosition(spritePlayer.getX()+16, spritePlayer.getY()+16);
-		shadow.setAlpha( (FirstTestGDX.screenHeight - spritePlayer.getY())/FirstTestGDX.screenHeight );
-		
-		exhaustLeft.setPosition(spritePlayer.getX()+25, spritePlayer.getY()-32);
-		exhaustRight.setPosition(spritePlayer.getX()+32, spritePlayer.getY()-32);
-		
-		exhaustSUL.setPosition(spritePlayer.getX()-32, spritePlayer.getY()+32);
-		exhaustSUR.setPosition(spritePlayer.getX()+64, spritePlayer.getY()+32);
-		exhaustSDL.setPosition(spritePlayer.getX()-32, spritePlayer.getY()-32);
-		exhaustSDR.setPosition(spritePlayer.getX()+64, spritePlayer.getY()-32);
-		
-		
-		super.setCollisionRef(spritePlayer.getX(), spritePlayer.getY());
-		
 	}
 	
-	private void setGun() {
-		
-		float intervalGun = 0.35f;
-		float speedGun = 800.0f;
-		
-		
 	
-		this.setGunPower(100.0f);
-		this.setShootingInterval(intervalGun);
-		this.setGunType(MissileTypeEnum.LASER_1);
-		this.addGun(90.0f, speedGun, spritePlayer.getX() , spritePlayer.getY(), (spritePlayer.getWidth()/2)-5, 30);
-		
+	public void movementParts(float delta) {
+		player_parts.get(this.INDEX_SHADOW).setPosition(getX()+16, getY()+16);
+		player_parts.get(this.INDEX_SHADOW).getSprite().setAlpha((FirstTestGDX.screenHeight - getY())/FirstTestGDX.screenHeight);
+		player_parts.get(this.INDEX_BOOST_LEFT).setPosition(getX()+25, getY()-32);
+		player_parts.get(this.INDEX_BOOST_RIGHT).setPosition(getX()+32, getY()-32);
+		player_parts.get(this.INDEX_EXHAUST_UL).setPosition(getX()-32, getY()+32);
+		player_parts.get(this.INDEX_EXHAUST_UR).setPosition(getX()+64, getY()+32);
+		player_parts.get(this.INDEX_EXHAUST_DL).setPosition(getX()-32, getY()-32);
+		player_parts.get(this.INDEX_EXHAUST_DR).setPosition(getX()+64, getY()-32);
 	}
-
-	public void setShotSound(String path, float volume) {
-        sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
-        sfxShotVolume = volume;
-    }
 	
-	public void move(PlayerMovements orientation) {
-		
+	
+	public void draw(SpriteBatch sb) {
+		super.draw(sb);
+		for(PlayerPart pP: player_parts) {
+			pP.draw(sb);
+		}
+	}
+	
+	public void move(PlayerMovements orientation) {	
 		if (!orientation.equals(PlayerMovements.SHOOT)) {
 			this.orientation = orientation;
 		}else if (orientation.equals(PlayerMovements.SHOOT)){
 			sfxShot.play();
 			this.setShootEvent(true);
 		}
-		
-		
+	}
+	
+	public void action(PlayerMovements orientation) {
+		if (!orientation.equals(PlayerMovements.SHOOT)) {
+			this.orientation = orientation;
+		}else if (orientation.equals(PlayerMovements.SHOOT)){
+			sfxShot.play();
+			this.setShootEvent(true);
+		}
 	}
 	
 	
-	
-	public void draw(SpriteBatch sb) {		
-		shadow.draw(sb);
-		spritePlayer.draw(sb);
-		exhaustLeft.draw(sb);
-		exhaustRight.draw(sb);
+	@Override
+	public void AnimationByMovement(PlayerMovements movement, float moveStepX, float moveStepY,boolean isAccX, boolean isAccY) {
 		
-		exhaustSUL.draw(sb);
-		exhaustSUR.draw(sb);
-		exhaustSDL.draw(sb);
-		exhaustSDR.draw(sb);
-		
-    }
+		if (orientation.equals(PlayerMovements.UP)) {
+			super.setTextureToSpriteByIndex(this.CENTER);
+		}else if (orientation.equals(PlayerMovements.DOWN)) {
+			super.setTextureToSpriteByIndex(this.CENTER);
+		}else if (orientation.equals(PlayerMovements.LEFT)) {
+			if ((moveStepX < 350) && (moveStepX > 0)) {
+				super.setTextureToSpriteByIndex(this.LEFT_1);
+			}else if ((moveStepX < 650) && (moveStepX >= 350)) {
+				super.setTextureToSpriteByIndex(this.LEFT_2);
+			}else if (moveStepX <= 0) {
+				super.setTextureToSpriteByIndex(this.CENTER);
+			}
+		}else if (orientation.equals(PlayerMovements.RIGHT)) {
+			if ((moveStepX < 350) && (moveStepX > 0)) {
+				super.setTextureToSpriteByIndex(this.RIGHT_1);
+			}else if ((moveStepX < 650) && (moveStepX >= 350)) {
+				super.setTextureToSpriteByIndex(this.RIGHT_2);
+			}else if (moveStepX <= 0) {
+				super.setTextureToSpriteByIndex(this.CENTER);
+			}
+		}
+	}
 	
+	public void AnimationByMovementPart(PlayerMovements movement, float moveStepX, float moveStepY) {
+		player_parts.get(this.INDEX_SHADOW).AnimationByMovement(movement, moveStepX, moveStepY, false, false);
+		player_parts.get(this.INDEX_BOOST_LEFT).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+		player_parts.get(this.INDEX_BOOST_RIGHT).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+		player_parts.get(this.INDEX_EXHAUST_UL).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+		player_parts.get(this.INDEX_EXHAUST_UR).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+		player_parts.get(this.INDEX_EXHAUST_DL).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+		player_parts.get(this.INDEX_EXHAUST_DR).AnimationByMovement(movement, moveStepX, moveStepY, isAccX, isAccY);
+	}
+	
+
+	@Override
+	public void AnimationByTime(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void AnimationLoop(float delta, boolean loop) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public void dispose() {
-	}
-	
-
-   private  void accelerateUpY(float delta) {
-	   if (moveStepY < 650) {
-	       moveStepY += accelerationUp * delta;
-	   }
-   } 
-   
-   private void fallY(float delta) {
-	    if (moveStepY >= 0) {
-	        moveStepY -= accelerationDown * delta;
-	    }
-  }
-
-   private  void accelerateUpX(float delta) {
-	   if (moveStepX < 650) {
-		   moveStepX += accelerationUp * delta;
-	   }
-   }
-
-  
-	
-   private void fallX(float delta) {
-	    if (moveStepX >= 0) {
-	    	moveStepX -= accelerationDown * delta;
-	    }
+		player_parts.clear();
 	}
 	
 	
+	 private  void accelerateUpY(float delta) {
+		   if (moveStepY < 650) {
+			   isAccY = true;
+		       moveStepY += accelerationUp * delta;
+		   }
+	 } 
+	   
+	 private void fallY(float delta) {
+		  if (moveStepY >= 0) {
+			  isAccY = false;
+		      moveStepY -= accelerationDown * delta;
+		  }
+	 }
+
+	 private  void accelerateUpX(float delta) {
+		  if (moveStepX < 650) {
+			  isAccX = true;
+			  moveStepX += accelerationUp * delta;
+		  }
+	 }
+	 
+	 private void fallX(float delta) {
+		    if (moveStepX >= 0) {
+		    	isAccX = false;
+		    	moveStepX -= accelerationDown * delta;
+		    }
+     }
+	 
+	 private void setGun() {
+			
+		float intervalGun = 0.35f;
+		float speedGun = 800.0f;
+		
+		this.setGunPower(100.0f);
+		this.setShootingInterval(intervalGun);
+		this.setGunType(MissileTypeEnum.LASER_1);
+		this.addGun(90.0f, speedGun, getX() , getY(), (getWidth()/2)-5, 30);
+			
+	}
+
+	public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
+	}
+	 
 
 }
