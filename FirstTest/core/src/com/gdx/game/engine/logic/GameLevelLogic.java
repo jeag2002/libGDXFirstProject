@@ -1,5 +1,7 @@
 package com.gdx.game.engine.logic;
 
+import com.gdx.game.elements.SpawnPool;
+
 /**
  * Level Definition
  * @author jeag2
@@ -14,7 +16,10 @@ public class GameLevelLogic {
 	public static final String level = "level 1";
 	
 	public static final float speedUpFactor = 1.0f;
+
 	
+	public GameLevelLogic() {
+	}
 	
 
 }

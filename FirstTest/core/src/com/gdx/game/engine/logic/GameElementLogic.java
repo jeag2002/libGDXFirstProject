@@ -1,10 +1,14 @@
 package com.gdx.game.engine.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.SpawnPool;
+import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
 import com.gdx.game.elements.interfaz.SpawnObject;
+import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.SpawnType;
 
 /**
@@ -17,6 +21,15 @@ public class GameElementLogic {
 	
 	private SpawnPool spawnPool;
 	
+	private static final int lowTimerLimit = 1;
+	private static final int highTimerLimit = 5;
+	
+	private float timer;
+	private float spawnEnemyLimit;
+	
+	private Random random;
+	
+	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
@@ -27,13 +40,18 @@ public class GameElementLogic {
     
     public GameElementLogic() {
     	init();
+    	timer = 0.0f;
+    	
+    	random = new Random();
+    	spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+    	
     }
     
     private void init() {
     	spawnPool = new SpawnPool();
         spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
-        spawnPool.addPool(SpawnType.Enemy, enemies);
+        spawnPool.addPool(SpawnType.Enemy_Simple_1, enemies);
         spawnPool.addPool(SpawnType.Explosion, explosions);
         spawnPool.addPool(SpawnType.Obstacle, obstacles);
         spawnPool.addPool(SpawnType.Item, items);
@@ -107,6 +125,34 @@ public class GameElementLogic {
                  o.update(delta, GameLevelLogic.speedUpFactor);
          }
     }
+    
+    
+    public void generateElements(float delta) {
+    	generateEnemies(delta);
+    }
+    
+    
+    
+    public void generateEnemies(float delta) {
+    	
+    	timer += delta * GameLevelLogic.speedUpFactor;
+    	
+    	if (timer >= spawnEnemyLimit) {
+    		
+    		generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - random.nextInt(100));
+    		timer = 0;
+    		spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+    	}
+    }
+    
+    public void generateEnemy(EnemyTypes type, float posX, float posY) {
+    	
+    	SimpleEnemy se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
+    	se.init(type, posX, posY, 90.0f, -280.0f);
+    	se.setSpawned(true);
+    	
+    }
+    
     
 
 }

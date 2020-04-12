@@ -32,11 +32,11 @@ public abstract class ShootObject extends DynamicCollObject {
 	 private boolean shootEvent;
 	 
 	 
-	private GamePlay gP;
+	private SpawnPool spawnPool;
 	
-	public ShootObject(GamePlay gP) {
+	public ShootObject(SpawnPool spawnPool) {
 		super();
-		this.gP = gP;
+		this.spawnPool = spawnPool;
         for(int i=0; i<MAXGUNS; ++i) {
             Gun gun = new Gun(0, 0);
             guns[i] = gun;
@@ -155,9 +155,9 @@ public abstract class ShootObject extends DynamicCollObject {
 
 	     for (Gun g: guns) {
 	         if (g.active) {
-	            Missile m = (Missile) gP.getgEL().getSpawnPool().getFromPool(missilesPool);
+	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);
 	            m.init(gunType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed);
-	            m.setPool(gP.getgEL().getSpawnPool());
+	            m.setPool(spawnPool);
 	            g.active = false;
 	         }
 	      }

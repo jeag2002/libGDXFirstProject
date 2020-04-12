@@ -74,6 +74,14 @@ public abstract class DynamicCollObject extends CollisionObject implements GameA
 		sO.setSpeed(x, y);
 	}
 	
+	public float getSpeedX() {
+		return sO.getSpeedX();
+	}
+	
+	public float getSpeedY() {
+		return sO.getSpeedY();
+	}
+	
 	public Sprite getSprite() {
 		return sO.getSprite();
 	}

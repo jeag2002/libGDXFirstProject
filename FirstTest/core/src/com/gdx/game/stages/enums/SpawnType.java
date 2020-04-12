@@ -2,7 +2,7 @@ package com.gdx.game.stages.enums;
 
 public enum SpawnType {
     Explosion,
-    Enemy,
+    Enemy_Simple_1,
     MissileEnemy,
     MissilePlayer,
     Obstacle,

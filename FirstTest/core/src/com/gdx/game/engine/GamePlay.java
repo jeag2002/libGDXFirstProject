@@ -44,16 +44,10 @@ public class GamePlay {
 	
 	private void initPlayer() {
 		
-		player = new Player(this);
+		player = new Player(this.getgEL().getSpawnPool());
 		player.setLocationAndSize(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2-389, 64, 64);
 		player.setCollisionArea(0, 0, 64, 64);
 		
-		/*
-		player = new Player(this);
-		player.setSize(64, 64);
-		player.setPosition(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2 - 380);
-		player.setCollisionArea(0, 0, 64, 64);
-		*/
 	}
 	
 	public void playerMoveUp() {		
@@ -73,8 +67,11 @@ public class GamePlay {
 	}
 	
 	public void update(float delta){
+		
 		background.update(delta);
 		player.update(delta);
+		
+		gEL.generateElements(delta);
 		gEL.updateSpawns(delta);
 	}
 	

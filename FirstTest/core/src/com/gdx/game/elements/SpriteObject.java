@@ -77,7 +77,17 @@ public class SpriteObject {
 		this.speedX = x;
 		this.speedY = y;
 	}
-		
+	
+	
+	public float getSpeedX() {
+		return speedX;
+	}
+	
+	public float getSpeedY() {
+		return speedY;
+	}
+	
+	
 	public Sprite getSprite() {
 		return sprite;
 	}

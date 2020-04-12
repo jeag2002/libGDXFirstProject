@@ -2,6 +2,7 @@ package com.gdx.game.elements;
 
 import java.util.*;
 
+import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.stages.enums.SpawnType;
@@ -10,6 +11,7 @@ public class SpawnPool {
 
     private HashMap<SpawnType, ArrayList<SpawnObject>> pools
             = new HashMap<SpawnType, ArrayList<SpawnObject>>();
+    
 
     public SpawnPool(){}
 
@@ -68,8 +70,10 @@ private SpawnObject createSpawnObject(SpawnType type) {
         	created = new Missile();
         }
         else if (type.name() == "MissileEnemy") {
+        	created = new Missile();
         }
-        else if (type.name() == "Enemy") {
+        else if (type.name() == "Enemy_Simple_1") {
+        	created = new SimpleEnemy(this);
         }
         else if (type.name() == "Item") {
         }

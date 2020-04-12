@@ -91,6 +91,20 @@ public class Resources extends AssetManager{
     public String laser_medium = "shoot/shoot_1/laser_medium.png";
     public String laser_large  = "shoot/shoot_1/laser_large.png";
     
+    
+    public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
+    public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
+    public String imgEnemy_1_03 = "enemies/enemy_1/Enemy01_Green_Frame_3.png";
+    public String imgEnemy_1_04 = "enemies/enemy_1/Enemy01_Green_Frame_4.png";
+    public String imgEnemy_1_05 = "enemies/enemy_1/Enemy01_Green_Frame_5.png";
+    
+    
+    public String imgShadowEnemy_1_01 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_1.png";
+    public String imgShadowEnemy_1_02 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_2.png";
+    public String imgShadowEnemy_1_03 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_3.png";
+    public String imgShadowEnemy_1_04 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_4.png";
+    public String imgShadowEnemy_1_05 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_5.png";
+    
 	
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
@@ -175,6 +189,24 @@ public class Resources extends AssetManager{
 		load(imgRetroDR_1, Texture.class);
 		load(imgRetroDR_2, Texture.class);
         ////////////////////////////////////////////////////////////
+		
+		
+		//enemy_1
+		////////////////////////////////////////////////////////////
+		load(imgEnemy_1_01, Texture.class);
+		load(imgEnemy_1_02, Texture.class);
+		load(imgEnemy_1_03, Texture.class);
+		load(imgEnemy_1_04, Texture.class);
+		load(imgEnemy_1_05, Texture.class);
+		
+		
+		load(imgShadowEnemy_1_01, Texture.class);
+		load(imgShadowEnemy_1_02, Texture.class);
+		load(imgShadowEnemy_1_03, Texture.class);
+		load(imgShadowEnemy_1_04, Texture.class);
+		load(imgShadowEnemy_1_05, Texture.class);
+		////////////////////////////////////////////////////////////
+		
 		
 		//load(imgExhaustRetro, Texture.class);
 		

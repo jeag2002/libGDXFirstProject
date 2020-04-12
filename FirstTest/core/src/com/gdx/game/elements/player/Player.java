@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.ShootObject;
+import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
@@ -54,8 +55,8 @@ public class Player extends ShootObject{
 	boolean isAccX;
 	boolean isAccY;
 	
-	public Player(GamePlay gP) {
-		super(gP);
+	public Player(SpawnPool spawnPool) {
+		super(spawnPool);
 		
 		moveStepX = 0;
 	    moveStepY = 0;

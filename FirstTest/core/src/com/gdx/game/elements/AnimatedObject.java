@@ -63,8 +63,6 @@ public abstract class AnimatedObject implements GameAnimationInterface{
 		sO.setY(y);
 	}
 	
-	
-	
 	public float getWidth() {
 		return sO.getWidth();
 	}
@@ -73,6 +71,13 @@ public abstract class AnimatedObject implements GameAnimationInterface{
 		return sO.getHeight();
 	}
 	
+	public float getSpeedX() {
+		return sO.getSpeedX();
+	}
+	
+	public float getSpeedY() {
+		return sO.getSpeedY();
+	}
 	
 	public void draw(SpriteBatch sb) {
 		sO.draw(sb);

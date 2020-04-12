@@ -1,5 +1,7 @@
 package com.gdx.game;
 
+//https://www.gamefromscratch.com/post/2014/09/25/LibGDX-LibGDX-Tutorial-13-Physics-with-Box2D-Part-3-Collisions.aspx
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.gdx.game.resources.Resources;
