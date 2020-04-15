@@ -7,7 +7,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gdx.game.FirstTestGDX;
+import com.gdx.game.elements.DynamicCollObject;
 import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.engine.GamePlay;
@@ -55,8 +58,8 @@ public class Player extends ShootObject{
 	boolean isAccX;
 	boolean isAccY;
 	
-	public Player(SpawnPool spawnPool) {
-		super(spawnPool);
+	public Player(SpawnPool spawnPool, World world) {
+		super(spawnPool,world);
 		
 		moveStepX = 0;
 	    moveStepY = 0;
@@ -74,9 +77,16 @@ public class Player extends ShootObject{
 	
 	public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
 	
-		setCollisionRef(iniPositionX, iniPositionY);
+		setReference(this);
 		setAnimation(iniPositionX, iniPositionY, width, height);
 		setAnimationParts(iniPositionX, iniPositionY, width, height);
+		
+		setSize(width, height);
+		setPosition(iniPositionX, iniPositionY);
+		setSpeed(0, 0);
+		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
+		
+		
 	}
 	
 	
@@ -90,9 +100,6 @@ public class Player extends ShootObject{
 		playerTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPlayerRed_05,Texture.class);
 		
 		init(playerTXT,0);
-		setSize(width, height);
-		setPosition(iniPositionX+16, iniPositionX+16);
-		setSpeed(0, 0);
 		
 	}
 	
@@ -356,6 +363,12 @@ public class Player extends ShootObject{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String toString() {
+		return " Player (" + getCode() + ")";
+	}
+	
+	
 	
 	public void dispose() {
 		player_parts.clear();

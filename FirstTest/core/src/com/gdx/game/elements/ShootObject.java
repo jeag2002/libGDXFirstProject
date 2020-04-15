@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.stages.enums.MissileTypeEnum;
@@ -34,8 +35,8 @@ public abstract class ShootObject extends DynamicCollObject {
 	 
 	private SpawnPool spawnPool;
 	
-	public ShootObject(SpawnPool spawnPool) {
-		super();
+	public ShootObject(SpawnPool spawnPool, World world) {
+		super(world);
 		this.spawnPool = spawnPool;
         for(int i=0; i<MAXGUNS; ++i) {
             Gun gun = new Gun(0, 0);

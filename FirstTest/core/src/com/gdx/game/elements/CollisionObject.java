@@ -1,46 +1,88 @@
 package com.gdx.game.elements;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.gdx.game.engine.logic.GameLevelLogic;
 
 public class CollisionObject{
 
-    private Rectangle rectCollision = new Rectangle();
-    private float collOffsetX = 20;
-    private float collOffsetY = 10;
-	private float X;
+
+
+    private float X;
     private float Y;
+	private float W;
+    private float H;
     
     
-    public CollisionObject() {
+    private World world;
+    private Body body;
+    private PolygonShape shape;
+    private FixtureDef fixtureDef;
+    
+    private DynamicCollObject ref;
+    
+    public CollisionObject(World world) {
+    	
     	this.X = 0;
     	this.Y = 0;
-    }
-    
-    
-    public CollisionObject(float X, float Y) {
-    	this.X = X;
-    	this.Y = Y;
+    	this.W = 0;
+    	this.H = 0;
+    	
+    	this.world = world;
     	
     }
     
-    public void setCollisionRef(float X, float Y) {
+    public void setReference(DynamicCollObject ref) {
+    	this.ref = ref;
+    }
+    
+    
+    public void createCollisionObject(float X, float Y, float W, float H, BodyType type) {
+    	
+    	BodyDef bodyDef = new BodyDef();
+    	bodyDef.type = BodyDef.BodyType.DynamicBody;
+    	
     	this.X = X;
     	this.Y = Y;
+    	this.W = W;
+    	this.H = H;
+    	
+    	float iniX = (X+W/2)/GameLevelLogic.PIXELS_TO_METERS;
+    	float iniY = (Y+H/2)/GameLevelLogic.PIXELS_TO_METERS;
+    	bodyDef.position.set(iniX,iniY);
+    	
+    	body = world.createBody(bodyDef);
+    	shape = new PolygonShape();
+    	
+    	float iniW =  W/2/GameLevelLogic.PIXELS_TO_METERS;
+    	float iniH =  H/2/GameLevelLogic.PIXELS_TO_METERS;
+    	shape.setAsBox(iniW, iniH);
+    	
+    	fixtureDef = new FixtureDef();
+    	fixtureDef.shape = shape;
+    	
+    	body.createFixture(fixtureDef);
+    	body.setUserData(ref.getCode());
+    	
+    	shape.dispose();
+    	
     }
     
-
-    public void setCollisionArea(int offsetX, int offsetY, int width, int height) {
-        rectCollision = new Rectangle(0, 0, width, height);
-        collOffsetX = offsetX;
-        collOffsetY = offsetY;
-    }
-
-    public Rectangle getCollisionRectangle() {
-        rectCollision.setPosition(getXColl() + collOffsetX, getYColl() + collOffsetY);
-        return rectCollision;
-    }
-	
     
+    public Body getBody() {
+    	return body;
+    }
+    
+    
+    public void setCollisionRef(float X, float Y) {
+    	this.X = (X+this.W/2)/GameLevelLogic.PIXELS_TO_METERS;
+    	this.Y = (Y+this.H/2)/GameLevelLogic.PIXELS_TO_METERS;
+    	body.setTransform(this.X, this.Y, 0);	
+    }
     
     public float getXColl() {
 		return X;
@@ -60,4 +102,22 @@ public class CollisionObject{
 	public void setYColl(float y) {
 		Y = y;
 	}
+	
+	public float getWColl() {
+		return W;
+	}
+	
+	public void setWColl(float w) {
+		W = w;
+	}
+
+	public float getHColl() {
+		return H;
+	}
+
+	public void setHColl(float h) {
+		H = h;
+	}
+
+	
 }

@@ -1,13 +1,19 @@
 package com.gdx.game.elements.enemies.simplenemy;
 
+import java.util.UUID;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.player.PlayerPart;
+import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.MissileTypeEnum;
@@ -31,11 +37,15 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
     
     private float speed = 0;
     private float angle = 0;
+   
 	
-	public SimpleEnemy(SpawnPool sP) {
-		super(sP);
+	public SimpleEnemy(SpawnPool sP, World world) {
+		super(sP, world);
 		this.sP = sP; 
 		this.timer = 0;
+	
+		
+		
 	}
 	
 	public void init(EnemyTypes eTypes, float posX, float posY,  float angle, float speed) {
@@ -44,9 +54,12 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		this.speed = speed;
 		this.angle = angle;
 		this.position.set(posX, posY);
+		this.eTypes = eTypes;
 		
 	    direction.set((float)Math.cos(Math.toRadians(this.angle)), (float)Math.sin(Math.toRadians(this.angle))).nor();
 		
+	    
+	    setReference(this);
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
 			
 			this.eTypes = eTypes;
@@ -60,6 +73,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 			init(text_es1,0);
 			setSize(64, 64);
 			setPosition(posX, posY);
+			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		}
 		
 		setShootingActive(true);
@@ -119,15 +133,28 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	         }
 	         
 	         super.setPosition(position.x, position.y);
+	         super.setCollisionRef(position.x, position.y);
 	         
 	         if (getX() > FirstTestGDX.screenWidth || 
 	             getX() < 0 || 
 	             getY() > FirstTestGDX.screenHeight || 
 	             getY() < 0) {
-	                sP.returnToPool(this);
+	                //Gdx.app.log("[SIMPLEENEMY]","remove SIMPLEENEMY for reach the limit (" + getCode() + ")");
+        			if (!GameElementLogic.toDeletedBodies.contains(this.getBody())) {
+        				GameElementLogic.toDeletedBodies.add(this.getBody());
+        			}
+	                
+	                
 	         }
 		}
 	}
+	
+	
+	public String toString() {
+		return " SimpleEnemy (" + getCode() + ") TYPE (" + this.eTypes.toString() + ")";
+	}
+	
+	
 
 	@Override
 	public void AnimationByMovement(PlayerMovements movement, float moveStepX, float moveStepY, boolean isAccX,

@@ -2,6 +2,7 @@ package com.gdx.game.elements;
 
 import java.util.*;
 
+import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
@@ -12,8 +13,12 @@ public class SpawnPool {
     private HashMap<SpawnType, ArrayList<SpawnObject>> pools
             = new HashMap<SpawnType, ArrayList<SpawnObject>>();
     
-
-    public SpawnPool(){}
+    
+    private World world;
+    
+    public SpawnPool(World world){
+    	this.world = world;
+    }
 
     public void addPool(SpawnType type, ArrayList<SpawnObject> pool) {
         this.pools.put(type, pool);
@@ -50,30 +55,71 @@ public class SpawnPool {
         spawn.setSpawned(true);
         pools.get(type).add(spawn);
 
-        //Debug
-        //printPoolSize();
-
         return spawn;
     }
 
     public void returnToPool(SpawnObject object) {
-        object.setSpawned(false);
-        //Debug
-        //printPoolSize();
+    	
+    	pools.get(SpawnType.MissileEnemy).remove(object);
+    	pools.get(SpawnType.MissilePlayer).remove(object);
+    	pools.get(SpawnType.Enemy_Simple_1).remove(object);
+    	
+        //object.setSpawned(false);
     }
+    
+    
+    public SpawnObject getElementById(String uuid) {
+    	
+    	SpawnObject returnObject = null;
+    	
+    	ArrayList<SpawnObject> eS1 = pools.get(SpawnType.Enemy_Simple_1);
+    	for(SpawnObject sO: eS1){
+    		SimpleEnemy sE = (SimpleEnemy)sO;
+    		if (sE.getCode().equalsIgnoreCase(uuid)) {
+    			returnObject = sO;
+    			break;
+    		}
+    	}
+    	
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.MissilePlayer);
+        	for(SpawnObject sO: eS1){
+        		Missile sE = (Missile)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.MissileEnemy);
+        	for(SpawnObject sO: eS1){
+        		Missile sE = (Missile)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	
+    	return returnObject;
+    }
+    
 
-private SpawnObject createSpawnObject(SpawnType type) {
+    private SpawnObject createSpawnObject(SpawnType type) {
     try {
     	
         SpawnObject created = null;
         if (type.name() == "MissilePlayer") {
-        	created = new Missile();
+        	created = new Missile(type,this.world);
         }
         else if (type.name() == "MissileEnemy") {
-        	created = new Missile();
+        	created = new Missile(type,this.world);
         }
         else if (type.name() == "Enemy_Simple_1") {
-        	created = new SimpleEnemy(this);
+        	created = new SimpleEnemy(this, this.world);
         }
         else if (type.name() == "Item") {
         }

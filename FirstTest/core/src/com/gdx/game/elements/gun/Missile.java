@@ -1,14 +1,21 @@
 package com.gdx.game.elements.gun;
 
+import java.util.UUID;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.DynamicCollObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
+import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
+import com.gdx.game.stages.enums.SpawnType;
 
 public class Missile extends DynamicCollObject implements SpawnObject {
 	
@@ -24,13 +31,16 @@ public class Missile extends DynamicCollObject implements SpawnObject {
     private SpawnPool pool;
 	
     private Texture[] text_laser_1;
+
     
     private MissileTypeEnum typeMissile;
+    private SpawnType type;
     
-    
-	public Missile() {
-		super();
+
+	public Missile(SpawnType type, World world) {
+		super(world);
 		pool = null;
+		this.type = type;
 	}
 	
 	
@@ -50,6 +60,8 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 
 	     this.typeMissile = type;
 		 
+	     
+	     setReference(this);
 		 if (typeMissile.equals(MissileTypeEnum.LASER_1)) {
 			 text_laser_1 = new Texture[3];
 			 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_small,Texture.class); 
@@ -57,8 +69,10 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 			 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_large,Texture.class);
 			 
 			 super.init(text_laser_1,0);
+			 super.setPosition(xStart, yStart);
 			 super.setSize(10, 30);
 			 super.setSpeed(this.speed, this.speed);
+			 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		 }
 	}
 	
@@ -113,15 +127,36 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 			 movement.set(direction).scl(speed * delta * boostFactor);
 	         position.add(movement);
 	         super.setPosition(position.x, position.y);
+	         super.setCollisionRef(position.x, position.y);
 	         
 	         if (position.x > FirstTestGDX.screenWidth || 
 	             position.x < 0 || 
 	             position.y > FirstTestGDX.screenHeight || 
 	             position.y < 0) {
-	                pool.returnToPool(this);
+	                //Gdx.app.log("[MISSILE]","remove MISSILE for reach the limit (" + getCode() + ")");
+        			if (!GameElementLogic.toDeletedBodies.contains(this.getBody())) {
+        				GameElementLogic.toDeletedBodies.add(this.getBody());
+        			}
 	         }
 		}
 	}
+
+	
+	public String toString() {
+		return " Missile (" + getCode() + ") ORIGIN (" + type.toString() + ") TYPE (" + typeMissile.toString() + ")";
+	}
+	
+	
+	public SpawnType getType() {
+		return type;
+	}
+
+
+	public void setType(SpawnType type) {
+		this.type = type;
+	}
+	
+	
 
 	@Override
 	public void draw(SpriteBatch sb) {

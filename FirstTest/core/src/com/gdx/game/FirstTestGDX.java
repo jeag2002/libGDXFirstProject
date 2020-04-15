@@ -1,6 +1,9 @@
 package com.gdx.game;
 
 //https://www.gamefromscratch.com/post/2014/09/25/LibGDX-LibGDX-Tutorial-13-Physics-with-Box2D-Part-3-Collisions.aspx
+//https://www.gamedevelopment.blog/full-libgdx-game-tutorial-input-controller/
+//https://docs.google.com/viewer?a=v&pid=forums&srcid=MTQxNTM5ODIzOTU2OTk5ODI1NDkBMDU4NjUzOTc3NDYwMTU2ODk0MzABUEdMdDlUdTlXM0FKATAuMQEBdjI&authuser=0
+
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

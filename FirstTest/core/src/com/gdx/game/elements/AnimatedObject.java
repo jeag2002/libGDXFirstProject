@@ -28,9 +28,6 @@ public abstract class AnimatedObject implements GameAnimationInterface{
 		return sO.getTextureByIndex(index);
 	}
 	
-	
-	
-	
 	public void setPosition(float x, float y) {
 		sO.setPosition(x, y);
 	}

@@ -16,8 +16,9 @@ public class GameLevelLogic {
 	public static final String level = "level 1";
 	
 	public static final float speedUpFactor = 1.0f;
-
+	public static final float PIXELS_TO_METERS = 100f;
 	
+	public static final float timeGapEnemyGeneration = 10.0f;
 	public GameLevelLogic() {
 	}
 	
