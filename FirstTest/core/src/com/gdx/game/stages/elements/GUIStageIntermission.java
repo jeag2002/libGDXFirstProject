@@ -51,8 +51,7 @@ public class GUIStageIntermission {
 		grpMenuUI = new Group();
 		
 		//Label  LEVEL
-		lblLevel = new Label(txt_Level, new Label.LabelStyle(FirstTestGDX.resources.font1,Color.WHITE));
-		lblLevel = new Label(txt_3, new Label.LabelStyle(FirstTestGDX.resources.font1, Color.WHITE));
+		lblLevel = new Label(txt_3, new Label.LabelStyle(FirstTestGDX.resources.font1,Color.WHITE));
 		lblLevel.setPosition( FirstTestGDX.screenWidth / 2-100, FirstTestGDX.screenHeight / 2 + 150, Align.center);
 		lblLevel.setVisible(false);
 		grpMenuUI.addActor(lblLevel);

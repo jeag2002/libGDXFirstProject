@@ -15,6 +15,7 @@ import java.util.Random;
 public class GamePlay {
 	
 	private GameElementLogic gEL;
+	private GamePlayScreen gPS;
 	
 	//game states
 	private boolean started;
@@ -31,8 +32,11 @@ public class GamePlay {
 	public static Random random;
 	
 	public GamePlay(GamePlayScreen gs) {
+		
+		
 		gEL = new GameElementLogic();
 		random = new Random(System.currentTimeMillis());
+		gPS = gs;
 		
 		init();
 	}

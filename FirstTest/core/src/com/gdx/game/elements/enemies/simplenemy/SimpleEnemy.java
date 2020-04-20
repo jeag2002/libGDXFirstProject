@@ -140,8 +140,8 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	             getY() > FirstTestGDX.screenHeight || 
 	             getY() < 0) {
 	                //Gdx.app.log("[SIMPLEENEMY]","remove SIMPLEENEMY for reach the limit (" + getCode() + ")");
-        			if (!GameElementLogic.toDeletedBodies.contains(this.getBody())) {
-        				GameElementLogic.toDeletedBodies.add(this.getBody());
+        			if (!GameElementLogic.toDeletedBodiesWithCollision.contains(this.getBody())) {
+        				GameElementLogic.toDeletedBodiesWithCollision.add(this.getBody());
         			}
 	                
 	                

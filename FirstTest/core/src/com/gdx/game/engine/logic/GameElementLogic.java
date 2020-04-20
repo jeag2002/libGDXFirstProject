@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.player.Player;
 import com.gdx.game.stages.enums.EnemyTypes;
+import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.SpawnType;
 
 /**
@@ -36,14 +39,13 @@ public class GameElementLogic {
 	
 	private float timer;
 	private float spawnEnemyLimit;
-	
 	private boolean enemyGenerationTrigger;
-	
 	private Random random;
-	
 	private World world;
-	
 	private Player player;
+	
+	private Sound sfxShot;
+	private float sfxShotVolume; 
 	
 	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
@@ -53,7 +55,9 @@ public class GameElementLogic {
     private ArrayList<SpawnObject> obstacles = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
     
-    public static final ArrayList<Body> toDeletedBodies = new ArrayList<Body>();
+    public static final ArrayList<Body> toDeletedBodiesWithCollision = new ArrayList<Body>();
+    public static final ArrayList<SpawnObject> toDeletedBodiesWithoutCollision = new ArrayList<SpawnObject>();
+    
 	
     
     public GameElementLogic() {
@@ -62,14 +66,20 @@ public class GameElementLogic {
     	
     	random = new Random();
     	spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
-    	
-    	//world = new World(new Vector2(0, -10.0f),true);
     	world = new World(new Vector2(0, 0),true);
     	
     	enemyGenerationTrigger = false;
     	
     	init(world);
+    	setShotSound("sounds/explosion.ogg",0.25f);
     }
+    
+    
+    public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
+	}
+    
     
     private void init(World world) {
     	spawnPool = new SpawnPool(world);
@@ -101,6 +111,15 @@ public class GameElementLogic {
     }
     
     
+    
+    public void explosionGeneration(float x, float y) {
+    	SimpleExplosion sE = (SimpleExplosion) spawnPool.getFromPool(SpawnType.Explosion);
+    	sE.init(ExplosionsEnum.ExplosionTypeOne, x, y);
+        sE.setPool(spawnPool);
+        sfxShot.play();
+    }
+    
+    
     public void processCollision(float delta) {
     	
     	world.step(delta, 1, 1);
@@ -114,8 +133,8 @@ public class GameElementLogic {
             	String objectStrB = (String)contact.getFixtureB().getBody().getUserData();
             	
             	
-            	SpawnObject objectA = spawnPool.getElementById(objectStrA);
-            	SpawnObject objectB = spawnPool.getElementById(objectStrB);
+            	SpawnObject objectA = spawnPool.getElementWithCollisionById(objectStrA);
+            	SpawnObject objectB = spawnPool.getElementWithCollisionById(objectStrB);
             	
             	String msg = "";
             	
@@ -123,35 +142,52 @@ public class GameElementLogic {
 	            	if (((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)) &&
 	            	((objectB instanceof Missile) || (objectB instanceof SimpleEnemy))) {
 	            		
-	            		boolean isMissilePlayer = false;
+	            		boolean isMissilePlayerA = false;
+	            		boolean isMissilePlayerB = false;
+	            		boolean isMissileEnemyA = false;
+	            		boolean isMissileEnemyB = false;
+	            		boolean isEnemyA = false;
+	            		boolean isEnemyB = false;
+	            		
+	            		SimpleEnemy enemyA = null;
+	            		SimpleEnemy enemyB = null;
+	            		
+	            		
 	            		if (objectA instanceof Missile) {
 	            			Missile missile = (Missile)objectA;	
-	            			//msg += " Missile A <" + missile.toString() + ">";
-	            			isMissilePlayer = missile.getType().equals(SpawnType.MissilePlayer);
+	            			isMissilePlayerA = missile.getType().equals(SpawnType.MissilePlayer);
+	            			isMissileEnemyA = !isMissilePlayerA;
+	            			
 	            		}else if (objectA instanceof SimpleEnemy) {
-	            			SimpleEnemy enemy = (SimpleEnemy)objectA;
-	            			//msg += " Enemy A <" + enemy.toString()  + ">";
+	            			enemyA = (SimpleEnemy)objectA;
+	            			isEnemyA = true;
 	            		}
 	            		
 	            		if (objectB instanceof Missile) {
 	            			Missile missile = (Missile)objectB;	
-	            			//msg += " Missile B <" + missile.toString()  + ">";
-	            			if (missile.getType().equals(SpawnType.MissilePlayer)){
-	            				isMissilePlayer = !isMissilePlayer;
-	            			}
+	            			isMissilePlayerB = missile.getType().equals(SpawnType.MissilePlayer);
+	            		    isMissileEnemyB = !isMissilePlayerB;
+	            			
 	            		}else if (objectB instanceof SimpleEnemy) {
-	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-	            			//msg += " Enemy B <" + enemy.toString()  + ">";
+	            			enemyB = (SimpleEnemy)objectB;
+	            			isEnemyB = true;
 	            		}
 	            		
-	            		//Gdx.app.log("[COLLISION]",msg);
-	            		if (isMissilePlayer) {
-		            		if (!GameElementLogic.toDeletedBodies.contains(contact.getFixtureA().getBody())) {
-		        				GameElementLogic.toDeletedBodies.add(contact.getFixtureA().getBody());
+	            		
+	            		if (isMissilePlayerA && isEnemyB) {
+	            			explosionGeneration(enemyB.getX(),enemyB.getY());
+	            		}else if (isMissilePlayerB && isEnemyA) {
+	            			explosionGeneration(enemyA.getX(),enemyA.getY());
+	            		}
+	            		
+	            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB)) || 
+	            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA))) {
+		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 		        			}
 		            		
-		            		if (!GameElementLogic.toDeletedBodies.contains(contact.getFixtureB().getBody())) {
-		        				GameElementLogic.toDeletedBodies.add(contact.getFixtureB().getBody());
+		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 		        			}
 	            		}
 	
@@ -164,21 +200,22 @@ public class GameElementLogic {
             		
             		boolean isMissileEnemy = false;
             		boolean isEnemy = false;
-            		//msg = " Player A <"+ objectStrA +">";
+            		
             		if (objectB instanceof Missile) {
             			Missile missile = (Missile)objectB;	
-            			//msg += " Missile B <" + missile.toString()  + ">";
             			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
+            			
             		}else if (objectB instanceof SimpleEnemy) {
             			SimpleEnemy enemy = (SimpleEnemy)objectB;
-            			//msg += " Enemy B <" + enemy.toString()  + ">";
+            			explosionGeneration(enemy.getX(),enemy.getY());
             			isEnemy = true;
+            			
             		}
             		
             		//Gdx.app.log("[COLLISION]",msg);
             		if (isMissileEnemy || isEnemy) {
-	            		if (!GameElementLogic.toDeletedBodies.contains(contact.getFixtureB().getBody())) {
-	        				GameElementLogic.toDeletedBodies.add(contact.getFixtureB().getBody());
+	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 	        			}
             		}
             		
@@ -192,23 +229,19 @@ public class GameElementLogic {
             		
             	    if (objectA instanceof Missile) {
             			Missile missile = (Missile)objectB;	
-            			//msg += " Missile A <" + missile.toString()  + ">";
             			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
             			
             		}else if (objectA instanceof SimpleEnemy) {
             			SimpleEnemy enemy = (SimpleEnemy)objectB;
-            			//msg += " Enemy A <" + enemy.toString()  + ">";
+            			explosionGeneration(enemy.getX(),enemy.getY());
             			isEnemy = true;
+            			
             		}
-            		
-            	    //msg = " Player B <"+ objectStrB +">";
-            	    
-            		//Gdx.app.log("[COLLISION]",msg);
             		
             		
             		if (isMissileEnemy || isEnemy) {
-	            		if (!GameElementLogic.toDeletedBodies.contains(contact.getFixtureA().getBody())) {
-	        				GameElementLogic.toDeletedBodies.add(contact.getFixtureA().getBody());
+	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 	        			}
             		}
             		
@@ -231,35 +264,22 @@ public class GameElementLogic {
     
     
     public void removeOldBodies() {
-    	
-    	
-    	
-    	for(Body body: toDeletedBodies) 
+    	for(Body body: toDeletedBodiesWithCollision) 
     	{
-    		
     		String objStr = (String)body.getUserData();
-    		SpawnObject obj = spawnPool.getElementById(objStr);
-    		spawnPool.returnToPool(obj);
-    		
-    		/*
-    		if (obj instanceof Missile) {
-    			
-    			Missile miss = (Missile)obj;
-    			Gdx.app.log("[COLLISION DESTROY]","delete " +  miss.toString());
-    			
-    		}else if (obj instanceof SimpleEnemy) {
-    			
-    			SimpleEnemy sE = (SimpleEnemy)obj;
-    			Gdx.app.log("[COLLISION DESTROY]", "delete "  + sE.toString());
-    			
-    		}
-    		*/
-    		
+    		SpawnObject obj = spawnPool.getElementWithCollisionById(objStr);
+    		spawnPool.returnToPool(obj);  		
     		world.destroyBody(body);
     	}
-    	toDeletedBodies.clear();
+    	toDeletedBodiesWithCollision.clear();
     	
+    	for(SpawnObject object: toDeletedBodiesWithoutCollision) {
+    		spawnPool.returnToPool(object);
+    	}
+    	
+    	toDeletedBodiesWithoutCollision.clear();
     }
+    
     
     
     

@@ -1,8 +1,6 @@
 package com.gdx.game.elements.gun;
 
-import java.util.UUID;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -64,9 +62,16 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 	     setReference(this);
 		 if (typeMissile.equals(MissileTypeEnum.LASER_1)) {
 			 text_laser_1 = new Texture[3];
-			 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_small,Texture.class); 
-			 text_laser_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_medium,Texture.class);
-			 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_large,Texture.class);
+			 
+			 if (this.type.equals(SpawnType.MissilePlayer)) {
+				 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_small,Texture.class); 
+				 text_laser_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_medium,Texture.class);
+				 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_large,Texture.class);
+			 }else {
+				 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_small_r,Texture.class); 
+				 text_laser_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_medium_r,Texture.class);
+				 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.laser_large_r,Texture.class);
+			 }
 			 
 			 super.init(text_laser_1,0);
 			 super.setPosition(xStart, yStart);
@@ -133,9 +138,8 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 	             position.x < 0 || 
 	             position.y > FirstTestGDX.screenHeight || 
 	             position.y < 0) {
-	                //Gdx.app.log("[MISSILE]","remove MISSILE for reach the limit (" + getCode() + ")");
-        			if (!GameElementLogic.toDeletedBodies.contains(this.getBody())) {
-        				GameElementLogic.toDeletedBodies.add(this.getBody());
+        			if (!GameElementLogic.toDeletedBodiesWithCollision.contains(this.getBody())) {
+        				GameElementLogic.toDeletedBodiesWithCollision.add(this.getBody());
         			}
 	         }
 		}

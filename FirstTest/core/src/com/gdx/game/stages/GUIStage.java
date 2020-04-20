@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.elements.GUIStageIntermission;
 import com.gdx.game.stages.elements.GUIStageMenu;
+import com.gdx.game.stages.elements.GUIStageGamePlay;
 import com.gdx.game.stages.enums.GUIEnum;
 
 public class GUIStage {
@@ -13,6 +14,7 @@ public class GUIStage {
 	
 	private GUIStageMenu menu;
 	private GUIStageIntermission intermission;
+	private GUIStageGamePlay gameplay;
 	
 	private GUIEnum activeGUI;
 	
@@ -21,6 +23,7 @@ public class GUIStage {
 		this.stage = stage;
 		menu = new GUIStageMenu(stage, gPS);
 		intermission = new GUIStageIntermission(stage, gPS);
+		gameplay = new GUIStageGamePlay(stage,gPS);
 		
 		activeGUI = GUIEnum.NOTHING;
 	
@@ -38,6 +41,7 @@ public class GUIStage {
 			
 			menu.showMenuGUI(true);
 			intermission.showIntermissionGUI(false);
+			gameplay.showGamePlayGUI(false);
 			
 			activeGUI = GUIEnum.MENU;
 			
@@ -47,6 +51,7 @@ public class GUIStage {
 			
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(true);
+			gameplay.showGamePlayGUI(false);
 			
 			activeGUI = GUIEnum.INTERMISSION;
 			
@@ -56,6 +61,7 @@ public class GUIStage {
 			
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(false);
+			gameplay.showGamePlayGUI(true);
 			
 			activeGUI = GUIEnum.GAMEPLAY;
 			
@@ -66,6 +72,7 @@ public class GUIStage {
 		
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(false);
+			gameplay.showGamePlayGUI(false);
 			
 			activeGUI = GUIEnum.NOTHING;
 			
@@ -78,22 +85,25 @@ public class GUIStage {
 	public void init() {
 		menu.init();
 		intermission.init();
+		gameplay.init();
 	}
 	
 	public void draw(float delta) {
 		
 		switch(activeGUI) {
-		case MENU:
-			menu.draw(delta);
-			break;
-			
-		case INTERMISSION:
-			intermission.draw(delta);
-			break;
+			case MENU:
+				menu.draw(delta);
+				break;
+				
+			case INTERMISSION:
+				intermission.draw(delta);
+				break;
+				
+			case GAMEPLAY:
+				gameplay.draw(delta);
+				break;
 		
 		}
-		
-		
 	}
 	
 

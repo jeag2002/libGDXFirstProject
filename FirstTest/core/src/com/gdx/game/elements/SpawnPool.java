@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.stages.enums.SpawnType;
@@ -63,12 +64,12 @@ public class SpawnPool {
     	pools.get(SpawnType.MissileEnemy).remove(object);
     	pools.get(SpawnType.MissilePlayer).remove(object);
     	pools.get(SpawnType.Enemy_Simple_1).remove(object);
+    	pools.get(SpawnType.Explosion).remove(object);
     	
-        //object.setSpawned(false);
     }
     
     
-    public SpawnObject getElementById(String uuid) {
+    public SpawnObject getElementWithCollisionById(String uuid) {
     	
     	SpawnObject returnObject = null;
     	
@@ -126,6 +127,7 @@ public class SpawnPool {
         else if (type.name() == "Obstacle") {
         }
         else if (type.name() == "Explosion") {
+        	created = new SimpleExplosion(this);
         }
         else {
             System.err.println("SpawnPool: " + type.name()

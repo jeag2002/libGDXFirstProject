@@ -91,6 +91,10 @@ public class Resources extends AssetManager{
     public String laser_medium = "shoot/shoot_1/laser_medium.png";
     public String laser_large  = "shoot/shoot_1/laser_large.png";
     
+    public String laser_small_r  = "shoot/shoot_1_r/laser_small.png";
+    public String laser_medium_r = "shoot/shoot_1_r/laser_medium.png";
+    public String laser_large_r  = "shoot/shoot_1_r/laser_large.png";
+    
     
     public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
     public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
@@ -105,7 +109,26 @@ public class Resources extends AssetManager{
     public String imgShadowEnemy_1_04 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_4.png";
     public String imgShadowEnemy_1_05 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_5.png";
     
-	
+    //explosion
+    public String imgExplosion02_Frame_01 = "explosions/explosion_1/Explosion02_Frame_01.png";
+    public String imgExplosion02_Frame_02 = "explosions/explosion_1/Explosion02_Frame_02.png";
+    public String imgExplosion02_Frame_03 = "explosions/explosion_1/Explosion02_Frame_03.png";
+    public String imgExplosion02_Frame_04 = "explosions/explosion_1/Explosion02_Frame_04.png";
+    public String imgExplosion02_Frame_05 = "explosions/explosion_1/Explosion02_Frame_05.png";
+    public String imgExplosion02_Frame_06 = "explosions/explosion_1/Explosion02_Frame_06.png";
+    public String imgExplosion02_Frame_07 = "explosions/explosion_1/Explosion02_Frame_07.png";
+    public String imgExplosion02_Frame_08 = "explosions/explosion_1/Explosion02_Frame_08.png";
+    public String imgExplosion02_Frame_09 = "explosions/explosion_1/Explosion02_Frame_09.png";
+    
+    //gameplay GUI
+    public String imgHealthBar = "gui/gameplay/Health_Bar_Table.png";
+    public String imgHealthBarDot = "gui/gameplay/Health_Bar_Dot.png";
+    public String imgArmorBar = "gui/gameplay/Armor_Bar_Table.png";
+    public String imgArmorBarDot = "gui/gameplay/Armor_Bar_Dot.png";
+    public String imgStatsBar = "gui/gameplay/Stats_Bar.png";
+    public String imgIconSpecial = "gui/gameplay/Table_03.png";
+    
+    
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
 	
@@ -150,6 +173,10 @@ public class Resources extends AssetManager{
 		load(laser_small, Texture.class);
 		load(laser_medium, Texture.class);
 		load(laser_large, Texture.class);
+		
+		load(laser_small_r, Texture.class);
+		load(laser_medium_r, Texture.class);
+		load(laser_large_r, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//player
@@ -190,7 +217,6 @@ public class Resources extends AssetManager{
 		load(imgRetroDR_2, Texture.class);
         ////////////////////////////////////////////////////////////
 		
-		
 		//enemy_1
 		////////////////////////////////////////////////////////////
 		load(imgEnemy_1_01, Texture.class);
@@ -207,6 +233,28 @@ public class Resources extends AssetManager{
 		load(imgShadowEnemy_1_05, Texture.class);
 		////////////////////////////////////////////////////////////
 		
+		//explosions
+		////////////////////////////////////////////////////////////
+		load(imgExplosion02_Frame_01, Texture.class);
+		load(imgExplosion02_Frame_02, Texture.class);
+		load(imgExplosion02_Frame_03, Texture.class);
+		load(imgExplosion02_Frame_04, Texture.class);
+		load(imgExplosion02_Frame_05, Texture.class);
+		load(imgExplosion02_Frame_06, Texture.class);
+		load(imgExplosion02_Frame_07, Texture.class);
+		load(imgExplosion02_Frame_08, Texture.class);
+		load(imgExplosion02_Frame_09, Texture.class);
+		////////////////////////////////////////////////////////////
+		
+		//GUI
+		////////////////////////////////////////////////////////////
+		load(imgHealthBar, Texture.class);
+		load(imgHealthBarDot, Texture.class);
+		load(imgArmorBar, Texture.class);
+		load(imgArmorBarDot, Texture.class);
+		load(imgStatsBar, Texture.class);
+		load(imgIconSpecial, Texture.class);
+		////////////////////////////////////////////////////////////
 		
 		//load(imgExhaustRetro, Texture.class);
 		

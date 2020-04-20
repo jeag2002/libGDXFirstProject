@@ -92,7 +92,7 @@ public class GamePlayScreen implements Screen {
 	private void setLevelMusic() {
 				
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_level));
-		music.setVolume(0.0f);
+		music.setVolume(0.25f);
 		music.setLooping(true);
 		music.play();	
 	}
