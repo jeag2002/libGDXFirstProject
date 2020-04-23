@@ -128,6 +128,9 @@ public class Resources extends AssetManager{
     public String imgStatsBar = "gui/gameplay/Stats_Bar.png";
     public String imgIconSpecial = "gui/gameplay/Table_03.png";
     
+    public String imgClock = "gui/gameplay/Clock_Icon.png";
+    public String imgCristal = "gui/gameplay/Cristal_Icon.png";
+    
     
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
@@ -254,6 +257,9 @@ public class Resources extends AssetManager{
 		load(imgArmorBarDot, Texture.class);
 		load(imgStatsBar, Texture.class);
 		load(imgIconSpecial, Texture.class);
+		load(imgClock, Texture.class);
+		load(imgCristal, Texture.class);
+		
 		////////////////////////////////////////////////////////////
 		
 		//load(imgExhaustRetro, Texture.class);

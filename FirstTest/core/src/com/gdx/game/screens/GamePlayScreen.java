@@ -130,12 +130,22 @@ public class GamePlayScreen implements Screen {
 			gamePlay.resume();
 		
 	}
+	
+	
+	public void setGameplayTime(float delta) {
+		float time = this.getgLL().getTime();
+		time += delta;
+		this.getgLL().setTime(time);
+	}
+	
+	
 
 	@Override
 	public void render(float delta) {
 
 		if (gamePlay != null) {
 			gamePlay.update(delta);
+			this.setGameplayTime(delta);
 		}
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);

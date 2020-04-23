@@ -9,7 +9,8 @@ import com.gdx.game.FirstTestGDX;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.gameplay.BottonBar;
 import com.gdx.game.stages.gameplay.LogoItem;
-import com.gdx.game.stages.gameplay.ProgressBar;
+import com.gdx.game.stages.gameplay.ProgressBarLife;
+import com.gdx.game.stages.gameplay.ProgressBarShield;
 
 public class GUIStageGamePlay {
 	
@@ -19,8 +20,8 @@ public class GUIStageGamePlay {
 	
 	public Group grpMenuUI;
 	
-	public ProgressBar pBarHealth;
-	public ProgressBar pBarShield;
+	public ProgressBarLife pBarHealth;
+	public ProgressBarShield pBarShield;
 	public BottonBar pBottonBar;
 	public LogoItem lItem;
 	
@@ -48,19 +49,22 @@ public class GUIStageGamePlay {
 		Texture textBarBotton = FirstTestGDX.resources.get(FirstTestGDX.resources.imgStatsBar,Texture.class);
 		Texture textBarLogo = FirstTestGDX.resources.get(FirstTestGDX.resources.imgIconSpecial,Texture.class);
 		
-		pBarHealth = new ProgressBar(textBarHealth, textBarHealthDot, gPS);
+		Texture textClockLogo = FirstTestGDX.resources.get(FirstTestGDX.resources.imgClock,Texture.class);
+		Texture textCrystalLogo = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCristal,Texture.class);
+				
+		pBarHealth = new ProgressBarLife(textBarHealth, textBarHealthDot, gPS);
 		pBarHealth.setPosition(10, FirstTestGDX.screenHeight-50);
 		pBarHealth.setSize(200, 32);
 		pBarHealth.setVisible(false);
 		grpMenuUI.addActor(pBarHealth);
 		
-		pBarShield = new ProgressBar(textBarShield, textBarShieldDot, gPS);
+		pBarShield = new ProgressBarShield(textBarShield, textBarShieldDot, gPS);
 		pBarShield.setPosition(10, FirstTestGDX.screenHeight-84);
 		pBarShield.setSize(200, 32);
 		pBarShield.setVisible(false);
 		grpMenuUI.addActor(pBarShield);
 				
-		pBottonBar = new BottonBar(textBarBotton,gPS);
+		pBottonBar = new BottonBar(textBarBotton,textClockLogo,textCrystalLogo,gPS);
 		pBottonBar.setPosition(FirstTestGDX.screenWidth/2-200, 20);
 		pBottonBar.setSize(400, 32);
 		pBottonBar.setVisible(false);

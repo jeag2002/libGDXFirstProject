@@ -14,6 +14,7 @@ import com.gdx.game.elements.DynamicCollObject;
 import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.engine.GamePlay;
+import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.PlayerPartType;
@@ -58,7 +59,9 @@ public class Player extends ShootObject{
 	boolean isAccX;
 	boolean isAccY;
 	
-	public Player(SpawnPool spawnPool, World world) {
+	private GamePlayScreen gPS;
+	
+	public Player(SpawnPool spawnPool, World world, GamePlayScreen gPS) {
 		super(spawnPool,world);
 		
 		moveStepX = 0;
@@ -68,6 +71,10 @@ public class Player extends ShootObject{
 	   
 	    isAccX = false;
 	    isAccY = false;
+	    
+	    this.gPS = gPS;
+	    
+	    this.gPS.getgLL().setShootTypePlayer(MissileTypeEnum.LASER_1);
 	    
 	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
 	    super.resetGuns();
@@ -412,6 +419,8 @@ public class Player extends ShootObject{
 		this.setShootingInterval(intervalGun);
 		this.setGunType(MissileTypeEnum.LASER_1);
 		this.addGun(90.0f, speedGun, getX() , getY(), (getWidth()/2)-5, 30);
+		
+		
 			
 	}
 

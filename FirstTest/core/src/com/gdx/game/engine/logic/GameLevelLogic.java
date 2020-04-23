@@ -1,6 +1,8 @@
 package com.gdx.game.engine.logic;
 
 import com.gdx.game.elements.SpawnPool;
+import com.gdx.game.stages.enums.MissileTypeEnum;
+import com.gdx.game.utils.StringUtils;
 
 /**
  * Level Definition
@@ -9,6 +11,7 @@ import com.gdx.game.elements.SpawnPool;
 
 public class GameLevelLogic {
 	
+	//GLOBAL PARAMETERS
 	
 	public static final String music_menu = "sounds/back_music.ogg";
 	public static final String music_level = "sounds/levels/level-1.ogg";
@@ -20,18 +23,27 @@ public class GameLevelLogic {
 	
 	public static final float timeGapEnemyGeneration = 10.0f;
 	
+	public static final int NUM_MAX_TYPE_MISSILE_PLAYER = 10; 
+	
 	private int lifePlayer;
 	private int shieldPlayer;
 	private int scorePlayer;
+	private float time;
+	
+	private int ammoMissile[];
+	
+	
+	private MissileTypeEnum shootTypePlayer;
 	
 	public GameLevelLogic() {
-		
-		this.lifePlayer = 100;
-		this.shieldPlayer = 100;
+		this.lifePlayer = 10;
+		this.shieldPlayer = 10;
 		this.scorePlayer = 0;
+		this.time = 0.0f;
+		this.ammoMissile = new int[this.NUM_MAX_TYPE_MISSILE_PLAYER];
+		for(int i=0;i<this.NUM_MAX_TYPE_MISSILE_PLAYER; i++) {ammoMissile[i] = 1000;}
 	}
-	
-	
+		
 	public int getLifePlayer() {
 		return lifePlayer;
 	}
@@ -56,7 +68,57 @@ public class GameLevelLogic {
 		this.scorePlayer = scorePlayer;
 	}
 
+	public float getTime() {
+		return time;
+	}
+
+
+	public void setTime(float time) {
+		this.time = time;
+	}
 	
+	public MissileTypeEnum getShootTypePlayer() {
+		return shootTypePlayer;
+	}
+	
+	public void setShootTypePlayer(MissileTypeEnum shootTypePlayer) {
+		this.shootTypePlayer = shootTypePlayer;
+	}
+	
+	public void useShoot() {
+		if (shootTypePlayer.getIndex() < 99) {
+			this.ammoMissile[shootTypePlayer.getIndex()] = this.ammoMissile[shootTypePlayer.getIndex()] - 1; 
+		}
+	}
+	
+	public void addShot(MissileTypeEnum shoot, int add) {
+		this.ammoMissile[shootTypePlayer.getIndex()] = this.ammoMissile[shootTypePlayer.getIndex()] + add; 
+	}
+	
+	
+	public String getShoot() {
+		if (shootTypePlayer.getIndex() < 98) {
+			int result = this.ammoMissile[shootTypePlayer.getIndex()];
+			return StringUtils.leftPaddedString(8, result);
+			
+		}else {
+			return "INFINITE";
+		}
+	}
+	
+	public void processCollision() {
+		
+		if (shieldPlayer > 0) {
+			shieldPlayer--;
+		}else {
+			if (lifePlayer > 0) {
+				lifePlayer--;
+			}
+		}
+	}
+	
+	public void addLife(int life) {lifePlayer += life;}
+	public void addShield(int shield) {shieldPlayer += shield;}
 	
 	
 

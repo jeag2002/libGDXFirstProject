@@ -31,12 +31,12 @@ public class GamePlay {
 	
 	public static Random random;
 	
-	public GamePlay(GamePlayScreen gs) {
+	public GamePlay(GamePlayScreen gPS) {
 		
 		
-		gEL = new GameElementLogic();
-		random = new Random(System.currentTimeMillis());
-		gPS = gs;
+		this.gEL = new GameElementLogic(gPS);
+		this.random = new Random(System.currentTimeMillis());
+		this.gPS = gPS;
 		
 		init();
 	}
@@ -53,7 +53,7 @@ public class GamePlay {
 	
 	private void initPlayer() {
 		
-		player = new Player(this.getgEL().getSpawnPool(), this.getgEL().getWorld());
+		player = new Player(this.getgEL().getSpawnPool(), this.getgEL().getWorld(), gPS);
 		player.setLocationAndSize(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2-389, 64, 64);
 		//player.setCollisionArea(0, 0, 64, 64);
 		gEL.setPlayer(player);

@@ -20,6 +20,7 @@ import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.player.Player;
+import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.SpawnType;
@@ -48,6 +49,8 @@ public class GameElementLogic {
 	private float sfxShotVolume; 
 	
 	
+	private GamePlayScreen gPS;
+	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
@@ -60,15 +63,16 @@ public class GameElementLogic {
     
 	
     
-    public GameElementLogic() {
+    public GameElementLogic(GamePlayScreen gPS) {
     	
-    	timer = 0.0f;
+    	this.timer = 0.0f;
     	
-    	random = new Random();
-    	spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
-    	world = new World(new Vector2(0, 0),true);
+    	this.random = new Random();
+    	this.spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+    	this.world = new World(new Vector2(0, 0),true);
     	
-    	enemyGenerationTrigger = false;
+    	this.enemyGenerationTrigger = false;
+    	this.gPS = gPS;
     	
     	init(world);
     	setShotSound("sounds/explosion.ogg",0.25f);
@@ -167,7 +171,6 @@ public class GameElementLogic {
 	            			Missile missile = (Missile)objectB;	
 	            			isMissilePlayerB = missile.getType().equals(SpawnType.MissilePlayer);
 	            		    isMissileEnemyB = !isMissilePlayerB;
-	            			
 	            		}else if (objectB instanceof SimpleEnemy) {
 	            			enemyB = (SimpleEnemy)objectB;
 	            			isEnemyB = true;
@@ -175,8 +178,11 @@ public class GameElementLogic {
 	            		
 	            		
 	            		if (isMissilePlayerA && isEnemyB) {
+	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 	            			explosionGeneration(enemyB.getX(),enemyB.getY());
+	            			
 	            		}else if (isMissilePlayerB && isEnemyA) {
+	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 	            			explosionGeneration(enemyA.getX(),enemyA.getY());
 	            		}
 	            		
@@ -204,22 +210,23 @@ public class GameElementLogic {
             		if (objectB instanceof Missile) {
             			Missile missile = (Missile)objectB;	
             			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
-            			
+            		
             		}else if (objectB instanceof SimpleEnemy) {
-            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-            			explosionGeneration(enemy.getX(),enemy.getY());
-            			isEnemy = true;
             			
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+            			SimpleEnemy enemy = (SimpleEnemy)objectB;
+            			explosionGeneration(enemy.getX(),enemy.getY());            			
+            			isEnemy = true;
             		}
+            		
             		
             		//Gdx.app.log("[COLLISION]",msg);
             		if (isMissileEnemy || isEnemy) {
+            			gPS.getgLL().processCollision();
 	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
 	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 	        			}
             		}
-            		
-    		
     			}
             	
             	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)))){
@@ -232,14 +239,16 @@ public class GameElementLogic {
             			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
             			
             		}else if (objectA instanceof SimpleEnemy) {
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
             			SimpleEnemy enemy = (SimpleEnemy)objectB;
             			explosionGeneration(enemy.getX(),enemy.getY());
             			isEnemy = true;
-            			
             		}
             		
+            	    
             		
             		if (isMissileEnemy || isEnemy) {
+            			gPS.getgLL().processCollision();
 	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 	        			}
