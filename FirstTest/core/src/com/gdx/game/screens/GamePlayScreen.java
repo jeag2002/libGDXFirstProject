@@ -34,9 +34,12 @@ public class GamePlayScreen implements Screen {
 	//////////////////////////////
 	private SpriteBatch spriteBatch;
 	
-	
 	private float volumeMusic = 0.25f;
-	private float volumeVoice = 2.0f;
+	
+	private static final float bgSpeed = 50.0f;
+	
+	private float time = 0.0f;
+	
 	
 	private Music music = null;
 	private Sound sound = null;
@@ -133,9 +136,15 @@ public class GamePlayScreen implements Screen {
 	
 	
 	public void setGameplayTime(float delta) {
-		float time = this.getgLL().getTime();
+		
 		time += delta;
-		this.getgLL().setTime(time);
+		
+		if (time > 1.0f) {
+			this.getgLL().setTime(time + this.getgLL().getTime());
+			time = 0.0f;
+		}
+		
+		gamePlay.moveCamera(delta);
 	}
 	
 	
@@ -144,12 +153,33 @@ public class GamePlayScreen implements Screen {
 	public void render(float delta) {
 
 		if (gamePlay != null) {
-			gamePlay.update(delta);
-			this.setGameplayTime(delta);
+			
+			if (!this.getgLL().isEndLevel()) {
+				gamePlay.update(delta);
+				this.setGameplayTime(delta);
+				
+			}else {
+				
+				Gdx.app.exit();
+				//gamePlay.setStarted(false);
+				//gamePlay.dispose();
+				//gLL.dispose();
+				//guiStage.activeGUI(GUIEnum.MENU);
+			}
 		}
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		
+		spriteBatch.begin();
+		if (gamePlay != null) {
+			gamePlay.drawBackground(spriteBatch);
+		}
+		spriteBatch.end();
+		
+		if (gamePlay != null) {
+			gamePlay.drawMap();
+		}
 		
 		spriteBatch.begin();
 		if (gamePlay != null) {

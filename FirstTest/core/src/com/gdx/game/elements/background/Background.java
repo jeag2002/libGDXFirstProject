@@ -13,7 +13,7 @@ public class Background {
 	private ParallaxBackground parallaxBackground;
 	
 	//parallax
-	private float bgSpeed = -500.0f;
+	private static final float bgSpeed = -500.0f;
 	
 	
 	public Background() {

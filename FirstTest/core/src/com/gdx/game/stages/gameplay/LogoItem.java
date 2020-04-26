@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.enums.MissileTypeEnum;
 
 public class LogoItem extends Actor {
 	
@@ -52,6 +53,11 @@ public class LogoItem extends Actor {
 			
 			this.typeOfFire.setPosition(this.base.getX() + this.base.getWidth()/2 - 5, this.base.getY()+20);
 			this.typeOfFire.setSize(10,32);
+			
+			
+			if (gPS.getgLL().getShootTypePlayer().equals(MissileTypeEnum.LASER_1)) {
+				typeOfFire.setTexture(textMissile_1);
+			}
 			
 			this.base.draw(batch);
 			this.typeOfFire.draw(batch);

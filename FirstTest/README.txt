@@ -31,3 +31,9 @@ https://www.reddit.com/r/libgdx/comments/28lzxz/creating_a_texture_atlas_from_a_
 java -cp d:\workspaces\runtimes\libgdx\jar_files\gdx-1.9.7.jar;d:\workspaces\runtimes\libgdx\jar_files\gdx-tools-1.9.7.jar com.badlogic.gdx.tools.imagepacker.ImagePacker d:\workspaces\workGameDev\workGDX_1\FirstTest\android\assets\player_1 d:\workspaces\workGameDev\workGDX_1\FirstTest\android\assets\player_1\res
 
 https://www.badlogicgames.com/forum/viewtopic.php?f=11&t=23183
+
+https://www.gamefromscratch.com/post/2014/04/15/A-quick-look-at-Tiled-An-open-source-2D-level-editor.aspx
+https://www.gamefromscratch.com/post/2014/05/01/LibGDX-Tutorial-11-Tiled-Maps-Part-2-Adding-a-character-sprite.aspx
+
+https://stackoverflow.com/questions/34375728/libgdx-map-boundaries
+https://www.youtube.com/watch?v=DOpqkaX9844

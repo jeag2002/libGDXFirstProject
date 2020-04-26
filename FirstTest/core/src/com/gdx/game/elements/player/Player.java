@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
@@ -28,6 +29,8 @@ public class Player extends ShootObject{
 	private PlayerMovements orientation;
 	private Sound sfxShot;
 	private float sfxShotVolume; 
+	
+	private boolean isEndMap;
 	
 	private static final int collisionMarginRight = 64;
     private static final int collisionMarginLeft = 30;
@@ -75,6 +78,9 @@ public class Player extends ShootObject{
 	    this.gPS = gPS;
 	    
 	    this.gPS.getgLL().setShootTypePlayer(MissileTypeEnum.LASER_1);
+	    
+	    this.isEndMap = false;
+	    
 	    
 	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
 	    super.resetGuns();
@@ -227,66 +233,74 @@ public class Player extends ShootObject{
 		setCollisionRef(getX(), getY());
 	}
 	
+	public void setEndMap(boolean isEndMap) {
+		this.isEndMap = isEndMap;
+	}
+	
 	
 	public void movement(float delta) {
 		
-		if (orientation.equals(PlayerMovements.UP)) {
-			
-			if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) ) {
-				accelerateUpY(delta);
-				if (getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
-					setY(FirstTestGDX.screenHeight - collisionMarginUp);
-				}else {
-					setY(getY() +  moveStepY*delta);
+		
+		if (!isEndMap) {
+			if (orientation.equals(PlayerMovements.UP)) {
+				
+				if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) ) {
+					
+					accelerateUpY(delta);
+					if (getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
+						setY(FirstTestGDX.screenHeight - collisionMarginUp);
+					}else {
+						setY(getY() +  moveStepY*delta);
+					}
+				}else {fallY(delta);}
+				
+			}else if (orientation.equals(PlayerMovements.DOWN)) {
+				
+				if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) ) {
+					
+					accelerateUpY(delta);
+					if ((getY() + getHeight()) < collisionMarginDown) {
+						setY(getHeight()-10);
+					}else {
+						setY(getY()- moveStepY*delta);
+					}			
 				}
-			}else {fallY(delta);}
-			
-		}else if (orientation.equals(PlayerMovements.DOWN)) {
-			
-			if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) ) {
-				 accelerateUpY(delta);
-				if ((getY() + getHeight()) < collisionMarginDown) {
-					setY(getHeight()-10);
-				}else {
-					setY(getY()- moveStepY*delta);
-				}			
-			}
-			else {fallY(delta);}
-			
-			
-		}else if (orientation.equals(PlayerMovements.LEFT)) {
-			
-			if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) {
-				accelerateUpX(delta);
-				if (getX() < this.collisionMarginLeft) {
-					setX(this.collisionMarginLeft);
-				}else {
-					setX(getX() - moveStepX*delta);
+				else {fallY(delta);}
+				
+				
+			}else if (orientation.equals(PlayerMovements.LEFT)) {
+				
+				if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) {
+					accelerateUpX(delta);
+					if (getX() < this.collisionMarginLeft) {
+						setX(this.collisionMarginLeft);
+					}else {
+						setX(getX() - moveStepX*delta);
+					}
 				}
-			}
-			else {fallX(delta);}
-			
-			
-		}else if (orientation.equals(PlayerMovements.RIGHT)) {
-			
-			//movement player
-			if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) ) {
-				accelerateUpX(delta);
-				if ((getX() + getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
-					setX(FirstTestGDX.screenWidth - collisionMarginRight);
-				}else {
-					setX(getX()+ moveStepX*delta);
+				else {fallX(delta);}
+				
+				
+			}else if (orientation.equals(PlayerMovements.RIGHT)) {
+				
+				//movement player
+				if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) ) {
+					accelerateUpX(delta);
+					if ((getX() + getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
+						setX(FirstTestGDX.screenWidth - collisionMarginRight);
+					}else {
+						setX(getX()+ moveStepX*delta);
+					}
 				}
-			}
-			else {fallX(delta);}
-			
+				else {fallX(delta);}
+			}		
 		}
 	}
 	
 	
 	public void movementParts(float delta) {
 		player_parts.get(this.INDEX_SHADOW).setPosition(getX()+16, getY()+16);
-		player_parts.get(this.INDEX_SHADOW).getSprite().setAlpha((FirstTestGDX.screenHeight - getY())/FirstTestGDX.screenHeight);
+//		player_parts.get(this.INDEX_SHADOW).getSprite().setAlpha((FirstTestGDX.screenHeight - getY())/FirstTestGDX.screenHeight);
 		player_parts.get(this.INDEX_BOOST_LEFT).setPosition(getX()+25, getY()-32);
 		player_parts.get(this.INDEX_BOOST_RIGHT).setPosition(getX()+32, getY()-32);
 		player_parts.get(this.INDEX_EXHAUST_UL).setPosition(getX()-32, getY()+32);

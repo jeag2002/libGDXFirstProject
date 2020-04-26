@@ -14,8 +14,8 @@ import com.gdx.game.screens.LoadingScreen;
 public class FirstTestGDX extends Game{
 	
 	//Screen settings 
-	public static int screenWidth = 600;
-	public static int screenHeight = 900;
+	public static int screenWidth = 640;
+	public static int screenHeight = 1000;
 	
 	public static float ratioX = 1.0f;
 	public static float ratioY = 1.0f;

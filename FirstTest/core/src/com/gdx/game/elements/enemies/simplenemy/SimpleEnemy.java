@@ -1,8 +1,5 @@
 package com.gdx.game.elements.enemies.simplenemy;
 
-import java.util.UUID;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -12,9 +9,7 @@ import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
-import com.gdx.game.elements.player.PlayerPart;
 import com.gdx.game.engine.logic.GameElementLogic;
-import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;

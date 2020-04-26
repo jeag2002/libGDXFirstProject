@@ -5,7 +5,11 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -42,11 +46,17 @@ public class GameElementLogic {
 	private float spawnEnemyLimit;
 	private boolean enemyGenerationTrigger;
 	private Random random;
+	
 	private World world;
+	private TiledMap tiledMap;
+	
 	private Player player;
 	
-	private Sound sfxShot;
-	private float sfxShotVolume; 
+	private Sound sfxExplosion;
+	private float sfxExplosionVolume; 
+	
+	private Sound sfxCrash;
+	private float sfxCrashVolume;
 	
 	
 	private GamePlayScreen gPS;
@@ -75,13 +85,24 @@ public class GameElementLogic {
     	this.gPS = gPS;
     	
     	init(world);
-    	setShotSound("sounds/explosion.ogg",0.25f);
+    	setExplosionSound("sounds/explosion.ogg",0.25f);
+    	setCrashSound("sounds/crash.wav",0.25f);
+    }
+    
+    public void setTiledMap(TiledMap tiledMap) {
+    	this.tiledMap = tiledMap;
     }
     
     
-    public void setShotSound(String path, float volume) {
-	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
-	     sfxShotVolume = volume;
+    public void setCrashSound(String path, float volume) {
+	     sfxCrash = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxCrashVolume = volume;
+	}
+    
+    
+    public void setExplosionSound(String path, float volume) {
+	     sfxExplosion = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxExplosionVolume = volume;
 	}
     
     
@@ -120,10 +141,26 @@ public class GameElementLogic {
     	SimpleExplosion sE = (SimpleExplosion) spawnPool.getFromPool(SpawnType.Explosion);
     	sE.init(ExplosionsEnum.ExplosionTypeOne, x, y);
         sE.setPool(spawnPool);
-        sfxShot.play();
+        sfxExplosion.play(sfxExplosionVolume);
     }
     
     
+    //DETECT COLLISION WITH STATIC ELEMENTS
+    public void processCollisionWorld(OrthographicCamera camera) {
+       
+       TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+       float totalHeight = layer.getHeight() * layer.getTileHeight();
+       boolean isEndEpisode = (camera.position.y - 64) > totalHeight;
+       
+       player.setEndMap(isEndEpisode);
+       gPS.getgLL().setEndLevel(isEndEpisode);
+       
+    }
+    
+    
+    
+    
+    //DETECT COLLISION WITH DYNAMIC ELEMENTS
     public void processCollision(float delta) {
     	
     	world.step(delta, 1, 1);
@@ -223,6 +260,7 @@ public class GameElementLogic {
             		//Gdx.app.log("[COLLISION]",msg);
             		if (isMissileEnemy || isEnemy) {
             			gPS.getgLL().processCollision();
+            			sfxCrash.play(sfxCrashVolume);
 	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
 	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 	        			}
@@ -248,6 +286,7 @@ public class GameElementLogic {
             	    
             		
             		if (isMissileEnemy || isEnemy) {
+            			sfxCrash.play(sfxCrashVolume);
             			gPS.getgLL().processCollision();
 	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
@@ -299,6 +338,17 @@ public class GameElementLogic {
     
     public void dispose() {
     	world.dispose();
+    	
+    	enemies.clear();
+        missilesEnemies.clear();
+        missilesPlayer.clear();
+        explosions.clear();
+        obstacles.clear();
+        items.clear();
+        
+        toDeletedBodiesWithCollision.clear();
+        toDeletedBodiesWithoutCollision.clear();
+    	
     }
     
     

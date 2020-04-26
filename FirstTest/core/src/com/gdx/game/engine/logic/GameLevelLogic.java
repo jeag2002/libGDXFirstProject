@@ -18,6 +18,8 @@ public class GameLevelLogic {
 	public static final String sound_intermission = "sfx/voices/goodluck.wav";
 	public static final String level = "level 1";
 	
+	public static final String map_level_1 = "maps/map_1/tile_test_3.tmx";
+	
 	public static final float speedUpFactor = 1.0f;
 	public static final float PIXELS_TO_METERS = 100f;
 	
@@ -30,6 +32,9 @@ public class GameLevelLogic {
 	private int scorePlayer;
 	private float time;
 	
+	private boolean endLevel;
+	private boolean gameOver;
+	
 	private int ammoMissile[];
 	
 	
@@ -40,6 +45,10 @@ public class GameLevelLogic {
 		this.shieldPlayer = 10;
 		this.scorePlayer = 0;
 		this.time = 0.0f;
+		
+		this.endLevel = false;
+		this.gameOver = false;
+		
 		this.ammoMissile = new int[this.NUM_MAX_TYPE_MISSILE_PLAYER];
 		for(int i=0;i<this.NUM_MAX_TYPE_MISSILE_PLAYER; i++) {ammoMissile[i] = 1000;}
 	}
@@ -120,6 +129,33 @@ public class GameLevelLogic {
 	public void addLife(int life) {lifePlayer += life;}
 	public void addShield(int shield) {shieldPlayer += shield;}
 	
+	public boolean isEndLevel() {
+		return endLevel;
+	}
+
+	public void setEndLevel(boolean endLevel) {
+		this.endLevel = endLevel;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+	
+	public void dispose() {
+		
+		this.lifePlayer = 10;
+		this.shieldPlayer = 10;
+		this.scorePlayer = 0;
+		this.time = 0.0f;
+		
+		this.endLevel = false;
+		this.gameOver = false;
+		
+	}
 	
 
 }
