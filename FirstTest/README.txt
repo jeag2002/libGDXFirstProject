@@ -36,4 +36,4 @@ https://www.gamefromscratch.com/post/2014/04/15/A-quick-look-at-Tiled-An-open-so
 https://www.gamefromscratch.com/post/2014/05/01/LibGDX-Tutorial-11-Tiled-Maps-Part-2-Adding-a-character-sprite.aspx
 
 https://stackoverflow.com/questions/34375728/libgdx-map-boundaries
-https://www.youtube.com/watch?v=DOpqkaX9844
+https://www.youtube.com/watch?v=DOpqkaX9844  

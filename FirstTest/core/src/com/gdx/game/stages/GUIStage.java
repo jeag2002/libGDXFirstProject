@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.elements.GUIStageIntermission;
 import com.gdx.game.stages.elements.GUIStageMenu;
+import com.gdx.game.stages.elements.GUIStageEnd;
 import com.gdx.game.stages.elements.GUIStageGamePlay;
 import com.gdx.game.stages.enums.GUIEnum;
 
@@ -16,6 +17,8 @@ public class GUIStage {
 	private GUIStageIntermission intermission;
 	private GUIStageGamePlay gameplay;
 	
+	private GUIStageEnd end;
+	
 	private GUIEnum activeGUI;
 	
 	
@@ -24,6 +27,7 @@ public class GUIStage {
 		menu = new GUIStageMenu(stage, gPS);
 		intermission = new GUIStageIntermission(stage, gPS);
 		gameplay = new GUIStageGamePlay(stage,gPS);
+		end = new GUIStageEnd(stage,gPS);
 		
 		activeGUI = GUIEnum.NOTHING;
 	
@@ -42,6 +46,7 @@ public class GUIStage {
 			menu.showMenuGUI(true);
 			intermission.showIntermissionGUI(false);
 			gameplay.showGamePlayGUI(false);
+			end.showEndGUI(false);
 			
 			activeGUI = GUIEnum.MENU;
 			
@@ -52,6 +57,7 @@ public class GUIStage {
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(true);
 			gameplay.showGamePlayGUI(false);
+			end.showEndGUI(false);
 			
 			activeGUI = GUIEnum.INTERMISSION;
 			
@@ -62,17 +68,32 @@ public class GUIStage {
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(false);
 			gameplay.showGamePlayGUI(true);
+			end.showEndGUI(false);
 			
 			activeGUI = GUIEnum.GAMEPLAY;
 			
 			break;
+		
+		case ENDLEVEL:
+			
+			menu.showMenuGUI(false);
+			intermission.showIntermissionGUI(false);
+			gameplay.showGamePlayGUI(false);
+			end.showEndGUI(true);
+			
+			
+			activeGUI = GUIEnum.ENDLEVEL;
+			
+			break;
 			
 		case NOTHING: 
+		
 		default:
 		
 			menu.showMenuGUI(false);
 			intermission.showIntermissionGUI(false);
 			gameplay.showGamePlayGUI(false);
+			end.showEndGUI(false);
 			
 			activeGUI = GUIEnum.NOTHING;
 			
@@ -86,6 +107,7 @@ public class GUIStage {
 		menu.init();
 		intermission.init();
 		gameplay.init();
+		end.init();
 	}
 	
 	public void draw(float delta) {
@@ -101,6 +123,10 @@ public class GUIStage {
 				
 			case GAMEPLAY:
 				gameplay.draw(delta);
+				break;
+			
+			case ENDLEVEL:
+				end.draw(delta);
 				break;
 		
 		}

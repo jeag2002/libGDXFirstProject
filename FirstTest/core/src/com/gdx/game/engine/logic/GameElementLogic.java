@@ -148,12 +148,16 @@ public class GameElementLogic {
     //DETECT COLLISION WITH STATIC ELEMENTS
     public void processCollisionWorld(OrthographicCamera camera) {
        
-       TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-       float totalHeight = layer.getHeight() * layer.getTileHeight();
-       boolean isEndEpisode = (camera.position.y - 64) > totalHeight;
+       if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
        
-       player.setEndMap(isEndEpisode);
-       gPS.getgLL().setEndLevel(isEndEpisode);
+    	   TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+    	   float totalHeight = layer.getHeight() * layer.getTileHeight();
+    	   boolean isEndEpisode = (camera.position.y - 64) > totalHeight;
+       
+    	   player.setEndMap(isEndEpisode);
+    	   gPS.getgLL().setEndLevel(isEndEpisode);
+       }
+       
        
     }
     
@@ -170,130 +174,142 @@ public class GameElementLogic {
             @Override
             public void beginContact(Contact contact) {
             	
-            	String objectStrA = (String)contact.getFixtureA().getBody().getUserData();
-            	String objectStrB = (String)contact.getFixtureB().getBody().getUserData();
             	
+            	if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
+            	       
             	
-            	SpawnObject objectA = spawnPool.getElementWithCollisionById(objectStrA);
-            	SpawnObject objectB = spawnPool.getElementWithCollisionById(objectStrB);
-            	
-            	String msg = "";
-            	
-            	if ((objectA != null) && (objectB != null)) {
-	            	if (((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)) &&
-	            	((objectB instanceof Missile) || (objectB instanceof SimpleEnemy))) {
+	            	String objectStrA = (String)contact.getFixtureA().getBody().getUserData();
+	            	String objectStrB = (String)contact.getFixtureB().getBody().getUserData();
+	            	
+	            	
+	            	SpawnObject objectA = spawnPool.getElementWithCollisionById(objectStrA);
+	            	SpawnObject objectB = spawnPool.getElementWithCollisionById(objectStrB);
+	            	
+	            	String msg = "";
+	            	
+	            	if ((objectA != null) && (objectB != null)) {
+		            	if (((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)) &&
+		            	((objectB instanceof Missile) || (objectB instanceof SimpleEnemy))) {
+		            		
+		            		boolean isMissilePlayerA = false;
+		            		boolean isMissilePlayerB = false;
+		            		boolean isMissileEnemyA = false;
+		            		boolean isMissileEnemyB = false;
+		            		boolean isEnemyA = false;
+		            		boolean isEnemyB = false;
+		            		
+		            		SimpleEnemy enemyA = null;
+		            		SimpleEnemy enemyB = null;
+		            		
+		            		
+		            		if (objectA instanceof Missile) {
+		            			Missile missile = (Missile)objectA;	
+		            			isMissilePlayerA = missile.getType().equals(SpawnType.MissilePlayer);
+		            			isMissileEnemyA = !isMissilePlayerA;
+		            			
+		            		}else if (objectA instanceof SimpleEnemy) {
+		            			enemyA = (SimpleEnemy)objectA;
+		            			isEnemyA = true;
+		            		}
+		            		
+		            		if (objectB instanceof Missile) {
+		            			Missile missile = (Missile)objectB;	
+		            			isMissilePlayerB = missile.getType().equals(SpawnType.MissilePlayer);
+		            		    isMissileEnemyB = !isMissilePlayerB;
+		            		}else if (objectB instanceof SimpleEnemy) {
+		            			enemyB = (SimpleEnemy)objectB;
+		            			isEnemyB = true;
+		            		}
+		            		
+		            		
+		            		if (isMissilePlayerA && isEnemyB) {
+		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+		            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+		            			
+		            			explosionGeneration(enemyB.getX(),enemyB.getY());
+		            			
+		            		}else if (isMissilePlayerB && isEnemyA) {
+		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+		            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+		            			
+		            			explosionGeneration(enemyA.getX(),enemyA.getY());
+		            		}
+		            		
+		            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB)) || 
+		            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA))) {
+			            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
+			        			}
+			            		
+			            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
+			        			}
+		            		}
+		
+		            	}
+	            	}
+	            	
+	            	
+	            	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Missile) || (objectB instanceof SimpleEnemy)))){
 	            		
-	            		boolean isMissilePlayerA = false;
-	            		boolean isMissilePlayerB = false;
-	            		boolean isMissileEnemyA = false;
-	            		boolean isMissileEnemyB = false;
-	            		boolean isEnemyA = false;
-	            		boolean isEnemyB = false;
 	            		
-	            		SimpleEnemy enemyA = null;
-	            		SimpleEnemy enemyB = null;
-	            		
-	            		
-	            		if (objectA instanceof Missile) {
-	            			Missile missile = (Missile)objectA;	
-	            			isMissilePlayerA = missile.getType().equals(SpawnType.MissilePlayer);
-	            			isMissileEnemyA = !isMissilePlayerA;
-	            			
-	            		}else if (objectA instanceof SimpleEnemy) {
-	            			enemyA = (SimpleEnemy)objectA;
-	            			isEnemyA = true;
-	            		}
+	            		boolean isMissileEnemy = false;
+	            		boolean isEnemy = false;
 	            		
 	            		if (objectB instanceof Missile) {
 	            			Missile missile = (Missile)objectB;	
-	            			isMissilePlayerB = missile.getType().equals(SpawnType.MissilePlayer);
-	            		    isMissileEnemyB = !isMissilePlayerB;
+	            			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
+	            		
 	            		}else if (objectB instanceof SimpleEnemy) {
-	            			enemyB = (SimpleEnemy)objectB;
-	            			isEnemyB = true;
-	            		}
-	            		
-	            		
-	            		if (isMissilePlayerA && isEnemyB) {
-	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
-	            			explosionGeneration(enemyB.getX(),enemyB.getY());
 	            			
-	            		}else if (isMissilePlayerB && isEnemyA) {
 	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
-	            			explosionGeneration(enemyA.getX(),enemyA.getY());
+	            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
+	            			explosionGeneration(enemy.getX(),enemy.getY());            			
+	            			isEnemy = true;
 	            		}
 	            		
-	            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB)) || 
-	            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA))) {
-		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
-		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
-		        			}
-		            		
+	            		
+	            		//Gdx.app.log("[COLLISION]",msg);
+	            		if (isMissileEnemy || isEnemy) {
+	            			gPS.getgLL().processCollision();
+	            			sfxCrash.play(sfxCrashVolume);
 		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
 		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 		        			}
 	            		}
-	
-	            	}
+	    			}
+	            	
+	            	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)))){
+	            		
+	            		boolean isMissileEnemy = false;
+	            		boolean isEnemy = false;
+	            		
+	            	    if (objectA instanceof Missile) {
+	            			Missile missile = (Missile)objectB;	
+	            			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
+	            			
+	            		}else if (objectA instanceof SimpleEnemy) {
+	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+	            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
+	            			explosionGeneration(enemy.getX(),enemy.getY());
+	            			isEnemy = true;
+	            		}
+	            		
+	            	    
+	            		
+	            		if (isMissileEnemy || isEnemy) {
+	            			sfxCrash.play(sfxCrashVolume);
+	            			gPS.getgLL().processCollision();
+		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
+		        			}
+	            		}
+	            		
+	    			}
+            	
             	}
-            	
-            	
-            	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Missile) || (objectB instanceof SimpleEnemy)))){
-            		
-            		
-            		boolean isMissileEnemy = false;
-            		boolean isEnemy = false;
-            		
-            		if (objectB instanceof Missile) {
-            			Missile missile = (Missile)objectB;	
-            			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
-            		
-            		}else if (objectB instanceof SimpleEnemy) {
-            			
-            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
-            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-            			explosionGeneration(enemy.getX(),enemy.getY());            			
-            			isEnemy = true;
-            		}
-            		
-            		
-            		//Gdx.app.log("[COLLISION]",msg);
-            		if (isMissileEnemy || isEnemy) {
-            			gPS.getgLL().processCollision();
-            			sfxCrash.play(sfxCrashVolume);
-	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
-	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
-	        			}
-            		}
-    			}
-            	
-            	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)))){
-            		
-            		boolean isMissileEnemy = false;
-            		boolean isEnemy = false;
-            		
-            	    if (objectA instanceof Missile) {
-            			Missile missile = (Missile)objectB;	
-            			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
-            			
-            		}else if (objectA instanceof SimpleEnemy) {
-            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
-            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-            			explosionGeneration(enemy.getX(),enemy.getY());
-            			isEnemy = true;
-            		}
-            		
-            	    
-            		
-            		if (isMissileEnemy || isEnemy) {
-            			sfxCrash.play(sfxCrashVolume);
-            			gPS.getgLL().processCollision();
-	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
-	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
-	        			}
-            		}
-            		
-    			}
             }
 
             @Override
@@ -424,14 +440,16 @@ public class GameElementLogic {
     
     public void generateEnemies(float delta) {
     	
-    	if (enemyGenerationTrigger) {
-	    	timer += delta * GameLevelLogic.speedUpFactor;
-	    	
-	    	if (timer >= spawnEnemyLimit) {
-	    		
-	    		generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
-	    		timer = 0;
-	    		spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+    	if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
+	    	if (enemyGenerationTrigger) {
+		    	timer += delta * GameLevelLogic.speedUpFactor;
+		    	
+		    	if (timer >= spawnEnemyLimit) {
+		    		
+		    		generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		timer = 0;
+		    		spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+		    	}
 	    	}
     	}
     }

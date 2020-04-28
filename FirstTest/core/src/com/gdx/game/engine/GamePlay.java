@@ -1,5 +1,6 @@
 package com.gdx.game.engine;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.background.Background;
 import com.gdx.game.elements.player.Player;
@@ -106,17 +109,25 @@ public class GamePlay {
 		}
 		
 		background.update(delta);
-		player.update(delta);
 		
-		gEL.generateElements(delta);
-		gEL.updateSpawns(delta);
-		
-		gEL.processCollisionWorld(camera);
-		gEL.processCollision(delta);
-		
-		
-		gEL.removeOldBodies();
+		if (started) {
+			player.update(delta);
+			gEL.generateElements(delta);
+			gEL.updateSpawns(delta);
+			gEL.processCollisionWorld(camera);
+			gEL.processCollision(delta);
+			gEL.removeOldBodies();
+		}
 	}
+	
+	
+	/*
+	lblStart_1 = new Label(TIMES, new Label.LabelStyle(font, Color.WHITE));
+    lblStart_1.setPosition(FirstTestGDX.screenWidth/2 - 50 , FirstTestGDX.screenHeight-100, Align.center);
+    lblStart_1.setSize(100, 50);
+    lblStart_1.setVisible(false);
+    grpMenuUI.addActor(lblStart_1); 
+	 */
 	
 	
 	public void drawBackground(SpriteBatch sb) {

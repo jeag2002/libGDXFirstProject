@@ -132,6 +132,19 @@ public class Resources extends AssetManager{
     public String imgCristal = "gui/gameplay/Cristal_Icon.png";
     
     
+    //end level GUI
+    public String imgMenuBtn = "gui/endlevel/Menu_BTN.png";
+    public String imgMenuOK = "gui/endlevel/Ok_BTN.png";
+    
+    public String imgStart01 = "gui/endlevel/Star_01.png";
+    public String imgStart02 = "gui/endlevel/Star_02.png"; 
+    public String imgStart03 = "gui/endlevel/Star_03.png";
+    
+    public String imgWindows = "gui/endlevel/Window.png";
+    public String imgYouLose = "gui/endlevel/youlose.png";
+    public String imgYouWin = "gui/endlevel/youwin.png";
+    
+    
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
 	
@@ -146,6 +159,7 @@ public class Resources extends AssetManager{
 		
 		//fonts
 		load(fnt,BitmapFont.class,fontParam);
+		load(fnt_1,BitmapFont.class,fontParam);
 		
 		//images
 		//load(imgLoadingLogo, Texture.class);
@@ -259,8 +273,20 @@ public class Resources extends AssetManager{
 		load(imgIconSpecial, Texture.class);
 		load(imgClock, Texture.class);
 		load(imgCristal, Texture.class);
-		
 		////////////////////////////////////////////////////////////
+		
+		//END LEVEL GUI
+		////////////////////////////////////////////////////////////
+		load(imgMenuBtn, Texture.class);
+		load(imgMenuOK, Texture.class);
+		load(imgStart01, Texture.class);
+		load(imgStart02, Texture.class);
+		load(imgStart03, Texture.class);
+		load(imgWindows, Texture.class);
+		load(imgYouLose, Texture.class);
+		load(imgYouWin, Texture.class);;
+		////////////////////////////////////////////////////////////
+		
 		
 		//load(imgExhaustRetro, Texture.class);
 		
