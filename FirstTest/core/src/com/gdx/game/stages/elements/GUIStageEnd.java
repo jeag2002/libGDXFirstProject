@@ -236,6 +236,8 @@ public class GUIStageEnd {
 			Star_2.addAction(sequence(hide(), delay(4.0f), show()));
 			Star_3.addAction(sequence(hide(), delay(4.5f), show()));
 			
+			button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
+			button_Next.addAction(sequence(hide(), delay(5.0f), show()));
 			
 		}else {
 			

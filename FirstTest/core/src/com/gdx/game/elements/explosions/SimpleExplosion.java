@@ -17,7 +17,7 @@ public class SimpleExplosion extends AnimatedObject implements GameAnimationInte
 	
 	private SpawnType type;
 	private ExplosionsEnum etype;
-	private Texture[] simpleexplosion_1;
+	private Texture[] simpleexplosion;
 	
 	private boolean spawned;
 	private SpawnPool pool;
@@ -37,26 +37,43 @@ public class SimpleExplosion extends AnimatedObject implements GameAnimationInte
 		
 		this.etype = type;
 		
+		simpleexplosion = new Texture[9];
+		
 		if (etype.equals(ExplosionsEnum.ExplosionTypeOne)) {
-			simpleexplosion_1 = new Texture[9];
-			simpleexplosion_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_01,Texture.class); 
-			simpleexplosion_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_02,Texture.class);
-			simpleexplosion_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_03,Texture.class);
-			simpleexplosion_1[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_04,Texture.class); 
-			simpleexplosion_1[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_05,Texture.class);
-			simpleexplosion_1[5] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_06,Texture.class);
-			simpleexplosion_1[6] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_07,Texture.class); 
-			simpleexplosion_1[7] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_08,Texture.class);
-			simpleexplosion_1[8] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_09,Texture.class);
 			
-			super.init(simpleexplosion_1,0);
-			super.setPosition(xStart, yStart);
-			super.setSize(64, 64);
+			simpleexplosion[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_01,Texture.class); 
+			simpleexplosion[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_02,Texture.class);
+			simpleexplosion[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_03,Texture.class);
+			simpleexplosion[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_04,Texture.class); 
+			simpleexplosion[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_05,Texture.class);
+			simpleexplosion[5] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_06,Texture.class);
+			simpleexplosion[6] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_07,Texture.class); 
+			simpleexplosion[7] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_08,Texture.class);
+			simpleexplosion[8] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion02_Frame_09,Texture.class);
 			
-			this.timer = 0;
-			this.index = 0;
-			this.sensePlus = true;
-		}	
+		} else if (etype.equals(ExplosionsEnum.ExplosionTypeTwo)) {
+			
+			simpleexplosion[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_01,Texture.class); 
+			simpleexplosion[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_02,Texture.class);
+			simpleexplosion[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_03,Texture.class);
+			simpleexplosion[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_04,Texture.class); 
+			simpleexplosion[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_05,Texture.class);
+			simpleexplosion[5] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_06,Texture.class);
+			simpleexplosion[6] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_07,Texture.class); 
+			simpleexplosion[7] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_08,Texture.class);
+			simpleexplosion[8] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExplosion01_Frame_09,Texture.class);
+			
+			
+		}
+			
+		super.init(simpleexplosion,0);
+		super.setPosition(xStart, yStart);
+		super.setSize(64, 64);
+			
+		this.timer = 0;
+		this.index = 0;
+		this.sensePlus = true;
+			
 	}
 	
 	
@@ -97,8 +114,8 @@ public class SimpleExplosion extends AnimatedObject implements GameAnimationInte
 	    	timer = 0.0f;
 			if (this.sensePlus) {
 				index++;
-				if (index < simpleexplosion_1.length) {setTextureToSpriteByIndex(index);}
-				if (index == simpleexplosion_1.length) {sensePlus = false;}
+				if (index < simpleexplosion.length) {setTextureToSpriteByIndex(index);}
+				if (index == simpleexplosion.length) {sensePlus = false;}
 			}else {
 				index--;
 				if (index >= 0) {setTextureToSpriteByIndex(index);}

@@ -223,8 +223,10 @@ public class Player extends ShootObject{
 		collision(delta);
 		
 		if (super.isShootEvent()) {
-			setGun();
-			super.setShootEvent(false);
+			if (!isEndMap) {
+				setGun();
+				super.setShootEvent(false);
+			}
 		}
 		super.update(delta);
 	}
@@ -311,9 +313,12 @@ public class Player extends ShootObject{
 	
 	
 	public void draw(SpriteBatch sb) {
-		super.draw(sb);
-		for(PlayerPart pP: player_parts) {
-			pP.draw(sb);
+		
+		if (!isEndMap) {
+			super.draw(sb);
+			for(PlayerPart pP: player_parts) {
+				pP.draw(sb);
+			}
 		}
 	}
 	

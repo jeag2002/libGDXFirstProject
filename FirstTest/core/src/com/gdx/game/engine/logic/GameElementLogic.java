@@ -137,9 +137,9 @@ public class GameElementLogic {
     
     
     
-    public void explosionGeneration(float x, float y) {
+    public void explosionGeneration(ExplosionsEnum explosion, float x, float y) {
     	SimpleExplosion sE = (SimpleExplosion) spawnPool.getFromPool(SpawnType.Explosion);
-    	sE.init(ExplosionsEnum.ExplosionTypeOne, x, y);
+    	sE.init(explosion, x, y);
         sE.setPool(spawnPool);
         sfxExplosion.play(sfxExplosionVolume);
     }
@@ -226,13 +226,13 @@ public class GameElementLogic {
 		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 		            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
 		            			
-		            			explosionGeneration(enemyB.getX(),enemyB.getY());
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemyB.getX(),enemyB.getY());
 		            			
 		            		}else if (isMissilePlayerB && isEnemyA) {
 		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 		            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
 		            			
-		            			explosionGeneration(enemyA.getX(),enemyA.getY());
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemyA.getX(),enemyA.getY());
 		            		}
 		            		
 		            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB)) || 
@@ -265,7 +265,7 @@ public class GameElementLogic {
 	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 	            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
 	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-	            			explosionGeneration(enemy.getX(),enemy.getY());            			
+	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemy.getX(),enemy.getY());            			
 	            			isEnemy = true;
 	            		}
 	            		
@@ -274,6 +274,12 @@ public class GameElementLogic {
 	            		if (isMissileEnemy || isEnemy) {
 	            			gPS.getgLL().processCollision();
 	            			sfxCrash.play(sfxCrashVolume);
+	            			
+	            			if (gPS.getgLL().isGameOver()) {
+	            				player.setEndMap(true);
+	            				explosionGeneration(ExplosionsEnum.ExplosionTypeTwo,player.getX(),player.getY());     
+	            			}
+	            			
 		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
 		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
 		        			}
@@ -293,7 +299,7 @@ public class GameElementLogic {
 	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 	            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
 	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
-	            			explosionGeneration(enemy.getX(),enemy.getY());
+	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemy.getX(),enemy.getY());
 	            			isEnemy = true;
 	            		}
 	            		
@@ -302,6 +308,12 @@ public class GameElementLogic {
 	            		if (isMissileEnemy || isEnemy) {
 	            			sfxCrash.play(sfxCrashVolume);
 	            			gPS.getgLL().processCollision();
+	            			
+	            			if (gPS.getgLL().isGameOver()) {
+	            				player.setEndMap(true);
+	            				explosionGeneration(ExplosionsEnum.ExplosionTypeTwo,player.getX(),player.getY());     
+	            			}
+	            			
 		            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 		        			}

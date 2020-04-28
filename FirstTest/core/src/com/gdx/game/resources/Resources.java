@@ -120,6 +120,17 @@ public class Resources extends AssetManager{
     public String imgExplosion02_Frame_08 = "explosions/explosion_1/Explosion02_Frame_08.png";
     public String imgExplosion02_Frame_09 = "explosions/explosion_1/Explosion02_Frame_09.png";
     
+    public String imgExplosion01_Frame_01 = "explosions/explosion_2/Explosion01_Frame_01.png";
+    public String imgExplosion01_Frame_02 = "explosions/explosion_2/Explosion01_Frame_02.png";
+    public String imgExplosion01_Frame_03 = "explosions/explosion_2/Explosion01_Frame_03.png";
+    public String imgExplosion01_Frame_04 = "explosions/explosion_2/Explosion01_Frame_04.png";
+    public String imgExplosion01_Frame_05 = "explosions/explosion_2/Explosion01_Frame_05.png";
+    public String imgExplosion01_Frame_06 = "explosions/explosion_2/Explosion01_Frame_06.png";
+    public String imgExplosion01_Frame_07 = "explosions/explosion_2/Explosion01_Frame_07.png";
+    public String imgExplosion01_Frame_08 = "explosions/explosion_2/Explosion01_Frame_08.png";
+    public String imgExplosion01_Frame_09 = "explosions/explosion_2/Explosion01_Frame_09.png";
+    
+    
     //gameplay GUI
     public String imgHealthBar = "gui/gameplay/Health_Bar_Table.png";
     public String imgHealthBarDot = "gui/gameplay/Health_Bar_Dot.png";
@@ -261,6 +272,18 @@ public class Resources extends AssetManager{
 		load(imgExplosion02_Frame_07, Texture.class);
 		load(imgExplosion02_Frame_08, Texture.class);
 		load(imgExplosion02_Frame_09, Texture.class);
+		
+		
+		
+		load(imgExplosion01_Frame_01, Texture.class);
+		load(imgExplosion01_Frame_02, Texture.class);
+		load(imgExplosion01_Frame_03, Texture.class);
+		load(imgExplosion01_Frame_04, Texture.class);
+		load(imgExplosion01_Frame_05, Texture.class);
+		load(imgExplosion01_Frame_06, Texture.class);
+		load(imgExplosion01_Frame_07, Texture.class);
+		load(imgExplosion01_Frame_08, Texture.class);
+		load(imgExplosion01_Frame_09, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//GUI
