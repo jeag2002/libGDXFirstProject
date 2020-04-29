@@ -326,8 +326,11 @@ public class Player extends ShootObject{
 		if (!orientation.equals(PlayerMovements.SHOOT)) {
 			this.orientation = orientation;
 		}else if (orientation.equals(PlayerMovements.SHOOT)){
-			sfxShot.play();
-			this.setShootEvent(true);
+			if (!isEndMap) {
+				sfxShot.play();
+				this.setShootEvent(true);
+			}
+			
 		}
 	}
 	
@@ -335,8 +338,10 @@ public class Player extends ShootObject{
 		if (!orientation.equals(PlayerMovements.SHOOT)) {
 			this.orientation = orientation;
 		}else if (orientation.equals(PlayerMovements.SHOOT)){
-			sfxShot.play();
-			this.setShootEvent(true);
+			if (!isEndMap) {
+				sfxShot.play();
+				this.setShootEvent(true);
+			}
 		}
 	}
 	

@@ -38,9 +38,6 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		super(sP, world);
 		this.sP = sP; 
 		this.timer = 0;
-	
-		
-		
 	}
 	
 	public void init(EnemyTypes eTypes, float posX, float posY,  float angle, float speed) {

@@ -23,11 +23,16 @@ import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
 import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
+import com.gdx.game.elements.items.Bonus;
+import com.gdx.game.elements.items.Meteor;
 import com.gdx.game.elements.player.Player;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.enums.BonusTypeEnum;
 import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.ExplosionsEnum;
+import com.gdx.game.stages.enums.MeteorTypeEnum;
 import com.gdx.game.stages.enums.SpawnType;
+import com.gdx.game.utils.NewItem;
 
 /**
  * Element Logics
@@ -42,10 +47,20 @@ public class GameElementLogic {
 	private static final int lowTimerLimit = 1;
 	private static final int highTimerLimit = 5;
 	
+	private static final int GENERATE_NEW_ENEMY = 0;
+	private static final int GENERATE_NEW_METEOR_A = 1;
+	private static final int GENERATE_NEW_METEOR_B = 2;
+	
+	private static final int GENERATE_BONUS = 1;
+	
 	private float timer;
 	private float spawnEnemyLimit;
 	private boolean enemyGenerationTrigger;
+	
 	private Random random;
+	private Random random_Element;
+	private Random random_Bonus;
+	
 	
 	private World world;
 	private TiledMap tiledMap;
@@ -57,6 +72,9 @@ public class GameElementLogic {
 	
 	private Sound sfxCrash;
 	private float sfxCrashVolume;
+	
+	private Sound sfxBonus;
+	private float sfxBonusVolume;
 	
 	
 	private GamePlayScreen gPS;
@@ -70,6 +88,8 @@ public class GameElementLogic {
     
     public static final ArrayList<Body> toDeletedBodiesWithCollision = new ArrayList<Body>();
     public static final ArrayList<SpawnObject> toDeletedBodiesWithoutCollision = new ArrayList<SpawnObject>();
+    public static final ArrayList<NewItem> toCreatedItemsWithCollision = new ArrayList<NewItem>(); 
+    
     
 	
     
@@ -78,7 +98,12 @@ public class GameElementLogic {
     	this.timer = 0.0f;
     	
     	this.random = new Random();
+    	this.random_Element = new Random();
+    	this.random_Bonus = new Random();
+    	
     	this.spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
+    	
+    	
     	this.world = new World(new Vector2(0, 0),true);
     	
     	this.enemyGenerationTrigger = false;
@@ -87,6 +112,7 @@ public class GameElementLogic {
     	init(world);
     	setExplosionSound("sounds/explosion.ogg",0.25f);
     	setCrashSound("sounds/crash.wav",0.25f);
+    	setBonusSound("sounds/bonus.wav",0.25f);
     }
     
     public void setTiledMap(TiledMap tiledMap) {
@@ -103,6 +129,11 @@ public class GameElementLogic {
     public void setExplosionSound(String path, float volume) {
 	     sfxExplosion = Gdx.audio.newSound(Gdx.files.internal(path));
 	     sfxExplosionVolume = volume;
+	}
+    
+    public void setBonusSound(String path, float volume) {
+    	 sfxBonus = Gdx.audio.newSound(Gdx.files.internal(path));
+    	 sfxBonusVolume = volume;
 	}
     
     
@@ -161,9 +192,6 @@ public class GameElementLogic {
        
     }
     
-    
-    
-    
     //DETECT COLLISION WITH DYNAMIC ELEMENTS
     public void processCollision(float delta) {
     	
@@ -188,8 +216,8 @@ public class GameElementLogic {
 	            	String msg = "";
 	            	
 	            	if ((objectA != null) && (objectB != null)) {
-		            	if (((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)) &&
-		            	((objectB instanceof Missile) || (objectB instanceof SimpleEnemy))) {
+		            	if (((objectA instanceof Missile) || (objectA instanceof Meteor) || (objectA instanceof SimpleEnemy)) &&
+		            	((objectB instanceof Missile) || (objectB instanceof Meteor) || (objectB instanceof SimpleEnemy))) {
 		            		
 		            		boolean isMissilePlayerA = false;
 		            		boolean isMissilePlayerB = false;
@@ -197,9 +225,15 @@ public class GameElementLogic {
 		            		boolean isMissileEnemyB = false;
 		            		boolean isEnemyA = false;
 		            		boolean isEnemyB = false;
+		            		boolean isMeteorA = false;
+		            		boolean isMeteorB = false;
+		            		
 		            		
 		            		SimpleEnemy enemyA = null;
 		            		SimpleEnemy enemyB = null;
+		            		
+		            		Meteor meteorA = null;
+		            		Meteor meteorB = null;
 		            		
 		            		
 		            		if (objectA instanceof Missile) {
@@ -210,15 +244,26 @@ public class GameElementLogic {
 		            		}else if (objectA instanceof SimpleEnemy) {
 		            			enemyA = (SimpleEnemy)objectA;
 		            			isEnemyA = true;
+		            			
+		            		}else if (objectA instanceof Meteor) {
+		            			meteorA = (Meteor)objectA;
+		            			isMeteorA = true;
 		            		}
 		            		
 		            		if (objectB instanceof Missile) {
+		            			
 		            			Missile missile = (Missile)objectB;	
 		            			isMissilePlayerB = missile.getType().equals(SpawnType.MissilePlayer);
 		            		    isMissileEnemyB = !isMissilePlayerB;
+		            		    
 		            		}else if (objectB instanceof SimpleEnemy) {
+		            			
 		            			enemyB = (SimpleEnemy)objectB;
 		            			isEnemyB = true;
+		            			
+		            		}else if (objectB instanceof Meteor) {
+		            			meteorB = (Meteor)objectB;
+		            			isMeteorB = true;
 		            		}
 		            		
 		            		
@@ -235,8 +280,60 @@ public class GameElementLogic {
 		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemyA.getX(),enemyA.getY());
 		            		}
 		            		
-		            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB)) || 
-		            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA))) {
+		            		
+		            		if (isMissilePlayerA && isMeteorB) {
+		            			
+		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteorB.getX(),meteorB.getY());
+		            			
+		            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteorB.getX(),meteorB.getY()));
+		            			
+		            			//activateBonus(meteorB.getX(), meteorB.getY());
+		            			
+		            		}else if (isMissilePlayerB && isMeteorA) {
+		            			
+		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteorA.getX(),meteorA.getY());
+		            			
+		            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteorA.getX(),meteorA.getY()));
+		            			
+		            			//activateBonus(meteorA.getX(), meteorA.getY());
+		            			
+		            		}
+		            		
+		            		
+		            		
+		            		if (isEnemyA && isMeteorB) {
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemyA.getX(),enemyA.getY());
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteorB.getX(),meteorB.getY());
+		            			
+		            			
+		            			if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
+			        			}
+			            		
+			            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
+			        			}
+		            			
+		            			
+		            		}else if (isEnemyB && isMeteorA) {
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemyB.getX(),enemyB.getY());
+		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteorA.getX(),meteorA.getY());
+		            			
+		            			
+		            			if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
+			        			}
+			            		
+			            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
+			        			}
+			            		 
+		            		}
+		            		
+		            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB || isMeteorB)) || 
+		            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA || isMeteorA))) {
 			            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 			        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 			        			}
@@ -250,11 +347,16 @@ public class GameElementLogic {
 	            	}
 	            	
 	            	
-	            	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Missile) || (objectB instanceof SimpleEnemy)))){
+	            	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Meteor) || (objectB instanceof Missile) || (objectB instanceof Bonus) || (objectB instanceof SimpleEnemy)))){
 	            		
 	            		
 	            		boolean isMissileEnemy = false;
 	            		boolean isEnemy = false;
+	            		boolean isMeteor = false;
+	            		boolean isBonus = false;
+	            		
+	            		Bonus bonus = null;
+	            		
 	            		
 	            		if (objectB instanceof Missile) {
 	            			Missile missile = (Missile)objectB;	
@@ -267,11 +369,33 @@ public class GameElementLogic {
 	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
 	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemy.getX(),enemy.getY());            			
 	            			isEnemy = true;
+	            		
+	            		}else if (objectB instanceof Meteor) {
+	            			
+	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+	            			Meteor meteor = (Meteor)objectB;
+	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteor.getX(),meteor.getY());
+	            			
+	            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteor.getX(),meteor.getY()));
+	            			
+	            			isMeteor = true;
+	            			
+	            		}else if (objectB instanceof Bonus) {
+	            			bonus = (Bonus)objectB;
+	            			sfxBonus.play(sfxBonusVolume);
+	            			isBonus = true;
 	            		}
 	            		
+	            		 if (isBonus) {  
+		            	    if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+			        			GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
+			        		}
+		            	    	
+		            	 }
 	            		
-	            		//Gdx.app.log("[COLLISION]",msg);
-	            		if (isMissileEnemy || isEnemy) {
+	            		
+	            	
+	            		if (isMissileEnemy || isEnemy || isMeteor) {
 	            			gPS.getgLL().processCollision();
 	            			sfxCrash.play(sfxCrashVolume);
 	            			
@@ -286,26 +410,55 @@ public class GameElementLogic {
 	            		}
 	    			}
 	            	
-	            	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Missile) || (objectA instanceof SimpleEnemy)))){
+	            	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Meteor) || (objectA instanceof Missile) || (objectA instanceof Bonus) || (objectA instanceof SimpleEnemy)))){
 	            		
 	            		boolean isMissileEnemy = false;
 	            		boolean isEnemy = false;
+	            		boolean isMeteor = false;
+	            		boolean isBonus = false;
+	            		
+	            		Bonus bonus = null;
 	            		
 	            	    if (objectA instanceof Missile) {
-	            			Missile missile = (Missile)objectB;	
+	            			
+	            	    	Missile missile = (Missile)objectA;	
 	            			isMissileEnemy = missile.getType().equals(SpawnType.MissileEnemy);
 	            			
 	            		}else if (objectA instanceof SimpleEnemy) {
+	            			
 	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 	            			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
-	            			SimpleEnemy enemy = (SimpleEnemy)objectB;
+	            			SimpleEnemy enemy = (SimpleEnemy)objectA;
 	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,enemy.getX(),enemy.getY());
 	            			isEnemy = true;
+	            			
+	            		}else if (objectA instanceof Meteor) {
+	            			
+	            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+	            			Meteor meteor = (Meteor)objectA;
+	            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteor.getX(),meteor.getY());
+	            			
+	            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteor.getX(),meteor.getY()));
+	            			
+	            			isMeteor = true;
+	            			
+	            		}else if (objectA instanceof Bonus) {
+	            			bonus = (Bonus)objectA;
+	            			sfxBonus.play(sfxBonusVolume);
+	            			isBonus = true;
 	            		}
-	            		
 	            	    
-	            		
-	            		if (isMissileEnemy || isEnemy) {
+	            	    
+	            	    if (isBonus) {
+	            	   
+	            	    	if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
+		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
+		        			}
+	            	    	
+	            	    }
+	            	    
+	            	   
+	            		if (isMissileEnemy || isEnemy || isMeteor) {
 	            			sfxCrash.play(sfxCrashVolume);
 	            			gPS.getgLL().processCollision();
 	            			
@@ -318,6 +471,9 @@ public class GameElementLogic {
 		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 		        			}
 	            		}
+	            		
+	            		
+	            		
 	            		
 	    			}
             	
@@ -336,6 +492,19 @@ public class GameElementLogic {
             public void postSolve(Contact contact, ContactImpulse impulse) {
             }
         });
+    }
+    
+    
+    public void createNewBodies() {
+    	
+    	for (NewItem item: toCreatedItemsWithCollision)
+    	{
+    		if (item.getType().equals(SpawnType.Item)) {
+    			activateBonus(item.getX(), item.getY());    		
+    		}
+    	}
+    	
+    	toCreatedItemsWithCollision.clear();
     }
     
     
@@ -437,7 +606,7 @@ public class GameElementLogic {
     
     
     public void generateElements(float delta) {
-    	generateEnemies(delta);
+    	generateNewItem(delta);
     }
     
     
@@ -450,7 +619,7 @@ public class GameElementLogic {
 	}
     
     
-    public void generateEnemies(float delta) {
+    public void generateNewItem(float delta) {
     	
     	if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
 	    	if (enemyGenerationTrigger) {
@@ -458,7 +627,16 @@ public class GameElementLogic {
 		    	
 		    	if (timer >= spawnEnemyLimit) {
 		    		
-		    		generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		int next = this.random_Element.nextInt(3);
+		    		
+		    		if (next == this.GENERATE_NEW_ENEMY) {
+		    			generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		}else if (next == this.GENERATE_NEW_METEOR_A) {
+		    			generateMeteor(MeteorTypeEnum.METEORTYPEONE,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		}else if (next == this.GENERATE_NEW_METEOR_B) {
+		    			generateMeteor(MeteorTypeEnum.METEORTYPETWO,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		}
+		    		
 		    		timer = 0;
 		    		spawnEnemyLimit =  random.nextInt(highTimerLimit - lowTimerLimit) + lowTimerLimit;
 		    	}
@@ -472,8 +650,35 @@ public class GameElementLogic {
     	SimpleEnemy se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
     	se.init(type, posX, posY, 90.0f, -280.0f);
     	se.setSpawned(true);
-    	
     }
+	
+	
+	
+	public void generateMeteor(MeteorTypeEnum type, float posX, float posY) {
+		Meteor m = (Meteor)spawnPool.getFromPool(SpawnType.Obstacle);
+		m.init(type, 0, posX, posY, 90.0f, -280.0f);
+		m.setSpawned(true);
+	}
+	
+	
+	public void generateBonus(BonusTypeEnum type, float posX, float posY) {
+		
+		Bonus b = (Bonus)spawnPool.getFromPool(SpawnType.Item);
+		b.init(type, posX, posY);
+		b.setSpawned(true);
+		
+	}
+	
+	
+	public void activateBonus(float posX, float posY) {
+		int latch = this.random_Bonus.nextInt(2);
+		if (latch == this.GENERATE_BONUS) {
+			generateBonus(BonusTypeEnum.BonusAmmo,posX,posY);
+		}
+	}
+	
+	
+	
 }
 
 

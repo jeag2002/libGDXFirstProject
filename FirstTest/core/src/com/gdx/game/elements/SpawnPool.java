@@ -7,6 +7,8 @@ import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
 import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
+import com.gdx.game.elements.items.Bonus;
+import com.gdx.game.elements.items.Meteor;
 import com.gdx.game.stages.enums.SpawnType;
 
 public class SpawnPool {
@@ -65,6 +67,8 @@ public class SpawnPool {
     	pools.get(SpawnType.MissilePlayer).remove(object);
     	pools.get(SpawnType.Enemy_Simple_1).remove(object);
     	pools.get(SpawnType.Explosion).remove(object);
+    	pools.get(SpawnType.Obstacle).remove(object);
+    	pools.get(SpawnType.Item).remove(object);
     	
     }
     
@@ -105,6 +109,30 @@ public class SpawnPool {
     	}
     	
     	
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.Obstacle);
+        	for(SpawnObject sO: eS1){
+        		Meteor m = (Meteor)sO;
+        		if (m.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Item);
+        	for(SpawnObject sO: eS1){
+        		Bonus m = (Bonus)sO;
+        		if (m.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	
     	return returnObject;
     }
     
@@ -122,10 +150,15 @@ public class SpawnPool {
         else if (type.name() == "Enemy_Simple_1") {
         	created = new SimpleEnemy(this, this.world);
         }
+        
         else if (type.name() == "Item") {
+        	created = new Bonus(type,this.world);
         }
+        
         else if (type.name() == "Obstacle") {
+        	created = new Meteor(type, this.world);
         }
+        
         else if (type.name() == "Explosion") {
         	created = new SimpleExplosion(this);
         }

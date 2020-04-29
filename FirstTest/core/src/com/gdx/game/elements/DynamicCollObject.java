@@ -27,11 +27,8 @@ public abstract class DynamicCollObject extends CollisionObject implements GameA
 	public DynamicCollObject(World world) {
 		super(world);
 		sO = new SpriteObject();
-		
 		code = GUID.get();
 		
-		//UUID uuid = UUID.randomUUID();
-		//code = uuid.toString();
 	}
 	
 	

@@ -95,19 +95,30 @@ public class Resources extends AssetManager{
     public String laser_medium_r = "shoot/shoot_1_r/laser_medium.png";
     public String laser_large_r  = "shoot/shoot_1_r/laser_large.png";
     
-    
+    //enemies
     public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
     public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
     public String imgEnemy_1_03 = "enemies/enemy_1/Enemy01_Green_Frame_3.png";
     public String imgEnemy_1_04 = "enemies/enemy_1/Enemy01_Green_Frame_4.png";
     public String imgEnemy_1_05 = "enemies/enemy_1/Enemy01_Green_Frame_5.png";
     
-    
     public String imgShadowEnemy_1_01 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_1.png";
     public String imgShadowEnemy_1_02 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_2.png";
     public String imgShadowEnemy_1_03 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_3.png";
     public String imgShadowEnemy_1_04 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_4.png";
     public String imgShadowEnemy_1_05 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_5.png";
+    
+    //meteors
+    public String imgMeteor_01_a = "items/meteors/Meteor_01_a.png";
+    public String imgMeteor_01_b = "items/meteors/Meteor_01_b.png";
+    public String imgMeteor_02_a = "items/meteors/Meteor_02_a.png";
+    public String imgMeteor_02_b = "items/meteors/Meteor_02_b.png";
+    
+    //powerup
+    public String imgPower_A = "items/bonus/Powerup_Ammo.png";
+    public String imgPower_E = "items/bonus/Powerup_Energy.png";
+    public String imgPower_H = "items/bonus/Powerup_Health.png";
+    public String imgPower_S = "items/bonus/Powerup_Shields.png";
     
     //explosion
     public String imgExplosion02_Frame_01 = "explosions/explosion_1/Explosion02_Frame_01.png";
@@ -129,7 +140,6 @@ public class Resources extends AssetManager{
     public String imgExplosion01_Frame_07 = "explosions/explosion_2/Explosion01_Frame_07.png";
     public String imgExplosion01_Frame_08 = "explosions/explosion_2/Explosion01_Frame_08.png";
     public String imgExplosion01_Frame_09 = "explosions/explosion_2/Explosion01_Frame_09.png";
-    
     
     //gameplay GUI
     public String imgHealthBar = "gui/gameplay/Health_Bar_Table.png";
@@ -154,6 +164,9 @@ public class Resources extends AssetManager{
     public String imgWindows = "gui/endlevel/Window.png";
     public String imgYouLose = "gui/endlevel/youlose.png";
     public String imgYouWin = "gui/endlevel/youwin.png";
+    
+    
+    
     
     
 	//music
@@ -259,6 +272,22 @@ public class Resources extends AssetManager{
 		load(imgShadowEnemy_1_03, Texture.class);
 		load(imgShadowEnemy_1_04, Texture.class);
 		load(imgShadowEnemy_1_05, Texture.class);
+		////////////////////////////////////////////////////////////
+		
+		//meteor
+		////////////////////////////////////////////////////////////
+		load(imgMeteor_01_a, Texture.class);
+		load(imgMeteor_01_b, Texture.class);
+		load(imgMeteor_02_a, Texture.class);
+		load(imgMeteor_02_b, Texture.class);
+		////////////////////////////////////////////////////////////
+		
+		//bonus
+		////////////////////////////////////////////////////////////
+		load(imgPower_A, Texture.class);
+		load(imgPower_E, Texture.class);
+		load(imgPower_H, Texture.class);
+		load(imgPower_S, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//explosions

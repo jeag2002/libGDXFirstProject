@@ -117,6 +117,8 @@ public class GamePlay {
 			gEL.processCollisionWorld(camera);
 			gEL.processCollision(delta);
 			gEL.removeOldBodies();
+			gEL.createNewBodies();
+			
 		}
 	}
 	

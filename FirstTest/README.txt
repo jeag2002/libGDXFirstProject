@@ -37,3 +37,11 @@ https://www.gamefromscratch.com/post/2014/05/01/LibGDX-Tutorial-11-Tiled-Maps-Pa
 
 https://stackoverflow.com/questions/34375728/libgdx-map-boundaries
 https://www.youtube.com/watch?v=DOpqkaX9844  
+
+https://stackoverflow.com/questions/32302235/exporting-a-libgdx-game-as-executable-jar-from-android-studio
+
+https://github.com/BrentAureli/ControllerDemo/tree/master/core
+https://github.com/obviam/star-assault/tree/master/star-assault/src/net/obviam/starassault/controller
+https://github.com/biggz/TouchPadTest
+
+
