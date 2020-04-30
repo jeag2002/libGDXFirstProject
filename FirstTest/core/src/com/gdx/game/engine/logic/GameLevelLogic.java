@@ -1,6 +1,7 @@
 package com.gdx.game.engine.logic;
 
 import com.gdx.game.elements.SpawnPool;
+import com.gdx.game.stages.enums.LaserTypePlayer;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.utils.StringUtils;
 
@@ -54,7 +55,7 @@ public class GameLevelLogic {
 	private int ammoMissile[];
 	
 	
-	private MissileTypeEnum shootTypePlayer;
+	private LaserTypePlayer shootTypePlayer;
 	
 	public GameLevelLogic() {
 		this.lifePlayer = 10;
@@ -114,11 +115,11 @@ public class GameLevelLogic {
 		this.time = time;
 	}
 	
-	public MissileTypeEnum getShootTypePlayer() {
+	public LaserTypePlayer getShootTypePlayer() {
 		return shootTypePlayer;
 	}
 	
-	public void setShootTypePlayer(MissileTypeEnum shootTypePlayer) {
+	public void setShootTypePlayer(LaserTypePlayer shootTypePlayer) {
 		this.shootTypePlayer = shootTypePlayer;
 	}
 	

@@ -16,6 +16,7 @@ import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.enums.LaserTypePlayer;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.PlayerPartType;
@@ -64,6 +65,8 @@ public class Player extends ShootObject{
 	
 	private GamePlayScreen gPS;
 	
+	private LaserTypePlayer lTypePlayer;
+	
 	public Player(SpawnPool spawnPool, World world, GamePlayScreen gPS) {
 		super(spawnPool,world);
 		
@@ -75,9 +78,10 @@ public class Player extends ShootObject{
 	    isAccX = false;
 	    isAccY = false;
 	    
-	    this.gPS = gPS;
+	    lTypePlayer = LaserTypePlayer.LASER_LEVEL_1;
 	    
-	    this.gPS.getgLL().setShootTypePlayer(MissileTypeEnum.LASER_1);
+	    this.gPS = gPS;
+	    this.gPS.getgLL().setShootTypePlayer(LaserTypePlayer.LASER_LEVEL_1);
 	    
 	    this.isEndMap = false;
 	    
@@ -87,7 +91,7 @@ public class Player extends ShootObject{
 		
 		player_parts = new ArrayList<PlayerPart>();
 	}
-	
+
 	public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
 	
 		setReference(this);
@@ -441,12 +445,35 @@ public class Player extends ShootObject{
 		
 		this.setGunPower(100.0f);
 		this.setShootingInterval(intervalGun);
-		this.setGunType(MissileTypeEnum.LASER_1);
-		this.addGun(90.0f, speedGun, getX() , getY(), (getWidth()/2)-5, 30);
 		
-		
+		if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_1)) {
 			
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30);
+		
+		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_2)) {
+			
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30);
+			
+		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_3)) {
+			
+			this.addGun(MissileTypeEnum.LASER_1_LEFT, 135.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30);
+			this.addGun(MissileTypeEnum.LASER_1_RIGHT,45.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30);	
+		}
 	}
+	 
+	
+	public LaserTypePlayer getlTypePlayer() {
+		return lTypePlayer;
+	}
+
+	public void setlTypePlayer(LaserTypePlayer lTypePlayer) {
+		this.lTypePlayer = lTypePlayer;
+		this.gPS.getgLL().setShootTypePlayer(lTypePlayer);
+	}
+	 
+	 
 
 	public void setShotSound(String path, float volume) {
 	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));

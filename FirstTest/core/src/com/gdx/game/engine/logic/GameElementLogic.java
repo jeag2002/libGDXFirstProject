@@ -30,6 +30,7 @@ import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.BonusTypeEnum;
 import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.ExplosionsEnum;
+import com.gdx.game.stages.enums.LaserTypePlayer;
 import com.gdx.game.stages.enums.MeteorTypeEnum;
 import com.gdx.game.stages.enums.SpawnType;
 import com.gdx.game.utils.NewItem;
@@ -288,17 +289,12 @@ public class GameElementLogic {
 		            			
 		            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteorB.getX(),meteorB.getY()));
 		            			
-		            			//activateBonus(meteorB.getX(), meteorB.getY());
-		            			
 		            		}else if (isMissilePlayerB && isMeteorA) {
 		            			
 		            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
 		            			explosionGeneration(ExplosionsEnum.ExplosionTypeOne,meteorA.getX(),meteorA.getY());
 		            			
-		            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteorA.getX(),meteorA.getY()));
-		            			
-		            			//activateBonus(meteorA.getX(), meteorA.getY());
-		            			
+		            			toCreatedItemsWithCollision.add(new NewItem(SpawnType.Item,meteorA.getX(),meteorA.getY()));	
 		            		}
 		            		
 		            		
@@ -387,10 +383,10 @@ public class GameElementLogic {
 	            		}
 	            		
 	            		 if (isBonus) {  
-		            	    if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
+	            			setTypeShoot(bonus); 
+	            			if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureB().getBody())) {
 			        			GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureB().getBody());
-			        		}
-		            	    	
+			        		}	
 		            	 }
 	            		
 	            		
@@ -450,7 +446,7 @@ public class GameElementLogic {
 	            	    
 	            	    
 	            	    if (isBonus) {
-	            	   
+	            	    	setTypeShoot(bonus); 
 	            	    	if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 		        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 		        			}
@@ -494,6 +490,19 @@ public class GameElementLogic {
         });
     }
     
+    
+    public void setTypeShoot(Bonus bonus) {
+    	
+    	LaserTypePlayer lTP = player.getlTypePlayer();
+    
+    	if (lTP.getIndex() >= 99 && lTP.getIndex() < 102) {
+    		lTP = lTP.getByIndex(lTP.getIndex()+1);
+    	}
+    	
+    	player.setlTypePlayer(lTP);
+    	gPS.getgLL().setShootTypePlayer(lTP);
+    	
+    }
     
     public void createNewBodies() {
     	
@@ -664,7 +673,7 @@ public class GameElementLogic {
 	public void generateBonus(BonusTypeEnum type, float posX, float posY) {
 		
 		Bonus b = (Bonus)spawnPool.getFromPool(SpawnType.Item);
-		b.init(type, posX, posY);
+		b.init(type, posX, posY, 90.0f, -280.0f);
 		b.setSpawned(true);
 		
 	}

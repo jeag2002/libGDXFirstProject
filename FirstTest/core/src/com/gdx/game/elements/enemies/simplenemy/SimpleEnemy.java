@@ -77,8 +77,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {	
 			setGunPower(100.0f);
 			setShootingInterval(intervalGun);
-			setGunType(MissileTypeEnum.LASER_1);
-			addGun(this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50);
+			addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50);
 		}
 	}
 	

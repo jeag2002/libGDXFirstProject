@@ -91,6 +91,14 @@ public class Resources extends AssetManager{
     public String laser_medium = "shoot/shoot_1/laser_medium.png";
     public String laser_large  = "shoot/shoot_1/laser_large.png";
     
+    public String laser_small_l  = "shoot/shoot_1/laser_small_l.png";
+    public String laser_medium_l = "shoot/shoot_1/laser_medium_l.png";
+    public String laser_large_l  = "shoot/shoot_1/laser_large_l.png";
+    
+    public String laser_small_rt  = "shoot/shoot_1/laser_small_r.png";
+    public String laser_medium_rt = "shoot/shoot_1/laser_medium_r.png";
+    public String laser_large_rt  = "shoot/shoot_1/laser_large_r.png";
+    
     public String laser_small_r  = "shoot/shoot_1_r/laser_small.png";
     public String laser_medium_r = "shoot/shoot_1_r/laser_medium.png";
     public String laser_large_r  = "shoot/shoot_1_r/laser_large.png";
@@ -119,6 +127,7 @@ public class Resources extends AssetManager{
     public String imgPower_E = "items/bonus/Powerup_Energy.png";
     public String imgPower_H = "items/bonus/Powerup_Health.png";
     public String imgPower_S = "items/bonus/Powerup_Shields.png";
+    public String imgItemBorder = "items/bonus/item_border.png";
     
     //explosion
     public String imgExplosion02_Frame_01 = "explosions/explosion_1/Explosion02_Frame_01.png";
@@ -152,6 +161,11 @@ public class Resources extends AssetManager{
     public String imgClock = "gui/gameplay/Clock_Icon.png";
     public String imgCristal = "gui/gameplay/Cristal_Icon.png";
     
+    
+    //icons
+    public String imgIcon_2 = "icons/icon_2.png";
+    public String imgIcon_3 = "icons/icon_3.png";
+    public String imgIcon_4 = "icons/icon_4.png";
     
     //end level GUI
     public String imgMenuBtn = "gui/endlevel/Menu_BTN.png";
@@ -214,6 +228,15 @@ public class Resources extends AssetManager{
 		load(laser_small, Texture.class);
 		load(laser_medium, Texture.class);
 		load(laser_large, Texture.class);
+		
+		load(laser_small_l, Texture.class);
+		load(laser_medium_l, Texture.class);
+		load(laser_large_l, Texture.class);
+	    
+		load(laser_small_rt, Texture.class);
+		load(laser_medium_rt, Texture.class);
+		load(laser_large_rt, Texture.class);
+		
 		
 		load(laser_small_r, Texture.class);
 		load(laser_medium_r, Texture.class);
@@ -288,7 +311,16 @@ public class Resources extends AssetManager{
 		load(imgPower_E, Texture.class);
 		load(imgPower_H, Texture.class);
 		load(imgPower_S, Texture.class);
+		load(imgItemBorder, Texture.class);
 		////////////////////////////////////////////////////////////
+		
+		//icons
+		///////////////////////////////////////////////////////////
+		load(imgIcon_2, Texture.class);
+		load(imgIcon_3, Texture.class);
+		load(imgIcon_4, Texture.class);
+		///////////////////////////////////////////////////////////
+		
 		
 		//explosions
 		////////////////////////////////////////////////////////////

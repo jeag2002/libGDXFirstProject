@@ -122,16 +122,6 @@ public class GamePlay {
 		}
 	}
 	
-	
-	/*
-	lblStart_1 = new Label(TIMES, new Label.LabelStyle(font, Color.WHITE));
-    lblStart_1.setPosition(FirstTestGDX.screenWidth/2 - 50 , FirstTestGDX.screenHeight-100, Align.center);
-    lblStart_1.setSize(100, 50);
-    lblStart_1.setVisible(false);
-    grpMenuUI.addActor(lblStart_1); 
-	 */
-	
-	
 	public void drawBackground(SpriteBatch sb) {
 		background.draw(sb);
 	}
