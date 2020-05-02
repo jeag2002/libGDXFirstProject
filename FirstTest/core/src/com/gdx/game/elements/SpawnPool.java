@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.enemies.turrets.Turret;
 import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
@@ -66,6 +67,7 @@ public class SpawnPool {
     	pools.get(SpawnType.MissileEnemy).remove(object);
     	pools.get(SpawnType.MissilePlayer).remove(object);
     	pools.get(SpawnType.Enemy_Simple_1).remove(object);
+    	pools.get(SpawnType.Static_Enemy).remove(object);
     	pools.get(SpawnType.Explosion).remove(object);
     	pools.get(SpawnType.Obstacle).remove(object);
     	pools.get(SpawnType.Item).remove(object);
@@ -84,6 +86,18 @@ public class SpawnPool {
     			returnObject = sO;
     			break;
     		}
+    	}
+    	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Static_Enemy);
+        	for(SpawnObject sO: eS1){
+        		Turret sE = (Turret)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
     	}
     	
     	if (returnObject == null) {
@@ -150,15 +164,15 @@ public class SpawnPool {
         else if (type.name() == "Enemy_Simple_1") {
         	created = new SimpleEnemy(this, this.world);
         }
-        
+        else if (type.name() == "Static_Enemy") {
+        	created = new Turret(this,world);
+        }
         else if (type.name() == "Item") {
         	created = new Bonus(type,this.world);
         }
-        
         else if (type.name() == "Obstacle") {
         	created = new Meteor(type, this.world);
         }
-        
         else if (type.name() == "Explosion") {
         	created = new SimpleExplosion(this);
         }

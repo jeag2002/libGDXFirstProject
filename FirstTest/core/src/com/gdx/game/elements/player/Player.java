@@ -448,18 +448,18 @@ public class Player extends ShootObject{
 		
 		if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_1)) {
 			
-			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30, 10, 30);
 		
 		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_2)) {
 			
-			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30);
-			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30, 10, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30, 10, 30);
 			
 		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_3)) {
 			
-			this.addGun(MissileTypeEnum.LASER_1_LEFT, 135.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30);
-			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30);
-			this.addGun(MissileTypeEnum.LASER_1_RIGHT,45.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30);	
+			this.addGun(MissileTypeEnum.LASER_1_LEFT, 135.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30, 10, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30, 10, 30);
+			this.addGun(MissileTypeEnum.LASER_1_RIGHT,45.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30, 10, 30);	
 		}
 	}
 	 

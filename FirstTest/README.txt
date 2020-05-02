@@ -45,3 +45,6 @@ https://github.com/obviam/star-assault/tree/master/star-assault/src/net/obviam/s
 https://github.com/biggz/TouchPadTest
 
 
+luces con box2d: https://www.youtube.com/watch?v=br05O5lTeRQ
+
+https://gamedev.stackexchange.com/questions/88317/sprite-rotation-libgdx

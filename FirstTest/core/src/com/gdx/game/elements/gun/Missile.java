@@ -22,11 +22,17 @@ public class Missile extends DynamicCollObject implements SpawnObject {
     private float power;
     private int index;
     
+    private float width;
+    private float height;
+    
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
     private Vector2 movement = new Vector2();
     private boolean spawned;
     private SpawnPool pool;
+    
+    
+    
 	
     private Texture[] text_laser_1;
 
@@ -46,12 +52,15 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 		this.pool = pool;
 	}
 	
-	public void init(MissileTypeEnum type, float power, float xStart, float yStart, float angle, float speed) {
+	public void init(MissileTypeEnum type, float power, float xStart, float yStart, float angle, float speed, float width, float height) {
 		 
 		 this.speed = speed;
 		 this.power = power;
 		 this.index = 0;
 		 this.timer = 0;
+		 
+		 this.width = width;
+		 this.height = height;
 		 
 		 position.set(xStart, yStart);
 	     direction.set((float)Math.cos(Math.toRadians(angle)), (float)Math.sin(Math.toRadians(angle))).nor();
@@ -94,11 +103,20 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 			 }
 			 
 			 
+		 }else if (typeMissile.equals(MissileTypeEnum.PROTON_1)) {
+			 
+			 text_laser_1 = new Texture[3];
+			 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_small_r,Texture.class); 
+			 text_laser_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_medium_r,Texture.class);
+			 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_large_r,Texture.class);
+		 
+		 
 		 }
 		 
 		 super.init(text_laser_1,0);
 		 super.setPosition(xStart, yStart);
-		 super.setSize(10, 30);
+		 //super.setSize(10, 30);
+		 super.setSize(this.width, this.height);
 		 super.setSpeed(this.speed, this.speed);
 		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		 
@@ -106,7 +124,10 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 	
 	public void animate(float delta) {
 		
-		if (typeMissile.equals(MissileTypeEnum.LASER_1) || typeMissile.equals(MissileTypeEnum.LASER_1_LEFT) || typeMissile.equals(MissileTypeEnum.LASER_1_RIGHT)) {
+		if (typeMissile.equals(MissileTypeEnum.LASER_1) || 
+		    typeMissile.equals(MissileTypeEnum.LASER_1_LEFT) || 
+		    typeMissile.equals(MissileTypeEnum.LASER_1_RIGHT) ||
+		    typeMissile.equals(MissileTypeEnum.PROTON_1)) {
 			this.AnimationByTime(delta);
 		}
 	}
@@ -114,7 +135,10 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 	
 	@Override
 	public void AnimationByTime(float delta) {
-		 if (typeMissile.equals(MissileTypeEnum.LASER_1) || typeMissile.equals(MissileTypeEnum.LASER_1_LEFT) || typeMissile.equals(MissileTypeEnum.LASER_1_RIGHT)) {
+		 if (typeMissile.equals(MissileTypeEnum.LASER_1) || 
+		     typeMissile.equals(MissileTypeEnum.LASER_1_LEFT) || 
+		     typeMissile.equals(MissileTypeEnum.LASER_1_RIGHT) ||
+		     typeMissile.equals(MissileTypeEnum.PROTON_1)) {
 			 AnimationByTimeLASER_1(delta);
 		 }
 	}

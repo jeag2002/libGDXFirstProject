@@ -103,6 +103,10 @@ public class Resources extends AssetManager{
     public String laser_medium_r = "shoot/shoot_1_r/laser_medium.png";
     public String laser_large_r  = "shoot/shoot_1_r/laser_large.png";
     
+    public String proton_small_r = "shoot/shoot_2/Proton_Small.png";
+    public String proton_medium_r = "shoot/shoot_2/Proton_Medium.png";
+    public String proton_large_r = "shoot/shoot_2/Proton_Large.png";
+    
     //enemies
     public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
     public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
@@ -115,6 +119,11 @@ public class Resources extends AssetManager{
     public String imgShadowEnemy_1_03 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_3.png";
     public String imgShadowEnemy_1_04 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_4.png";
     public String imgShadowEnemy_1_05 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_5.png";
+    
+    //turrets
+    public String img_turret_00 = "assets/SpaceRageTileset-Assets/Export/64x64px/GunTurret/GunTurretMount.png";
+    public String img_turret_01 = "enemies/turrets/GunTurret_Green.png";
+    public String img_turret_02 = "enemies/turrets/GunTurret_Gun.png";
     
     //meteors
     public String imgMeteor_01_a = "items/meteors/Meteor_01_a.png";
@@ -237,10 +246,13 @@ public class Resources extends AssetManager{
 		load(laser_medium_rt, Texture.class);
 		load(laser_large_rt, Texture.class);
 		
-		
 		load(laser_small_r, Texture.class);
 		load(laser_medium_r, Texture.class);
 		load(laser_large_r, Texture.class);
+		
+		load(proton_small_r, Texture.class);
+		load(proton_medium_r, Texture.class);
+		load(proton_large_r, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//player
@@ -295,6 +307,13 @@ public class Resources extends AssetManager{
 		load(imgShadowEnemy_1_03, Texture.class);
 		load(imgShadowEnemy_1_04, Texture.class);
 		load(imgShadowEnemy_1_05, Texture.class);
+		////////////////////////////////////////////////////////////
+		
+		//turret
+		////////////////////////////////////////////////////////////
+		load(img_turret_00, Texture.class);
+		load(img_turret_01, Texture.class);
+		load(img_turret_02, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//meteor

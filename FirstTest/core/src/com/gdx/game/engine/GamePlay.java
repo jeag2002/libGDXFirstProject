@@ -57,8 +57,13 @@ public class GamePlay {
 	
 	private void init() {
 		initBackground();
-		initTiledBackground();
+		initTiledBackground(); 
+		initStaticElements();
 		initPlayer();	
+	}
+	
+	private void initStaticElements() {
+		gEL.processStaticTiledObject(); 
 	}
 	
 	private void initTiledBackground() {
@@ -66,6 +71,7 @@ public class GamePlay {
 		this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false);
+		this.camera.position.set(FirstTestGDX.screenWidth/2,FirstTestGDX.screenHeight/2, 0);
 		gEL.setTiledMap(tiledMap);	
 	}
 	
@@ -111,13 +117,14 @@ public class GamePlay {
 		background.update(delta);
 		
 		if (started) {
-			player.update(delta);
-			gEL.generateElements(delta);
-			gEL.updateSpawns(delta);
-			gEL.processCollisionWorld(camera);
-			gEL.processCollision(delta);
-			gEL.removeOldBodies();
-			gEL.createNewBodies();
+			player.update(delta);						//update movements of player
+			gEL.generateElements(delta);				//spawn new dynamic elements (enemies, meteors)	
+			gEL.updateSpawns(delta);					//configure position active elements
+			gEL.processCollisionWorld(camera);			//check collision with active elements
+			gEL.processCollision(delta);				//check if is the end of the map 	
+			gEL.removeOldBodies();						//remove dead elements
+			gEL.createNewBodies();               		//create new elements (bonus)
+			gEL.generateStaticTiledObject(camera.position.x, camera.position.y + camera.viewportHeight/2);
 			
 		}
 	}
@@ -148,7 +155,9 @@ public class GamePlay {
 	
 	public void moveCamera(float delta) {
 		if (started) {
-			if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {camera.translate(0, GameLevelLogic.speedUpFactor * bgSpeed * delta);}
+			if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
+				camera.translate(0, GameLevelLogic.speedUpFactor * bgSpeed * delta);
+			}
 		}
 	}
 	

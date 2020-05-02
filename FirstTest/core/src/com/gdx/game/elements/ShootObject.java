@@ -60,6 +60,8 @@ public abstract class ShootObject extends DynamicCollObject {
 	        float offsetY;
 	        float originX;
 	        float originY;
+	        float width;
+	        float height;
 	        MissileTypeEnum missType;
 	        
 	        
@@ -73,7 +75,7 @@ public abstract class ShootObject extends DynamicCollObject {
 	        }
 	 }
 	 
-	 public void addGun(MissileTypeEnum missType, float angle, float speed, float originX, float originY, float offsetX, float offsetY) {
+	 public void addGun(MissileTypeEnum missType, float angle, float speed, float originX, float originY, float offsetX, float offsetY, float width, float height) {
 		 	
 		 	Gun gun = new Gun(0,0);
 		 	gun.missType = missType;
@@ -85,49 +87,13 @@ public abstract class ShootObject extends DynamicCollObject {
          
 		 	gun.offsetX = offsetX;
 		 	gun.offsetY = offsetY;
+		 	
+		 	gun.width = width;
+		 	gun.height = height;
+		 	
 		 	gun.active = true;
 		 	
 		 	guns.add(gun);
-		 
-		 
-		 
-		 
-		 	/*	
-		 
-	        if (gunsCount < MAXGUNS) {
-	            Gun gun = guns[gunsCount];
-	            gun.speed = speed;
-	            gun.angle = angle;
-	            
-	            gun.originX = originX;
-	            gun.originY = originY;
-	            
-	            gun.offsetX = offsetX;
-	            gun.offsetY = offsetY;
-	            gun.active = true;
-	            gunsCount++;
-	        }else {
-	        	
-	        	Gun gun = null;
-	        	boolean found = false;
-	        	int index = 0;
-	        	for(index=0; index<MAXGUNS && !found; index++) {
-	        		found = !guns[index].active;
-	        	}
-	        	
-	        	if (index <MAXGUNS) {
-	        		guns[index].speed = speed;
-	        		guns[index].angle = angle;
-	        		guns[index].originX = originX;
-	        		guns[index].originY = originY;
-	        		guns[index].offsetX = offsetX;
-	        		guns[index].offsetY = offsetY;
-	        		guns[index].active = true;
-	        	}
-	        	
-	        	
-	        }
-	        */
 	 }
 	 
 	
@@ -188,7 +154,7 @@ public abstract class ShootObject extends DynamicCollObject {
 	     for (Gun g: guns) {
 	         if (g.active) {
 	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);
-	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed);
+	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
 	            m.setPool(spawnPool);
 	            //g.active = false;
 	            removableGun.add(g);

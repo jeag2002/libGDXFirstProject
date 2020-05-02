@@ -194,6 +194,8 @@ public class GamePlayScreen implements Screen {
 					this.getgLL().setLaunchSoundEndLevel(false);
 				}
 				
+				stopGame();
+				
 				time_before_end += delta;
 				
 		        if (time_before_end >= 2.0f) {
@@ -245,7 +247,7 @@ public class GamePlayScreen implements Screen {
 		
 		if (this.getgLL().isLaunchEndLevel() || this.getgLL().isLaunchGOLevel()) {
 			
-			stopGame();
+			
 			closeMusic();
 		
 			if (this.getgLL().isEndLevel()) {
