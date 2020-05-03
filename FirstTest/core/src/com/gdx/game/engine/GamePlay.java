@@ -29,7 +29,8 @@ public class GamePlay {
 	
 	//game states
 	private boolean started;
-	private boolean gameover;
+	private boolean levelfinished;
+
 	private boolean paused;
 	
 	
@@ -52,6 +53,10 @@ public class GamePlay {
 		this.gEL = new GameElementLogic(gPS);
 		this.random = new Random(System.currentTimeMillis());
 		this.gPS = gPS;
+		
+		this.started = false;
+		this.levelfinished = true;
+		
 		init();
 	}
 	
@@ -116,8 +121,14 @@ public class GamePlay {
 		
 		background.update(delta);
 		
+		
 		if (started) {
 			player.update(delta);						//update movements of player
+		}
+		
+		
+		
+		if (!levelfinished){
 			gEL.generateElements(delta);				//spawn new dynamic elements (enemies, meteors)	
 			gEL.updateSpawns(delta);					//configure position active elements
 			gEL.processCollisionWorld(camera);			//check collision with active elements
@@ -125,7 +136,6 @@ public class GamePlay {
 			gEL.removeOldBodies();						//remove dead elements
 			gEL.createNewBodies();               		//create new elements (bonus)
 			gEL.generateStaticTiledObject(camera.position.x, camera.position.y + camera.viewportHeight/2);
-			
 		}
 	}
 	
@@ -149,7 +159,10 @@ public class GamePlay {
 	public void draw(SpriteBatch sb) {
 		if (started) {			
 			player.draw(sb);
-			gEL.drawSpawns(sb);
+			
+			if (!levelfinished) {
+				gEL.drawSpawns(sb);
+			}
 		}	
 	}
 	
@@ -166,8 +179,11 @@ public class GamePlay {
 		if (started) {
 			player.dispose();
 		}
-		gEL.dispose();
-		tiledMap.dispose();
+		
+		if (levelfinished) {
+			gEL.dispose();
+			tiledMap.dispose();
+		}
 		
 	}
 	
@@ -182,6 +198,7 @@ public class GamePlay {
     
     public void start() {
         started = true;
+        levelfinished = false;
         player.start();
     }
     
@@ -196,5 +213,14 @@ public class GamePlay {
     public GameElementLogic getgEL() {
 		return gEL;
 	}
+    
+	public boolean isLevelfinished() {
+		return levelfinished;
+	}
+
+	public void setLevelfinished(boolean levelfinished) {
+		this.levelfinished = levelfinished;
+	}
+    
 
 }

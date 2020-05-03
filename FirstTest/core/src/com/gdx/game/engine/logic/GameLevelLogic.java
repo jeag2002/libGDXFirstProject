@@ -15,7 +15,7 @@ public class GameLevelLogic {
 	//GLOBAL PARAMETERS
 	
 	public static final String music_menu = "sounds/back_music.ogg";
-	public static final String music_level = "sounds/levels/level-1.ogg";
+	public static final String music_level = "sounds/levels/gamelevelmusicfinal.mp3";
 	
 	public static final String sound_intermission = "sfx/voices/goodluck.wav";
 	public static final String sound_splash = "sounds/splash.wav";
@@ -29,7 +29,8 @@ public class GameLevelLogic {
 	
 	public static final String level = "level 1";
 	
-	public static final String map_level_1 = "maps/map_1/tile_test_3.tmx";
+	//public static final String map_level_1 = "maps/map_1/tile_test_3.tmx";
+	public static final String map_level_1 = "maps/map_1/tile_test_3_final.tmx";
 	
 	public static final float speedUpFactor = 1.0f;
 	public static final float PIXELS_TO_METERS = 100f;

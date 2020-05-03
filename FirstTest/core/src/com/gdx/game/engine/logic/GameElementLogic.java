@@ -131,7 +131,7 @@ public class GameElementLogic {
     
     
     public void processStaticTiledObject() {
-    	for(MapObject object : tiledMap.getLayers().get(0).getObjects().getByType(RectangleMapObject.class)) {
+    	for(MapObject object : tiledMap.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)) {
     		Rectangle rect = ((RectangleMapObject)object).getRectangle(); 
     		rectArray.add(rect);
     	}
@@ -215,11 +215,11 @@ public class GameElementLogic {
        
        if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
        
-    	   TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(1);
+    	   TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
     	   float totalHeight = layer.getHeight() * layer.getTileHeight();
     	   boolean isEndEpisode = (camera.position.y - 64) > totalHeight;
        
-    	   player.setEndMap(isEndEpisode);
+    	   //player.setEndMap(isEndEpisode);
     	   gPS.getgLL().setEndLevel(isEndEpisode);
        }
        
@@ -575,7 +575,7 @@ public class GameElementLogic {
     	
     	LaserTypePlayer lTP = player.getlTypePlayer();
     
-    	if (lTP.getIndex() >= 99 && lTP.getIndex() < 102) {
+    	if (lTP.getIndex() >= 99 && lTP.getIndex() < 103) {
     		lTP = lTP.getByIndex(lTP.getIndex()+1);
     	}
     	

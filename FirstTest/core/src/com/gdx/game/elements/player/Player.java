@@ -134,8 +134,8 @@ public class Player extends ShootObject{
 		//SHADOWS
 		PlayerPart shadow = new PlayerPart(PlayerPartType.SHADOW);
 		shadow.init(shadowTXT,0);
-		shadow.setSize(width/2, height/2);
-		shadow.setPosition(iniPositionX+16, iniPositionX+16);
+		shadow.setSize(32, 32);
+		shadow.setPosition(iniPositionX-32, iniPositionX-32);
 		shadow.setSpeed(0, 0);
 		player_parts.add(shadow);
 		
@@ -305,7 +305,7 @@ public class Player extends ShootObject{
 	
 	
 	public void movementParts(float delta) {
-		player_parts.get(this.INDEX_SHADOW).setPosition(getX()+16, getY()+16);
+		player_parts.get(this.INDEX_SHADOW).setPosition(getX(), getY());
 //		player_parts.get(this.INDEX_SHADOW).getSprite().setAlpha((FirstTestGDX.screenHeight - getY())/FirstTestGDX.screenHeight);
 		player_parts.get(this.INDEX_BOOST_LEFT).setPosition(getX()+25, getY()-32);
 		player_parts.get(this.INDEX_BOOST_RIGHT).setPosition(getX()+32, getY()-32);
@@ -455,11 +455,18 @@ public class Player extends ShootObject{
 			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30, 10, 30);
 			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30, 10, 30);
 			
-		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_3)) {
+		}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_2_1)) {
 			
-			this.addGun(MissileTypeEnum.LASER_1_LEFT, 135.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30, 10, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-30, 30, 10, 30);
 			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2), 30, 10, 30);
-			this.addGun(MissileTypeEnum.LASER_1_RIGHT,45.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30, 10, 30);	
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+30, 30, 10, 30);
+		
+	 	}else if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_3)) {
+			
+			this.addGun(MissileTypeEnum.PROTON_1, 135.0f, speedGun, getX() , getY(), (getWidth()/2)-40, 30, 16, 16);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)-20, 30, 10, 30);
+			this.addGun(MissileTypeEnum.LASER_1, 90.0f, speedGun, getX() , getY(), (getWidth()/2)+20, 30, 10, 30);
+			this.addGun(MissileTypeEnum.PROTON_1,45.0f, speedGun, getX() , getY(), (getWidth()/2)+40, 30, 16, 16);	
 		}
 	}
 	 

@@ -3,7 +3,8 @@ package com.gdx.game.stages.enums;
 public enum LaserTypePlayer {
 	LASER_LEVEL_1 ("LASER_1", 99),
 	LASER_LEVEL_2 ("LASER_2", 100),
-	LASER_LEVEL_3 ("LASER_3", 101),
+	LASER_LEVEL_2_1 ("LASER_2_1", 101),
+	LASER_LEVEL_3 ("LASER_3", 102),
 	LASER_LEVEL_1_ANIM ("LASER_1_ANIM", 999);
 	
 	private String missileStr;

@@ -239,7 +239,7 @@ public class GamePlayScreen implements Screen {
 	
 	
 	public void stopGame() {
-		gamePlay.setStarted(false);
+		gamePlay.setLevelfinished(true);
 	}
 	
 	
@@ -256,6 +256,7 @@ public class GamePlayScreen implements Screen {
 				setGameOverMusic();
 			}
 		
+			gamePlay.setStarted(false);
 			guiStage.activeGUI(GUIEnum.ENDLEVEL);
 			
 			this.getgLL().setLaunchEndLevel(false);

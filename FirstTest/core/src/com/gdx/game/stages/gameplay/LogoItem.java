@@ -72,9 +72,16 @@ public class LogoItem extends Actor {
 				typeOfFire.setPosition(this.base.getX() + this.base.getWidth()/2 - 10, this.base.getY()+20);
 				typeOfFire.setSize(20,32);
 				
-			}else if (gPS.getgLL().getShootTypePlayer().equals(LaserTypePlayer.LASER_LEVEL_3)) {
+			}else if (gPS.getgLL().getShootTypePlayer().equals(LaserTypePlayer.LASER_LEVEL_2_1)) {
 				
 				typeOfFire.setTexture(textMissile_3);
+				typeOfFire.setSize(64,32);
+				typeOfFire.setOriginCenter();
+				typeOfFire.setOriginBasedPosition(this.base.getX() + this.base.getWidth()/2, this.base.getY() + this.base.getHeight() / 2);
+				
+			}else if (gPS.getgLL().getShootTypePlayer().equals(LaserTypePlayer.LASER_LEVEL_3)) {
+				
+				typeOfFire.setTexture(textMissile_4);
 				typeOfFire.setSize(64,32);
 				typeOfFire.setOriginCenter();
 				typeOfFire.setOriginBasedPosition(this.base.getX() + this.base.getWidth()/2, this.base.getY() + this.base.getHeight() / 2);

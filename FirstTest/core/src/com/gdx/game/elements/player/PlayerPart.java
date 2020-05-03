@@ -142,22 +142,22 @@ public class PlayerPart extends AnimatedObject{
 				//exhaust
 				if (moveStepY <= 0) {
 					this.setTextureToSpriteByIndex(6);
-				}else if ((moveStepY > 0) && (moveStepX<= 200)) {
+				}else if ((moveStepY > 0) && (moveStepY<= 200)) {
 					this.setTextureToSpriteByIndex(0);
-				}else if ((moveStepY > 200) && (moveStepX<= 400)) {
+				}else if ((moveStepY > 200) && (moveStepY<= 400)) {
 					this.setTextureToSpriteByIndex(1);
-				}else if (moveStepX > 400) {
+				}else if (moveStepY > 400) {
 					this.setTextureToSpriteByIndex(2);
 				}
 			}else {	
 				//exhaust
 				if (moveStepY <= 0) {
 					this.setTextureToSpriteByIndex(6);
-				}else if ((moveStepY > 0) && (moveStepX<= 200)) {
+				}else if ((moveStepY > 0) && (moveStepY<= 200)) {
 					this.setTextureToSpriteByIndex(5);	
-				}else if ((moveStepY > 200) && (moveStepX<= 400)) {
+				}else if ((moveStepY > 200) && (moveStepY<= 400)) {
 					this.setTextureToSpriteByIndex(4);
-				}else if (moveStepX > 400) {
+				}else if (moveStepY > 400) {
 					this.setTextureToSpriteByIndex(3);
 				}
 			}

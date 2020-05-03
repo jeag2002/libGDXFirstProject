@@ -46,13 +46,6 @@ public class Resources extends AssetManager{
 	
 	//background parallax test_3
 	
-	//player_1 atlas
-	public String atlasPlayer_1SpriteSheet = "player_1/res/player_1.atlas";
-	
-	//player_1 array
-	public String Player1ArrayPNG = "player_1/res/player_1.png";
-	
-	
 	//player
 	public String imgPlayerRed_01 =  "player_1/unpacket/PlayerRed_Frame_01.png";
 	public String imgPlayerRed_02 =  "player_1/unpacket/PlayerRed_Frame_02.png";
@@ -114,11 +107,19 @@ public class Resources extends AssetManager{
     public String imgEnemy_1_04 = "enemies/enemy_1/Enemy01_Green_Frame_4.png";
     public String imgEnemy_1_05 = "enemies/enemy_1/Enemy01_Green_Frame_5.png";
     
-    public String imgShadowEnemy_1_01 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_1.png";
-    public String imgShadowEnemy_1_02 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_2.png";
-    public String imgShadowEnemy_1_03 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_3.png";
-    public String imgShadowEnemy_1_04 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_4.png";
-    public String imgShadowEnemy_1_05 = "enemies/enemy_1_shadow/Enemy01_Shadow_Frame_5.png";
+    public String imgShadowEnemy_1_01 = "enemies/enemy_1/Enemy01_Shadow_Frame_1.png";
+    public String imgShadowEnemy_1_02 = "enemies/enemy_1/Enemy01_Shadow_Frame_2.png";
+    public String imgShadowEnemy_1_03 = "enemies/enemy_1/Enemy01_Shadow_Frame_3.png";
+    public String imgShadowEnemy_1_04 = "enemies/enemy_1/Enemy01_Shadow_Frame_4.png";
+    public String imgShadowEnemy_1_05 = "enemies/enemy_1/Enemy01_Shadow_Frame_5.png";
+    
+    public String imgExhaustEnemy_1_01 = "enemies/enemy_1/exhaust/Exhaust_Frame_01.png";
+    public String imgExhaustEnemy_1_02 = "enemies/enemy_1/exhaust/Exhaust_Frame_02.png";
+    public String imgExhaustEnemy_1_03 = "enemies/enemy_1/exhaust/Exhaust_Frame_03.png";
+    public String imgExhaustEnemy_1_04 = "enemies/enemy_1/exhaust/Exhaust_Frame_04.png";
+    public String imgExhaustEnemy_1_05 = "enemies/enemy_1/exhaust/Exhaust_Frame_05.png";
+    public String imgExhaustEnemy_1_06 = "enemies/enemy_1/exhaust/Exhaust_Frame_06.png";
+    public String imgExhaustEnemy_1_07 = "enemies/enemy_1/exhaust/Exhaust_Frame_07.png";
     
     //turrets
     public String img_turret_00 = "assets/SpaceRageTileset-Assets/Export/64x64px/GunTurret/GunTurretMount.png";
@@ -188,10 +189,6 @@ public class Resources extends AssetManager{
     public String imgYouLose = "gui/endlevel/youlose.png";
     public String imgYouWin = "gui/endlevel/youwin.png";
     
-    
-    
-    
-    
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
 	
@@ -219,18 +216,11 @@ public class Resources extends AssetManager{
 		load(imgExitButton, Texture.class);
 		////////////////////////////////////////////////////////////
 		
-		
 		load(imgBackground, Texture.class);
 		load(imgBackgroundParallaxBG, Texture.class);
 		load(imgBackgroundParallaxStars, Texture.class);
 		load(imgBackgroundParallaxPlanets, Texture.class);
 		load(imgBackgroundParallaxMeteors, Texture.class);
-		
-		//atlas
-		load(atlasPlayer_1SpriteSheet,TextureAtlas.class);
-		
-		//player_array
-		load(Player1ArrayPNG,Texture.class);
 		
 		//shoot
 		////////////////////////////////////////////////////////////
@@ -307,6 +297,15 @@ public class Resources extends AssetManager{
 		load(imgShadowEnemy_1_03, Texture.class);
 		load(imgShadowEnemy_1_04, Texture.class);
 		load(imgShadowEnemy_1_05, Texture.class);
+		
+		
+		load(imgExhaustEnemy_1_01, Texture.class);
+		load(imgExhaustEnemy_1_02, Texture.class);
+		load(imgExhaustEnemy_1_03, Texture.class);
+		load(imgExhaustEnemy_1_04, Texture.class);
+		load(imgExhaustEnemy_1_05, Texture.class);
+		load(imgExhaustEnemy_1_06, Texture.class);
+		load(imgExhaustEnemy_1_07, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//turret
