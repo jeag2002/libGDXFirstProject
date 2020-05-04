@@ -31,9 +31,6 @@ public class Resources extends AssetManager{
 	public String imgSettingsButton = "gui/Settings_A_PNG.png";
 	public String imgExitButton = "gui/Exit_BTN.png";
 	
-	//background test
-	public String imgBackground = "background/Background.png";
-	
 	//background parallax test
 	public String imgBackgroundParallaxBG = "background/parallax/BG.png";
 	public String imgBackgroundParallaxStars = "background/parallax/Stars.png";
@@ -100,7 +97,7 @@ public class Resources extends AssetManager{
     public String proton_medium_r = "shoot/shoot_2/Proton_Medium.png";
     public String proton_large_r = "shoot/shoot_2/Proton_Large.png";
     
-    //enemies
+    //enemy_1
     public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
     public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
     public String imgEnemy_1_03 = "enemies/enemy_1/Enemy01_Green_Frame_3.png";
@@ -113,6 +110,20 @@ public class Resources extends AssetManager{
     public String imgShadowEnemy_1_04 = "enemies/enemy_1/Enemy01_Shadow_Frame_4.png";
     public String imgShadowEnemy_1_05 = "enemies/enemy_1/Enemy01_Shadow_Frame_5.png";
     
+    //enemy_2
+    public String imgEnemy_2_01 = "enemies/enemy_2/Enemy02_Teal_Frame_1.png";
+    public String imgEnemy_2_02 = "enemies/enemy_2/Enemy02_Teal_Frame_2.png";
+    public String imgEnemy_2_03 = "enemies/enemy_2/Enemy02_Teal_Frame_3.png";
+    public String imgEnemy_2_04 = "enemies/enemy_2/Enemy02_Teal_Frame_4.png";
+    public String imgEnemy_2_05 = "enemies/enemy_2/Enemy02_Teal_Frame_5.png";
+    
+    public String imgShadowEnemy_2_01 = "enemies/enemy_2/Enemy02_Shadow_Frame_1.png";
+    public String imgShadowEnemy_2_02 = "enemies/enemy_2/Enemy02_Shadow_Frame_2.png";
+    public String imgShadowEnemy_2_03 = "enemies/enemy_2/Enemy02_Shadow_Frame_3.png";
+    public String imgShadowEnemy_2_04 = "enemies/enemy_2/Enemy02_Shadow_Frame_4.png";
+    public String imgShadowEnemy_2_05 = "enemies/enemy_2/Enemy02_Shadow_Frame_5.png";
+   
+    //enemy_exhaust
     public String imgExhaustEnemy_1_01 = "enemies/enemy_1/exhaust/Exhaust_Frame_01.png";
     public String imgExhaustEnemy_1_02 = "enemies/enemy_1/exhaust/Exhaust_Frame_02.png";
     public String imgExhaustEnemy_1_03 = "enemies/enemy_1/exhaust/Exhaust_Frame_03.png";
@@ -188,6 +199,12 @@ public class Resources extends AssetManager{
     public String imgWindows = "gui/endlevel/Window.png";
     public String imgYouLose = "gui/endlevel/youlose.png";
     public String imgYouWin = "gui/endlevel/youwin.png";
+     
+    //GUI ANDROID
+    public String joystick = "gui/gui-android/touchKnob.png"; 
+    public String joystick_background = "gui/gui-android/touchBackground.png";
+    public String shoot = "gui/gui-android/flatDark25.png";
+    public String changeArm = "gui/gui-android/flatDark26.png";
     
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
@@ -216,7 +233,6 @@ public class Resources extends AssetManager{
 		load(imgExitButton, Texture.class);
 		////////////////////////////////////////////////////////////
 		
-		load(imgBackground, Texture.class);
 		load(imgBackgroundParallaxBG, Texture.class);
 		load(imgBackgroundParallaxStars, Texture.class);
 		load(imgBackgroundParallaxPlanets, Texture.class);
@@ -308,6 +324,21 @@ public class Resources extends AssetManager{
 		load(imgExhaustEnemy_1_07, Texture.class);
 		////////////////////////////////////////////////////////////
 		
+		//enemy_2
+		////////////////////////////////////////////////////////////
+		load(imgEnemy_2_01, Texture.class);
+		load(imgEnemy_2_02, Texture.class);
+		load(imgEnemy_2_03, Texture.class);
+		load(imgEnemy_2_04, Texture.class);
+		load(imgEnemy_2_05, Texture.class);
+	    
+		load(imgShadowEnemy_2_01, Texture.class);
+		load(imgShadowEnemy_2_02, Texture.class);
+		load(imgShadowEnemy_2_03, Texture.class);
+		load(imgShadowEnemy_2_04, Texture.class);
+		load(imgShadowEnemy_2_05, Texture.class);
+		////////////////////////////////////////////////////////////
+		
 		//turret
 		////////////////////////////////////////////////////////////
 		load(img_turret_00, Texture.class);
@@ -387,6 +418,14 @@ public class Resources extends AssetManager{
 		load(imgWindows, Texture.class);
 		load(imgYouLose, Texture.class);
 		load(imgYouWin, Texture.class);;
+		////////////////////////////////////////////////////////////
+		
+		//ANDROID GUI
+		////////////////////////////////////////////////////////////
+		load(joystick, Texture.class); 
+		load(joystick_background, Texture.class);
+		load(shoot, Texture.class);
+		load(changeArm, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		

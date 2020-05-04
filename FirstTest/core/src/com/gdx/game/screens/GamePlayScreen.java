@@ -8,15 +8,14 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.engine.GameInput;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.GUIStage;
-import com.gdx.game.stages.elements.GUIStageMenu;
 import com.gdx.game.stages.enums.GUIEnum;
 
 public class GamePlayScreen implements Screen {
@@ -46,7 +45,7 @@ public class GamePlayScreen implements Screen {
 	
 	private boolean setOneTimeLevelCompleted = false;
 	
-	
+	private ScalingViewport viewport;
 	
 	private Music music = null;
 	private Sound sound = null;
@@ -57,11 +56,20 @@ public class GamePlayScreen implements Screen {
 		gLL = new GameLevelLogic();
 	}
 	
+	public void generateGamePlay() {
+		gamePlay = new GamePlay(this);
+	}
 	
 	public void init() {
+		generateGamePlay();
 		spriteBatch = new SpriteBatch();
-		StretchViewport viewport = new StretchViewport(game.screenWidth, game.screenHeight); 
-		Stage uiStage = new Stage(viewport);
+		viewport = new ScalingViewport(Scaling.stretch,game.screenWidth, game.screenHeight, gamePlay.getCamera());
+		
+		//StretchViewport viewport = new StretchViewport(game.screenWidth, game.screenHeight); 
+		//FitViewport viewport = new FitViewport(game.screenWidth, game.screenHeight);
+		StretchViewport viewportStage = new StretchViewport(game.screenWidth, game.screenHeight);
+		Stage uiStage = new Stage(viewportStage);
+		//Stage uiStage = new Stage(viewport);
 		guiStage = new GUIStage(uiStage, this);
 		guiStage.init();
 		
@@ -270,6 +278,10 @@ public class GamePlayScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		
+		viewport.update(width, height,true);
+		guiStage.getStage().getViewport().update(width, height, true);
+		
 		spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, game.screenWidth, game.screenHeight);
 		game.initGraphicRatio();
 	}

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.gdx.game.FirstTestGDX;
 
@@ -26,7 +27,9 @@ public class LoadingScreen implements Screen{
 	}
 	
 	private void init() {
-		StretchViewport viewport = new StretchViewport(game.screenWidth, game.screenHeight); 
+		//StretchViewport viewport = new StretchViewport(game.screenWidth, game.screenHeight); 
+		
+		FitViewport viewport = new FitViewport(game.screenWidth, game.screenHeight);
 		stage = new Stage(viewport);
 		image = new Image(new Texture(Gdx.files.internal(backgroundPath)));
 		
