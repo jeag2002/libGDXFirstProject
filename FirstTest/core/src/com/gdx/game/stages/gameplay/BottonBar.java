@@ -34,6 +34,7 @@ public class BottonBar extends Actor {
 		
 		
 		this.isVisible = false;
+		
 		this.gPS = gPS;
 		
 		this.time = 0.0f;

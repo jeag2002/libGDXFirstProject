@@ -31,6 +31,9 @@ public class Resources extends AssetManager{
 	public String imgSettingsButton = "gui/Settings_A_PNG.png";
 	public String imgExitButton = "gui/Exit_BTN.png";
 	
+	public String imgSettingsGUI = "gui/Settings_Banner.png";
+	
+	
 	//background parallax test
 	public String imgBackgroundParallaxBG = "background/parallax/BG.png";
 	public String imgBackgroundParallaxStars = "background/parallax/Stars.png";
@@ -205,6 +208,7 @@ public class Resources extends AssetManager{
     public String joystick_background = "gui/gui-android/touchBackground.png";
     public String shoot = "gui/gui-android/flatDark25.png";
     public String changeArm = "gui/gui-android/flatDark26.png";
+    public String joystick_logo = "gui/gui-android/joystick.png";
     
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
@@ -231,6 +235,8 @@ public class Resources extends AssetManager{
 		load(imgRatingButton, Texture.class);
 		load(imgSettingsButton, Texture.class);
 		load(imgExitButton, Texture.class);
+		load(imgSettingsGUI, Texture.class);
+		
 		////////////////////////////////////////////////////////////
 		
 		load(imgBackgroundParallaxBG, Texture.class);
@@ -426,6 +432,7 @@ public class Resources extends AssetManager{
 		load(joystick_background, Texture.class);
 		load(shoot, Texture.class);
 		load(changeArm, Texture.class);
+		load(joystick_logo,Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		

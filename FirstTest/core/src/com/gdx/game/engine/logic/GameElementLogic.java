@@ -53,11 +53,15 @@ public class GameElementLogic {
 	private static final int lowTimerLimit = 1;
 	private static final int highTimerLimit = 5;
 	
-	private static final int GENERATE_NEW_ENEMY = 0;
-	private static final int GENERATE_NEW_METEOR_A = 1;
-	private static final int GENERATE_NEW_METEOR_B = 2;
+	private static final int GENERATE_NEW_ENEMY_1 = 0;
+	private static final int GENERATE_NEW_ENEMY_2 = 1;
+	private static final int GENERATE_NEW_METEOR_A = 2;
+	private static final int GENERATE_NEW_METEOR_B = 3;
 	
 	private static final int GENERATE_BONUS = 1;
+	
+	private static final int ENEMY_LEFT = 0;
+	private static final int ENEMY_RIGHT = 1;
 	
 	private float timer;
 	private float spawnEnemyLimit;
@@ -167,6 +171,7 @@ public class GameElementLogic {
     	 sfxBonus = Gdx.audio.newSound(Gdx.files.internal(path));
     	 sfxBonusVolume = volume;
 	}
+    
     
     
     private void init(World world) {
@@ -732,10 +737,12 @@ public class GameElementLogic {
 		    	
 		    	if (timer >= spawnEnemyLimit) {
 		    		
-		    		int next = this.random_Element.nextInt(3);
+		    		int next = this.random_Element.nextInt(4);
 		    		
-		    		if (next == this.GENERATE_NEW_ENEMY) {
+		    		if (next == this.GENERATE_NEW_ENEMY_1) {
 		    			generateEnemy(EnemyTypes.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+		    		}else if (next == this.GENERATE_NEW_ENEMY_2) {
+		    			generateEnemyTwo(EnemyTypes.ENEMY_SIMPLE_2, FirstTestGDX.screenHeight - 50);
 		    		}else if (next == this.GENERATE_NEW_METEOR_A) {
 		    			generateMeteor(MeteorTypeEnum.METEORTYPEONE,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
 		    		}else if (next == this.GENERATE_NEW_METEOR_B) {
@@ -747,6 +754,22 @@ public class GameElementLogic {
 		    	}
 	    	}
     	}
+    }
+    
+    
+    public void generateEnemyTwo(EnemyTypes type, float posY) {
+    	
+    	SimpleEnemy se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
+    	
+    	int latch = this.random_Bonus.nextInt(2);
+    	
+    	if (latch == ENEMY_LEFT) {
+    		se.init(type, 30, posY, 135.0f, -280.0f);
+    	}else if (latch == ENEMY_RIGHT) {
+    		se.init(type, FirstTestGDX.screenWidth-30, posY, 45.0f, -280.0f);
+    	}
+    		
+    	se.setSpawned(true);
     }
     
    

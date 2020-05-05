@@ -60,6 +60,7 @@ public class GUIStageGamePlay {
 	private void initGamePlayGUI() {
 		grpMenuUI = new Group();
 		
+		
 		Texture textBarHealth = FirstTestGDX.resources.get(FirstTestGDX.resources.imgHealthBar, Texture.class);
 		Texture textBarHealthDot = FirstTestGDX.resources.get(FirstTestGDX.resources.imgHealthBarDot, Texture.class);
 		Texture textBarShield = FirstTestGDX.resources.get(FirstTestGDX.resources.imgArmorBar, Texture.class);		

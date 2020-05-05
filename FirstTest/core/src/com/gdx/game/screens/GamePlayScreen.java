@@ -3,6 +3,7 @@ package com.gdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
@@ -34,7 +35,7 @@ public class GamePlayScreen implements Screen {
 	
 	//////////////////////////////
 	private SpriteBatch spriteBatch;
-	
+
 	private float volumeMusic = 0.25f;
 	
 	private static final float bgSpeed = 50.0f;
@@ -60,6 +61,7 @@ public class GamePlayScreen implements Screen {
 		gamePlay = new GamePlay(this);
 	}
 	
+	
 	public void init() {
 		generateGamePlay();
 		spriteBatch = new SpriteBatch();
@@ -82,6 +84,8 @@ public class GamePlayScreen implements Screen {
 		inGameUI = new InputMultiplexer();
 		inGameUI.addProcessor(guiStage.getStage());
 		inGameUI.addProcessor(gameInput);
+		
+		
 		Gdx.input.setInputProcessor(inGameUI);
 		guiStage.activeGUI(GUIEnum.MENU);
 		setInitialMusic();
@@ -135,6 +139,11 @@ public class GamePlayScreen implements Screen {
 		sound = Gdx.audio.newSound(Gdx.files.internal(GameLevelLogic.sound_levelcomplete));
 		sound.play();
 		
+	}
+	
+	
+	public void startSettings() {
+		guiStage.activeGUI(GUIEnum.SETTINGS);
 	}
 	
 	
@@ -315,6 +324,7 @@ public class GamePlayScreen implements Screen {
 		music.dispose();
 		
 	}
+	
 	
 	public GamePlay getGamePlay() {
 		return gamePlay;

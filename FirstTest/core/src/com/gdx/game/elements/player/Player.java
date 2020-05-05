@@ -216,6 +216,7 @@ public class Player extends ShootObject{
 		super.setShootingActive(true);
 	}
 	
+	
 	public void update(float delta) {
 		
 		movement(delta);
@@ -224,7 +225,7 @@ public class Player extends ShootObject{
 		AnimationByMovement(orientation, this.moveStepX, this.moveStepY, false, false);
 		AnimationByMovementPart(orientation, this.moveStepX, this.moveStepY);
 		
-		collision(delta);
+		collision();
 		
 		if (super.isShootEvent()) {
 			if (!isEndMap) {
@@ -235,7 +236,37 @@ public class Player extends ShootObject{
 		super.update(delta);
 	}
 	
-	public void collision(float delta) {
+	
+	
+	
+	public void updateTouchPad(float X, float Y) {
+		movementTouchPad(X,Y);
+		collision();
+	}
+	
+	
+	public void movementTouchPad(float X, float Y) {
+		
+		setX(X);
+		setY(Y);
+		
+		if (getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
+			setY(FirstTestGDX.screenHeight - collisionMarginUp);
+		}
+		else if ((getY() + getHeight()) < collisionMarginDown) {
+			setY(getHeight()+100);
+		}
+		
+		if ((getX() + getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
+			setX(FirstTestGDX.screenWidth - 200);
+		}else if (getX() < this.collisionMarginLeft) {
+			setX(200);
+		}
+	}
+	
+	
+	
+	public void collision() {
 		setCollisionRef(getX(), getY());
 	}
 	
@@ -245,10 +276,10 @@ public class Player extends ShootObject{
 	
 	
 	public void movement(float delta) {
-		
-		
+
 		if (!isEndMap) {
 			if (orientation.equals(PlayerMovements.UP)) {
+				
 				
 				if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) ) {
 					
@@ -260,7 +291,9 @@ public class Player extends ShootObject{
 					}
 				}else {fallY(delta);}
 				
+				
 			}else if (orientation.equals(PlayerMovements.DOWN)) {
+				
 				
 				if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) ) {
 					
@@ -272,7 +305,6 @@ public class Player extends ShootObject{
 					}			
 				}
 				else {fallY(delta);}
-				
 				
 			}else if (orientation.equals(PlayerMovements.LEFT)) {
 				
@@ -286,9 +318,7 @@ public class Player extends ShootObject{
 				}
 				else {fallX(delta);}
 				
-				
 			}else if (orientation.equals(PlayerMovements.RIGHT)) {
-				
 				//movement player
 				if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) ) {
 					accelerateUpX(delta);
@@ -298,7 +328,7 @@ public class Player extends ShootObject{
 						setX(getX()+ moveStepX*delta);
 					}
 				}
-				else {fallX(delta);}
+				else {fallX(delta);}				
 			}		
 		}
 	}

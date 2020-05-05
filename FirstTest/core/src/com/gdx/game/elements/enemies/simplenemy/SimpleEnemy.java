@@ -69,24 +69,32 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		
 	    
 	    setReference(this);
+	    Texture[] text_es = new Texture[5];
+	    
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
 			
 			this.eTypes = eTypes;
-			Texture[] text_es1 = new Texture[5];
-			text_es1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_01,Texture.class);
-			text_es1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_02,Texture.class);
-			text_es1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_03,Texture.class);
-			text_es1[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_04,Texture.class);
-			text_es1[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_05,Texture.class);
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_05,Texture.class);
 			
-			init(text_es1,0);
-			setSize(64, 64);
-			setPosition(posX, posY);
-			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
-			
-			setAnimationPartsEnemySimple1(getX(), getY(), getWidth(), getHeight());
-			
+		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+			this.eTypes = eTypes;
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_05,Texture.class);
 		}
+		
+		init(text_es,0);
+		setSize(64, 64);
+		setPosition(posX, posY);
+		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
+		setAnimationPartsEnemySimple1(getX(), getY(), getWidth(), getHeight());
+		
 		
 		setShootingActive(true);
 		resetGuns();
@@ -97,11 +105,24 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	public void setAnimationPartsEnemySimple1(float iniPositionX, float iniPositionY, float width, float height) {
 		
 		Texture[] shadowTXT = new Texture[5];
-		shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_01,Texture.class);
-		shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_02,Texture.class);
-		shadowTXT[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_03,Texture.class);
-		shadowTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_04,Texture.class);
-		shadowTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_05,Texture.class);
+		
+		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
+		
+			shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_01,Texture.class);
+			shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_02,Texture.class);
+			shadowTXT[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_03,Texture.class);
+			shadowTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_04,Texture.class);
+			shadowTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_05,Texture.class);
+		
+		} else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+			
+			shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_01,Texture.class);
+			shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_02,Texture.class);
+			shadowTXT[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_03,Texture.class);
+			shadowTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_04,Texture.class);
+			shadowTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_05,Texture.class);
+			
+		}
 		
 		//SHADOWS
 		PlayerPart shadow = new PlayerPart(PlayerPartType.SHADOW);
@@ -133,10 +154,14 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	}
 	
 	public void setGun() {
+		
+		setGunPower(100.0f);
+		setShootingInterval(intervalGun);
+		
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {	
-			setGunPower(100.0f);
-			setShootingInterval(intervalGun);
 			addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
+		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+			addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2) , getY() - getHeight(), 0, 0,16,16);
 		}
 	}
 	
@@ -174,9 +199,11 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		
 		super.update(delta);
 		
+		AnimationByMovement(PlayerMovements.IDLE, 0, 0, false, false);
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {	
-			AnimationByMovement(PlayerMovements.IDLE, 0, 0, false, false);
 			AnimationByMovementPartEnemy1(this.animation);
+		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+			AnimationByMovementPartEnemy2(this.animation);
 		}
 	
 		if (isSpawned()) {	 
@@ -193,7 +220,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	        	 setGun();
 	         }
 	         
-	         if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
+	         if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1) || eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
 	        	 movementParts(delta);
 	         }
 	         
@@ -233,6 +260,14 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		player_parts.get(this.INDEX_EXHAUST_ENEMY_1).AnimationByMovement(PlayerMovements.UP, 0, 400, false, true);
 	}
 	
+	public void AnimationByMovementPartEnemy2(float animation) {
+		
+		if (angle == 45) {player_parts.get(this.INDEX_SHADOW_ENEMY_1).AnimationByMovement(PlayerMovements.LEFT, 400, 0, true, false);}
+		else if (angle == 135) {player_parts.get(this.INDEX_SHADOW_ENEMY_1).AnimationByMovement(PlayerMovements.RIGHT, 400, 0, true, false);}
+		
+		player_parts.get(this.INDEX_EXHAUST_ENEMY_1).AnimationByMovement(PlayerMovements.UP, 0, 400, false, true);
+	}
+	
 	
 	
 	
@@ -242,6 +277,9 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		
 		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
 			this.setTextureToSpriteByIndex(0);
+		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+			if (angle == 45) {this.setTextureToSpriteByIndex(2);} //RIGHT
+			else if (angle == 135) {this.setTextureToSpriteByIndex(4);} //LEFT
 		}
 	}
 

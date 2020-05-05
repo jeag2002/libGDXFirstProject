@@ -35,8 +35,7 @@ public class GamePlay {
 	
 	
 	private float timerEnemyGenerator = 0;
-	
-	
+
 	
 	private Player player;
 	private Background background;
@@ -108,6 +107,14 @@ public class GamePlay {
 	public void playerShoot() {
 		player.move(PlayerMovements.SHOOT);
 	}
+	public void playerChange() {
+		player.move(PlayerMovements.CHANGEGUN);
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	
 	public void update(float delta){
 		
@@ -186,6 +193,7 @@ public class GamePlay {
 		}
 		
 	}
+	
 	
 	
 	public boolean isStarted() {

@@ -68,6 +68,7 @@ public class GUIStageMenu {
         grpMenuUI.addActor(imgLogo);
         
         
+        
         //Button Start
         Skin uiSkin = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
         button_Start = new ImageButton(uiSkin);
@@ -127,7 +128,9 @@ public class GUIStageMenu {
         button_Settings.setVisible(false);
         button_Settings.addListener(new InputListener(){
           @Override
-          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {}
+          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+        	  gPSF.startSettings();
+          }
           @Override
           public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             return true;

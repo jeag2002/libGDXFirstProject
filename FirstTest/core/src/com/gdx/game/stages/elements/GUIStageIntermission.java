@@ -19,7 +19,6 @@ public class GUIStageIntermission {
 	private String txt_1 = "1";
 	private String txt_GO = "GO!";
 	
-	
 	public Group grpMenuUI;
 	private Stage stage;
 	
