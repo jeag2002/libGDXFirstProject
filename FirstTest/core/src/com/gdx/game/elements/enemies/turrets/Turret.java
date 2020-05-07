@@ -14,11 +14,11 @@ import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.player.Player;
 import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.engine.logic.GameLevelLogic;
-import com.gdx.game.stages.enums.EnemyTypes;
 import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.SpawnType;
+import com.gdx.game.stages.enums.StaticEnemyTypeEnum;
 
 public class Turret extends ShootObject implements SpawnObject{
 	
@@ -44,6 +44,8 @@ public class Turret extends ShootObject implements SpawnObject{
     private float speed = 0;
     private float angle = 0;
     
+    private StaticEnemyTypeEnum type;
+    
     
     private Player playerRef;
     
@@ -54,22 +56,37 @@ public class Turret extends ShootObject implements SpawnObject{
 	}
 	
 	
-	public void init(float xStart, float yStart,  float angle, float speed, Player playerRef) {
+	public void init(StaticEnemyTypeEnum type, float xStart, float yStart,  float angle, float speed, Player playerRef) {
 		
 		super.init(SpawnType.MissileEnemy);
 		
 		this.speed = speed;
 		this.angle = angle;
 		this.position.set(xStart, yStart);
+		this.type = type;
 		
 		turret = new Texture[1];
 		
 		setReference(this);
 		direction.set((float)Math.cos(Math.toRadians(this.angle)), (float)Math.sin(Math.toRadians(this.angle))).nor();
-		turret[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_00,Texture.class); 
 		
 		
-		turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_01,Texture.class);
+		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1) || 
+			type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2) ||
+			type.equals(StaticEnemyTypeEnum.TURRET_BOSS)
+			) {
+			turret[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_00,Texture.class);
+		}
+		 
+		
+		
+		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1) || 
+		    (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2))) {
+			turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_01,Texture.class);
+		}else if (type.equals(StaticEnemyTypeEnum.TURRET_BOSS)) {
+			turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_03,Texture.class);
+		}
+		
 		
 		base = new Sprite(turret_Base);
 		base.setPosition(xStart, yStart);
@@ -163,7 +180,20 @@ public class Turret extends ShootObject implements SpawnObject{
 	public void setGun(double angle) {
 		setGunPower(100.0f);
 		setShootingInterval(intervalGun);
-		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		
+		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1)){
+			
+			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		
+		} else if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2)){
+			
+			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) - 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
+			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) + 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		
+		} else if (type.equals(StaticEnemyTypeEnum.TURRET_BOSS)) {
+			
+			addGun(MissileTypeEnum.MISSIL_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		}
 	}
 	
 	

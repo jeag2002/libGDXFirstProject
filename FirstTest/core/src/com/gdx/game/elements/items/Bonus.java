@@ -49,6 +49,11 @@ public class Bonus extends DynamicCollObject implements SpawnObject {
 	}
 	
 	
+	public BonusTypeEnum getBonus() {
+		return this.typeBonus;
+	}
+	
+	
 	public void init(BonusTypeEnum type, float xStart, float yStart, float angle, float speed) {
 		
 		position.set(xStart, yStart);
@@ -66,8 +71,6 @@ public class Bonus extends DynamicCollObject implements SpawnObject {
 	    
 	    if (typeBonus.equals(type.BonusAmmo)) {
 	    	text_bonus[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPower_A,Texture.class); 
-	    }else if (typeBonus.equals(type.BonusEnergy)) {
-	    	text_bonus[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPower_E,Texture.class); 
 	    }else if (typeBonus.equals(type.BonusHealth)){
 	    	text_bonus[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgPower_H,Texture.class); 
 	    }else if (typeBonus.equals(type.BonusShield)){

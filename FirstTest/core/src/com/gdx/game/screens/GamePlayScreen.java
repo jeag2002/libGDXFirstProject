@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.engine.GameInput;
 import com.gdx.game.engine.GamePlay;
+import com.gdx.game.engine.logic.GameLevelInformation;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.GUIStage;
 import com.gdx.game.stages.enums.GUIEnum;
@@ -54,6 +55,7 @@ public class GamePlayScreen implements Screen {
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
+		GameLevelInformation.setLevel(GameLevelInformation.FIRST_LEVEL);
 		gLL = new GameLevelLogic();
 	}
 	
@@ -108,7 +110,7 @@ public class GamePlayScreen implements Screen {
 	
 	private void setLevelMusic() {
 				
-		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_level));
+		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelInformation.getMusicLevel(GameLevelInformation.getLevel())));
 		music.setVolume(0.25f);
 		music.setLooping(true);
 		music.play();	

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.gdx.game.FirstTestGDX;
+import com.gdx.game.engine.logic.GameLevelInformation;
 import com.gdx.game.screens.GamePlayScreen;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -95,7 +96,7 @@ public class GUIStageIntermission {
 		
 		if (show) {
 			
-			lblLevel.setText(gPS.getgLL().level);			
+			lblLevel.setText("LEVEL " + GameLevelInformation.getLevel());			
 			lblStart_1.addAction(sequence(hide(), delay(1.0f), show(), delay(1.0f), hide()));
 			lblStart_2.addAction(sequence(hide(), delay(2.0f), show(), delay(1.0f), hide()));
 			lblStart_3.addAction(sequence(hide(), delay(3.0f), show(), delay(1.0f), hide()));

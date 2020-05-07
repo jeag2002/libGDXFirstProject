@@ -13,7 +13,7 @@ import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.player.PlayerPart;
 import com.gdx.game.engine.logic.GameElementLogic;
-import com.gdx.game.stages.enums.EnemyTypes;
+import com.gdx.game.stages.enums.DynamicEnemyTypeEnum;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.PlayerPartType;
@@ -29,8 +29,8 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	private boolean spawned;
 	private SpawnPool sP;
 	
-	private static final float intervalGun = 0.35f;
-	private EnemyTypes eTypes;
+	private static final float intervalGun = 0.4f;
+	private DynamicEnemyTypeEnum eTypes;
 	
 	
 	private float timer;
@@ -44,6 +44,8 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
     private float angle = 0;
     
     private float animation = 0;
+    
+    private boolean activateGun;
    
     
     ArrayList<PlayerPart> player_parts;
@@ -53,15 +55,17 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		super(sP, world);
 		this.sP = sP; 
 		this.timer = 0;
+		this.activateGun = true;
 	}
 	
-	public void init(EnemyTypes eTypes, float posX, float posY,  float angle, float speed) {
+	public void init(DynamicEnemyTypeEnum eTypes, float posX, float posY,  float angle, float speed, boolean activateGun) {
 		super.init(SpawnType.MissileEnemy);
 		
 		this.speed = speed;
 		this.angle = angle;
 		this.position.set(posX, posY);
 		this.eTypes = eTypes;
+		this.activateGun = activateGun;
 		
 		player_parts = new ArrayList<PlayerPart>();
 		
@@ -71,7 +75,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	    setReference(this);
 	    Texture[] text_es = new Texture[5];
 	    
-		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
+		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1)  || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3) ) {
 			
 			this.eTypes = eTypes;
 			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_01,Texture.class);
@@ -80,7 +84,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_04,Texture.class);
 			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_05,Texture.class);
 			
-		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)) {
 			this.eTypes = eTypes;
 			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_01,Texture.class);
 			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_02,Texture.class);
@@ -106,7 +110,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		
 		Texture[] shadowTXT = new Texture[5];
 		
-		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
+		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3)) {
 		
 			shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_01,Texture.class);
 			shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_02,Texture.class);
@@ -114,7 +118,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 			shadowTXT[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_04,Texture.class);
 			shadowTXT[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_1_05,Texture.class);
 		
-		} else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+		} else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)) {
 			
 			shadowTXT[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_01,Texture.class);
 			shadowTXT[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgShadowEnemy_2_02,Texture.class);
@@ -155,14 +159,32 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	
 	public void setGun() {
 		
-		setGunPower(100.0f);
-		setShootingInterval(intervalGun);
-		
-		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {	
-			addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
-		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
-			addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2) , getY() - getHeight(), 0, 0,16,16);
-		}
+			setGunPower(100.0f);
+			setShootingInterval(intervalGun);
+			
+			if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1)) {	
+				
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
+				
+			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2)){
+				
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2)-20, (-1)*getHeight() - 50,10,30);
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2)+20, (-1)*getHeight() - 50,10,30);
+			
+			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3)){
+				
+				addGun(MissileTypeEnum.MISSIL_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
+				
+			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2)) {
+				
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2) , getY() - getHeight(), 0, 0,16,16);
+				
+			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)){
+				
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2)-20 , getY() - getHeight(), 0, 0,16,16);
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2)+20 , getY() - getHeight(), 0, 0,16,16);
+				
+			}
 	}
 	
 	public void draw(SpriteBatch sb) {
@@ -200,9 +222,9 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 		super.update(delta);
 		
 		AnimationByMovement(PlayerMovements.IDLE, 0, 0, false, false);
-		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {	
+		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3)) {	
 			AnimationByMovementPartEnemy1(this.animation);
-		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)) {
 			AnimationByMovementPartEnemy2(this.animation);
 		}
 	
@@ -211,16 +233,20 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	         position.add(movement);
 	        
 	         
-	         
-	         
-	         timer += delta * boostFactor;
-	         if (timer >= intervalGun) {
-	        	 timer = 0;
-	        	 
-	        	 setGun();
+	         if (activateGun) {
+		         timer += delta * boostFactor;
+		         if (timer >= intervalGun) {
+		        	 timer = 0;
+		        	 setGun();
+		         }
 	         }
 	         
-	         if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1) || eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+	         
+	         if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1) || 
+	             eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) ||   
+	             eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) ||
+	             eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2) ||
+	             eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3)) {
 	        	 movementParts(delta);
 	         }
 	         
@@ -275,9 +301,9 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	public void AnimationByMovement(PlayerMovements movement, float moveStepX, float moveStepY, boolean isAccX,
 			boolean isAccY) {
 		
-		if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_1)) {
+		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) ||  eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3) ) {
 			this.setTextureToSpriteByIndex(0);
-		}else if (eTypes.equals(EnemyTypes.ENEMY_SIMPLE_2)) {
+		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2) ) {
 			if (angle == 45) {this.setTextureToSpriteByIndex(2);} //RIGHT
 			else if (angle == 135) {this.setTextureToSpriteByIndex(4);} //LEFT
 		}

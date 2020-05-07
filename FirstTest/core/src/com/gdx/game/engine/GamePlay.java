@@ -14,6 +14,7 @@ import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.background.Background;
 import com.gdx.game.elements.player.Player;
 import com.gdx.game.engine.logic.GameElementLogic;
+import com.gdx.game.engine.logic.GameLevelInformation;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.PlayerMovements;
@@ -71,7 +72,7 @@ public class GamePlay {
 	}
 	
 	private void initTiledBackground() {
-		this.tiledMap = new TmxMapLoader().load(gPS.getgLL().map_level_1);
+		this.tiledMap = new TmxMapLoader().load(GameLevelInformation.getMapLevel(GameLevelInformation.getLevel()));
 		this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false);

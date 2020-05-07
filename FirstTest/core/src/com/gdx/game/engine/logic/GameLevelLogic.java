@@ -15,7 +15,6 @@ public class GameLevelLogic {
 	//GLOBAL PARAMETERS
 	
 	public static final String music_menu = "sounds/back_music.ogg";
-	public static final String music_level = "sounds/levels/gamelevelmusicfinal.mp3";
 	
 	public static final String sound_intermission = "sfx/voices/goodluck.wav";
 	public static final String sound_splash = "sounds/splash.wav";
@@ -24,20 +23,15 @@ public class GameLevelLogic {
 	public static final String music_final_level = "sounds/endlevel.mp3";
 	public static final String music_gameover = "sounds/gameover.mp3";
 	
-	
-	
-	
-	public static final String level = "level 1";
-	
-	//public static final String map_level_1 = "maps/map_1/tile_test_3.tmx";
-	public static final String map_level_1 = "maps/map_1/tile_test_3_final.tmx";
-	
 	public static final float speedUpFactor = 1.0f;
 	public static final float PIXELS_TO_METERS = 100f;
 	
 	public static final float timeGapEnemyGeneration = 10.0f;
 	
 	public static final int NUM_MAX_TYPE_MISSILE_PLAYER = 10; 
+	
+	public static final int MAX_LIFE = 10;
+	public static final int MAX_SHIELD = 10;
 	
 	private int lifePlayer;
 	private int kills;
@@ -168,6 +162,10 @@ public class GameLevelLogic {
 	public void addLife(int life) {lifePlayer += life;}
 	public void addShield(int shield) {shieldPlayer += shield;}
 	
+	
+	public int getLife() {return lifePlayer;}
+	public int getShield() {return shieldPlayer;}
+	
 	public boolean isEndLevel() {
 		return endLevel;
 	}
@@ -211,6 +209,20 @@ public class GameLevelLogic {
 		this.launchSoundEndLevel = launchSoundEndLevel;
 	}
 
+	
+	public void nextLevel() {
+		
+		this.kills = 0;
+		this.time = 0.0f;
+		
+		this.endLevel = false;
+		this.gameOver = false;
+		
+		this.launchEndLevel = false;
+		this.launchGOLevel = false;
+		this.launchSoundEndLevel = false;
+		
+	}
 	
 	public void dispose() {
 		

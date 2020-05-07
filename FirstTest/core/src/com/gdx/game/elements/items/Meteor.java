@@ -10,7 +10,7 @@ import com.gdx.game.elements.DynamicCollObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.engine.logic.GameElementLogic;
-import com.gdx.game.stages.enums.MeteorTypeEnum;
+import com.gdx.game.stages.enums.DynamicEnemyTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.SpawnType;
 
@@ -32,7 +32,7 @@ public class Meteor extends DynamicCollObject implements SpawnObject {
     private Texture[] text_meteor;
 
     
-    private MeteorTypeEnum typeMeteor;
+    private DynamicEnemyTypeEnum  typeMeteor;
     private SpawnType type;
     
 
@@ -47,7 +47,7 @@ public class Meteor extends DynamicCollObject implements SpawnObject {
 		this.pool = pool;
 	}
 	
-	public void init(MeteorTypeEnum type, float power, float xStart, float yStart, float angle, float speed) {
+	public void init(DynamicEnemyTypeEnum  type, float power, float xStart, float yStart, float angle, float speed) {
 		 
 		 this.speed = speed;
 		 this.power = power;
@@ -62,10 +62,10 @@ public class Meteor extends DynamicCollObject implements SpawnObject {
 		 
 	     
 	     setReference(this);
-		 if (typeMeteor.equals(MeteorTypeEnum.METEORTYPEONE)) {
+		 if (typeMeteor.equals( DynamicEnemyTypeEnum.METEORTYPEONE) || typeMeteor.equals( DynamicEnemyTypeEnum.METEORTYPEONE_LEVEL_2)) {
 			 text_meteor[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMeteor_01_a,Texture.class); 
 			 text_meteor[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMeteor_01_b,Texture.class);
-		 }else if (typeMeteor.equals(MeteorTypeEnum.METEORTYPETWO)) {
+		 }else if (typeMeteor.equals( DynamicEnemyTypeEnum .METEORTYPETWO) || typeMeteor.equals( DynamicEnemyTypeEnum.METEORTYPETWO_LEVEL_2)) {
 			 text_meteor[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMeteor_02_a,Texture.class); 
 			 text_meteor[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMeteor_02_b,Texture.class);
 		 }

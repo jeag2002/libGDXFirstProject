@@ -109,8 +109,20 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 			 text_laser_1[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_small_r,Texture.class); 
 			 text_laser_1[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_medium_r,Texture.class);
 			 text_laser_1[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.proton_large_r,Texture.class);
-		 
-		 
+			 
+		 } else if (typeMissile.equals(MissileTypeEnum.MISSIL_1)) {
+			 
+			 text_laser_1 = new Texture[1];
+			 
+			 if ((angle <=0) && (angle < 45)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_0,Texture.class); }
+			 else if ((angle <=45) && (angle < 90)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_45,Texture.class); }
+			 else if ((angle <=90) && (angle < 135)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_90,Texture.class); }
+			 else if ((angle <=135) && (angle < 180)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_135,Texture.class); }
+			 else if ((angle <=180) && (angle < 225)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_180,Texture.class); }
+			 else if ((angle <=225) && (angle < 270)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_225,Texture.class); }
+			 else if ((angle <=270) && (angle < 315)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_270,Texture.class); }
+			 else if ((angle <=315) && (angle < 360)) {text_laser_1[0] =  FirstTestGDX.resources.get(FirstTestGDX.resources.missile_315,Texture.class); }
+			 
 		 }
 		 
 		 super.init(text_laser_1,0);
@@ -151,6 +163,7 @@ public class Missile extends DynamicCollObject implements SpawnObject {
 	    	timer = 0.0f;
 			index++;
 			if (index < text_laser_1.length) {getSprite().setTexture(text_laser_1[index]);}
+			else {index = 0;}
 		}
 	}
 	

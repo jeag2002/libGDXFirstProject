@@ -30,21 +30,26 @@ public class Resources extends AssetManager{
 	public String imgRatingButton = "gui/Rating_A_PNG.png";
 	public String imgSettingsButton = "gui/Settings_A_PNG.png";
 	public String imgExitButton = "gui/Exit_BTN.png";
-	
 	public String imgSettingsGUI = "gui/Settings_Banner.png";
 	
 	
-	//background parallax test
-	public String imgBackgroundParallaxBG = "background/parallax/BG.png";
-	public String imgBackgroundParallaxStars = "background/parallax/Stars.png";
-	public String imgBackgroundParallaxPlanets = "background/parallax/Planets.png";
-	public String imgBackgroundParallaxMeteors = "background/parallax/Meteors.png";
-	
 	//background parallax test_1
+	public String imgBackgroundParallaxBG_1 = "background/parallax_1/BG.png";
+	public String imgBackgroundParallaxStars_1 = "background/parallax_1/Stars.png";
+	public String imgBackgroundParallaxPlanets_1 = "background/parallax_1/Planets.png";
+	public String imgBackgroundParallaxMeteors_1 = "background/parallax_1/Meteors.png";
 	
 	//background parallax test_2
+	public String imgBackgroundParallaxBG_2 = "background/parallax_2/BG.png";
+	public String imgBackgroundParallaxStars_2 = "background/parallax_2/Stars.png";
+	public String imgBackgroundParallaxPlanets_2 = "background/parallax_2/Planets.png";
+	public String imgBackgroundParallaxMeteors_2 = "background/parallax_2/Meteors.png";
 	
 	//background parallax test_3
+	public String imgBackgroundParallaxBG_3 = "background/parallax_3/BG.png";
+	public String imgBackgroundParallaxStars_3 = "background/parallax_3/Stars.png";
+	public String imgBackgroundParallaxPlanets_3 = "background/parallax_3/Planets.png";
+	public String imgBackgroundParallaxMeteors_3 = "background/parallax_3/Meteors.png";
 	
 	//player
 	public String imgPlayerRed_01 =  "player_1/unpacket/PlayerRed_Frame_01.png";
@@ -139,12 +144,31 @@ public class Resources extends AssetManager{
     public String img_turret_00 = "assets/SpaceRageTileset-Assets/Export/64x64px/GunTurret/GunTurretMount.png";
     public String img_turret_01 = "enemies/turrets/GunTurret_Green.png";
     public String img_turret_02 = "enemies/turrets/GunTurret_Gun.png";
+    public String img_turret_03 = "enemies/turrets/GunTurret_Red.png";
     
     //meteors
     public String imgMeteor_01_a = "items/meteors/Meteor_01_a.png";
     public String imgMeteor_01_b = "items/meteors/Meteor_01_b.png";
     public String imgMeteor_02_a = "items/meteors/Meteor_02_a.png";
     public String imgMeteor_02_b = "items/meteors/Meteor_02_b.png";
+    
+    //cannon
+    public String imgCannon_01 = "items/cannon/Cover_Green.png";
+    public String imgCannon_02 = "items/cannon/Rotor.png";
+    
+    //mine
+    public String imgMine_01 = "items/mine/Cover_Blue.png";
+    public String imgMine_02 = "items/mine/Rotor.png";
+    
+    //missiles
+    public String missile_0 =	"shoot/missiles/hmissile-0.png";
+    public String missile_45 =  "shoot/missiles/hmissile-45.png";
+    public String missile_90 =  "shoot/missiles/hmissile-90.png";
+    public String missile_135 = "shoot/missiles/hmissile-135.png"; 
+    public String missile_180 = "shoot/missiles/hmissile-180.png";
+    public String missile_225 = "shoot/missiles/hmissile-225.png";
+    public String missile_270 = "shoot/missiles/hmissile-270.png";
+    public String missile_315 = "shoot/missiles/hmissile-315.png";
     
     //powerup
     public String imgPower_A = "items/bonus/Powerup_Ammo.png";
@@ -239,10 +263,23 @@ public class Resources extends AssetManager{
 		
 		////////////////////////////////////////////////////////////
 		
-		load(imgBackgroundParallaxBG, Texture.class);
-		load(imgBackgroundParallaxStars, Texture.class);
-		load(imgBackgroundParallaxPlanets, Texture.class);
-		load(imgBackgroundParallaxMeteors, Texture.class);
+		//background parallax test_1
+		load(imgBackgroundParallaxBG_1, Texture.class);
+		load(imgBackgroundParallaxStars_1, Texture.class);
+		load(imgBackgroundParallaxPlanets_1, Texture.class);
+		load(imgBackgroundParallaxMeteors_1, Texture.class);
+		
+		//background parallax test_2
+		load(imgBackgroundParallaxBG_2, Texture.class);
+		load(imgBackgroundParallaxStars_2, Texture.class);
+		load(imgBackgroundParallaxPlanets_2, Texture.class);
+		load(imgBackgroundParallaxMeteors_2, Texture.class);
+		
+		//background parallax test_3
+		load(imgBackgroundParallaxBG_3, Texture.class);
+		load(imgBackgroundParallaxStars_3, Texture.class);
+		load(imgBackgroundParallaxPlanets_3, Texture.class);
+		load(imgBackgroundParallaxMeteors_3, Texture.class);
 		
 		//shoot
 		////////////////////////////////////////////////////////////
@@ -266,6 +303,30 @@ public class Resources extends AssetManager{
 		load(proton_medium_r, Texture.class);
 		load(proton_large_r, Texture.class);
 		////////////////////////////////////////////////////////////
+		
+		//missile
+		/////////////////////////////////////////////////////////////
+		load(missile_0, Texture.class);
+		load(missile_45, Texture.class);
+		load(missile_90, Texture.class);
+		load(missile_135, Texture.class); 
+		load(missile_180, Texture.class);
+		load(missile_225, Texture.class);
+		load(missile_270, Texture.class);
+		load(missile_315, Texture.class);
+		/////////////////////////////////////////////////////////////
+		
+		//cannon
+		/////////////////////////////////////////////////////////////
+		load(imgCannon_01, Texture.class);
+		load(imgCannon_02, Texture.class);
+	    /////////////////////////////////////////////////////////////
+	    
+	    //mine
+	    /////////////////////////////////////////////////////////////
+		load(imgMine_01, Texture.class);
+		load(imgMine_02, Texture.class);
+	    /////////////////////////////////////////////////////////////	
 		
 		//player
 		////////////////////////////////////////////////////////////
@@ -350,6 +411,7 @@ public class Resources extends AssetManager{
 		load(img_turret_00, Texture.class);
 		load(img_turret_01, Texture.class);
 		load(img_turret_02, Texture.class);
+		load(img_turret_03, Texture.class);
 		////////////////////////////////////////////////////////////
 		
 		//meteor
@@ -435,8 +497,6 @@ public class Resources extends AssetManager{
 		load(joystick_logo,Texture.class);
 		////////////////////////////////////////////////////////////
 		
-		
-		//load(imgExhaustRetro, Texture.class);
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 		
