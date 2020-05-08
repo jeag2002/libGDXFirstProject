@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.enemies.turrets.Cannon;
+import com.gdx.game.elements.enemies.turrets.Mine;
 import com.gdx.game.elements.enemies.turrets.Turret;
 import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
@@ -52,8 +54,20 @@ public class CollisionEngine implements ContactListener {
         	String msg = "";
         	
         	if ((objectA != null) && (objectB != null)) {
-            	if (((objectA instanceof Missile) || (objectA instanceof Meteor) || (objectA instanceof SimpleEnemy) || (objectA instanceof Turret) ) &&
-            	((objectB instanceof Missile) || (objectB instanceof Meteor) || (objectB instanceof SimpleEnemy) || (objectB instanceof Turret) )) {
+            	if ((
+            		(objectA instanceof Missile) || 
+            		(objectA instanceof Meteor) || 
+            		(objectA instanceof SimpleEnemy) || 
+            		(objectA instanceof Turret) ||
+            		(objectA instanceof Mine) ||
+            		(objectA instanceof Cannon)) &&
+            	(
+            		(objectB instanceof Missile) || 
+            		(objectB instanceof Meteor) || 
+            		(objectB instanceof SimpleEnemy) || 
+            		(objectB instanceof Turret) ||
+            		(objectB instanceof Mine) ||
+            		(objectB instanceof Cannon))) {
             		
             		
             		
@@ -67,6 +81,11 @@ public class CollisionEngine implements ContactListener {
             		boolean isMeteorB = false;
             		boolean isTurretA = false;
             		boolean isTurretB = false;
+            		boolean isMineA = false;
+            		boolean isMineB = false;
+            		boolean isCannonA = false;
+            		boolean isCannonB = false;
+            		
             		
             		SimpleEnemy enemyA = null;
             		SimpleEnemy enemyB = null;
@@ -76,6 +95,13 @@ public class CollisionEngine implements ContactListener {
             		
             		Turret turretA = null;
             		Turret turretB = null;
+            		
+            		Mine mineA = null;
+            		Mine mineB = null;
+            		
+            		Cannon cannonA = null;
+            		Cannon cannonB = null;
+            		
             		
             		if (objectA instanceof Missile) {
             			Missile missile = (Missile)objectA;	
@@ -93,7 +119,16 @@ public class CollisionEngine implements ContactListener {
             		}else if (objectA instanceof Turret) {
             			turretA = (Turret)objectA;
             			isTurretA = true;
+            			
+            		}else if (objectA instanceof Mine) {
+            			mineA = (Mine)objectA;
+            			isMineA = true;
+            			
+            		}else if (objectA instanceof Cannon) {
+            			cannonA = (Cannon)objectA;
+            			isCannonA = true;
             		}
+            		
             		
             		if (objectB instanceof Missile) {
             			
@@ -113,6 +148,14 @@ public class CollisionEngine implements ContactListener {
             		}else if (objectB instanceof Turret) {
             			turretB = (Turret)objectB;
             			isTurretB = true;
+            		
+            		}else if (objectB instanceof Mine) {
+            			mineB = (Mine)objectB;
+            			isMineB = true;
+            			
+            		}else if (objectB instanceof Cannon) {
+            			cannonB = (Cannon)objectB;
+            			isCannonB = true;
             		}
             		
             		
@@ -159,6 +202,32 @@ public class CollisionEngine implements ContactListener {
             		
             		}
             		
+            		if (isMissilePlayerA && isMineB) {
+            			
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+            			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,mineB.getX(),mineB.getY());
+            			
+            			
+            		}else if (isMissilePlayerB && isMineA) {
+            			
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+            			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,mineA.getX(),mineA.getY());
+            		
+            		}
+            		
+            		if (isMissilePlayerA && isCannonB) {
+            			
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+            			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,cannonB.getX(),cannonB.getY());
+            			
+            			
+            		}else if (isMissilePlayerB && isCannonA) {
+            			
+            			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+            			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,cannonA.getX(),cannonA.getY());
+            		
+            		}
+            		
             		
             		
             		
@@ -192,8 +261,8 @@ public class CollisionEngine implements ContactListener {
 	            		 
             		}
             		
-            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB || isMeteorB || isTurretB)) || 
-            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA || isMeteorA || isTurretA))) {
+            		if ((isMissilePlayerA && (isMissileEnemyB || isEnemyB || isMeteorB || isTurretB || isMineB || isCannonB)) || 
+            		   (isMissilePlayerB && (isMissileEnemyA || isEnemyA || isMeteorA || isTurretA || isMineA || isCannonA))) {
 	            		if (!GameElementLogic.toDeletedBodiesWithCollision.contains(contact.getFixtureA().getBody())) {
 	        				GameElementLogic.toDeletedBodiesWithCollision.add(contact.getFixtureA().getBody());
 	        			}
@@ -207,14 +276,17 @@ public class CollisionEngine implements ContactListener {
         	}
         	
         	
-        	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Meteor) || (objectB instanceof Missile) || (objectB instanceof Turret) || (objectB instanceof Bonus) || (objectB instanceof SimpleEnemy)))){
+        	if (((player.getCode().equals(objectStrA )) && ((objectB instanceof Meteor) || (objectB instanceof Missile) || (objectB instanceof Turret) || (objectB instanceof Mine) || (objectB instanceof Cannon) || (objectB instanceof Bonus) || (objectB instanceof SimpleEnemy)))){
         		
         		
         		boolean isMissileEnemy = false;
         		boolean isEnemy = false;
         		boolean isMeteor = false;
         		boolean isBonus = false;
-        		boolean isTurret = false;
+        		boolean isTurret = false;	
+        		boolean isMine = false;
+        		boolean isCannon = false;
+        	
         		
         		Bonus bonus = null;
         		
@@ -239,7 +311,25 @@ public class CollisionEngine implements ContactListener {
         			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, turret.getX(), turret.getY());            			
         			isTurret = true;
         		
-        		} else if (objectB instanceof Meteor) {
+        		}else if (objectB instanceof Mine) { 
+        		
+        			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+        			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+        			Mine mine = (Mine)objectB;
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());            			
+        			isMine = true;
+        		
+        		
+        		}else if (objectB instanceof Cannon) {
+        		
+        			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+        			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+        			Cannon cannon = (Cannon)objectB;
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, cannon.getX(), cannon.getY());            			
+        			isCannon = true;
+        			
+        		
+        		}else if (objectB instanceof Meteor) {
         			
         			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
         			Meteor meteor = (Meteor)objectB;
@@ -264,7 +354,7 @@ public class CollisionEngine implements ContactListener {
         		
         		
         	
-        		if (isMissileEnemy || isEnemy || isMeteor || isTurret) {
+        		if (isMissileEnemy || isEnemy || isMeteor || isTurret || isMine || isCannon) {
         			gPS.getgLL().processCollision();
         			gEL.playCrash();
         			
@@ -279,13 +369,15 @@ public class CollisionEngine implements ContactListener {
         		}
 			}
         	
-        	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Meteor) || (objectA instanceof Missile) || (objectA instanceof Turret) || (objectA instanceof Bonus) || (objectA instanceof SimpleEnemy)))){
+        	if (((player.getCode().equals(objectStrB )) && ((objectA instanceof Meteor) || (objectA instanceof Missile) || (objectA instanceof Turret) || (objectA instanceof Mine) || (objectA instanceof Cannon) ||(objectA instanceof Bonus) || (objectA instanceof SimpleEnemy)))){
         		
         		boolean isMissileEnemy = false;
         		boolean isEnemy = false;
         		boolean isMeteor = false;
         		boolean isBonus = false;
         		boolean isTurret = false;
+        		boolean isMine = false;
+        		boolean isCannon = false;
         		
         		Bonus bonus = null;
         		
@@ -309,6 +401,24 @@ public class CollisionEngine implements ContactListener {
         			Turret turret = (Turret)objectA;
         			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, turret.getX(), turret.getY());            			
         			isTurret = true;
+        		
+        		}else if (objectA instanceof Mine) { 
+        		
+        			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+        			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+        			Mine mine = (Mine)objectA;
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());            			
+        			isMine = true;
+        		
+        		
+        		}else if (objectA instanceof Cannon) {
+        		
+        			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
+        			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
+        			Cannon cannon = (Cannon)objectA;
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, cannon.getX(), cannon.getY());            			
+        			isCannon = true;
+        			
         		
         		}else if (objectA instanceof Meteor) {
         			
@@ -336,7 +446,7 @@ public class CollisionEngine implements ContactListener {
         	    }
         	    
         	   
-        		if (isMissileEnemy || isEnemy || isMeteor || isTurret) {
+        		if (isMissileEnemy || isEnemy || isMeteor || isTurret || isMine || isCannon) {
         			gEL.playCrash();
         			gPS.getgLL().processCollision();
         			
