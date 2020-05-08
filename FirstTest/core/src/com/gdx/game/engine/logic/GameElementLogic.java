@@ -19,6 +19,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.enemies.turrets.Cannon;
+import com.gdx.game.elements.enemies.turrets.Mine;
 import com.gdx.game.elements.enemies.turrets.Turret;
 import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.interfaz.SpawnObject;
@@ -86,6 +88,9 @@ public class GameElementLogic {
     private ArrayList<SpawnObject> explosions = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> obstacles = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
+    private ArrayList<SpawnObject> mines = new ArrayList<SpawnObject>();
+    private ArrayList<SpawnObject> cannons = new ArrayList<SpawnObject>();
+    
     
     private ArrayList<NewStaticItem> rectArray = new ArrayList<NewStaticItem>();
     
@@ -140,6 +145,20 @@ public class GameElementLogic {
 	    	}
     	}
     	
+    	if (tiledMap.getLayers().get(GameLevelInformation.MINE)!=null) {
+    		for(MapObject object : tiledMap.getLayers().get(GameLevelInformation.MINE).getObjects().getByType(RectangleMapObject.class)) {
+	    		Rectangle rect = ((RectangleMapObject)object).getRectangle(); 
+	    		rectArray.add(new NewStaticItem(rect, GameLevelInformation.MINE));
+	    	}
+    	}
+    	
+    	if (tiledMap.getLayers().get(GameLevelInformation.CANNON)!=null) {
+    		for(MapObject object : tiledMap.getLayers().get(GameLevelInformation.CANNON).getObjects().getByType(RectangleMapObject.class)) {
+	    		Rectangle rect = ((RectangleMapObject)object).getRectangle(); 
+	    		rectArray.add(new NewStaticItem(rect, GameLevelInformation.CANNON));
+	    	}
+    	}
+    	
     }
     
     
@@ -150,23 +169,24 @@ public class GameElementLogic {
     	while (iterator.hasNext()) {
     		NewStaticItem item = iterator.next();
     	    if ((item.getRect().y) <= cameraY) {
-    	    	
     	       if (item.getMapElement().equalsIgnoreCase(GameLevelInformation.TURRET)) {	
-	    	       if (GameLevelInformation.getLevel() == GameLevelInformation.FIRST_LEVEL) {
-	    	    	   generateTurret(StaticEnemyTypeEnum.TURRET_LEVEL_1, item.getRect().x, FirstTestGDX.screenHeight); 
-	    	       }else {
-	    	    	   generateTurret(StaticEnemyTypeEnum.TURRET_LEVEL_2, item.getRect().x, FirstTestGDX.screenHeight);
+    	    	   StaticEnemyTypeEnum turret = StaticEnemyTypeEnum.TURRET_LEVEL_1;
+    	    	   if (GameLevelInformation.getLevel() > GameLevelInformation.FIRST_LEVEL) {
+	    	    	   turret = StaticEnemyTypeEnum.TURRET_LEVEL_2;
 	    	       }
+	    	       generateTurret(turret, item.getRect().x, FirstTestGDX.screenHeight);
+	    	       
     	       }else if (item.getMapElement().equalsIgnoreCase(GameLevelInformation.TURRET_BOSS)) {
-    	    	   
     	    	   generateTurret(StaticEnemyTypeEnum.TURRET_BOSS, item.getRect().x, FirstTestGDX.screenHeight);
+    	       }else if (item.getMapElement().equalsIgnoreCase(GameLevelInformation.MINE)) {
+    	    	   generateMine(item.getRect().x, FirstTestGDX.screenHeight);
+    	       }else if (item.getMapElement().equalsIgnoreCase(GameLevelInformation.CANNON)) {
+    	    	   generateCannon(item.getRect().x, FirstTestGDX.screenHeight,true);
     	       }
-    	       
         	   iterator.remove();
             }
     	}
     }
-    
     
     public void setCrashSound(String path, float volume) {
 	     sfxCrash = Gdx.audio.newSound(Gdx.files.internal(path));
@@ -203,6 +223,9 @@ public class GameElementLogic {
         spawnPool.addPool(SpawnType.Explosion, explosions);
         spawnPool.addPool(SpawnType.Obstacle, obstacles);
         spawnPool.addPool(SpawnType.Item, items);
+        spawnPool.addPool(SpawnType.Mine, mines);
+        spawnPool.addPool(SpawnType.Cannon, cannons);
+        
     }
     
     
@@ -218,6 +241,13 @@ public class GameElementLogic {
         explosions.clear();
         obstacles.clear();
         items.clear();
+        mines.clear();
+        cannons.clear();
+        
+        toCreatedItemsWithCollision.clear();
+        toDeletedBodiesWithCollision.clear();
+        toDeletedBodiesWithoutCollision.clear();
+        
     }
     
    
@@ -235,7 +265,7 @@ public class GameElementLogic {
     }
     
     
-    //DETECT COLLISION WITH STATIC ELEMENTS
+    //DETECT COLLISION WITH END MAP
     public void processCollisionWorld(OrthographicCamera camera) {
        
        if (!gPS.getgLL().isEndLevel() && !gPS.getgLL().isGameOver()) {
@@ -243,13 +273,11 @@ public class GameElementLogic {
     	   TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
     	   float totalHeight = layer.getHeight() * layer.getTileHeight();
     	   boolean isEndEpisode = (camera.position.y - 64) > totalHeight;
-       
     	   //player.setEndMap(isEndEpisode);
     	   gPS.getgLL().setEndLevel(isEndEpisode);
        }
-       
-       
     }
+    
     
     //DETECT COLLISION WITH DYNAMIC ELEMENTS
     public void processCollision(float delta) {
@@ -334,7 +362,10 @@ public class GameElementLogic {
         explosions.clear();
         obstacles.clear();
         items.clear();
+        mines.clear();
+        cannons.clear();
         
+        toCreatedItemsWithCollision.clear();
         toDeletedBodiesWithCollision.clear();
         toDeletedBodiesWithoutCollision.clear();
     	
@@ -374,6 +405,18 @@ public class GameElementLogic {
             if (o.isSpawned())
                 o.draw(sb);
         }
+        
+        for (SpawnObject o: mines) {
+            if (o.isSpawned())
+                o.draw(sb);
+        }
+        
+        for (SpawnObject o: cannons) {
+            if (o.isSpawned())
+                o.draw(sb);
+        }
+        
+        
     }
     
     public void updateSpawns(float delta) {
@@ -383,7 +426,6 @@ public class GameElementLogic {
           		se.update(delta, GameLevelLogic.speedUpFactor);
           	}
          }
-    	
     	 for (SpawnObject e: enemies) {
              if (e.isSpawned())
                  e.update(delta, GameLevelLogic.speedUpFactor);
@@ -409,6 +451,16 @@ public class GameElementLogic {
              if (o.isSpawned())
                  o.update(delta, GameLevelLogic.speedUpFactor);
          }
+         for (SpawnObject o: mines) {
+             if (o.isSpawned())
+                 o.update(delta, GameLevelLogic.speedUpFactor);
+         }
+         for (SpawnObject o: cannons) {
+             if (o.isSpawned())
+                 o.update(delta, GameLevelLogic.speedUpFactor);
+         }
+         
+         
     }
     
     
@@ -466,7 +518,8 @@ public class GameElementLogic {
     		generateGroupEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-200), FirstTestGDX.screenHeight - 200);
     		break;
     		
-    	case CANNON_LEVEL_3:	
+    	case CANNON_LEVEL_3:
+    		generateCannon(200+random.nextInt(FirstTestGDX.screenWidth-200), FirstTestGDX.screenHeight - 200, false);
     		break;
     		
     	case ENEMY_SIMPLE_1_LEVEL_3:
@@ -628,6 +681,20 @@ public class GameElementLogic {
 		t.setSpawned(true);
 	}
 	
+	
+	public void generateMine(float posX, float posY) {
+		
+		Mine m = (Mine)spawnPool.getFromPool(SpawnType.Mine);
+		m.init(posX, posY, 90);
+		m.setSpawned(true);
+	}
+	
+	public void generateCannon(float posX, float posY, boolean isStatic) {
+		
+		Cannon c = (Cannon)spawnPool.getFromPool(SpawnType.Cannon);
+		c.init(posX, posY, 90, -280.0f, isStatic);
+		c.setSpawned(true);
+	}
 	
 	public void activateBonus(float posX, float posY) {
 		int latch = this.random_Bonus.nextInt(2);

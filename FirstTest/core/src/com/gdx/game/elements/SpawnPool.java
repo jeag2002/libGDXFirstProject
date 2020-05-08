@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.gdx.game.elements.enemies.simplenemy.SimpleEnemy;
+import com.gdx.game.elements.enemies.turrets.Cannon;
+import com.gdx.game.elements.enemies.turrets.Mine;
 import com.gdx.game.elements.enemies.turrets.Turret;
 import com.gdx.game.elements.explosions.SimpleExplosion;
 import com.gdx.game.elements.gun.Missile;
@@ -71,6 +73,8 @@ public class SpawnPool {
     	pools.get(SpawnType.Explosion).remove(object);
     	pools.get(SpawnType.Obstacle).remove(object);
     	pools.get(SpawnType.Item).remove(object);
+    	pools.get(SpawnType.Mine).remove(object);
+    	pools.get(SpawnType.Cannon).remove(object);
     	
     }
     
@@ -146,6 +150,30 @@ public class SpawnPool {
         	}
     	}
     	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Mine);
+        	for(SpawnObject sO: eS1){
+        		Mine m = (Mine)sO;
+        		if (m.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Cannon);
+        	for(SpawnObject sO: eS1){
+        		Cannon m = (Cannon)sO;
+        		if (m.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
     	
     	return returnObject;
     }
@@ -176,6 +204,13 @@ public class SpawnPool {
         else if (type.name() == "Explosion") {
         	created = new SimpleExplosion(this);
         }
+        else if (type.name() == "Mine") {
+        	created = new Mine(type,this.world);
+        }
+        else if (type.name() == "Cannon") {
+        	created = new Cannon(type,this,this.world);
+        }
+        
         else {
             System.err.println("SpawnPool: " + type.name()
                     + " not able to spawn. Maybe forgot to add in createSpawnObject()?");
