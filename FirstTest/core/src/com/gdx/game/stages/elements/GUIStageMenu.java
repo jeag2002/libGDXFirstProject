@@ -81,7 +81,7 @@ public class GUIStageMenu {
           @Override
           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
         	  	//gPSF.startGame();
-        	  
+        	  gPSF.closeMusic();
         	  gPSF.startIntermission();
         	  
         	  Timer.schedule(new Task(){ 

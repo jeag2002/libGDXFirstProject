@@ -54,6 +54,7 @@ public class LoadingScreen implements Screen{
 			game.resources.initLoadedAssets();
 			//-> Arranca pantalla videojuegos
 			game.gamePlayScreen.init();
+			game.gamePlayScreen.setInitialMusic();
 			
 			game.setScreen(game.gamePlayScreen);
 			

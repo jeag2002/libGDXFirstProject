@@ -19,11 +19,11 @@ public class GameLevelInformation {
 	private static int level;
 	
 	private static final String map_level_1 = "maps/map_1/tile_test_3_final.tmx";
-	private static final String map_level_2 = "";
+	private static final String map_level_2 = "maps/map_2/tile_test_4_final.tmx";
 	private static final String map_level_3 = "";
 	
 	private static final String music_level_1 = "sounds/levels/gamelevelmusicfinal.mp3";
-	private static final String music_level_2 = "";
+	private static final String music_level_2 = "sounds/levels/gamelevel2musicfinal.mp3";
 	private static final String music_level_3 = "";
 	
 	

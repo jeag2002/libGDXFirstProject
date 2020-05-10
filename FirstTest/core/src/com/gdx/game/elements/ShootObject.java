@@ -19,19 +19,15 @@ import com.gdx.game.stages.enums.SpawnType;
 
 public abstract class ShootObject extends DynamicCollObject {
 	
-	 //private static final int MAXGUNS = 200;
 
 	 private SpawnType missilesPool; 
-	 //private Gun guns[] = new Gun[MAXGUNS];
 	 
 	 private ArrayList<Gun> guns = new ArrayList<Gun>();
 	 
 	 private boolean shootingActive;
-	 private int gunsCount = 0;
 	 private float timer;
 	 private float gunPower = 1.0f;
 	 private float shootingInterval = 0.5f;
-	 private MissileTypeEnum gunType;
 	
 	 private boolean shootEvent;
 	 
@@ -41,12 +37,6 @@ public abstract class ShootObject extends DynamicCollObject {
 	public ShootObject(SpawnPool spawnPool, World world) {
 		super(world);
 		this.spawnPool = spawnPool;
-		/*
-        for(int i=0; i<guns; ++i) {
-            Gun gun = new Gun(0, 0);
-            guns[i] = gun;
-        }
-        */
         shootEvent = false;
         
 }
@@ -94,6 +84,7 @@ public abstract class ShootObject extends DynamicCollObject {
 		 	gun.active = true;
 		 	
 		 	guns.add(gun);
+		 	
 	 }
 	 
 	
@@ -119,7 +110,6 @@ public abstract class ShootObject extends DynamicCollObject {
 	
 	public void resetGuns() {
 		for(Gun g: guns) {g.active = false;}
-		this.gunsCount = 0;
 	}
 	 
 	public void update(float delta) {
@@ -153,10 +143,9 @@ public abstract class ShootObject extends DynamicCollObject {
 		
 	     for (Gun g: guns) {
 	         if (g.active) {
-	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);
+	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);  
 	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
 	            m.setPool(spawnPool);
-	            //g.active = false;
 	            removableGun.add(g);
 	         }
 	      }

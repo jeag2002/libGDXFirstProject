@@ -106,11 +106,18 @@ public class Resources extends AssetManager{
     public String proton_large_r = "shoot/shoot_2/Proton_Large.png";
     
     //enemy_1
-    public String imgEnemy_1_01 = "enemies/enemy_1/Enemy01_Green_Frame_1.png";
-    public String imgEnemy_1_02 = "enemies/enemy_1/Enemy01_Green_Frame_2.png";
-    public String imgEnemy_1_03 = "enemies/enemy_1/Enemy01_Green_Frame_3.png";
-    public String imgEnemy_1_04 = "enemies/enemy_1/Enemy01_Green_Frame_4.png";
-    public String imgEnemy_1_05 = "enemies/enemy_1/Enemy01_Green_Frame_5.png";
+    public String imgEnemy_1_1_01 = "enemies/enemy_1/enemy_1_level_1/Enemy01_Green_Frame_1.png";
+    public String imgEnemy_1_1_02 = "enemies/enemy_1/enemy_1_level_1/Enemy01_Green_Frame_2.png";
+    public String imgEnemy_1_1_03 = "enemies/enemy_1/enemy_1_level_1/Enemy01_Green_Frame_3.png";
+    public String imgEnemy_1_1_04 = "enemies/enemy_1/enemy_1_level_1/Enemy01_Green_Frame_4.png";
+    public String imgEnemy_1_1_05 = "enemies/enemy_1/enemy_1_level_1/Enemy01_Green_Frame_5.png";
+    
+    public String imgEnemy_1_2_01 = "enemies/enemy_1/enemy_1_level_2/Enemy01_Teal_Frame_1.png";
+    public String imgEnemy_1_2_02 = "enemies/enemy_1/enemy_1_level_2/Enemy01_Teal_Frame_2.png";
+    public String imgEnemy_1_2_03 = "enemies/enemy_1/enemy_1_level_2/Enemy01_Teal_Frame_3.png";
+    public String imgEnemy_1_2_04 = "enemies/enemy_1/enemy_1_level_2/Enemy01_Teal_Frame_4.png";
+    public String imgEnemy_1_2_05 = "enemies/enemy_1/enemy_1_level_2/Enemy01_Teal_Frame_5.png";
+    
     
     public String imgShadowEnemy_1_01 = "enemies/enemy_1/Enemy01_Shadow_Frame_1.png";
     public String imgShadowEnemy_1_02 = "enemies/enemy_1/Enemy01_Shadow_Frame_2.png";
@@ -119,11 +126,18 @@ public class Resources extends AssetManager{
     public String imgShadowEnemy_1_05 = "enemies/enemy_1/Enemy01_Shadow_Frame_5.png";
     
     //enemy_2
-    public String imgEnemy_2_01 = "enemies/enemy_2/Enemy02_Teal_Frame_1.png";
-    public String imgEnemy_2_02 = "enemies/enemy_2/Enemy02_Teal_Frame_2.png";
-    public String imgEnemy_2_03 = "enemies/enemy_2/Enemy02_Teal_Frame_3.png";
-    public String imgEnemy_2_04 = "enemies/enemy_2/Enemy02_Teal_Frame_4.png";
-    public String imgEnemy_2_05 = "enemies/enemy_2/Enemy02_Teal_Frame_5.png";
+    public String imgEnemy_2_1_01 = "enemies/enemy_2/enemy_2_level_1/Enemy02_Teal_Frame_1.png";
+    public String imgEnemy_2_1_02 = "enemies/enemy_2/enemy_2_level_1/Enemy02_Teal_Frame_2.png";
+    public String imgEnemy_2_1_03 = "enemies/enemy_2/enemy_2_level_1/Enemy02_Teal_Frame_3.png";
+    public String imgEnemy_2_1_04 = "enemies/enemy_2/enemy_2_level_1/Enemy02_Teal_Frame_4.png";
+    public String imgEnemy_2_1_05 = "enemies/enemy_2/enemy_2_level_1/Enemy02_Teal_Frame_5.png";
+    
+    public String imgEnemy_2_2_01 = "enemies/enemy_2/enemy_2_level_2/Enemy02Green_Frame_1.png";
+    public String imgEnemy_2_2_02 = "enemies/enemy_2/enemy_2_level_2/Enemy02Green_Frame_2.png";
+    public String imgEnemy_2_2_03 = "enemies/enemy_2/enemy_2_level_2/Enemy02Green_Frame_3.png";
+    public String imgEnemy_2_2_04 = "enemies/enemy_2/enemy_2_level_2/Enemy02Green_Frame_4.png";
+    public String imgEnemy_2_2_05 = "enemies/enemy_2/enemy_2_level_2/Enemy02Green_Frame_5.png";
+    
     
     public String imgShadowEnemy_2_01 = "enemies/enemy_2/Enemy02_Shadow_Frame_1.png";
     public String imgShadowEnemy_2_02 = "enemies/enemy_2/Enemy02_Shadow_Frame_2.png";
@@ -143,7 +157,7 @@ public class Resources extends AssetManager{
     //turrets
     public String img_turret_00 = "assets/SpaceRageTileset-Assets/Export/64x64px/GunTurret/GunTurretMount.png";
     public String img_turret_01 = "enemies/turrets/GunTurret_Green.png";
-    public String img_turret_02 = "enemies/turrets/GunTurret_Gun.png";
+    public String img_turret_02 = "enemies/turrets/GunTurret_Teal.png";
     public String img_turret_03 = "enemies/turrets/GunTurret_Red.png";
     
     //meteors
@@ -153,14 +167,18 @@ public class Resources extends AssetManager{
     public String imgMeteor_02_b = "items/meteors/Meteor_02_b.png";
     
     //cannon
-    public String imgCannon_01 = "items/cannon/Cover_Green.png";
-    public String imgCannon_02 = "items/cannon/Rotor.png";
+    public String imgCannon_01 = "items/cannon/Rotor.png";
+    public String imgCannon_02 = "items/cannon/Cover_Green.png";
     
     //mine
-    public String imgMine_01 = "items/mine/Cover_Blue.png";
-    public String imgMine_02 = "items/mine/Rotor.png";
+    public String imgMine_01 = "items/mine/Rotor.png";
+    public String imgMine_02 = "items/mine/Cover_Blue.png";
+    
     
     //missiles
+    
+    public String missile_0 =	"shoot/missiles_1/rocket.png";
+    /*
     public String missile_0 =	"shoot/missiles/hmissile-0.png";
     public String missile_45 =  "shoot/missiles/hmissile-45.png";
     public String missile_90 =  "shoot/missiles/hmissile-90.png";
@@ -169,7 +187,7 @@ public class Resources extends AssetManager{
     public String missile_225 = "shoot/missiles/hmissile-225.png";
     public String missile_270 = "shoot/missiles/hmissile-270.png";
     public String missile_315 = "shoot/missiles/hmissile-315.png";
-    
+    */
     //powerup
     public String imgPower_A = "items/bonus/Powerup_Ammo.png";
     public String imgPower_E = "items/bonus/Powerup_Energy.png";
@@ -307,13 +325,13 @@ public class Resources extends AssetManager{
 		//missile
 		/////////////////////////////////////////////////////////////
 		load(missile_0, Texture.class);
-		load(missile_45, Texture.class);
-		load(missile_90, Texture.class);
-		load(missile_135, Texture.class); 
-		load(missile_180, Texture.class);
-		load(missile_225, Texture.class);
-		load(missile_270, Texture.class);
-		load(missile_315, Texture.class);
+		//load(missile_45, Texture.class);
+		//load(missile_90, Texture.class);
+		//load(missile_135, Texture.class); 
+		//load(missile_180, Texture.class);
+		//load(missile_225, Texture.class);
+		//load(missile_270, Texture.class);
+		//load(missile_315, Texture.class);
 		/////////////////////////////////////////////////////////////
 		
 		//cannon
@@ -368,11 +386,17 @@ public class Resources extends AssetManager{
 		
 		//enemy_1
 		////////////////////////////////////////////////////////////
-		load(imgEnemy_1_01, Texture.class);
-		load(imgEnemy_1_02, Texture.class);
-		load(imgEnemy_1_03, Texture.class);
-		load(imgEnemy_1_04, Texture.class);
-		load(imgEnemy_1_05, Texture.class);
+		load(imgEnemy_1_1_01, Texture.class);
+		load(imgEnemy_1_1_02, Texture.class);
+		load(imgEnemy_1_1_03, Texture.class);
+		load(imgEnemy_1_1_04, Texture.class);
+		load(imgEnemy_1_1_05, Texture.class);
+		
+		load(imgEnemy_1_2_01, Texture.class);
+		load(imgEnemy_1_2_02, Texture.class);
+		load(imgEnemy_1_2_03, Texture.class);
+		load(imgEnemy_1_2_04, Texture.class);
+		load(imgEnemy_1_2_05, Texture.class);
 		
 		
 		load(imgShadowEnemy_1_01, Texture.class);
@@ -393,11 +417,18 @@ public class Resources extends AssetManager{
 		
 		//enemy_2
 		////////////////////////////////////////////////////////////
-		load(imgEnemy_2_01, Texture.class);
-		load(imgEnemy_2_02, Texture.class);
-		load(imgEnemy_2_03, Texture.class);
-		load(imgEnemy_2_04, Texture.class);
-		load(imgEnemy_2_05, Texture.class);
+		load(imgEnemy_2_1_01, Texture.class);
+		load(imgEnemy_2_1_02, Texture.class);
+		load(imgEnemy_2_1_03, Texture.class);
+		load(imgEnemy_2_1_04, Texture.class);
+		load(imgEnemy_2_1_05, Texture.class);
+		
+		load(imgEnemy_2_2_01, Texture.class);
+		load(imgEnemy_2_2_02, Texture.class);
+		load(imgEnemy_2_2_03, Texture.class);
+		load(imgEnemy_2_2_04, Texture.class);
+		load(imgEnemy_2_2_05, Texture.class);
+		
 	    
 		load(imgShadowEnemy_2_01, Texture.class);
 		load(imgShadowEnemy_2_02, Texture.class);

@@ -17,6 +17,7 @@ import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
+import com.gdx.game.stages.enums.ShootEnemyType;
 import com.gdx.game.stages.enums.SpawnType;
 import com.gdx.game.stages.enums.StaticEnemyTypeEnum;
 
@@ -45,6 +46,7 @@ public class Turret extends ShootObject implements SpawnObject{
     private float angle = 0;
     
     private StaticEnemyTypeEnum type;
+    private ShootEnemyType sET;
     
     
     private Player playerRef;
@@ -56,7 +58,7 @@ public class Turret extends ShootObject implements SpawnObject{
 	}
 	
 	
-	public void init(StaticEnemyTypeEnum type, float xStart, float yStart,  float angle, float speed, Player playerRef) {
+	public void init(StaticEnemyTypeEnum type, ShootEnemyType sET, float xStart, float yStart,  float angle, float speed, Player playerRef) {
 		
 		super.init(SpawnType.MissileEnemy);
 		
@@ -64,6 +66,7 @@ public class Turret extends ShootObject implements SpawnObject{
 		this.angle = angle;
 		this.position.set(xStart, yStart);
 		this.type = type;
+		this.sET = sET;
 		
 		turret = new Texture[1];
 		
@@ -80,9 +83,10 @@ public class Turret extends ShootObject implements SpawnObject{
 		 
 		
 		
-		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1) || 
-		    (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2))) {
+		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1)) {
 			turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_01,Texture.class);
+		}else if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2)) {
+			turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_02,Texture.class);
 		}else if (type.equals(StaticEnemyTypeEnum.TURRET_BOSS)) {
 			turret_Base = FirstTestGDX.resources.get(FirstTestGDX.resources.img_turret_03,Texture.class);
 		}
@@ -185,14 +189,23 @@ public class Turret extends ShootObject implements SpawnObject{
 			
 			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
 		
-		} else if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2)){
-			
-			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) - 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
-			addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) + 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		}else if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2)){
 		
-		} else if (type.equals(StaticEnemyTypeEnum.TURRET_BOSS)) {
+			if (sET.equals(ShootEnemyType.SHOOT_SIMPLE)) {
+				
+				addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+				
+			}else if (sET.equals(ShootEnemyType.SHOOT_DOUBLE)) {
+				
+				addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) - 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
+				addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2) + 20 , getY() + (getHeight()/2) , 0 , 0, 16,16);
+			}
 			
-			addGun(MissileTypeEnum.MISSIL_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		}else if (type.equals(StaticEnemyTypeEnum.TURRET_BOSS)) {
+			
+			
+			addGun(MissileTypeEnum.MISSIL_1,(float)angle, this.speed*2, getX() + (getWidth()/2)-20, getY() + (getHeight()/2) , 0 , 0, 16,32);
+			addGun(MissileTypeEnum.MISSIL_1,(float)angle, this.speed*2, getX() + (getWidth()/2)+20, getY() + (getHeight()/2) , 0 , 0, 16,32);
 		}
 	}
 	

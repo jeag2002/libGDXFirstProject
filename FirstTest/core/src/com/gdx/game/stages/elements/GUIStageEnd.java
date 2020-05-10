@@ -21,9 +21,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.gdx.game.FirstTestGDX;
+import com.gdx.game.engine.logic.GameLevelInformation;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.enums.LaserTypePlayer;
 import com.gdx.game.stages.gameplay.WindowsItem;
 import com.gdx.game.utils.StringUtils;
 import com.gdx.game.utils.TimeConversion;
@@ -129,8 +133,13 @@ public class GUIStageEnd {
 		button_Menu.addListener(new InputListener(){
 	    	  @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	    		  
+	    		  GameLevelInformation.setLevel(GameLevelInformation.FIRST_LEVEL);
 	    		  gPS.dispose();
 	    		  gPS.initGame();
+	    		  gPS.closeMusic();
+	    		  gPS.setInitialMusic();
+	    		  
 	    	  }
 	          @Override
 	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -149,8 +158,28 @@ public class GUIStageEnd {
 	    button_Next.addListener(new InputListener(){
 	    	  @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-	    		  gPS.dispose();
-	    		  gPS.initGame();
+	    		  
+	    		  final LaserTypePlayer lTP = gPS.getgLL().getShootTypePlayer();
+	    		 
+	    		  gPS.getgLL().nextLevel();
+	    		  GameLevelInformation.setLevel(GameLevelInformation.getLevel()+1);
+	        	  
+	    		  gPS.closeMusic();
+	    		  gPS.startIntermission();
+	        	  
+	        	  Timer.schedule(new Task(){ 
+	        		@Override
+	        	    public void run() {
+	        			gPS.initGame();
+	        			gPS.startGame();
+	        			
+	        			gPS.getgLL().setShootTypePlayer(lTP);
+	        			gPS.getGamePlay().getPlayer().setlTypePlayer(lTP);
+	        			
+	        		}}
+	        	  ,5);
+	    		  
+	    		  
 	    	  }
 	          @Override
 	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -213,8 +242,24 @@ public class GUIStageEnd {
 			
 			if (gPS.getgLL().isEndLevel()) {
 				logo = FirstTestGDX.resources.imgYouWin;
+				
+				button_Menu.setVisible(true);
+				button_Next.setVisible(true);
+				
+				button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
+				button_Next.addAction(sequence(hide(), delay(5.0f), show()));
+				
+				button_Menu.setPosition((FirstTestGDX.screenWidth / 2) - 100,95);
+				button_Next.setPosition((FirstTestGDX.screenWidth / 2),95);
+				
 			}else {
 				logo = FirstTestGDX.resources.imgYouLose;
+				button_Menu.setVisible(true);
+				button_Next.setVisible(false);
+				
+				button_Menu.setPosition((FirstTestGDX.screenWidth / 2) - 50,95);
+				
+				button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
 			}
 			
 			logo_result.setTexture(FirstTestGDX.resources.get(logo, Texture.class));
@@ -236,8 +281,10 @@ public class GUIStageEnd {
 			Star_2.addAction(sequence(hide(), delay(4.0f), show()));
 			Star_3.addAction(sequence(hide(), delay(4.5f), show()));
 			
-			button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
-			button_Next.addAction(sequence(hide(), delay(5.0f), show()));
+			//button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
+			//button_Next.addAction(sequence(hide(), delay(5.0f), show()));
+			
+			
 			
 		}else {
 			
@@ -248,6 +295,9 @@ public class GUIStageEnd {
 			lblStart_1.setVisible(false);
 			lblStart_2.setVisible(false);
 			lblStart_3.setVisible(false);
+			
+			button_Menu.setVisible(false);
+			button_Next.setVisible(false);
 			
 		}
 		

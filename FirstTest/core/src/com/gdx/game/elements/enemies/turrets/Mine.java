@@ -77,10 +77,12 @@ public class Mine extends DynamicCollObject implements SpawnObject{
 		super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		
 		base.setOriginCenter();
-        base.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 - 10);
+        base.setSize(64, 64);
+		base.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
         
         body.setOriginCenter();
-        body.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 - 10);
+        body.setSize(64, 64);
+        body.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
         
         this.actPosition = POSITION_1;
         
@@ -150,41 +152,38 @@ public class Mine extends DynamicCollObject implements SpawnObject{
 	    if (timer >= 0.05f) {
 	    	timer = 0.0f;
 	    	
+	    	// - delta*GameLevelLogic.speedUpFactor * bgSpeed
+	    	
 	    	if (this.actPosition == POSITION_1) {
 	    		
 	    		base.setOriginCenter();
-	            base.setOriginBasedPosition(getX() + getWidth()/2 + 10, getY() + getHeight() / 2 - 10);
+	            base.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
 	            body.setOriginCenter();
-	            body.setOriginBasedPosition(getX() + getWidth()/2 + 10, getY() + getHeight() / 2 - 10);
+	            body.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
 	            this.actPosition = POSITION_2;
 	    		
 	    	}else if (this.actPosition == POSITION_2) {
 	    		
 	    		base.setOriginCenter();
-	            base.setOriginBasedPosition(getX() + getWidth()/2 + 10, getY() + getHeight() / 2 + 10);
+	            base.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed , getY() + getHeight() / 2 + delta*GameLevelLogic.speedUpFactor * bgSpeed);
 	            body.setOriginCenter();
-	            body.setOriginBasedPosition(getX() + getWidth()/2 + 10, getY() + getHeight() / 2 + 10);
-	            this.actPosition = POSITION_3;
-	    		
-	    		
+	            body.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 + delta*GameLevelLogic.speedUpFactor * bgSpeed);
+	            this.actPosition = POSITION_3;	
+	            
 	    	}else if (this.actPosition == POSITION_3) {
 	    		
 	    		base.setOriginCenter();
-	            base.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 + 10);
+	            base.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
 	            body.setOriginCenter();
-	            body.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 + 10);
-	            this.actPosition = POSITION_4;
-	    		
-	    		
-	    		
+	            body.setOriginBasedPosition(getX() + getWidth()/2 + delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
+	    		this.actPosition = POSITION_4;
 	    	}else if (this.actPosition == POSITION_4) {
 	    		
 	    		base.setOriginCenter();
-	            base.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 - 10);
+	            base.setOriginBasedPosition(getX() + getWidth()/2 - delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
 	            body.setOriginCenter();
-	            body.setOriginBasedPosition(getX() + getWidth()/2 - 10, getY() + getHeight() / 2 - 10);
-	            this.actPosition = POSITION_1;
-	    		
+	            body.setOriginBasedPosition(getX() + getWidth()/2 - delta*GameLevelLogic.speedUpFactor * bgSpeed, getY() + getHeight() / 2 - delta*GameLevelLogic.speedUpFactor * bgSpeed);
+	    		this.actPosition = POSITION_1;
 	    	}
 	    }
 		

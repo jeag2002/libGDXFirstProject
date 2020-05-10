@@ -75,22 +75,37 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	    setReference(this);
 	    Texture[] text_es = new Texture[5];
 	    
-		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1)  || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3) ) {
+		if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3) ) {
 			
 			this.eTypes = eTypes;
-			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_01,Texture.class);
-			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_02,Texture.class);
-			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_03,Texture.class);
-			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_04,Texture.class);
-			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_05,Texture.class);
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_1_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_1_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_1_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_1_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_1_05,Texture.class);
 			
-		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2) || eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)) {
+		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2)) {
+		
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_2_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_2_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_2_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_2_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_1_2_05,Texture.class);
+		
+		}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2)) {
 			this.eTypes = eTypes;
-			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_01,Texture.class);
-			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_02,Texture.class);
-			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_03,Texture.class);
-			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_04,Texture.class);
-			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_05,Texture.class);
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_1_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_1_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_1_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_1_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_1_05,Texture.class);
+			
+		}else if  (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)) {
+			text_es[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_2_01,Texture.class);
+			text_es[1] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_2_02,Texture.class);
+			text_es[2] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_2_03,Texture.class);
+			text_es[3] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_2_04,Texture.class);
+			text_es[4] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgEnemy_2_2_05,Texture.class);
 		}
 		
 		init(text_es,0);
@@ -164,25 +179,25 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 			
 			if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1)) {	
 				
-				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*1.5f, getX() , getY(), (getWidth()/2), (-1)*getHeight(),10,30);
 				
 			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2)){
 				
-				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2)-20, (-1)*getHeight() - 50,10,30);
-				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2)+20, (-1)*getHeight() - 50,10,30);
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*1.5f, getX() , getY(), (getWidth()/2)-20, (-1)*getHeight(),10,30);
+				addGun(MissileTypeEnum.LASER_1,this.angle, this.speed*1.5f, getX() , getY(), (getWidth()/2)+20, (-1)*getHeight(),10,30);
 			
 			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3)){
 				
-				addGun(MissileTypeEnum.MISSIL_1,this.angle, this.speed*2, getX() , getY(), (getWidth()/2), (-1)*getHeight() - 50,10,30);
+				addGun(MissileTypeEnum.MISSIL_1,this.angle, this.speed*1.5f, getX() , getY(), (getWidth()/2), (-1)*getHeight(),10,30);
 				
 			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2)) {
 				
-				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2) , getY() - getHeight(), 0, 0,16,16);
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*1.5f, getX() , getY() , (getWidth()/2), (-1)*getHeight(),16,16);
 				
 			}else if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2)){
 				
-				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2)-20 , getY() - getHeight(), 0, 0,16,16);
-				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*2, getX()+(getWidth()/2)+20 , getY() - getHeight(), 0, 0,16,16);
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*1.5f, getX(), getY(), (getWidth()/2)-20, (-1)*getHeight(), 16,16);
+				addGun(MissileTypeEnum.PROTON_1, 90.0f, this.speed*1.5f, getX(), getY(), (getWidth()/2)+20, (-1)*getHeight(), 16,16);
 				
 			}
 	}

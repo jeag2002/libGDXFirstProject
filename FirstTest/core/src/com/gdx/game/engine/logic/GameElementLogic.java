@@ -32,6 +32,7 @@ import com.gdx.game.stages.enums.BonusTypeEnum;
 import com.gdx.game.stages.enums.DynamicEnemyTypeEnum;
 import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.LaserTypePlayer;
+import com.gdx.game.stages.enums.ShootEnemyType;
 import com.gdx.game.stages.enums.SpawnType;
 import com.gdx.game.stages.enums.StaticEnemyTypeEnum;
 import com.gdx.game.utils.NewItem;
@@ -380,6 +381,17 @@ public class GameElementLogic {
         	}
         }
         
+        for (SpawnObject o: mines) {
+            if (o.isSpawned())
+                o.draw(sb);
+        }
+        
+        for (SpawnObject o: cannons) {
+            if (o.isSpawned())
+                o.draw(sb);
+        }
+        
+        
         for (SpawnObject e: enemies) {
             if (e.isSpawned())
                 e.draw(sb);
@@ -405,18 +417,6 @@ public class GameElementLogic {
             if (o.isSpawned())
                 o.draw(sb);
         }
-        
-        for (SpawnObject o: mines) {
-            if (o.isSpawned())
-                o.draw(sb);
-        }
-        
-        for (SpawnObject o: cannons) {
-            if (o.isSpawned())
-                o.draw(sb);
-        }
-        
-        
     }
     
     public void updateSpawns(float delta) {
@@ -676,8 +676,17 @@ public class GameElementLogic {
 	
 	
 	public void generateTurret(StaticEnemyTypeEnum type, float posX, float posY) {
+		
+		ShootEnemyType sET = ShootEnemyType.SHOOT_SIMPLE;
+		
+		
+		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_2)) {
+			int latch = this.random_Bonus.nextInt(2);
+			sET = sET.getByIndex(latch);
+		}
+		
 		Turret t = (Turret)spawnPool.getFromPool(SpawnType.Static_Enemy);
-		t.init(type,posX, posY, 90.0f, -280.0f,player);
+		t.init(type, sET, posX, posY, 90.0f, -280.0f,player);
 		t.setSpawned(true);
 	}
 	

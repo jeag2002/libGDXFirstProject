@@ -2,6 +2,7 @@ package com.gdx.game.elements.enemies.turrets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -36,7 +37,7 @@ public class Cannon extends ShootObject implements SpawnObject {
     private Vector2 movement = new Vector2();
     
     private static final float bgSpeed = 50.0f;
-    private static final float intervalGun = 0.35f;
+    private static final float intervalGun = 0.15f;
     
     private int actPosition;
 	
@@ -49,13 +50,15 @@ public class Cannon extends ShootObject implements SpawnObject {
 	
 	public void init(float xStart, float yStart, float angle, float speed, boolean blocked) {
 		
+		super.init(SpawnType.MissileEnemy);
+		
 		setReference(this);
 		this.angle = angle;
 		this.timer = 0;
 		this.speed = speed;
 		this.blocked = blocked;
 		
-		this.tethaAngle = 0;
+		this.tethaAngle = 270;
 		
 		
 		position.set(xStart, yStart);
@@ -82,6 +85,8 @@ public class Cannon extends ShootObject implements SpawnObject {
         
         body.setOriginCenter();
         body.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
+        
+		setShootingActive(true);
 	
 	}
 	
@@ -100,8 +105,7 @@ public class Cannon extends ShootObject implements SpawnObject {
 
 	@Override
 	public void setPool(SpawnPool pool) {
-		this.pool = pool;
-		
+		this.setPool(pool);
 	}
 
 	@Override
@@ -110,9 +114,21 @@ public class Cannon extends ShootObject implements SpawnObject {
 		super.setPosition(FirstTestGDX.screenWidth, 0);
 		
 	}
+	
+	
+	public void draw(SpriteBatch sb) {
+		super.draw(sb);
+		base.draw(sb);
+		body.draw(sb);
+	}
+	
+	
 
 	@Override
 	public void update(float delta, float boostFactor) {
+		
+		
+		super.update(delta);
 		
 		if (isSpawned()) {	
 			
@@ -127,23 +143,26 @@ public class Cannon extends ShootObject implements SpawnObject {
 			super.setPosition(position.x, position.y);
 	        super.setCollisionRef(position.x, position.y);
 	        
-	        
-	         base.setOriginCenter();
-	         base.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
+	        base.setOriginCenter();
+       	    base.setOriginBasedPosition(getX()+ getWidth()/2, getY()+ getHeight() / 2);
 	         
-	         body.setOriginCenter();
-	         body.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
+	        body.setOriginCenter();
+	        body.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
 	        
 	        
 	         timer += delta * boostFactor;
 	         if (timer >= intervalGun) {
 	        	 
 	        	 timer = 0;
+	        	 
+	        	 
+	        	 
 	        	 base.setRotation((float) tethaAngle);
+	        	 
 	        	 setGun(tethaAngle);
 	        	 
-	        	 this.tethaAngle += 45;
-	        	 if (this.tethaAngle >= 360) {tethaAngle = 0;}
+	        	 this.tethaAngle -= 22.5;
+	        	 if (this.tethaAngle <= 0) {tethaAngle = 360;}
 	        	 
 	         }
 	        
@@ -160,7 +179,7 @@ public class Cannon extends ShootObject implements SpawnObject {
 	public void setGun(double angle) {
 		setGunPower(100.0f);
 		setShootingInterval(intervalGun);
-		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX() + (getWidth()/2)  , getY() + (getHeight()/2) , 0 , 0, 16,16);
+		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX(), getY(), (getWidth()/2)-5 , (getHeight()/2)-5, 16, 16);
 	}
 	
 

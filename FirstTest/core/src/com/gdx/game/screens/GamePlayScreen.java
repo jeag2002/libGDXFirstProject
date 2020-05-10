@@ -55,7 +55,7 @@ public class GamePlayScreen implements Screen {
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
-		GameLevelInformation.setLevel(GameLevelInformation.FIRST_LEVEL);
+		GameLevelInformation.setLevel(GameLevelInformation.SECOND_LEVEL);
 		gLL = new GameLevelLogic();
 	}
 	
@@ -90,11 +90,11 @@ public class GamePlayScreen implements Screen {
 		
 		Gdx.input.setInputProcessor(inGameUI);
 		guiStage.activeGUI(GUIEnum.MENU);
-		setInitialMusic();
+		//setInitialMusic();
 	}
 	
 	
-	private void setInitialMusic() {
+	public void setInitialMusic() {
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_menu));
 		music.setVolume(volumeMusic);
 		music.setLooping(true);
@@ -102,13 +102,13 @@ public class GamePlayScreen implements Screen {
 	}
 	
 	
-	private void closeMusic() {
+	public void closeMusic() {
 		music.stop();
 		//music = null;
 	}
 	
 	
-	private void setLevelMusic() {
+	public void setLevelMusic() {
 				
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelInformation.getMusicLevel(GameLevelInformation.getLevel())));
 		music.setVolume(0.25f);
@@ -117,27 +117,27 @@ public class GamePlayScreen implements Screen {
 	}
 	
 	
-	private void setEndLevelMusic() {
+	public void setEndLevelMusic() {
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_final_level));
 		music.setVolume(0.25f);
 		music.play();
 	}
 	
 	
-	private void setGameOverMusic() {
+	public void setGameOverMusic() {
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_gameover));
 		music.setVolume(0.25f);
 		music.play();
 	}
 	
 	
-	private void setIntermissionVoice() {
+	public void setIntermissionVoice() {
 		sound = Gdx.audio.newSound(Gdx.files.internal(GameLevelLogic.sound_intermission));
 		sound.play();
 		
 	}
 	
-	private void setEndLevelVoice() {
+	public void setEndLevelVoice() {
 		sound = Gdx.audio.newSound(Gdx.files.internal(GameLevelLogic.sound_levelcomplete));
 		sound.play();
 		

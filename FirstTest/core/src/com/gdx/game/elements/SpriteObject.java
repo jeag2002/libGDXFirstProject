@@ -48,6 +48,14 @@ public class SpriteObject {
 		sprite.setSize(width, height);
 	}
 	
+	public void setRotate(float angle) {
+		
+		sprite.setRotation(angle);
+		sprite.setOriginCenter();
+		sprite.setOriginBasedPosition(sprite.getX() + sprite.getWidth()/2+64, sprite.getY() + sprite.getHeight() / 2+64);
+	}
+	
+	
 	public float getX() {
 		return sprite.getX();
 	}

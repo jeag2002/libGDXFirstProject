@@ -77,8 +77,6 @@ public abstract class DynamicCollObject extends CollisionObject implements GameA
 		sO.setY(y);
 	}
 	
-	
-	
 	public float getWidth() {
 		return sO.getWidth();
 	}
@@ -101,6 +99,10 @@ public abstract class DynamicCollObject extends CollisionObject implements GameA
 	
 	public Sprite getSprite() {
 		return sO.getSprite();
+	}
+	
+	public void rotate(float angle) {
+		sO.setRotate(angle);
 	}
 	
 	public void draw(SpriteBatch sb) {
