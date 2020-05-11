@@ -163,21 +163,27 @@ public class GUIStageEnd {
 	    		 
 	    		  gPS.getgLL().nextLevel();
 	    		  GameLevelInformation.setLevel(GameLevelInformation.getLevel()+1);
-	        	  
-	    		  gPS.closeMusic();
-	    		  gPS.startIntermission();
-	        	  
-	        	  Timer.schedule(new Task(){ 
-	        		@Override
-	        	    public void run() {
-	        			gPS.initGame();
-	        			gPS.startGame();
-	        			
-	        			gPS.getgLL().setShootTypePlayer(lTP);
-	        			gPS.getGamePlay().getPlayer().setlTypePlayer(lTP);
-	        			
-	        		}}
-	        	  ,5);
+	    		  
+	    		  if (GameLevelInformation.getLevel() < GameLevelInformation.END) {
+		    		  
+	    			  gPS.closeMusic();
+		    		  gPS.startIntermission();
+		        	  
+		        	  Timer.schedule(new Task(){ 
+		        		@Override
+		        	    public void run() {
+		        			gPS.initGame();
+		        			gPS.startGame();
+		        			
+		        			gPS.getgLL().setShootTypePlayer(lTP);
+		        			gPS.getGamePlay().getPlayer().setlTypePlayer(lTP);
+		        			
+		        		}}
+		        	  ,5);
+		        	  
+	    		  }else {
+	    			  
+	    		  }
 	    		  
 	    		  
 	    	  }

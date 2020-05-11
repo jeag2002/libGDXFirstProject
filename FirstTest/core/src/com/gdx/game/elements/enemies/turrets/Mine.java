@@ -12,6 +12,7 @@ import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.engine.logic.GameLevelLogic;
+import com.gdx.game.stages.enums.MineTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.SpawnType;
 
@@ -42,18 +43,22 @@ public class Mine extends DynamicCollObject implements SpawnObject{
     
     private int actPosition;
     
+    private MineTypeEnum mTE;
+    
 	
 	public Mine(SpawnType type, World world) {
 		super(world);
 		this.type = type;
+		mTE = MineTypeEnum.MineSimple;
 	}
 	
 	
-	public void init(float xStart, float yStart, float angle) {
+	public void init(MineTypeEnum mTE, float xStart, float yStart, float angle) {
 		
 		setReference(this);
 		
 		this.angle = angle;
+		this.mTE = mTE;
 		
 		position.set(xStart, yStart);
 	    direction.set((float)Math.cos(Math.toRadians(angle)), (float)Math.sin(Math.toRadians(angle))).nor();
@@ -61,10 +66,16 @@ public class Mine extends DynamicCollObject implements SpawnObject{
 		mine = new Texture[1];
 		mine[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class); 
 		
-		label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMine_01,Texture.class);
+		
+		label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMine_01,Texture.class);	
 		base = new Sprite(label);
 		
-		label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMine_02,Texture.class);
+		if (mTE.equals(MineTypeEnum.MineSimple)) {
+			label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMine_02,Texture.class);
+		}else {
+			label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgMine_03,Texture.class);
+		}
+		
 		body = new Sprite(label);
 		
 		this.timer = 0;
@@ -85,9 +96,11 @@ public class Mine extends DynamicCollObject implements SpawnObject{
         body.setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
         
         this.actPosition = POSITION_1;
-        
 	}
 	
+	public MineTypeEnum getMineType() {
+		return mTE;
+	}
 	
 	
 	public void setPool(SpawnPool pool) {

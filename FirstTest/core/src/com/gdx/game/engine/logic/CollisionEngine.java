@@ -206,12 +206,14 @@ public class CollisionEngine implements ContactListener {
             			
             			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
             			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,mineB.getX(),mineB.getY());
+            			gEL.mineExtraGeneration(mineB.getMineType(), mineB.getX(), mineB.getY(), mineB.getWidth(), mineB.getHeight());
             			
             			
             		}else if (isMissilePlayerB && isMineA) {
             			
             			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
             			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne,mineA.getX(),mineA.getY());
+            			gEL.mineExtraGeneration(mineA.getMineType(), mineA.getX(), mineA.getY(), mineA.getWidth(), mineA.getHeight());
             		
             		}
             		
@@ -316,7 +318,8 @@ public class CollisionEngine implements ContactListener {
         			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
         			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
         			Mine mine = (Mine)objectB;
-        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());            			
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());   
+        			gEL.mineExtraGeneration(mine.getMineType(), mine.getX(), mine.getY(), mine.getWidth(), mine.getHeight());
         			isMine = true;
         		
         		
@@ -407,7 +410,8 @@ public class CollisionEngine implements ContactListener {
         			gPS.getgLL().setScorePlayer(gPS.getgLL().getScorePlayer()+100);
         			gPS.getgLL().setKills(gPS.getgLL().getKills()+1);
         			Mine mine = (Mine)objectA;
-        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());            			
+        			gEL.explosionGeneration(ExplosionsEnum.ExplosionTypeOne, mine.getX(), mine.getY());   
+        			gEL.mineExtraGeneration(mine.getMineType(), mine.getX(), mine.getY(), mine.getWidth(), mine.getHeight());
         			isMine = true;
         		
         		

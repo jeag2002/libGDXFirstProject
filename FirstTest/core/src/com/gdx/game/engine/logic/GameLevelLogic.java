@@ -23,6 +23,8 @@ public class GameLevelLogic {
 	public static final String music_final_level = "sounds/endlevel.mp3";
 	public static final String music_gameover = "sounds/gameover.mp3";
 	
+	public static final String music_final = "sounds/victory_end.mp3";
+	
 	public static final float speedUpFactor = 1.0f;
 	public static final float PIXELS_TO_METERS = 100f;
 	
@@ -140,7 +142,6 @@ public class GameLevelLogic {
 	}
 	
 	public void processCollision() {
-		
 		/*
 		if (shieldPlayer > 0) {
 			shieldPlayer--;
@@ -156,8 +157,6 @@ public class GameLevelLogic {
 			}
 		}
 		*/
-		
-		
 	}
 	
 	public void addLife(int life) {lifePlayer += life;}

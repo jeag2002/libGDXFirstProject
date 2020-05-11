@@ -1,8 +1,14 @@
 package com.gdx.game.engine.logic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
+//import java.util.concurrent.Callable;
+//import java.util.concurrent.CopyOnWriteArrayList;
+//import java.util.concurrent.ExecutorService;
+//import java.util.concurrent.Executors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -23,15 +29,19 @@ import com.gdx.game.elements.enemies.turrets.Cannon;
 import com.gdx.game.elements.enemies.turrets.Mine;
 import com.gdx.game.elements.enemies.turrets.Turret;
 import com.gdx.game.elements.explosions.SimpleExplosion;
+import com.gdx.game.elements.gun.Missile;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.elements.items.Bonus;
 import com.gdx.game.elements.items.Meteor;
 import com.gdx.game.elements.player.Player;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.enums.BonusTypeEnum;
+import com.gdx.game.stages.enums.CannonTypeEnum;
 import com.gdx.game.stages.enums.DynamicEnemyTypeEnum;
 import com.gdx.game.stages.enums.ExplosionsEnum;
 import com.gdx.game.stages.enums.LaserTypePlayer;
+import com.gdx.game.stages.enums.MineTypeEnum;
+import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.ShootEnemyType;
 import com.gdx.game.stages.enums.SpawnType;
 import com.gdx.game.stages.enums.StaticEnemyTypeEnum;
@@ -84,7 +94,10 @@ public class GameElementLogic {
 	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> staticEnemies = new ArrayList<SpawnObject>();
-    private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
+    
+	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
+    //TreeSet<Missile>
+	
     private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> explosions = new ArrayList<SpawnObject>();
     private ArrayList<SpawnObject> obstacles = new ArrayList<SpawnObject>();
@@ -95,12 +108,19 @@ public class GameElementLogic {
     
     private ArrayList<NewStaticItem> rectArray = new ArrayList<NewStaticItem>();
     
+ 
+    //public static final CopyOnWriteArrayList<Body> toDeletedBodiesWithCollision = new CopyOnWriteArrayList<Body>();
+    //public static final CopyOnWriteArrayList<SpawnObject> toDeletedBodiesWithoutCollision = new CopyOnWriteArrayList<SpawnObject>();
+    //public static final CopyOnWriteArrayList<NewItem> toCreatedItemsWithCollision = new CopyOnWriteArrayList<NewItem>();
+    
+    
+    //private ExecutorService service;
     
     public static final ArrayList<Body> toDeletedBodiesWithCollision = new ArrayList<Body>();
     public static final ArrayList<SpawnObject> toDeletedBodiesWithoutCollision = new ArrayList<SpawnObject>();
     public static final ArrayList<NewItem> toCreatedItemsWithCollision = new ArrayList<NewItem>(); 
     
-    
+    //private Collection<Callable<String>> callables = new ArrayList<>();
 	
     
     public GameElementLogic(GamePlayScreen gPS) {
@@ -123,6 +143,9 @@ public class GameElementLogic {
     	setExplosionSound("sounds/explosion.ogg",0.25f);
     	setCrashSound("sounds/crash.wav",0.25f);
     	setBonusSound("sounds/bonus.wav",0.25f);
+    	
+    	//service = Executors.newCachedThreadPool();
+    	//service = Executors.newFixedThreadPool(10);
     }
     
     public void setTiledMap(TiledMap tiledMap) {
@@ -249,6 +272,8 @@ public class GameElementLogic {
         toDeletedBodiesWithCollision.clear();
         toDeletedBodiesWithoutCollision.clear();
         
+        //List<Runnable> runnableList = service.shutdownNow();
+        
     }
     
    
@@ -256,6 +281,51 @@ public class GameElementLogic {
     	this.player = player;
     }
     
+    
+    public void mineExtraGeneration(MineTypeEnum mTE, float x, float y, float width, float height) {
+    	
+    	if (mTE.equals(MineTypeEnum.MineRadial)) {
+    		
+
+
+    		
+    		/*
+    		Missile sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 0.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 45.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 90.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 135.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 180.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 225.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 270.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+            
+    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 315.0f, -280.0f*1.5f, 16.0f, 16.0f);
+            sE.setPool(spawnPool);
+    		*/
+    		
+    	}
+    	
+    }
     
     
     public void explosionGeneration(ExplosionsEnum explosion, float x, float y) {
@@ -369,6 +439,8 @@ public class GameElementLogic {
         toCreatedItemsWithCollision.clear();
         toDeletedBodiesWithCollision.clear();
         toDeletedBodiesWithoutCollision.clear();
+        
+        //List<Runnable> runnableList = service.shutdownNow();
     	
     }
     
@@ -420,7 +492,7 @@ public class GameElementLogic {
     }
     
     public void updateSpawns(float delta) {
-    	
+    	    	
     	 for (SpawnObject se: staticEnemies) {
           	if (se.isSpawned()) {
           		se.update(delta, GameLevelLogic.speedUpFactor);
@@ -460,8 +532,10 @@ public class GameElementLogic {
                  o.update(delta, GameLevelLogic.speedUpFactor);
          }
          
-         
     }
+    
+    
+    
     
     
     public void generateElements(float delta) {
@@ -506,25 +580,34 @@ public class GameElementLogic {
     public void levelThreeEnemyGeneration() {
     	
     	DynamicEnemyTypeEnum eTE = DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2;
-    	int next = this.random_Element.nextInt(4)+8;
+    	int next = this.random_Element.nextInt(6)+8;
     	DynamicEnemyTypeEnum type = eTE.getByIndex(next);
     	
     	switch(type) {	
     	case GROUP_ENEMIES_1_LEVEL_3:
-    		generateGroupEnemyOne(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-200), FirstTestGDX.screenHeight - 50);
+    		generateGroupEnemyOne(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     	
     	case GROUP_ENEMIES_2_LEVEL_3:
-    		generateGroupEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-200), FirstTestGDX.screenHeight - 200);
+    		generateGroupEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     		
     	case CANNON_LEVEL_3:
-    		generateCannon(200+random.nextInt(FirstTestGDX.screenWidth-200), FirstTestGDX.screenHeight - 200, false);
+    		generateCannon(200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight, false);
     		break;
     		
     	case ENEMY_SIMPLE_1_LEVEL_3:
-    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_3,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
+    	
+    	case METEORTYPEONE_LEVEL_3:
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPEONE_LEVEL_2,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
+    		break;
+    		
+    	case METEORTYPETWO_LEVEL_3:
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPETWO_LEVEL_2,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
+    		break;
+    	
     	}
     	
     }
@@ -538,19 +621,19 @@ public class GameElementLogic {
     	
     	switch(type) {
     	case ENEMY_SIMPLE_1_LEVEL_2:
-    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1_LEVEL_2,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     		
     	case ENEMY_SIMPLE_2_LEVEL_2:
-    		generateEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2, FirstTestGDX.screenHeight - 50);
+    		generateEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2_LEVEL_2, FirstTestGDX.screenHeight);
     		break;
     	
     	case METEORTYPEONE_LEVEL_2:
-    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPEONE_LEVEL_2,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPEONE_LEVEL_2,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     		
     	case METEORTYPETWO_LEVEL_2:
-    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPETWO_LEVEL_2,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPETWO_LEVEL_2,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     	}
     }
@@ -566,19 +649,19 @@ public class GameElementLogic {
     	
     	switch(type) {
     	case ENEMY_SIMPLE_1:
-    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateEnemy(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     		
     	case ENEMY_SIMPLE_2:
-    		generateEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2, FirstTestGDX.screenHeight - 50);
+    		generateEnemyTwo(DynamicEnemyTypeEnum.ENEMY_SIMPLE_2, 100+FirstTestGDX.screenHeight);
     		break;
     	
     	case METEORTYPEONE:
-    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPEONE,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPEONE,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     		
     	case METEORTYPETWO:
-    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPETWO,20+random.nextInt(FirstTestGDX.screenWidth-100), FirstTestGDX.screenHeight - 50);
+    		generateMeteor(DynamicEnemyTypeEnum.METEORTYPETWO,200+random.nextInt(FirstTestGDX.screenWidth-300), FirstTestGDX.screenHeight);
     		break;
     			
     	}
@@ -591,12 +674,14 @@ public class GameElementLogic {
     	se.init(type, posX, posY, 90.0f, -280.0f, false);
     	se.setSpawned(true);
     	
+        float height = se.getHeight();
+    	
     	se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
-    	se.init(type, posX, posY-se.getHeight(), 90.0f, -280.0f, false);
+    	se.init(type, posX, posY-height - 30, 90.0f, -280.0f, false);
     	se.setSpawned(true);
     	
     	se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
-    	se.init(type, posX, posY-(se.getHeight()*2), 90.0f, -280.0f, false);
+    	se.init(type, posX, posY-(height*2) - 60, 90.0f, -280.0f, false);
     	se.setSpawned(true);
     	
     	
@@ -606,11 +691,13 @@ public class GameElementLogic {
     public void generateGroupEnemyOne(DynamicEnemyTypeEnum type, float posX, float posY) {
     	
     	SimpleEnemy se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
-    	se.init(type, posX, posY, 90.0f, -280.0f, true);
+    	se.init(type, posX, posY, 90.0f, -280.0f, false);
     	se.setSpawned(true);
     	
+    	float width = se.getWidth();
+    	
     	se = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_Simple_1);
-    	se.init(type, posX+se.getWidth(), posY, 90.0f, -280.0f, true);
+    	se.init(type, posX-width, posY, 90.0f, -280.0f, false);
     	se.setSpawned(true);
     }
     
@@ -694,14 +781,31 @@ public class GameElementLogic {
 	public void generateMine(float posX, float posY) {
 		
 		Mine m = (Mine)spawnPool.getFromPool(SpawnType.Mine);
-		m.init(posX, posY, 90);
+		
+		MineTypeEnum mT = MineTypeEnum.MineSimple;
+		
+		if (GameLevelInformation.getLevel() >= GameLevelInformation.THIRD_LEVEL) {
+			int typeBonus = this.random_Bonus.nextInt(2);
+			mT = mT.getByIndex(typeBonus);
+		}
+		
+		m.init(mT,posX, posY, 90);
 		m.setSpawned(true);
 	}
 	
 	public void generateCannon(float posX, float posY, boolean isStatic) {
 		
+		CannonTypeEnum cT = CannonTypeEnum.CannonSpiral;
+		
+		/*
+		if (GameLevelInformation.getLevel() >= GameLevelInformation.THIRD_LEVEL) {
+			int typeBonus = this.random_Bonus.nextInt(2);
+			cT = cT.getByIndex(typeBonus);
+		}
+		*/
+		
 		Cannon c = (Cannon)spawnPool.getFromPool(SpawnType.Cannon);
-		c.init(posX, posY, 90, -280.0f, isStatic);
+		c.init(cT,posX, posY, 90, -280.0f, isStatic);
 		c.setSpawned(true);
 	}
 	

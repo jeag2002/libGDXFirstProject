@@ -12,6 +12,7 @@ import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.elements.interfaz.SpawnObject;
 import com.gdx.game.engine.logic.GameElementLogic;
 import com.gdx.game.engine.logic.GameLevelLogic;
+import com.gdx.game.stages.enums.CannonTypeEnum;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
 import com.gdx.game.stages.enums.SpawnType;
@@ -37,7 +38,11 @@ public class Cannon extends ShootObject implements SpawnObject {
     private Vector2 movement = new Vector2();
     
     private static final float bgSpeed = 50.0f;
-    private static final float intervalGun = 0.15f;
+    private static final float intervalGunSpiral = 0.15f;
+    private static final float intervalGunRadial = 0.75f;
+    
+    
+    private CannonTypeEnum cT;
     
     private int actPosition;
 	
@@ -48,7 +53,7 @@ public class Cannon extends ShootObject implements SpawnObject {
 		
 	}
 	
-	public void init(float xStart, float yStart, float angle, float speed, boolean blocked) {
+	public void init(CannonTypeEnum cT, float xStart, float yStart, float angle, float speed, boolean blocked) {
 		
 		super.init(SpawnType.MissileEnemy);
 		
@@ -59,7 +64,7 @@ public class Cannon extends ShootObject implements SpawnObject {
 		this.blocked = blocked;
 		
 		this.tethaAngle = 270;
-		
+		this.cT = cT;
 		
 		position.set(xStart, yStart);
 	    direction.set((float)Math.cos(Math.toRadians(angle)), (float)Math.sin(Math.toRadians(angle))).nor();
@@ -67,10 +72,15 @@ public class Cannon extends ShootObject implements SpawnObject {
 	    cannon = new Texture[1];
 	    cannon[0] = FirstTestGDX.resources.get(FirstTestGDX.resources.imgExhaustFrame_07,Texture.class); 
 		
-		label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCannon_01,Texture.class);
+	    label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCannon_01,Texture.class);  
 		base = new Sprite(label);
 		
-		label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCannon_02,Texture.class);
+		if (cT.equals(cT.CannonSpiral)) {
+			label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCannon_02,Texture.class);
+		}else {
+	    	label = FirstTestGDX.resources.get(FirstTestGDX.resources.imgCannon_03,Texture.class);
+	    }
+		
 		body = new Sprite(label);
 		
 		
@@ -151,19 +161,21 @@ public class Cannon extends ShootObject implements SpawnObject {
 	        
 	        
 	         timer += delta * boostFactor;
-	         if (timer >= intervalGun) {
-	        	 
-	        	 timer = 0;
-	        	 
-	        	 
-	        	 
-	        	 base.setRotation((float) tethaAngle);
-	        	 
-	        	 setGun(tethaAngle);
-	        	 
-	        	 this.tethaAngle -= 22.5;
-	        	 if (this.tethaAngle <= 0) {tethaAngle = 360;}
-	        	 
+	         
+	         if (cT.equals(cT.CannonSpiral)) {
+		         if (timer >= intervalGunSpiral) {
+		        	 timer = 0;
+		        	 base.setRotation((float) tethaAngle);	 
+		        	 setGunSpiral((float) tethaAngle);
+		        	 this.tethaAngle -= 22.5;
+		        	 if (this.tethaAngle <= 0) {tethaAngle = 360;}
+		        	 
+		         }
+	         }else if (cT.equals(cT.CannonRadial)) {
+	        	 if (timer >= intervalGunRadial) {
+		        	 timer = 0;
+		        	 setGunRadial(speed);
+		         }
 	         }
 	        
 	   
@@ -175,11 +187,24 @@ public class Cannon extends ShootObject implements SpawnObject {
 		}
 	}
 	
-	
-	public void setGun(double angle) {
+	public void setGunRadial(float speed) {
+		
 		setGunPower(100.0f);
-		setShootingInterval(intervalGun);
-		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX(), getY(), (getWidth()/2)-5 , (getHeight()/2)-5, 16, 16);
+		setShootingInterval(intervalGunRadial);	
+		addGun(MissileTypeEnum.PROTON_1,0.0f, speed*2, getX(), getY(), (getWidth()/2) ,   16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,45.0f, speed*2, getX(), getY(), (getWidth()/2) ,  16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,90.0f, speed*2, getX(), getY(), (getWidth()/2) ,  16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,135.0f, speed*2, getX(), getY(), (getWidth()/2),  16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,180.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,225.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,270.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,315.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+	}
+	
+	public void setGunSpiral(double angle) {
+		setGunPower(100.0f);
+		setShootingInterval(intervalGunSpiral);	
+		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
 	}
 	
 

@@ -1,6 +1,5 @@
 package com.gdx.game.stages.elements;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -20,7 +18,6 @@ import com.badlogic.gdx.utils.Timer.Task;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.gdx.game.FirstTestGDX;
 import com.gdx.game.screens.GamePlayScreen;
 
@@ -80,7 +77,6 @@ public class GUIStageMenu {
         button_Start.addListener(new InputListener(){
           @Override
           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-        	  	//gPSF.startGame();
         	  gPSF.closeMusic();
         	  gPSF.startIntermission();
         	  
@@ -110,7 +106,9 @@ public class GUIStageMenu {
         button_Rating.setVisible(false);
         button_Rating.addListener(new InputListener(){
           @Override
-          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {}
+          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+        	  gPSF.startRanking();
+          }
           @Override
           public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
             return true;
@@ -175,15 +173,11 @@ public class GUIStageMenu {
 			imgLogo.addAction(Actions.moveToAligned(FirstTestGDX.screenWidth / 2, FirstTestGDX.screenHeight / 2 + 100, Align.center, 0.4f));
 			
 		}else {
-			
 			imgLogo.setVisible(false);
-			
 			button_Start.setVisible(false);
 			button_Rating.setVisible(false);
 			button_Settings.setVisible(false);
 			button_Exit.setVisible(false);
-			
-			
 		}
 		
 	}

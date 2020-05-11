@@ -2,7 +2,16 @@ package com.gdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -19,6 +28,8 @@ import com.gdx.game.engine.logic.GameLevelInformation;
 import com.gdx.game.engine.logic.GameLevelLogic;
 import com.gdx.game.stages.GUIStage;
 import com.gdx.game.stages.enums.GUIEnum;
+import com.gdx.game.utils.ScoreItem;
+import com.gdx.game.utils.StringUtils;
 
 public class GamePlayScreen implements Screen {
 	
@@ -51,13 +62,66 @@ public class GamePlayScreen implements Screen {
 	
 	private Music music = null;
 	private Sound sound = null;
+	
+	private Preferences scores;
 
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
-		GameLevelInformation.setLevel(GameLevelInformation.SECOND_LEVEL);
+		GameLevelInformation.setLevel(GameLevelInformation.THIRD_LEVEL);
+		scores = Gdx.app.getPreferences("scores");
 		gLL = new GameLevelLogic();
 	}
+	
+	
+	public Map<String, ?> getScoreData(){
+		return scores.get();
+	}
+	
+	public void setScoreData(String key, long value) {
+		scores.putLong(key, value);
+		scores.flush();
+	}
+	
+	public void setScore(long value) {
+		Map<String, ?> values = getScoreData();
+		int size = values.size();
+		setScoreData(StringUtils.leftPaddedString(3, (size+1)),value);
+	}
+	
+	
+	public List<ScoreItem> getScoresSorted(){
+		List<ScoreItem> items = new ArrayList<ScoreItem>();
+		
+		Map<String, ?> values = getScoreData();
+		
+		List<String> keys = new ArrayList<String>(values.keySet());
+		List<Long> valuesMap = new ArrayList<Long>();
+		
+		for(String key: keys) {
+			valuesMap.add(scores.getLong(key));
+		}
+		
+		
+		for(int i=0; i<keys.size(); i++) {
+			items.add(new ScoreItem(keys.get(i),valuesMap.get(i)));
+		}
+		
+		Collections.sort(items, new Comparator<ScoreItem>() {
+			  @Override
+			  public int compare(ScoreItem u1, ScoreItem u2) {
+			    return u2.getScore().compareTo(u1.getScore());
+			  }
+		});
+		
+		if (items.size() > 5) {
+			items = items.subList(0, 5);
+		}
+		
+		return items;
+	}
+	
+	
 	
 	public void generateGamePlay() {
 		gamePlay = new GamePlay(this);
@@ -123,6 +187,12 @@ public class GamePlayScreen implements Screen {
 		music.play();
 	}
 	
+	public void setFinalMusic() {
+		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_final));
+		music.setVolume(0.25f);
+		music.play();
+	}
+	
 	
 	public void setGameOverMusic() {
 		music = Gdx.audio.newMusic(Gdx.files.internal(GameLevelLogic.music_gameover));
@@ -139,8 +209,7 @@ public class GamePlayScreen implements Screen {
 	
 	public void setEndLevelVoice() {
 		sound = Gdx.audio.newSound(Gdx.files.internal(GameLevelLogic.sound_levelcomplete));
-		sound.play();
-		
+		sound.play();	
 	}
 	
 	
@@ -148,12 +217,14 @@ public class GamePlayScreen implements Screen {
 		guiStage.activeGUI(GUIEnum.SETTINGS);
 	}
 	
+    public void startRanking() {
+    	guiStage.activeGUI(GUIEnum.RANKING);
+    }
 	
 	public void startIntermission() {
 		closeMusic();
 		guiStage.activeGUI(GUIEnum.INTERMISSION);
 	}
-	
 	
 	public void startGame() {
 		guiStage.activeGUI(GUIEnum.GAMEPLAY);
@@ -270,14 +341,24 @@ public class GamePlayScreen implements Screen {
 			closeMusic();
 		
 			if (this.getgLL().isEndLevel()) {
-				setEndLevelMusic();
+				if (GameLevelInformation.getLevel() >= GameLevelInformation.FINAL_LEVEL) { 
+					setFinalMusic();
+				}else {
+					setEndLevelMusic();
+				}
 			}else {
 				setGameOverMusic();
 			}
 		
 			gamePlay.setStarted(false);
-			guiStage.activeGUI(GUIEnum.ENDLEVEL);
 			
+			if ((GameLevelInformation.getLevel() >= GameLevelInformation.FINAL_LEVEL) && (this.getgLL().isEndLevel())) {
+				setScore(getgLL().getScorePlayer());
+				guiStage.activeGUI(GUIEnum.FINAL);
+			}else {
+				guiStage.activeGUI(GUIEnum.ENDLEVEL);
+			}
+				
 			this.getgLL().setLaunchEndLevel(false);
 			this.getgLL().setLaunchGOLevel(false);
 		}

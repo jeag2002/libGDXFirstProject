@@ -7,6 +7,8 @@ public enum GUIEnum {
 		  INTERMISSION, 
 		  GAMEPLAY,
 		  ENDLEVEL,
+		  FINAL,
+		  RANKING,
 		  SETTINGS,
 		  GAMEOVER;
 

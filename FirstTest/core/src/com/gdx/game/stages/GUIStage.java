@@ -6,8 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.gdx.game.screens.GamePlayScreen;
 import com.gdx.game.stages.elements.GUIStageIntermission;
 import com.gdx.game.stages.elements.GUIStageMenu;
+import com.gdx.game.stages.elements.GUIStageRanking;
 import com.gdx.game.stages.elements.GUIStageSettings;
 import com.gdx.game.stages.elements.GUIStageEnd;
+import com.gdx.game.stages.elements.GUIStageFinal;
 import com.gdx.game.stages.elements.GUIStageGamePlay;
 import com.gdx.game.stages.elements.GUIStageGamePlayAndroid;
 import com.gdx.game.stages.enums.GUIEnum;
@@ -24,6 +26,9 @@ public class GUIStage {
 	
 	private GUIStageSettings settings;
 	private GUIStageEnd end;
+	private GUIStageFinal finalGame;
+	private GUIStageRanking ranking;
+	
 	
 	private GUIEnum activeGUI;
 	
@@ -38,6 +43,10 @@ public class GUIStage {
 		
 		end = new GUIStageEnd(stage,gPS);
 		settings = new GUIStageSettings(stage,gPS);
+		
+		finalGame = new GUIStageFinal(stage,gPS);
+		ranking = new GUIStageRanking(stage,gPS);
+		
 		activeGUI = GUIEnum.NOTHING;
 	
 	}
@@ -61,6 +70,9 @@ public class GUIStage {
 			end.showEndGUI(false);
 			settings.showSettingsGUI(false);
 			
+			finalGame.showFinalGUI(false);
+			ranking.showRankingGUI(false);
+			
 			activeGUI = GUIEnum.MENU;
 			
 			break;
@@ -76,6 +88,9 @@ public class GUIStage {
 			end.showEndGUI(false);
 			settings.showSettingsGUI(true);
 			
+			finalGame.showFinalGUI(false);
+			ranking.showRankingGUI(false);
+			
 			activeGUI = GUIEnum.SETTINGS;
 			break;
 		
@@ -90,6 +105,8 @@ public class GUIStage {
 			end.showEndGUI(false);
 			settings.showSettingsGUI(false);
 			
+			finalGame.showFinalGUI(false);
+			ranking.showRankingGUI(false);
 			
 			activeGUI = GUIEnum.INTERMISSION;
 			
@@ -110,6 +127,9 @@ public class GUIStage {
 			end.showEndGUI(false);
 			settings.showSettingsGUI(false);
 			
+			ranking.showRankingGUI(false);
+			finalGame.showFinalGUI(false);
+			
 			activeGUI = GUIEnum.GAMEPLAY;
 			
 			break;
@@ -125,7 +145,47 @@ public class GUIStage {
 			end.showEndGUI(true);
 			settings.showSettingsGUI(false);
 			
+			ranking.showRankingGUI(false);
+			finalGame.showFinalGUI(false);
+			
 			activeGUI = GUIEnum.ENDLEVEL;
+			
+			break;
+	
+		case FINAL:
+			
+			menu.showMenuGUI(false);
+			intermission.showIntermissionGUI(false);
+			
+			gameplay.showGamePlayGUI(false);
+			gameplayAndroid.showGamePlayAndroidGUI(false);
+			
+			end.showEndGUI(false);
+			settings.showSettingsGUI(false);
+			
+			ranking.showRankingGUI(false);
+			finalGame.showFinalGUI(true);
+			
+			activeGUI = GUIEnum.FINAL;
+			
+			break;
+		
+		
+		case RANKING:
+			
+			menu.showMenuGUI(false);
+			intermission.showIntermissionGUI(false);
+			
+			gameplay.showGamePlayGUI(false);
+			gameplayAndroid.showGamePlayAndroidGUI(false);
+			
+			end.showEndGUI(false);
+			settings.showSettingsGUI(false);
+			
+			ranking.showRankingGUI(true);
+			finalGame.showFinalGUI(false);
+			
+			activeGUI = GUIEnum.RANKING;
 			
 			break;
 			
@@ -141,6 +201,9 @@ public class GUIStage {
 			
 			end.showEndGUI(false);
 			settings.showSettingsGUI(false);
+			
+			finalGame.showFinalGUI(false);
+			ranking.showRankingGUI(false);
 			
 			activeGUI = GUIEnum.NOTHING;
 			
@@ -159,6 +222,9 @@ public class GUIStage {
 		
 		end.init();
 		settings.init();
+		
+		ranking.init();
+		finalGame.init();
 	}
 	
 	public void draw(float delta) {
@@ -183,8 +249,16 @@ public class GUIStage {
 				}
 				break;
 			
+			case RANKING:
+				ranking.draw(delta);
+				break;
+				
 			case ENDLEVEL:
 				end.draw(delta);
+				break;
+			
+			case FINAL:
+				finalGame.draw(delta);
 				break;
 		
 		}

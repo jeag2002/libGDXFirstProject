@@ -31,6 +31,7 @@ public class Resources extends AssetManager{
 	public String imgSettingsButton = "gui/Settings_A_PNG.png";
 	public String imgExitButton = "gui/Exit_BTN.png";
 	public String imgSettingsGUI = "gui/Settings_Banner.png";
+	public String imgRatingGUI = "gui/Rating_Banner.png";
 	
 	
 	//background parallax test_1
@@ -169,10 +170,12 @@ public class Resources extends AssetManager{
     //cannon
     public String imgCannon_01 = "items/cannon/Rotor.png";
     public String imgCannon_02 = "items/cannon/Cover_Green.png";
+    public String imgCannon_03 = "items/cannon/Cover_Blue.png";
     
     //mine
     public String imgMine_01 = "items/mine/Rotor.png";
     public String imgMine_02 = "items/mine/Cover_Blue.png";
+    public String imgMine_03 = "items/mine/Cover_Green.png";
     
     
     //missiles
@@ -278,6 +281,7 @@ public class Resources extends AssetManager{
 		load(imgSettingsButton, Texture.class);
 		load(imgExitButton, Texture.class);
 		load(imgSettingsGUI, Texture.class);
+		load(imgRatingGUI, Texture.class);
 		
 		////////////////////////////////////////////////////////////
 		
@@ -338,12 +342,14 @@ public class Resources extends AssetManager{
 		/////////////////////////////////////////////////////////////
 		load(imgCannon_01, Texture.class);
 		load(imgCannon_02, Texture.class);
+		load(imgCannon_03, Texture.class);
 	    /////////////////////////////////////////////////////////////
 	    
 	    //mine
 	    /////////////////////////////////////////////////////////////
 		load(imgMine_01, Texture.class);
 		load(imgMine_02, Texture.class);
+		load(imgMine_03, Texture.class);
 	    /////////////////////////////////////////////////////////////	
 		
 		//player
