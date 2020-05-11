@@ -6,13 +6,11 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
@@ -56,8 +54,6 @@ public class GamePlayScreen implements Screen {
 	private float time_before_end = 0.0f;
 	
 	
-	private boolean setOneTimeLevelCompleted = false;
-	
 	private ScalingViewport viewport;
 	
 	private Music music = null;
@@ -68,7 +64,7 @@ public class GamePlayScreen implements Screen {
 	
 	public GamePlayScreen(FirstTestGDX game) {
 		this.game = game;
-		GameLevelInformation.setLevel(GameLevelInformation.THIRD_LEVEL);
+		GameLevelInformation.setLevel(GameLevelInformation.FIRST_LEVEL);
 		scores = Gdx.app.getPreferences("scores");
 		gLL = new GameLevelLogic();
 	}

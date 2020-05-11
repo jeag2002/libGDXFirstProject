@@ -142,7 +142,7 @@ public class GameLevelLogic {
 	}
 	
 	public void processCollision() {
-		/*
+		
 		if (shieldPlayer > 0) {
 			shieldPlayer--;
 		}else {
@@ -156,7 +156,6 @@ public class GameLevelLogic {
 				this.setGameOver(true);
 			}
 		}
-		*/
 	}
 	
 	public void addLife(int life) {lifePlayer += life;}

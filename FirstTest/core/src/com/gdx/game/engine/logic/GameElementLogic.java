@@ -286,43 +286,15 @@ public class GameElementLogic {
     	
     	if (mTE.equals(MineTypeEnum.MineRadial)) {
     		
-
-
     		
-    		/*
-    		Missile sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 0.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 45.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 90.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 135.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 180.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 225.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 270.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-            
-    		sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
-        	sE.init(MissileTypeEnum.PROTON_1, 1.0f, x+width/2, y+height/2, 315.0f, -280.0f*1.5f, 16.0f, 16.0f);
-            sE.setPool(spawnPool);
-    		*/
-    		
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 0.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 45.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 90.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 135.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 180.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 225.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 270.0f, -280.0f*1.5f));
+    		toCreatedItemsWithCollision.add(new NewItem(SpawnType.MissileEnemy, x+width/2, y+height/2, 16.0f, 16.0f, 315.0f, -280.0f*1.5f));
     	}
     	
     }
@@ -391,11 +363,21 @@ public class GameElementLogic {
     	{
     		if (item.getType().equals(SpawnType.Item)) {
     			activateBonus(item.getX(), item.getY());    		
+    		}else if (item.getType().equals(SpawnType.MissileEnemy)) {
+    			generateMissileEnemy(item.getX(), item.getY(), item.getAngle(), item.getSpeed(), item.getWidth(), item.getHeight());
     		}
     	}
     	
     	toCreatedItemsWithCollision.clear();
     }
+    
+    
+    public void generateMissileEnemy(float posX, float posY, float angle, float speed, float width, float height) {
+    	Missile sE = (Missile) spawnPool.getFromPool(SpawnType.MissileEnemy);
+    	sE.init(MissileTypeEnum.PROTON_1, 1.0f, posX , posY, angle, speed, width, height);
+        sE.setPool(spawnPool);
+	}
+    
     
     
     public void removeOldBodies() {

@@ -32,10 +32,7 @@ public class CollisionEngine implements ContactListener {
 		this.gEL = gEL;
 		this.spawnPool = spawnPool;
 		this.player = player;
-		
 	}
-	
-
 	
 	@Override
     public void beginContact(Contact contact) {
