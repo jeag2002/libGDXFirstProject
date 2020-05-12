@@ -52,6 +52,18 @@ public class Resources extends AssetManager{
 	public String imgBackgroundParallaxPlanets_3 = "background/parallax_3/Planets.png";
 	public String imgBackgroundParallaxMeteors_3 = "background/parallax_3/Meteors.png";
 	
+	//background parallax test_4
+	public String imgBackgroundParallaxBG_4 = "background/parallax_4/BG.png";
+	public String imgBackgroundParallaxStars_4 = "background/parallax_4/Stars.png";
+	public String imgBackgroundParallaxPlanets_4 = "background/parallax_4/Planets.png";
+	public String imgBackgroundParallaxMeteors_4 = "background/parallax_4/Meteors.png";
+	
+	//background parallax test_5
+	public String imgBackgroundParallaxBG_5 = "background/parallax_5/BG.png";
+	public String imgBackgroundParallaxStars_5 = "background/parallax_5/Stars.png";
+	public String imgBackgroundParallaxPlanets_5 = "background/parallax_5/Planets.png";
+	public String imgBackgroundParallaxMeteors_5 = "background/parallax_5/Meteors.png";
+	
 	//player
 	public String imgPlayerRed_01 =  "player_1/unpacket/PlayerRed_Frame_01.png";
 	public String imgPlayerRed_02 =  "player_1/unpacket/PlayerRed_Frame_02.png";
@@ -302,6 +314,18 @@ public class Resources extends AssetManager{
 		load(imgBackgroundParallaxStars_3, Texture.class);
 		load(imgBackgroundParallaxPlanets_3, Texture.class);
 		load(imgBackgroundParallaxMeteors_3, Texture.class);
+		
+		//background parallax test_4
+		load(imgBackgroundParallaxBG_4, Texture.class);
+		load(imgBackgroundParallaxStars_4, Texture.class);
+		load(imgBackgroundParallaxPlanets_4, Texture.class);
+		load(imgBackgroundParallaxMeteors_4, Texture.class);
+		
+		//background parallax test_5
+		load(imgBackgroundParallaxBG_5, Texture.class);
+		load(imgBackgroundParallaxStars_5, Texture.class);
+		load(imgBackgroundParallaxPlanets_5, Texture.class);
+		load(imgBackgroundParallaxMeteors_5, Texture.class);
 		
 		//shoot
 		////////////////////////////////////////////////////////////
