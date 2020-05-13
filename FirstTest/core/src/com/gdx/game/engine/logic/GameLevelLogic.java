@@ -156,6 +156,7 @@ public class GameLevelLogic {
 				this.setGameOver(true);
 			}
 		}
+		
 	}
 	
 	public void addLife(int life) {lifePlayer += life;}

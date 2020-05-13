@@ -469,12 +469,10 @@ public class Player extends ShootObject{
      }
 	 
 	 private void setGun() {
-			
-		float intervalGun = 0.35f;
-		float speedGun = 800.0f;
 		
+		float speedGun = 800.0f;
 		this.setGunPower(100.0f);
-		this.setShootingInterval(intervalGun);
+		//this.setShootingInterval(intervalGun);
 		
 		if (lTypePlayer.equals(LaserTypePlayer.LASER_LEVEL_1)) {
 			

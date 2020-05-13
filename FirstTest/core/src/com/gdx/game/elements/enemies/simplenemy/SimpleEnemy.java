@@ -175,7 +175,7 @@ public class SimpleEnemy extends ShootObject implements SpawnObject{
 	public void setGun() {
 		
 			setGunPower(100.0f);
-			setShootingInterval(intervalGun);
+			//setShootingInterval(intervalGun);
 			
 			if (eTypes.equals(DynamicEnemyTypeEnum.ENEMY_SIMPLE_1)) {	
 				

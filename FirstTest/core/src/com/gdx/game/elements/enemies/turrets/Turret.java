@@ -183,7 +183,7 @@ public class Turret extends ShootObject implements SpawnObject{
 	
 	public void setGun(double angle) {
 		setGunPower(100.0f);
-		setShootingInterval(intervalGun);
+		//setShootingInterval(intervalGun);
 		
 		if (type.equals(StaticEnemyTypeEnum.TURRET_LEVEL_1)){
 			

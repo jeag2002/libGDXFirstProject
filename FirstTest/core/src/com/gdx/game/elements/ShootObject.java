@@ -96,10 +96,6 @@ public abstract class ShootObject extends DynamicCollObject {
 	public void setGunPower(float power) {
 	     this.gunPower = power;
 	}
-
-	public void setShootingInterval(float interval) {
-	     this.shootingInterval = interval;
-	}
 	
 	public void init(SpawnType missilPool) {
 		this.missilesPool = missilPool;
@@ -114,11 +110,7 @@ public abstract class ShootObject extends DynamicCollObject {
 	 
 	public void update(float delta) {
         if (shootingActive) {
-            timer += delta;
-            if (timer >= shootingInterval) {
-                shoot();
-                timer = 0;
-            }
+            shoot();
         }
     }
 	
@@ -131,11 +123,6 @@ public abstract class ShootObject extends DynamicCollObject {
 		this.shootEvent = shootEvent;
 	}
 
-	
-	/*
-    public void setGunType(MissileTypeEnum type) {
-	        this.gunType = type;
-	}*/
 	
 	public void shoot() {
 		

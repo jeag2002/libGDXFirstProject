@@ -32,6 +32,8 @@ public class Cannon extends ShootObject implements SpawnObject {
 	private float speed;
 	private float tethaAngle;
 	
+	private boolean rotation;
+	
 	private SpawnPool pool;
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
@@ -39,7 +41,10 @@ public class Cannon extends ShootObject implements SpawnObject {
     
     private static final float bgSpeed = 50.0f;
     private static final float intervalGunSpiral = 0.15f;
-    private static final float intervalGunRadial = 0.75f;
+    private static final float intervalGunRadial = 0.0f;
+    
+    private static final float intervalGunMill = 0.5f;
+    
     
     
     private CannonTypeEnum cT;
@@ -62,6 +67,8 @@ public class Cannon extends ShootObject implements SpawnObject {
 		this.timer = 0;
 		this.speed = speed;
 		this.blocked = blocked;
+
+		this.rotation = true;
 		
 		this.tethaAngle = 270;
 		this.cT = cT;
@@ -176,6 +183,15 @@ public class Cannon extends ShootObject implements SpawnObject {
 		        	 timer = 0;
 		        	 setGunRadial(speed);
 		         }
+	         
+	         }else if (cT.equals(cT.CannonMill)) {
+	        	 
+	        	 setGunMill(speed,rotation);
+	        	 if (timer >= intervalGunMill) {
+	        		 timer = 0;
+	        		 rotation = !rotation;
+	        	 }
+	        	 
 	         }
 	        
 	   
@@ -187,24 +203,36 @@ public class Cannon extends ShootObject implements SpawnObject {
 		}
 	}
 	
-	public void setGunRadial(float speed) {
+	public void setGunMill(float speed, boolean rotation) {
 		
 		setGunPower(100.0f);
-		setShootingInterval(intervalGunRadial);	
-		addGun(MissileTypeEnum.PROTON_1,0.0f, speed*2, getX(), getY(), (getWidth()/2) ,   16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,45.0f, speed*2, getX(), getY(), (getWidth()/2) ,  16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,90.0f, speed*2, getX(), getY(), (getWidth()/2) ,  16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,135.0f, speed*2, getX(), getY(), (getWidth()/2),  16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,180.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,225.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,270.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
-		addGun(MissileTypeEnum.PROTON_1,315.0f, speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+		if (rotation) {
+			addGun(MissileTypeEnum.PROTON_1,0.0f, speed*2, getX(), getY(), (getWidth()/2) ,   (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,90.0f, speed*2, getX(), getY(), (getWidth()/2) ,  (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,180.0f, speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,270.0f, speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
+		}else {
+			addGun(MissileTypeEnum.PROTON_1,45.0f, speed*2, getX(), getY(), (getWidth()/2) ,  (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,135.0f, speed*2, getX(), getY(), (getWidth()/2),  (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,225.0f, speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
+			addGun(MissileTypeEnum.PROTON_1,315.0f, speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
+		}
+		
+	}
+	
+	
+	public void setGunRadial(float speed) {
+		
+		setGunPower(100.0f);	
+		addGun(MissileTypeEnum.PROTON_1,0.0f, speed*2, getX(), getY(), (getWidth()/2) ,  (getHeight()/2), 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,90.0f, speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,180.0f, speed*2, getX(), getY(), (getWidth()/2), (getHeight()/2), 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,270.0f, speed*2, getX(), getY(), (getWidth()/2), (getHeight()/2), 16, 16);
 	}
 	
 	public void setGunSpiral(double angle) {
 		setGunPower(100.0f);
-		setShootingInterval(intervalGunSpiral);	
-		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX(), getY(), (getWidth()/2) , 16, 16, 16);
+		addGun(MissileTypeEnum.PROTON_1,(float)angle, this.speed*2, getX(), getY(), (getWidth()/2) , (getHeight()/2), 16, 16);
 	}
 	
 

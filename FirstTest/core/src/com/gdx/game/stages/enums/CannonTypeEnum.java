@@ -2,7 +2,8 @@ package com.gdx.game.stages.enums;
 
 public enum CannonTypeEnum {
 	CannonSpiral("Cannon_Spiral",0),
-	CannonRadial("Cannon_Radial",1);
+	CannonRadial("Cannon_Radial",1),
+	CannonMill("Cannon_Mill",2);
 	
 	private String cannonTypeStr;
 	private int index;

@@ -429,32 +429,35 @@ public class GameElementLogic {
     
     public void drawSpawns(SpriteBatch sb) {
         
-        for (SpawnObject se: staticEnemies) {
+    	
+    	for (SpawnObject se: staticEnemies) {
         	if (se.isSpawned()) {
         		se.draw(sb);
         	}
         }
-        
-        for (SpawnObject o: mines) {
+    	
+    	  for (SpawnObject o: mines) {
+              if (o.isSpawned())
+                  o.draw(sb);
+          }
+    	
+    	for (SpawnObject o: cannons) {
             if (o.isSpawned())
                 o.draw(sb);
         }
-        
-        for (SpawnObject o: cannons) {
-            if (o.isSpawned())
-                o.draw(sb);
-        }
-        
-        
-        for (SpawnObject e: enemies) {
+    	
+    	for (SpawnObject e: enemies) {
             if (e.isSpawned())
                 e.draw(sb);
-        }
-        
-        for (SpawnObject m: missilesEnemies) {
+       }
+   	
+    	
+    	
+    	for (SpawnObject m: missilesEnemies) {
             if (m.isSpawned())
                 m.draw(sb);
-        }
+       }
+    	
         for (SpawnObject mp: missilesPlayer) {
             if (mp.isSpawned())
                 mp.draw(sb);
@@ -463,6 +466,9 @@ public class GameElementLogic {
             if (ex.isSpawned())
                 ex.draw(sb);
         }
+        
+      
+        
         for (SpawnObject i: items) {
             if (i.isSpawned())
                 i.draw(sb);
@@ -474,21 +480,30 @@ public class GameElementLogic {
     }
     
     public void updateSpawns(float delta) {
-    	    	
-    	 for (SpawnObject se: staticEnemies) {
+    		
+    	for (SpawnObject e: enemies) {
+            if (e.isSpawned())
+                e.update(delta, GameLevelLogic.speedUpFactor);
+        } 
+    	
+    	for (SpawnObject o: cannons) {
+            if (o.isSpawned())
+                o.update(delta, GameLevelLogic.speedUpFactor);
+        }
+    	
+    	for (SpawnObject se: staticEnemies) {
           	if (se.isSpawned()) {
           		se.update(delta, GameLevelLogic.speedUpFactor);
           	}
          }
-    	 for (SpawnObject e: enemies) {
-             if (e.isSpawned())
-                 e.update(delta, GameLevelLogic.speedUpFactor);
-         }
+    	 
+    	for (SpawnObject m: missilesEnemies) {
+            if (m.isSpawned())
+                m.update(delta, GameLevelLogic.speedUpFactor);
+        }
     	
-         for (SpawnObject m: missilesEnemies) {
-             if (m.isSpawned())
-                 m.update(delta, GameLevelLogic.speedUpFactor);
-         }
+    	
+        
          for (SpawnObject mp: missilesPlayer) {
              if (mp.isSpawned())
                  mp.update(delta, 1.0f);
@@ -497,19 +512,17 @@ public class GameElementLogic {
              if (ex.isSpawned())
                  ex.update(delta, 1.0f);
          }
+         
+         for (SpawnObject o: mines) {
+             if (o.isSpawned())
+                 o.update(delta, GameLevelLogic.speedUpFactor);
+         }
+         
          for (SpawnObject i: items) {
              if (i.isSpawned())
                  i.update(delta, 1.0f);
          }
          for (SpawnObject o: obstacles) {
-             if (o.isSpawned())
-                 o.update(delta, GameLevelLogic.speedUpFactor);
-         }
-         for (SpawnObject o: mines) {
-             if (o.isSpawned())
-                 o.update(delta, GameLevelLogic.speedUpFactor);
-         }
-         for (SpawnObject o: cannons) {
              if (o.isSpawned())
                  o.update(delta, GameLevelLogic.speedUpFactor);
          }
@@ -779,12 +792,14 @@ public class GameElementLogic {
 		
 		CannonTypeEnum cT = CannonTypeEnum.CannonSpiral;
 		
-		/*
-		if (GameLevelInformation.getLevel() >= GameLevelInformation.THIRD_LEVEL) {
-			int typeBonus = this.random_Bonus.nextInt(2);
-			cT = cT.getByIndex(typeBonus);
+		
+		if (isStatic) {
+			if (GameLevelInformation.getLevel() >= GameLevelInformation.THIRD_LEVEL) {
+				int typeBonus = this.random_Bonus.nextInt(3);
+				cT = cT.getByIndex(typeBonus);
+			}
 		}
-		*/
+		
 		
 		Cannon c = (Cannon)spawnPool.getFromPool(SpawnType.Cannon);
 		c.init(cT,posX, posY, 90, -280.0f, isStatic);
