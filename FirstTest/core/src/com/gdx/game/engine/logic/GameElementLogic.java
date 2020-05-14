@@ -792,14 +792,14 @@ public class GameElementLogic {
 		
 		CannonTypeEnum cT = CannonTypeEnum.CannonSpiral;
 		
-		/*
+		
 		if (isStatic) {
 			if (GameLevelInformation.getLevel() >= GameLevelInformation.FIFTH_LEVEL) {
 				int typeBonus = this.random_Bonus.nextInt(3);
 				cT = cT.getByIndex(typeBonus);
 			}
 		}
-		*/
+		
 		
 		Cannon c = (Cannon)spawnPool.getFromPool(SpawnType.Cannon);
 		c.init(cT,posX, posY, 90, -280.0f, isStatic);
