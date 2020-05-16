@@ -141,7 +141,7 @@ public class GamePlayScreen implements Screen {
 	}
 	
 	public void initGame() {
-		gamePlay = new GamePlay(this);
+		gamePlay.reinitGamePlay();
 		gameInput = new GameInput(gamePlay);
 		inGameUI = new InputMultiplexer();
 		inGameUI.addProcessor(guiStage.getStage());

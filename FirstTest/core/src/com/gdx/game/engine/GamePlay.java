@@ -60,6 +60,28 @@ public class GamePlay {
 		init();
 	}
 	
+	public void reinitGamePlay(){
+
+		this.gEL = new GameElementLogic(gPS);
+		this.random = new Random(System.currentTimeMillis());
+
+		this.started = false;
+		this.levelfinished = true;
+
+		initBackground();
+
+		this.tiledMap = new TmxMapLoader().load(GameLevelInformation.getMapLevel(GameLevelInformation.getLevel()));
+		this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+		this.camera.position.set(FirstTestGDX.screenWidth/2,FirstTestGDX.screenHeight/2, 0);
+		gEL.setTiledMap(tiledMap);
+
+		initStaticElements();
+		initPlayer();
+	}
+	
+	
+	
 	private void init() {
 		initBackground();
 		initTiledBackground(); 
