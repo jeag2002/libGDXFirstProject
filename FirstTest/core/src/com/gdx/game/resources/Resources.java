@@ -267,6 +267,13 @@ public class Resources extends AssetManager{
     public String changeArm = "gui/gui-android/flatDark26.png";
     public String joystick_logo = "gui/gui-android/joystick.png";
     
+    public String android_up = "gui/gui-android/flatDark25.png";
+	public String android_down = "gui/gui-android/flatDark26.png";
+	public String android_left = "gui/gui-android/flatDark23.png";
+	public String android_right = "gui/gui-android/flatDark24.png";
+
+    
+    
 	//music
 	public String menu_MUSIC = "sounds/back_music.ogg";
 	
@@ -556,6 +563,13 @@ public class Resources extends AssetManager{
 		load(shoot, Texture.class);
 		load(changeArm, Texture.class);
 		load(joystick_logo,Texture.class);
+		
+		load(android_up, Texture.class);
+		load(android_down, Texture.class);
+		load(android_left, Texture.class);
+		load(android_right, Texture.class);
+
+		
 		////////////////////////////////////////////////////////////
 		
 		
