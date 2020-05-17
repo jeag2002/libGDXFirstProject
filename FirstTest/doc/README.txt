@@ -50,3 +50,6 @@ luces con box2d: https://www.youtube.com/watch?v=br05O5lTeRQ
 https://gamedev.stackexchange.com/questions/88317/sprite-rotation-libgdx
 
 https://hub.docker.com/_/httpd
+
+instruccions for uploading GWT to EC2 AWS: https://reflectoring.io/aws-deploy-docker-image-via-web-console/
+(copy from html/build/dist)
