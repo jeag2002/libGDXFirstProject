@@ -16,6 +16,7 @@ import com.gdx.game.elements.ShootObject;
 import com.gdx.game.elements.SpawnPool;
 import com.gdx.game.engine.GamePlay;
 import com.gdx.game.screens.GamePlayScreen;
+import com.gdx.game.stages.elements.GUIStageGamePlayAndroid;
 import com.gdx.game.stages.enums.LaserTypePlayer;
 import com.gdx.game.stages.enums.MissileTypeEnum;
 import com.gdx.game.stages.enums.PlayerMovements;
@@ -281,7 +282,7 @@ public class Player extends ShootObject{
 			if (orientation.equals(PlayerMovements.UP)) {
 				
 				
-				if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) ) {
+				if (Gdx.input.isKeyPressed(Keys.UP) || Gdx.input.isKeyPressed(Keys.W) || GUIStageGamePlayAndroid.button_UP.isPressed() ) {
 					
 					accelerateUpY(delta);
 					if (getY() > (FirstTestGDX.screenHeight - collisionMarginUp)) {
@@ -295,7 +296,7 @@ public class Player extends ShootObject{
 			}else if (orientation.equals(PlayerMovements.DOWN)) {
 				
 				
-				if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) ) {
+				if (Gdx.input.isKeyPressed(Keys.DOWN) || Gdx.input.isKeyPressed(Keys.S) || GUIStageGamePlayAndroid.button_DOWN.isPressed()  ) {
 					
 					accelerateUpY(delta);
 					if ((getY() + getHeight()) < collisionMarginDown) {
@@ -308,7 +309,7 @@ public class Player extends ShootObject{
 				
 			}else if (orientation.equals(PlayerMovements.LEFT)) {
 				
-				if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) {
+				if (Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A) || GUIStageGamePlayAndroid.button_LEFT.isPressed() ) {
 					accelerateUpX(delta);
 					if (getX() < this.collisionMarginLeft) {
 						setX(this.collisionMarginLeft);
@@ -319,8 +320,8 @@ public class Player extends ShootObject{
 				else {fallX(delta);}
 				
 			}else if (orientation.equals(PlayerMovements.RIGHT)) {
-				//movement player
-				if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) ) {
+				
+				if (Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D) || GUIStageGamePlayAndroid.button_RIGHT.isPressed()  ) {
 					accelerateUpX(delta);
 					if ((getX() + getWidth()) > (FirstTestGDX.screenWidth - collisionMarginRight)) {
 						setX(FirstTestGDX.screenWidth - collisionMarginRight);
