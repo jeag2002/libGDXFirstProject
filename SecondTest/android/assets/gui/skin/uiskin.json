@@ -1,0 +1,6 @@
+{
+	ImageButtonStyle: {
+		default: {},
+		toggle: {}
+	}
+}

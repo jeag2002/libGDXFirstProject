@@ -1,0 +1,12 @@
+generacion auto-tile-gdx: https://github.com/gpertzov/auto-tile-gdx
+camera: https://www.youtube.com/watch?v=Lb2vZ5lBgCY
+infinite-level-generation: https://www.gamedevelopment.blog/full-libgdx-game-tutorial-infinite-level-generation-with-simplex-noise/
+
+
+tile_engine_without_tiled: 
+https://github.com/libgdx/libgdx/blob/master/tests/gdx-tests/src/com/badlogic/gdx/tests/bench/TiledMapBench.java#L64-L84
+https://gamedev.stackexchange.com/questions/67992/how-would-i-implement-procedurally-generated-tiles-in-libgdx
+
+https://craftpix.net/product/top-down-tank-game-kit/
+
+Inspiracion juego tank NES: https://www.youtube.com/watch?v=K6VBLJ4AR2Q
