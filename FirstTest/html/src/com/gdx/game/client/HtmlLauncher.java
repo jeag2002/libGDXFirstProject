@@ -4,13 +4,15 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.gdx.game.FirstTestGDX;
+import com.google.gwt.user.client.Window;
 
 public class HtmlLauncher extends GwtApplication {
 
         // USE THIS CODE FOR A FIXED SIZE APPLICATION
         @Override
         public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(640, 1000);
+                //return new GwtApplicationConfiguration(640, 1000);
+                return new GwtApplicationConfiguration(640, Window.getClientHeight());
         }
         // END CODE FOR FIXED SIZE APPLICATION
 
