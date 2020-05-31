@@ -51,7 +51,7 @@ public class GamePlayScreen implements Screen{
 		
 		viewportUI = new StretchViewport(game.screenWidth, game.screenHeight); 
 		Stage uiStage = new Stage(viewportUI);
-		guiStage = new GUIStage(uiStage);
+		guiStage = new GUIStage(uiStage,this);
 		guiStage.init();
 		
 		initGame();
@@ -60,8 +60,6 @@ public class GamePlayScreen implements Screen{
 	
 	
 	public void initGame() {
-		
-		
 		gameInput = new GameInput();
 		inGameUI = new InputMultiplexer();
 		
@@ -69,7 +67,32 @@ public class GamePlayScreen implements Screen{
 		inGameUI.addProcessor(gameInput);
 		
 		Gdx.input.setInputProcessor(inGameUI);
+		
+		gamePlay.initStart();
 		guiStage.activeGUI(GUIEnum.START);
+	}
+	
+	
+	public void initIntermision() {
+  	  	GameLogicInformation.setLevel(GameLogicInformation.INTERMISSION);
+  	  	
+  	  	gamePlay.initStart();
+  	  	guiStage.activeGUI(GUIEnum.INTERMISSION);
+  	  	
+  	  	stopMusic();
+  	  	initMusic();
+	}
+	
+	
+	public void initGamePlay() {
+		GameLogicInformation.setLevel(GameLogicInformation.GAMEPLAY);
+		gamePlay.start();
+		
+		gamePlay.initGamePlay();
+		guiStage.activeGUI(GUIEnum.GAMEPLAY);
+		
+		stopMusic();
+		initMusic();
 	}
 	
 	
@@ -90,6 +113,10 @@ public class GamePlayScreen implements Screen{
 		sound.play();
 	}
 	
+	public GamePlay getGamePlay() {
+		return this.gamePlay;
+	}
+	
 	
 	@Override
 	public void show() {
@@ -97,14 +124,32 @@ public class GamePlayScreen implements Screen{
 	
 	@Override
 	public void render(float delta) {
+		
+		
+		if (gamePlay != null) {
+			gamePlay.update(delta);
+		}
+		
+		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		
 		spriteBatch.begin();
 		if (gamePlay != null) {
-			gamePlay.draw(spriteBatch);
+			gamePlay.drawBackground(spriteBatch);
 		}
+		spriteBatch.end();
+		
+		
+		if (gamePlay != null) {
+			gamePlay.drawMap();
+		}
+		
+		spriteBatch.begin();
+		if (gamePlay != null) {
+			gamePlay.draw(spriteBatch);
+		}		
 		spriteBatch.end();
 		
 		if (guiStage != null) {

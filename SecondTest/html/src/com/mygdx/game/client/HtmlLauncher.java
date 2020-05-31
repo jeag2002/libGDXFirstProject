@@ -3,14 +3,17 @@ package com.mygdx.game.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.mygdx.game.SecondTestGDX_old;
+import com.mygdx.game.SecondTestGDX;
+
+import com.google.gwt.user.client.Window;
 
 public class HtmlLauncher extends GwtApplication {
 
         // USE THIS CODE FOR A FIXED SIZE APPLICATION
         @Override
         public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(1024, 768);
+                //return new GwtApplicationConfiguration(1024, 768);
+        	return new GwtApplicationConfiguration(1024, Window.getClientHeight());
         }
         // END CODE FOR FIXED SIZE APPLICATION
 
@@ -46,6 +49,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new SecondTestGDX_old();
+                return new SecondTestGDX();
         }
 }

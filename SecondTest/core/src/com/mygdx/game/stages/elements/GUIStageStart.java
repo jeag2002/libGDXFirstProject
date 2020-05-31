@@ -14,12 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.logic.GameLogicInformation;
+import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.stages.components.WindowsItem;
+
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 public class GUIStageStart {
 	
 	public Group grpStartUI;
 	private Stage stage;
+	private GamePlayScreen gPS;
 	
 	
 	private WindowsItem wItem;
@@ -27,8 +33,9 @@ public class GUIStageStart {
 	private ImageButton buttonExit;
 	
 	
-	public GUIStageStart(Stage stage) {
+	public GUIStageStart(Stage stage, GamePlayScreen gPS) {
 		this.stage = stage;
+		this.gPS = gPS;
 	}
 	
 	public Stage getStage() {
@@ -64,6 +71,26 @@ public class GUIStageStart {
 	    buttonStart.addListener(new InputListener(){
 	          @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	        	  
+	        	  gPS.initIntermision();
+	        	  
+	        	  Gdx.app.postRunnable(new Runnable() {
+	        		  @Override
+	        		  public void run() {
+	        			  gPS.getGamePlay().processTileGeneration();
+	        			  Gdx.app.log("[GUIStageStart]", "TILE GENERATION MAP FINISHED");
+	        		  }
+	        	  });
+
+	        	  
+	        	  Timer.schedule(new Task() {
+	          		@Override
+	          	    public void run() {
+	          			gPS.initGamePlay();
+	          			Gdx.app.log("[GUIStageStart]", "INIT GAMEPLAY");
+	          		}},6);
+	        	  
+	        	  
 	          }
 	          
 	          @Override
