@@ -29,6 +29,9 @@ public class Resources extends AssetManager{
 	
 	public String startButton = "gui/start/Start_BTN.png";
 	public String exitButton = "gui/start/Exit_1_BTN.png";
+	public String gameButton = "gui/start/GameMode_BTN.png";
+	public String settingsButton = "gui/start/Settings_BTN.png";
+	public String scoreButton = "gui/start/Score_BTN.png";
 	
 	public String headerSplash = "gui/start/Header.png";
 	public String tableSplash = "gui/start/Table.png";
@@ -36,15 +39,44 @@ public class Resources extends AssetManager{
 	//blocks
 	public String block_A_01 = "maps/terrain/Block_A_01.png";
 	public String block_A_02 = "maps/terrain/Block_A_02.png";
+	public String block_B_01 = "maps/terrain/Block_B_01.png";
+	public String block_B_02 = "maps/terrain/Block_B_02.png";
+	public String block_C_01 = "maps/terrain/Block_C_01.png";
+	public String block_C_02 = "maps/terrain/Block_C_02.png";
+	public String block_D_01 = "maps/terrain/Block_D_01.png";
+	public String block_D_02 = "maps/terrain/Block_D_02.png";
 	
+	
+	//ground
 	public String ground_tile_01_A = "maps/terrain/Ground_Tile_01_A.png"; 
 	public String ground_tile_01_B = "maps/terrain/Ground_Tile_01_B.png";
 	public String ground_tile_01_C = "maps/terrain/Ground_Tile_01_C.png";
+	public String ground_tile_01_D = "maps/terrain/Ground_Tile_01_D.png";
 	
 	public String ground_tile_02_A = "maps/terrain/Ground_Tile_02_A.png";
 	public String ground_tile_02_B = "maps/terrain/Ground_Tile_02_B.png";
-	public String ground_tile_03_C = "maps/terrain/Ground_Tile_02_C.png";
+	public String ground_tile_02_C = "maps/terrain/Ground_Tile_02_C.png";
+	public String ground_tile_02_D = "maps/terrain/Ground_Tile_02_D.png";
 	
+	//elements_terrains
+	public String Palm_01 = "maps/terrain/Palm_01.png";
+	public String Palm_02 = "maps/terrain/Palm_02.png";
+	public String Palm_03 = "maps/terrain/Palm_03.png";
+	
+	public String Cactus_01 = "maps/terrain/Cactus_01.png";
+	public String Cactus_02 = "maps/terrain/Cactus_02.png";
+	public String Cactus_03 = "maps/terrain/Cactus_03.png";
+	
+	//elements
+	public String platform = "elements/Platform.png";
+	public String dot_a = "elements/Dot_A.png";
+	public String dot_b = "elements/Dot_B.png";
+	
+	//player 
+	public String gunPlayer = "elements/player/Gun_01.png";
+	public String bodyPlayer = "elements/player/Hull_01.png";
+	public String track_01 = "elements/player/Track_1_A.png";
+	public String track_02 = "elements/player/Track_1_B.png";
 	
 	public void loadAssets() {
 		
@@ -67,24 +99,55 @@ public class Resources extends AssetManager{
 		load(musicGameplay_5,Music.class);
 		load(musicGameplay_6,Music.class);
 		
+		
 		load(startButton,Texture.class);
 		load(exitButton,Texture.class);
+		load(gameButton,Texture.class);
+		load(settingsButton,Texture.class);
+		load(scoreButton,Texture.class);
 		
 		load(headerSplash,Texture.class);
 		load(tableSplash,Texture.class);
 		
-		
 		load(block_A_01,Texture.class);				
 		load(block_A_02,Texture.class);
+		
+		load(block_B_01,Texture.class);
+		load(block_B_02,Texture.class);
+		
+		load(block_C_01,Texture.class);
+		load(block_C_02,Texture.class);
+		
+		load(block_D_01,Texture.class);
+		load(block_D_02,Texture.class);
 		
 		load(ground_tile_01_A,Texture.class); 
 		load(ground_tile_01_B,Texture.class);
 		load(ground_tile_01_C,Texture.class);
+		load(ground_tile_01_D,Texture.class);
 		
 		load(ground_tile_02_A,Texture.class);
 		load(ground_tile_02_B,Texture.class);
-		load(ground_tile_03_C,Texture.class); //1
+		load(ground_tile_02_C,Texture.class);
+		load(ground_tile_02_D,Texture.class); 
 		
+		load(Palm_01,Texture.class);
+		load(Palm_02,Texture.class);
+		load(Palm_03,Texture.class);
+		
+		load(Cactus_01,Texture.class);
+		load(Cactus_02,Texture.class);
+		load(Cactus_03,Texture.class);
+		
+		load(platform,Texture.class);
+		load(dot_a,Texture.class);
+		load(dot_b,Texture.class);
+		
+		load(gunPlayer,Texture.class);
+		load(bodyPlayer,Texture.class);
+		load(track_01,Texture.class);
+		load(track_02,Texture.class);
+	
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}

@@ -39,7 +39,7 @@ public class GUIStageIntermission{
 	
 	private void initIntermissionGUI() {
 		
-		String txt = "GENERATING PROCEDURAL MAP ...";
+		String txt = "GENERATING MAP ...";
 		
 		lblLevel = new Label(txt, new Label.LabelStyle(SecondTestGDX.resources.font1,Color.BLACK));
 		lblLevel.setPosition(5, 70, Align.left);

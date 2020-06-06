@@ -75,6 +75,8 @@ public class GUIStage {
 			case INTERMISSION:
 				intermission.draw(delta);
 				break;
+			case GAMEPLAY:
+				break;
 		}
 			
 	}

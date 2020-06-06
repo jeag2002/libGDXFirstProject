@@ -30,6 +30,9 @@ public class GUIStageStart {
 	
 	private WindowsItem wItem;
 	private ImageButton buttonStart;
+	private ImageButton buttonSettings;
+	private ImageButton buttonScore;
+	private ImageButton buttonGameMode;
 	private ImageButton buttonExit;
 	
 	
@@ -63,10 +66,10 @@ public class GUIStageStart {
 		
 		Skin uiSkin = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
 	    buttonStart = new ImageButton(uiSkin);
-	    buttonStart.setSize(200.0f,100.0f);
+	    buttonStart.setSize(700.0f,75.0f);
 	    buttonStart.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.startButton, Texture.class)));
 	    buttonStart.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.startButton, Texture.class)));
-	    buttonStart.setPosition((SecondTestGDX.screenWidth / 2) - 100,SecondTestGDX.screenHeight / 2 - 100);
+	    buttonStart.setPosition((SecondTestGDX.screenWidth / 2) - 350,SecondTestGDX.screenHeight / 2 - 100);
 	    buttonStart.setVisible(false);
 	    buttonStart.addListener(new InputListener(){
 	          @Override
@@ -99,14 +102,77 @@ public class GUIStageStart {
 	          }
 	        });
 	    grpStartUI.addActor(buttonStart);
+	    //stage.addActor(buttonStart);
+	    
+	    Skin uiSkin_2 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
+	    buttonSettings = new ImageButton(uiSkin_2);
+	    buttonSettings.setSize(700.0f,75.0f);
+	    buttonSettings.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.settingsButton, Texture.class)));
+	    buttonSettings.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.settingsButton, Texture.class)));
+	    buttonSettings.setPosition((SecondTestGDX.screenWidth / 2) - 350,(SecondTestGDX.screenHeight / 2) - 175);
+	    buttonSettings.setVisible(false);
+	    buttonSettings.addListener(new InputListener(){
+	          @Override
+	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	          }
+	          
+	          @Override
+	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	            return true;
+	          }
+	        });
+	    grpStartUI.addActor(buttonSettings);
+	    //stage.addActor(buttonSettings);
+	    
+	    Skin uiSkin_3 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
+	    buttonScore = new ImageButton(uiSkin_3);
+	    buttonScore.setSize(700.0f,75.0f);
+	    buttonScore.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.scoreButton, Texture.class)));
+	    buttonScore.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.scoreButton, Texture.class)));
+	    buttonScore.setPosition((SecondTestGDX.screenWidth / 2) - 350,(SecondTestGDX.screenHeight / 2) - 250);
+	    buttonScore.setVisible(false);
+	    buttonScore.addListener(new InputListener(){
+	          @Override
+	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	          }
+	          
+	          @Override
+	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	            return true;
+	          }
+	        });
+	    grpStartUI.addActor(buttonScore);
+	    //stage.addActor(buttonScore);
+	    
+	    /*
+	    Skin uiSkin_4 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
+	    buttonGameMode = new ImageButton(uiSkin_4);
+	    buttonGameMode.setSize(200.0f,150.0f);
+	    buttonGameMode.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.gameButton, Texture.class)));
+	    buttonGameMode.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.gameButton, Texture.class)));
+	    buttonGameMode.setPosition((SecondTestGDX.screenWidth / 2) - 200,(SecondTestGDX.screenHeight / 2) - 400);
+	    buttonGameMode.setVisible(false);
+	    buttonGameMode.addListener(new InputListener(){
+	          @Override
+	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	          }
+	          
+	          @Override
+	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+	            return true;
+	          }
+	        });
+	    grpStartUI.addActor(buttonGameMode);
+	    //stage.addActor(buttonGameMode);
+	     */
 		
 	    
-	    Skin uiSkin_1 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
-	    buttonExit = new ImageButton(uiSkin_1);
-	    buttonExit.setSize(200.0f,100.0f);
+	    Skin uiSkin_4 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
+	    buttonExit = new ImageButton(uiSkin_4);
+	    buttonExit.setSize(700.0f,75.0f);
 	    buttonExit.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.exitButton, Texture.class)));
 	    buttonExit.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.exitButton, Texture.class)));
-	    buttonExit.setPosition((SecondTestGDX.screenWidth / 2) - 100,SecondTestGDX.screenHeight / 2 - 200);
+	    buttonExit.setPosition((SecondTestGDX.screenWidth / 2) - 350,(SecondTestGDX.screenHeight / 2) - 325);
 	    buttonExit.setVisible(false);
 	    buttonExit.addListener(new InputListener(){
 	          @Override
@@ -120,7 +186,7 @@ public class GUIStageStart {
 	          }
 	        });
 	    grpStartUI.addActor(buttonExit);
-		
+	    //stage.addActor(buttonExit);
 		
 		
 		stage.addActor(grpStartUI);
@@ -130,6 +196,9 @@ public class GUIStageStart {
 	public void showStartGUI(boolean show) {
 		wItem.setVisible(show);
 		buttonStart.setVisible(show);
+		buttonSettings.setVisible(show);
+		buttonScore.setVisible(show);
+		//buttonGameMode.setVisible(show);
 		buttonExit.setVisible(show);
 		
 		if (show) {

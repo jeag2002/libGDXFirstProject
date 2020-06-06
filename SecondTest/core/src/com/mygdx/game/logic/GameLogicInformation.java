@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.BackgroundMusicEnum;
+import com.mygdx.game.enums.TileMapEnum;
 
 public class GameLogicInformation {
 
@@ -11,6 +12,13 @@ public class GameLogicInformation {
 	public static final int INTERMISSION = 1;
 	public static final int GAMEPLAY = 2;
 	
+	
+	public static final int DESERT_LEVEL = 0;
+	public static final int JUNGLE_LEVEL = 1;
+	
+	
+	public static final float speedUpFactor = 1.0f;
+	public static final float bgSpeed = 50.0f;
 	
 	private static int level;
 	
@@ -57,5 +65,37 @@ public class GameLogicInformation {
 			return mEnum.getByIndex(musicIndex).getMusicStr();
 		}
 	}
+	
+	
+	public static TileMapEnum[] getRandomTileMap(int index) {
+		
+		TileMapEnum[] levelMap= new TileMapEnum[4];
+		
+		if (index == DESERT_LEVEL) {
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
+			levelMap[1] = TileMapEnum.BLOCK_B_02;
+			levelMap[2] = TileMapEnum.BLOCK_C_02;
+			levelMap[3] = TileMapEnum.CACTUS_03;
+			
+		}else if (index == JUNGLE_LEVEL) {
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_D;
+			levelMap[1] = TileMapEnum.BLOCK_A_02;
+			levelMap[2] = TileMapEnum.BLOCK_D_02;
+			levelMap[3] = TileMapEnum.PALM_01;
+			
+		}else {
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
+			levelMap[1] = TileMapEnum.BLOCK_B_02;
+			levelMap[2] = TileMapEnum.BLOCK_C_02;
+			levelMap[3] = TileMapEnum.CACTUS_03;
+			
+		}
+		
+		return levelMap;
+	}
+	
 	
 }

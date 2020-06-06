@@ -13,7 +13,8 @@ public class HtmlLauncher extends GwtApplication {
         @Override
         public GwtApplicationConfiguration getConfig () {
                 //return new GwtApplicationConfiguration(1024, 768);
-        	return new GwtApplicationConfiguration(1024, Window.getClientHeight());
+        	//return new GwtApplicationConfiguration(1024, Window.getClientHeight());
+        	return new GwtApplicationConfiguration(SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
         }
         // END CODE FOR FIXED SIZE APPLICATION
 

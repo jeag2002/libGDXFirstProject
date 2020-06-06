@@ -10,3 +10,12 @@ https://gamedev.stackexchange.com/questions/67992/how-would-i-implement-procedur
 https://craftpix.net/product/top-down-tank-game-kit/
 
 Inspiracion juego tank NES: https://www.youtube.com/watch?v=K6VBLJ4AR2Q
+
+
+Estudio:
+
+workGDX_b/auto-tile-gdx ==> generación procedural terreno
+workGDX_c/3dTiledWorld ==> generación procedural 3D
+workGDX_d/dungen ==> generación procedural Dungen (portal generación de dungeons y pasadizo entre ellos)
+workGDX_e/level-generator ==> generación procedural terrenos.
+workGDX_f/thelegendofericc ==> generación dungeon 

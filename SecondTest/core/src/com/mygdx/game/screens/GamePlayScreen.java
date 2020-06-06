@@ -45,22 +45,19 @@ public class GamePlayScreen implements Screen{
 	
 	
 	public void init() {	
-		
 		generateGamePlay();
 		spriteBatch = new SpriteBatch();
-		
 		viewportUI = new StretchViewport(game.screenWidth, game.screenHeight); 
 		Stage uiStage = new Stage(viewportUI);
 		guiStage = new GUIStage(uiStage,this);
 		guiStage.init();
-		
-		initGame();
-		
+		initGame();	
 	}
 	
 	
+	
 	public void initGame() {
-		gameInput = new GameInput();
+		gameInput = new GameInput(gamePlay);
 		inGameUI = new InputMultiplexer();
 		
 		inGameUI.addProcessor(guiStage.getStage());
@@ -127,9 +124,10 @@ public class GamePlayScreen implements Screen{
 		
 		
 		if (gamePlay != null) {
-			gamePlay.update(delta);
+			if (!gamePlay.boundaries()) {
+				gamePlay.update(delta);
+			}
 		}
-		
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
