@@ -33,7 +33,10 @@ public enum TileMapEnum {
 	GROUND_TILE_02_A(SecondTestGDX.resources.ground_tile_02_A,18, 256, 256, 256, 256),
 	GROUND_TILE_02_B(SecondTestGDX.resources.ground_tile_02_B,19, 256, 256, 256, 256),
 	GROUND_TILE_02_C(SecondTestGDX.resources.ground_tile_02_C,20, 256, 256, 256, 256),
-	GROUND_TILE_02_D(SecondTestGDX.resources.ground_tile_02_D,21, 256, 256, 256, 256);
+	GROUND_TILE_02_D(SecondTestGDX.resources.ground_tile_02_D,21, 256, 256, 256, 256),
+	
+	CZECH_01(SecondTestGDX.resources.Czech_01,11,256,256,64,64),
+	CZECH_02(SecondTestGDX.resources.Czech_02,12,256,256,64,64);
 	
 	
 	private String tileMapStr;

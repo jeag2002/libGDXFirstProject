@@ -67,6 +67,9 @@ public class Resources extends AssetManager{
 	public String Cactus_02 = "maps/terrain/Cactus_02.png";
 	public String Cactus_03 = "maps/terrain/Cactus_03.png";
 	
+	public String Czech_01 = "maps/terrain/Czech_01.png";
+	public String Czech_02 = "maps/terrain/Czech_02.png";
+	
 	//elements
 	public String platform = "elements/Platform.png";
 	public String dot_a = "elements/Dot_A.png";
@@ -138,6 +141,9 @@ public class Resources extends AssetManager{
 		load(Cactus_01,Texture.class);
 		load(Cactus_02,Texture.class);
 		load(Cactus_03,Texture.class);
+		
+		load(Czech_01,Texture.class);
+		load(Czech_02,Texture.class);
 		
 		load(platform,Texture.class);
 		load(dot_a,Texture.class);

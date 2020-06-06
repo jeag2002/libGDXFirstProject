@@ -12,9 +12,13 @@ public class GameLogicInformation {
 	public static final int INTERMISSION = 1;
 	public static final int GAMEPLAY = 2;
 	
+	public static final float PIXELS_TO_METERS = 100f;
+	
+	
 	
 	public static final int DESERT_LEVEL = 0;
 	public static final int JUNGLE_LEVEL = 1;
+	public static final int FABRIC_LEVEL = 2;
 	
 	
 	public static final float speedUpFactor = 1.0f;
@@ -85,6 +89,14 @@ public class GameLogicInformation {
 			levelMap[2] = TileMapEnum.BLOCK_D_02;
 			levelMap[3] = TileMapEnum.PALM_01;
 			
+		}else if (index == FABRIC_LEVEL) {
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_01_A;
+			levelMap[1] = TileMapEnum.BLOCK_C_02;
+			levelMap[2] = TileMapEnum.BLOCK_A_02;
+			levelMap[3] = TileMapEnum.CZECH_01;
+			
+		
 		}else {
 			
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
