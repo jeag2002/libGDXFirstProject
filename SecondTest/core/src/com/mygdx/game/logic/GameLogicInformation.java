@@ -14,7 +14,8 @@ public class GameLogicInformation {
 	
 	public static final float PIXELS_TO_METERS = 100f;
 	
-	
+	public static final int PLAYERS = 1;
+	public static final int ENEMIES = 20;
 	
 	public static final int DESERT_LEVEL = 0;
 	public static final int JUNGLE_LEVEL = 1;

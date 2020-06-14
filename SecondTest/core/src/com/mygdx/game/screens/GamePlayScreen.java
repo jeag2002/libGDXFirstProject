@@ -88,6 +88,9 @@ public class GamePlayScreen implements Screen{
 		gamePlay.initGamePlay();
 		guiStage.activeGUI(GUIEnum.GAMEPLAY);
 		
+		spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
+		
+		
 		stopMusic();
 		initMusic();
 	}
@@ -126,6 +129,7 @@ public class GamePlayScreen implements Screen{
 		if (gamePlay != null) {
 			if (!gamePlay.boundaries()) {
 				gamePlay.update(delta);
+				gamePlay.updateElements(delta);
 			}
 		}
 		
@@ -146,7 +150,8 @@ public class GamePlayScreen implements Screen{
 		
 		spriteBatch.begin();
 		if (gamePlay != null) {
-			gamePlay.draw(spriteBatch);
+			//gamePlay.draw(spriteBatch);
+			gamePlay.drawElements(spriteBatch);
 		}		
 		spriteBatch.end();
 		

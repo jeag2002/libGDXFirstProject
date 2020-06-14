@@ -7,6 +7,8 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.enums.SpawnType;
+import com.mygdx.game.logic.elements.SpawnPool;
 //import com.gdx.game.elements.gun.Missile;
 //import com.gdx.game.engine.GamePlay;
 //import com.gdx.game.stages.enums.MissileTypeEnum;
@@ -20,7 +22,8 @@ import com.badlogic.gdx.physics.box2d.World;
 public abstract class ShootObject extends DynamicCollObject {
 	
 
-	 //private SpawnType missilesPool; 
+	 private SpawnType missilesPool; 
+	 private SpawnPool spawnPool;
 	 
 	 private ArrayList<Gun> guns = new ArrayList<Gun>();
 	 
@@ -30,17 +33,12 @@ public abstract class ShootObject extends DynamicCollObject {
 	 private float shootingInterval = 0.5f;
 	
 	 private boolean shootEvent;
-	 
-	 
-	//private SpawnPool spawnPool;
 	
-	public ShootObject(/*SpawnPool spawnPool,*/ World world) {
+	public ShootObject(SpawnPool spawnPool, World world) {
 		super(world);
-		//this.spawnPool = spawnPool;
-        shootEvent = false;
-        
-}
-	 
+		this.spawnPool = spawnPool;
+        shootEvent = false;    
+	}
 	 
 	 public class Gun {
 	        boolean active = false;
@@ -97,14 +95,14 @@ public abstract class ShootObject extends DynamicCollObject {
 	     this.gunPower = power;
 	}
 	
-	/*
+	
 	public void init(SpawnType missilPool) {
 		this.missilesPool = missilPool;
 		this.shootingActive = true;
 		this.timer = 0.0f;
 		
 	}
-	*/
+	
 	
 	public void resetGuns() {
 		for(Gun g: guns) {g.active = false;}

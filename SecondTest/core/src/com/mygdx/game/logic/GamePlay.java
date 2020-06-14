@@ -1,18 +1,22 @@
 package com.mygdx.game.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.TileMapEnum;
 import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.screens.elements.Background;
+import com.mygdx.game.utils.NewItem;
 
 public class GamePlay {
 	
@@ -30,9 +34,12 @@ public class GamePlay {
 	
 	private PlayerMovementsEnum pEnum;
 	
+	private GameElementLogic gameLogic;
 	
 	private SimpleMapGeneration sMG;
 	private boolean started;
+	
+	private ShapeRenderer render;
 	
 	private Random rand;
 	
@@ -44,6 +51,7 @@ public class GamePlay {
 		this.started = false;
 		this.pEnum = PlayerMovementsEnum.IDLE;
 		this.rand = new Random();	
+		this.gameLogic = new GameElementLogic(gPS);
 	}
 	
 	
@@ -74,7 +82,9 @@ public class GamePlay {
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		
+		this.gameLogic.initWorld();
 		
+		sMG.setWorld(this.gameLogic.getWorld());
 		tiledMap = sMG.createSimpleMap(SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
 									   SecondTestGDX.sizeMapTileWidth_TL, 
@@ -82,9 +92,30 @@ public class GamePlay {
 									   data[INDEX_BACKGROUND],
 									   data[INDEX_BORDER], 
 									   data[INDEX_TILEMAP],
-									   data[INDEX_FOREST]);
+									   data[INDEX_FOREST],
+									   GameLogicInformation.PLAYERS,
+									   GameLogicInformation.ENEMIES);
+		situationPlayer();
 		//sMG.createSimpleMapTest_1(SecondTestGDX.sizeMapTileWidth_TL, SecondTestGDX.sizeMapTileHeight_TL, TileMapEnum.GROUND_TILE_02_C);
 	}
+	
+	
+	public void situationPlayer() {
+		
+		ArrayList<NewItem> posPlayers = sMG.getPlayers();
+		
+		if (posPlayers.size() > 0) {
+			
+			NewItem posPlayer = posPlayers.get(0);
+			this.gameLogic.initPlayer(posPlayer.getType(),
+									  posPlayer.getX(), //+  (SecondTestGDX.tileWidth_TL/4), 
+									  posPlayer.getY(), //+  (SecondTestGDX.tileHeight_TL/4), 
+									  SecondTestGDX.tilePlayerWidth_TL, 
+									  SecondTestGDX.tilePlayerHeight_TL);
+		}
+	}
+	
+	
 	
 	public void initStart() {
 		background();
@@ -100,7 +131,39 @@ public class GamePlay {
 			if (tiledMap != null) {
 				this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 				this.camera.setToOrtho(false);
-				this.camera.position.set(SecondTestGDX.screenWidth/2,SecondTestGDX.screenHeight/2, 0);
+				
+				ArrayList<NewItem> posPlayers = sMG.getPlayers();
+				
+			    if (posPlayers.size() > 0) {
+			    	
+			    	
+			    	this.camera.position.set(
+			    			this.gameLogic.getPlayer().getX(), 
+			    			this.gameLogic.getPlayer().getY(), 
+			    			0);
+			    	
+			    	//Vector2 vec = new Vector2();
+			    	//vec.x = this.gameLogic.getPlayer().getX();
+			    	//vec.y = this.gameLogic.getPlayer().getY();
+			    	
+			    	
+			    	
+			    	
+			    	/*
+			    	this.camera.position.set(
+			    			this.gameLogic.getPlayer().getX() +  this.gameLogic.getPlayer().getWidth() / 2, 
+			    			this.gameLogic.getPlayer().getY() + this.gameLogic.getPlayer().getHeight() / 2, 
+			    			0);
+			    	
+			    	this.camera.viewportWidth = SecondTestGDX.screenWidth;
+			    	this.camera.viewportHeight = SecondTestGDX.screenHeight;
+			    	*/
+			    	//this.camera.translate(vec);
+			    }else {
+			    	this.camera.position.set(SecondTestGDX.screenWidth/2,SecondTestGDX.screenHeight/2, 0);
+			    }
+			    
+			    this.camera.update();
 			}
 		}
 	}
@@ -125,6 +188,15 @@ public class GamePlay {
 			}else if (pEnum.equals(PlayerMovementsEnum.DOWN)) {				
 				camera.translate(0, GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta*(-1));
 			}
+			camera.update();
+		}
+	}
+	
+	
+	public void updateElements(float delta) {
+		if (started) {
+			gameLogic.updatePlayer(delta);
+			gameLogic.updateSpawns(delta);
 		}
 	}
 	
@@ -168,6 +240,19 @@ public class GamePlay {
 				tiledMapRenderer.render();
 			}
 		}
+	}
+	
+	public void drawElements(SpriteBatch sb) {
+		if (started) {
+			if (tiledMap != null) {
+				gameLogic.drawPlayer(sb);
+				gameLogic.drawSpawns(sb);
+			}
+		}
+	}
+	
+	public OrthographicCamera getCamera() {
+		return this.camera;
 	}
 	
 	

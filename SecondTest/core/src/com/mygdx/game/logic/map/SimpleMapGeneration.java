@@ -1,31 +1,62 @@
 package com.mygdx.game.logic.map;
 
+import java.awt.ItemSelectable;
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
+import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.logic.map.procedural.CaveGenerationImpl;
 import com.mygdx.game.logic.map.procedural.ForestGenerationImpl;
 import com.mygdx.game.utils.DrawUtils;
+import com.mygdx.game.utils.NewItem;
 
 public class SimpleMapGeneration {
 	
-	private long seed;
-	private TiledMap map;
-    private DrawUtils dU;
-    private CaveGenerationImpl caveGenerator;
-    private ForestGenerationImpl forestGenerator;
+   private long seed;
+   private TiledMap map;
+   private World world;
+	
+   private DrawUtils dU;
+   private CaveGenerationImpl caveGenerator;
+   private ForestGenerationImpl forestGenerator;
+   
+   private ArrayList<NewItem> playersSituation;
+   private ArrayList<NewItem> enemiesSituation;
+   
+    
+   public static final int INDEX_BACKGROUND = 0;
+   public static final int INDEX_BORDER = 1;
+   public static final int INDEX_WALLS = 2;
+   public static final int INDEX_FOREST = 3;
+    
+   public static final int INDEX_PLAYER = 4;
+   public static final int INDEX_ENEMIES = 5;
    
 	
    public SimpleMapGeneration() {
-	   dU = new DrawUtils();
+	   
+	   playersSituation = new ArrayList<NewItem>();
+	   enemiesSituation = new ArrayList<NewItem>();
+	   
    }
    
+   public void setWorld(World world) {
+	   this.world = world;
+	   
+	   
+	   
+   }
    
    private void generateCave(int width, int height) {
 	   seed = System.currentTimeMillis();
@@ -81,18 +112,21 @@ public class SimpleMapGeneration {
 		
 		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileBorder.getWidthShow(), tileBorder.getHeightShow());
 		Texture text = SecondTestGDX.resources.get(tileBorder.getTileMapStr());
-		text = dU.resizeTexture(text, tileBorder.getWidthBef(), tileBorder.getHeightBef(), tileBorder.getWidthShow(), tileBorder.getHeightShow());
+		text = DrawUtils.resizeTexture(text, tileBorder.getWidthBef(), tileBorder.getHeightBef(), tileBorder.getWidthShow(), tileBorder.getHeightShow());
 		TextureRegion tRegion = new TextureRegion(text);
 		
 		for(int x=0; x<width; x++) {
 			
 			Cell cell = new Cell();
-			cell.setTile(new StaticTiledMapTile(tRegion));
+			//cell.setTile(new StaticTiledMapTile(tRegion));
+			cell.setTile(new StaticTiledMapColl(tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(x, 0, cell);
 			
 			
 			cell = new Cell();
-			cell.setTile(new StaticTiledMapTile(tRegion));
+			//cell.setTile(new StaticTiledMapTile(tRegion));
+			
+			cell.setTile(new StaticTiledMapColl(tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(x, height-1, cell);
 		}
 		
@@ -100,12 +134,14 @@ public class SimpleMapGeneration {
 		for(int y=1; y<height-1; y++) {
 			
 			Cell cell = new Cell();
-			cell.setTile(new StaticTiledMapTile(tRegion));
+			//cell.setTile(new StaticTiledMapTile(tRegion));
+			cell.setTile(new StaticTiledMapColl(tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(0, y, cell);
 			
 			
 			cell = new Cell();
-			cell.setTile(new StaticTiledMapTile(tRegion));
+			//cell.setTile(new StaticTiledMapTile(tRegion));
+			cell.setTile(new StaticTiledMapColl(tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(width-1, y, cell);
 		}
 		
@@ -117,7 +153,7 @@ public class SimpleMapGeneration {
 		
 		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileMap.getWidthShow(), tileMap.getHeightShow());
 		Texture text = SecondTestGDX.resources.get(tileMap.getTileMapStr());
-		text = dU.resizeTexture(text, tileMap.getWidthBef(), tileMap.getHeightBef(), tileMap.getWidthShow(), tileMap.getHeightShow());
+		text = DrawUtils.resizeTexture(text, tileMap.getWidthBef(), tileMap.getHeightBef(), tileMap.getWidthShow(), tileMap.getHeightShow());
 		TextureRegion tRegion = new TextureRegion(text);
 		
 		boolean[][] caveMap = caveGenerator.getMap();
@@ -127,13 +163,13 @@ public class SimpleMapGeneration {
 				
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
-					cell.setTile(new StaticTiledMapTile(tRegion));
+					//cell.setTile(new StaticTiledMapTile(tRegion));
+					cell.setTile(new StaticTiledMapColl(tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world));
 					layer.setCell(x, y, cell);
 				}
 				
 			}
 		}
-		
 		
 		return layer;
 	}
@@ -143,7 +179,7 @@ public class SimpleMapGeneration {
 		
 		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileMap.getWidthShow(), tileMap.getHeightShow());
 		Texture text = SecondTestGDX.resources.get(tileMap.getTileMapStr());
-		text = dU.resizeTexture(text, tileMap.getWidthBef(), tileMap.getHeightBef(), tileMap.getWidthShow(), tileMap.getHeightShow());
+		text = DrawUtils.resizeTexture(text, tileMap.getWidthBef(), tileMap.getHeightBef(), tileMap.getWidthShow(), tileMap.getHeightShow());
 		TextureRegion tRegion = new TextureRegion(text);
 		
 		byte[][] forestMap = forestGenerator.getForest();
@@ -159,25 +195,68 @@ public class SimpleMapGeneration {
 				}
 			}
 		}
-		
-		
 		return layer;
 	}
+	
+	
+	public void setPlayerPosition(int width, int height, SpawnType playerId) {
+		
+		boolean[][] caveMap = caveGenerator.getMap();
+		byte[][] forestMap = forestGenerator.getForest();
+		
+		boolean DONE = false;
+	    int x = 1;
+	    int y = 1;
+		
+		do {
+			// EMPTY SPACE FOR A PLAYER 
+			if ((caveMap[x-1][y-1] == false) && (forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY)) {
+				
+				NewItem player = new NewItem(playerId, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL);
+				playersSituation.add(player);
+				DONE = true;
+				
+			}else {
+				x++;
+				if (x >= width-1) {
+					x = 1;		
+					if (y < height-1) 
+					{y++;}
+					else 
+					{DONE = true;}
+				}
+			}
+		}while(!DONE);	
+	}
+	
+	public void setPlayersPosition(int width, int height, int numPlayers) {
+		for (int i=0; i<numPlayers; i++) {setPlayerPosition(width,height, SpawnType.getByIndex(i));}
+	}
+	
+	
+	public void setEnemiesPosition(int width, int height, int numEnemies) {
+		
+	}
+	
+	public ArrayList<NewItem> getPlayers(){return playersSituation;}
+	public ArrayList<NewItem> getEnemies(){return enemiesSituation;}
 
 	
-	
-	
-	public TiledMap createSimpleMap(int width_bg, int height_bg, int width_tl, int height_tl, TileMapEnum tileBack, TileMapEnum tileBorder, TileMapEnum tileMap, TileMapEnum tileMapElem) {
+	public TiledMap createSimpleMap(int width_bg, int height_bg, int width_tl, int height_tl, TileMapEnum tileBack, TileMapEnum tileBorder, TileMapEnum tileMap, TileMapEnum tileMapElem, int numPlayers, int numEnemies) {
 		
 		map = new TiledMap();
 		MapLayers layers = map.getLayers();
 		generateCave(width_tl-2, height_tl-2);
 		generateForest(width_tl-2, height_tl-2);
 		
-		layers.add(createBackground(width_bg, height_bg, tileBack));
-		layers.add(createBorder(width_tl, height_tl, tileBorder));
-		layers.add(createCave(width_tl, height_tl, tileMap));
-		layers.add(createForest(width_tl, height_tl, tileMapElem));
+		
+		layers.add(createBackground(width_bg, height_bg, tileBack));   //INDEX_0 => Background
+		layers.add(createBorder(width_tl, height_tl, tileBorder));	   //INDEX_1 => Border
+		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_2 => Walls
+		layers.add(createForest(width_tl, height_tl, tileMapElem));    //INDEX_3 => Forests
+		
+		setPlayersPosition(width_tl, height_tl, numPlayers);			//PLAYER
+		setEnemiesPosition(width_tl, height_tl, numEnemies);			//ENEMIES
 		
 		return map;
 	}
