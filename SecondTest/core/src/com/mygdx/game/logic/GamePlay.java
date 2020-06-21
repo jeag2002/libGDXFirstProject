@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.TileMapEnum;
@@ -96,7 +97,6 @@ public class GamePlay {
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIES);
 		situationPlayer();
-		//sMG.createSimpleMapTest_1(SecondTestGDX.sizeMapTileWidth_TL, SecondTestGDX.sizeMapTileHeight_TL, TileMapEnum.GROUND_TILE_02_C);
 	}
 	
 	
@@ -107,11 +107,14 @@ public class GamePlay {
 		if (posPlayers.size() > 0) {
 			
 			NewItem posPlayer = posPlayers.get(0);
+			
 			this.gameLogic.initPlayer(posPlayer.getType(),
-									  posPlayer.getX(), //+  (SecondTestGDX.tileWidth_TL/4), 
-									  posPlayer.getY(), //+  (SecondTestGDX.tileHeight_TL/4), 
+									  posPlayer.getX(), 
+									  posPlayer.getY(),
 									  SecondTestGDX.tilePlayerWidth_TL, 
 									  SecondTestGDX.tilePlayerHeight_TL);
+									  
+		    
 		}
 	}
 	
@@ -135,47 +138,26 @@ public class GamePlay {
 				ArrayList<NewItem> posPlayers = sMG.getPlayers();
 				
 			    if (posPlayers.size() > 0) {
+			    	initialboundaries(this.gameLogic.getPlayer().getX(), this.gameLogic.getPlayer().getY());
 			    	
-			    	
-			    	this.camera.position.set(
-			    			this.gameLogic.getPlayer().getX(), 
-			    			this.gameLogic.getPlayer().getY(), 
-			    			0);
-			    	
-			    	//Vector2 vec = new Vector2();
-			    	//vec.x = this.gameLogic.getPlayer().getX();
-			    	//vec.y = this.gameLogic.getPlayer().getY();
-			    	
-			    	
-			    	
-			    	
-			    	/*
-			    	this.camera.position.set(
-			    			this.gameLogic.getPlayer().getX() +  this.gameLogic.getPlayer().getWidth() / 2, 
-			    			this.gameLogic.getPlayer().getY() + this.gameLogic.getPlayer().getHeight() / 2, 
-			    			0);
-			    	
-			    	this.camera.viewportWidth = SecondTestGDX.screenWidth;
-			    	this.camera.viewportHeight = SecondTestGDX.screenHeight;
-			    	*/
-			    	//this.camera.translate(vec);
 			    }else {
 			    	this.camera.position.set(SecondTestGDX.screenWidth/2,SecondTestGDX.screenHeight/2, 0);
+			    	this.camera.update();
 			    }
 			    
-			    this.camera.update();
+			    
 			}
 		}
 	}
 	
-	public void playerMoveUp() {pEnum = PlayerMovementsEnum.UP;}
-	public void playerMoveLeft() {pEnum = PlayerMovementsEnum.LEFT;}
-	public void playerMoveRight() {pEnum = PlayerMovementsEnum.RIGHT;}
-	public void playerMoveDown() {pEnum = PlayerMovementsEnum.DOWN;}
+	public void playerMoveUp() {pEnum = PlayerMovementsEnum.UP; gameLogic.getPlayer().actionPlayer(pEnum);}
+	public void playerMoveLeft() {pEnum = PlayerMovementsEnum.LEFT; gameLogic.getPlayer().actionPlayer(pEnum);}
+	public void playerMoveRight() {pEnum = PlayerMovementsEnum.RIGHT; gameLogic.getPlayer().actionPlayer(pEnum);}
+	public void playerMoveDown() {pEnum = PlayerMovementsEnum.DOWN; gameLogic.getPlayer().actionPlayer(pEnum);}
 	public void playerShoot() {}
 	public void playerChange() {}
-	public void playerTurretClockWise() {}
-	public void playerTurretAntiClockWise() {}
+	public void playerTurretClockWise() {pEnum = PlayerMovementsEnum.TURRETCLOCKWISE; gameLogic.getPlayer().actionPlayer(pEnum);}
+	public void playerTurretAntiClockWise() {pEnum = PlayerMovementsEnum.TURRETANTICLOCKWISE; gameLogic.getPlayer().actionPlayer(pEnum);}
 	
 	public void update(float delta) {
 		if (started) {
@@ -201,19 +183,51 @@ public class GamePlay {
 	}
 	
 	
+	
+	public void initialboundaries(float xInitialPlayer, float yInitialPlayer) {
+		
+		if (started) {
+			
+			float cameraX = xInitialPlayer;
+			float cameraY = yInitialPlayer;
+			
+			float limitX = SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileWidth_TL - SecondTestGDX.screenWidth/2;
+			float limitY = SecondTestGDX.sizeMapTileHeight_TL * SecondTestGDX.tileHeight_TL - SecondTestGDX.screenHeight/2;
+			
+			if (xInitialPlayer < SecondTestGDX.screenWidth/2) {
+				cameraX = SecondTestGDX.screenWidth/2;
+			}else if (xInitialPlayer > limitX) {
+				cameraX = limitX;
+			}
+			
+			if (yInitialPlayer < SecondTestGDX.screenHeight/2){
+				cameraY = SecondTestGDX.screenHeight/2;
+			}else if (yInitialPlayer > limitY) {
+				cameraY = limitY;
+			}
+		
+			camera.position.set(cameraX, cameraY, 0);
+			camera.update();
+		}
+		
+	}
+	
+	
+	
+	
 	public boolean boundaries() {
 		
 		boolean response = false;
 		
 		if (started) {
 			if (pEnum.equals(PlayerMovementsEnum.UP)) {
-				response = ((camera.position.y + SecondTestGDX.screenHeight/2) > (SecondTestGDX.sizeMapTileHeight_TL * 64));
+				response = ((camera.position.y + SecondTestGDX.screenHeight/2) > (SecondTestGDX.sizeMapTileHeight_TL * SecondTestGDX.tileHeight_TL));
 			}else if (pEnum.equals(PlayerMovementsEnum.DOWN)) {
 				response = ((camera.position.y - SecondTestGDX.screenHeight/2) < 0);
 			}else if (pEnum.equals(PlayerMovementsEnum.LEFT)) {
 				response = ((camera.position.x - SecondTestGDX.screenWidth/2) < 0);
 			}else if (pEnum.equals(PlayerMovementsEnum.RIGHT)) {
-				response = ((camera.position.x + SecondTestGDX.screenWidth/2) > (SecondTestGDX.sizeMapTileWidth_TL * 64));
+				response = ((camera.position.x + SecondTestGDX.screenWidth/2) > (SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileWidth_TL));
 			}
 		}
 		

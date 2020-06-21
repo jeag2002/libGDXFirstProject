@@ -14,8 +14,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public class LatticeFns {
-    // for speed and convenience we assume wall will always be 1 so
-    // we can do a simple count to find the number of walls surrounding us.
+
+	
     public static final boolean EMPTY = false;
     public static final boolean FILLED = true;
     
@@ -267,7 +267,8 @@ public class LatticeFns {
                 }
             }
         }
-        Gdx.app.log(TAG, "Number of points: " + notVisited.size());
+        
+        //Gdx.app.log(TAG, "Number of points: " + notVisited.size());
         List<Set<Point>> rooms = Lists.newArrayList();
         LinkedList<Point> frontier = Lists.newLinkedList();
         frontier.add(start);

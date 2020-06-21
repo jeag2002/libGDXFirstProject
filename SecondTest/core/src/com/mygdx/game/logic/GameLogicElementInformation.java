@@ -47,13 +47,55 @@ public class GameLogicElementInformation {
 	
 	
 	public static final Texture[] ExhaustPlayerText = {
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_01,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_02,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_03,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_04,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_05,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_06,Texture.class),
-		SecondTestGDX.resources.get(SecondTestGDX.resources.exhaustFire_07,Texture.class)
+		
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_01.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_01.getWidthBef(),
+					ElementEnum.EXHAUST_01.getHeightBef(),
+					ElementEnum.EXHAUST_01.getWidthShow(),
+					ElementEnum.EXHAUST_01.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_02.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_02.getWidthBef(),
+					ElementEnum.EXHAUST_02.getHeightBef(),
+					ElementEnum.EXHAUST_02.getWidthShow(),
+					ElementEnum.EXHAUST_02.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_03.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_03.getWidthBef(),
+					ElementEnum.EXHAUST_03.getHeightBef(),
+					ElementEnum.EXHAUST_03.getWidthShow(),
+					ElementEnum.EXHAUST_03.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_04.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_04.getWidthBef(),
+					ElementEnum.EXHAUST_04.getHeightBef(),
+					ElementEnum.EXHAUST_04.getWidthShow(),
+					ElementEnum.EXHAUST_04.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_05.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_05.getWidthBef(),
+					ElementEnum.EXHAUST_05.getHeightBef(),
+					ElementEnum.EXHAUST_05.getWidthShow(),
+					ElementEnum.EXHAUST_05.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_06.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_06.getWidthBef(),
+					ElementEnum.EXHAUST_06.getHeightBef(),
+					ElementEnum.EXHAUST_06.getWidthShow(),
+					ElementEnum.EXHAUST_06.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.EXHAUST_07.getElementStr(),Texture.class),
+					ElementEnum.EXHAUST_07.getWidthBef(),
+					ElementEnum.EXHAUST_07.getHeightBef(),
+					ElementEnum.EXHAUST_07.getWidthShow(),
+					ElementEnum.EXHAUST_07.getHeightShow())
 	};
 
 }

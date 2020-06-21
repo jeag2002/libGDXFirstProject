@@ -77,18 +77,18 @@ public class Resources extends AssetManager{
 	
 	//player 
 	public String gunPlayer_01_A = "elements/player_1/Gun_01.png";
-	public String bodyPlayer_01 = "elements/player_1/Hull_01.png";
+	public String bodyPlayer_01 = "elements/player_1/Hull_01_a.png";
 	public String track_01 = "elements/player/Track_1_A.png";
 	public String track_02 = "elements/player/Track_1_B.png";
 	
 	//exhaust
-	public String exhaustFire_01 = "elements/player/exhaust/Exhaust_01_01.png";
-	public String exhaustFire_02 = "elements/player/exhaust/Exhaust_01_02.png";
-	public String exhaustFire_03 = "elements/player/exhaust/Exhaust_01_03.png";
-	public String exhaustFire_04 = "elements/player/exhaust/Exhaust_01_04.png";
-	public String exhaustFire_05 = "elements/player/exhaust/Exhaust_01_05.png";
-	public String exhaustFire_06 = "elements/player/exhaust/Exhaust_01_06.png";
-	public String exhaustFire_07 = "elements/player/exhaust/Exhaust_01_07.png";
+	public String exhaustFire_01 = "elements/player/exhaust/Exhaust_Frame_01.png";
+	public String exhaustFire_02 = "elements/player/exhaust/Exhaust_Frame_02.png";
+	public String exhaustFire_03 = "elements/player/exhaust/Exhaust_Frame_03.png";
+	public String exhaustFire_04 = "elements/player/exhaust/Exhaust_Frame_04.png";
+	public String exhaustFire_05 = "elements/player/exhaust/Exhaust_Frame_05.png";
+	public String exhaustFire_06 = "elements/player/exhaust/Exhaust_Frame_06.png";
+	public String exhaustFire_07 = "elements/player/exhaust/Exhaust_Frame_07.png";
 	
 	//tyres
 	public String tire_01 = "elements/tires/Tire_Track_01.png";

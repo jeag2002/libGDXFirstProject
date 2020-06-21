@@ -1,10 +1,13 @@
 package com.mygdx.game.utils;
 
+import com.mygdx.game.enums.DynamicElementPositionEnum;
 import com.mygdx.game.enums.SpawnType;
 
 public class NewItem {
 	
 	private SpawnType type;
+	private DynamicElementPositionEnum ppEnum;
+	
 	private float X;
 	private float Y;
 	
@@ -17,6 +20,7 @@ public class NewItem {
 	
 	public NewItem() {
 		this.type = SpawnType.Item;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
 		this.width = 0.0f;
@@ -28,6 +32,20 @@ public class NewItem {
 	public NewItem(SpawnType type, float x, float y) {
 		super();
 		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		X = x;
+		Y = y;
+		width = 0.0f;
+		height = 0.0f;
+		angle = 0.0f;
+		speed = 0.0f;
+	}
+	
+	
+	public NewItem(SpawnType type, DynamicElementPositionEnum position, float x, float y) {
+		super();
+		this.type = type;
+		this.ppEnum = position;
 		X = x;
 		Y = y;
 		width = 0.0f;
@@ -41,6 +59,7 @@ public class NewItem {
 		
 		super();
 		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
 		this.width = width;
@@ -49,6 +68,10 @@ public class NewItem {
 		this.speed = speed;
 	}
 	
+	
+	public DynamicElementPositionEnum getPlayerPosition() {
+		return ppEnum;
+	}
 	
 	public SpawnType getType() {
 		return type;

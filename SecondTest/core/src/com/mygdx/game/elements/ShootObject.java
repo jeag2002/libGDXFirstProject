@@ -7,6 +7,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.enums.MissileTypeEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnPool;
 //import com.gdx.game.elements.gun.Missile;
@@ -50,7 +51,7 @@ public abstract class ShootObject extends DynamicCollObject {
 	        float originY;
 	        float width;
 	        float height;
-	        //MissileTypeEnum missType;
+	        MissileTypeEnum missType;
 	        
 	        
 	        
@@ -63,10 +64,10 @@ public abstract class ShootObject extends DynamicCollObject {
 	        }
 	 }
 	 
-	 public void addGun(/*MissileTypeEnum missType,*/ float angle, float speed, float originX, float originY, float offsetX, float offsetY, float width, float height) {
+	 public void addGun(MissileTypeEnum missType, float angle, float speed, float originX, float originY, float offsetX, float offsetY, float width, float height) {
 		 	
 		 	Gun gun = new Gun(0,0);
-		 	//gun.missType = missType;
+		 	gun.missType = missType;
 		 	gun.speed = speed;
 		 	gun.angle = angle;
          

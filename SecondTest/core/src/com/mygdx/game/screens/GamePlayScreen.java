@@ -127,10 +127,10 @@ public class GamePlayScreen implements Screen{
 		
 		
 		if (gamePlay != null) {
-			if (!gamePlay.boundaries()) {
-				gamePlay.update(delta);
+			//if (!gamePlay.boundaries()) {
+				//gamePlay.update(delta);
 				gamePlay.updateElements(delta);
-			}
+			//}
 		}
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);

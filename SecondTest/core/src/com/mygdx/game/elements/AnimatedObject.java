@@ -3,6 +3,7 @@ package com.mygdx.game.elements;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.mygdx.game.elements.interfaces.GameAnimationInterface;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 
@@ -75,6 +76,19 @@ public abstract class AnimatedObject implements GameAnimationInterface{
 	public float getSpeedY() {
 		return sO.getSpeedY();
 	}
+	
+	public void rotate(float angle) {
+		sO.setRotate(angle);
+	}
+	
+	
+	public void rotate(float angle, float parentWidth, float parentHeight) {
+		sO.getSprite().setOrigin(parentWidth, parentHeight);
+		sO.getSprite().setRotation(angle);
+	}
+	
+	
+	
 	
 	public void draw(SpriteBatch sb) {
 		sO.draw(sb);

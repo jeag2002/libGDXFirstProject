@@ -2,6 +2,7 @@ package com.mygdx.game.logic;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.BackgroundMusicEnum;
 import com.mygdx.game.enums.TileMapEnum;
@@ -78,6 +79,7 @@ public class GameLogicInformation {
 		
 		if (index == DESERT_LEVEL) {
 			
+			Gdx.app.log("[GameLogicInformation]", "GENERATING DESERT_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;
 			levelMap[2] = TileMapEnum.BLOCK_C_02;
@@ -85,6 +87,7 @@ public class GameLogicInformation {
 			
 		}else if (index == JUNGLE_LEVEL) {
 			
+			Gdx.app.log("[GameLogicInformation]", "GENERATING JUNGLE_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_D;
 			levelMap[1] = TileMapEnum.BLOCK_A_02;
 			levelMap[2] = TileMapEnum.BLOCK_D_02;
@@ -92,6 +95,7 @@ public class GameLogicInformation {
 			
 		}else if (index == FABRIC_LEVEL) {
 			
+			Gdx.app.log("[GameLogicInformation]", "GENERATING INDUSTRIAL_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_01_A;
 			levelMap[1] = TileMapEnum.BLOCK_C_02;
 			levelMap[2] = TileMapEnum.BLOCK_A_02;

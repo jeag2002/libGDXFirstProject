@@ -7,7 +7,15 @@ public enum ElementEnum {
 	HULL_PLAYER_1(SecondTestGDX.resources.bodyPlayer_01, 0, 256, 256, 64, 64),
 	GUN_PLAYER_1_A(SecondTestGDX.resources.gunPlayer_01_A, 1, 94, 212, 32, 64),
 	TRACK_01(SecondTestGDX.resources.track_01,2,42,246,16,64),
-	TRACK_02(SecondTestGDX.resources.track_02,3,42,246,16,64);
+	TRACK_02(SecondTestGDX.resources.track_02,3,42,246,16,64),
+	
+	EXHAUST_01(SecondTestGDX.resources.exhaustFire_01,4,22,29,16,32),
+	EXHAUST_02(SecondTestGDX.resources.exhaustFire_02,5,22,29,16,32),
+	EXHAUST_03(SecondTestGDX.resources.exhaustFire_03,6,22,29,16,32),
+	EXHAUST_04(SecondTestGDX.resources.exhaustFire_04,7,22,29,16,32),
+	EXHAUST_05(SecondTestGDX.resources.exhaustFire_05,8,22,29,16,32),
+	EXHAUST_06(SecondTestGDX.resources.exhaustFire_06,9,22,29,16,32),
+	EXHAUST_07(SecondTestGDX.resources.exhaustFire_07,10,22,29,16,32);
 	
 	
 	
