@@ -46,6 +46,9 @@ public class Resources extends AssetManager{
 	public String block_D_01 = "maps/terrain/Block_D_01.png";
 	public String block_D_02 = "maps/terrain/Block_D_02.png";
 	
+	public String block_E_01 = "maps/terrain/block_ice.png";
+	public String block_E_02 = "maps/terrain/Ice_01.png";
+	
 	
 	//ground
 	public String ground_tile_01_A = "maps/terrain/Ground_Tile_01_A.png"; 
@@ -58,6 +61,10 @@ public class Resources extends AssetManager{
 	public String ground_tile_02_C = "maps/terrain/Ground_Tile_02_C.png";
 	public String ground_tile_02_D = "maps/terrain/Ground_Tile_02_D.png";
 	
+	//ice
+	public String ground_tile_01_E = "maps/terrain/Ground_Tile_01_E.png";
+	
+	
 	//elements_terrains
 	public String Palm_01 = "maps/terrain/Palm_01.png";
 	public String Palm_02 = "maps/terrain/Palm_02.png";
@@ -69,6 +76,8 @@ public class Resources extends AssetManager{
 	
 	public String Czech_01 = "maps/terrain/Czech_01.png";
 	public String Czech_02 = "maps/terrain/Czech_02.png";
+	
+	public String Iceberg_01 = "maps/terrain/Iceberg.png";
 	
 	//elements
 	public String platform = "elements/Platform.png";
@@ -157,6 +166,12 @@ public class Resources extends AssetManager{
 		
 		load(Czech_01,Texture.class);
 		load(Czech_02,Texture.class);
+		
+		load(ground_tile_01_E,Texture.class);
+		load(block_E_01,Texture.class);
+		load(block_E_02,Texture.class);
+		load(Iceberg_01,Texture.class);
+		
 		
 		load(platform,Texture.class);
 		load(dot_a,Texture.class);

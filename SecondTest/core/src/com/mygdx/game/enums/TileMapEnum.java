@@ -1,6 +1,7 @@
 package com.mygdx.game.enums;
 
 
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.*;
 
 public enum TileMapEnum {
@@ -35,8 +36,14 @@ public enum TileMapEnum {
 	GROUND_TILE_02_C(SecondTestGDX.resources.ground_tile_02_C,20, 256, 256, 256, 256),
 	GROUND_TILE_02_D(SecondTestGDX.resources.ground_tile_02_D,21, 256, 256, 256, 256),
 	
-	CZECH_01(SecondTestGDX.resources.Czech_01,11,256,256,64,64),
-	CZECH_02(SecondTestGDX.resources.Czech_02,12,256,256,64,64);
+	
+	GROUND_TILE_01_E(SecondTestGDX.resources.ground_tile_01_E,22,256, 256, 256, 256),
+	BLOCK_E_01(SecondTestGDX.resources.block_E_01,23,459,459,64,64),
+	BLOCK_E_02(SecondTestGDX.resources.block_E_02,24,255,256,64,64),
+	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,25,483,529,64,64),
+	
+	CZECH_01(SecondTestGDX.resources.Czech_01,26,256,256,64,64),
+	CZECH_02(SecondTestGDX.resources.Czech_02,27,256,256,64,64);
 	
 	
 	private String tileMapStr;

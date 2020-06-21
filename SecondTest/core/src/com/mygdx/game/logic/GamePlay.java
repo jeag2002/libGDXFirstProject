@@ -79,7 +79,7 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		int index = rand.nextInt(3);
+		int index = rand.nextInt(4);
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		

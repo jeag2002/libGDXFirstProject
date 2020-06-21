@@ -21,6 +21,7 @@ public class GameLogicInformation {
 	public static final int DESERT_LEVEL = 0;
 	public static final int JUNGLE_LEVEL = 1;
 	public static final int FABRIC_LEVEL = 2;
+	public static final int WINTER_LEVEL = 3;
 	
 	
 	public static final float speedUpFactor = 1.0f;
@@ -100,6 +101,15 @@ public class GameLogicInformation {
 			levelMap[1] = TileMapEnum.BLOCK_C_02;
 			levelMap[2] = TileMapEnum.BLOCK_A_02;
 			levelMap[3] = TileMapEnum.CZECH_01;
+			
+		
+		}else if (index == WINTER_LEVEL) {
+			
+			Gdx.app.log("[GameLogicInformation]", "GENERATING WINTER_LEVEL");
+			levelMap[0] = TileMapEnum.GROUND_TILE_01_E;
+			levelMap[1] = TileMapEnum.BLOCK_E_02;
+			levelMap[2] = TileMapEnum.BLOCK_E_01;
+			levelMap[3] = TileMapEnum.ICEBERG_01;
 			
 		
 		}else {
