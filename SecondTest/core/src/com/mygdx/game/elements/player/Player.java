@@ -1,6 +1,8 @@
 package com.mygdx.game.elements.player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -31,7 +33,17 @@ public class Player extends ShootObject{
 	private static final int INDEX_EXHAUST_LEFT = 3;
 	private static final int INDEX_EXHAUST_RIGHT = 4;
 	
-	private PlayerMovementsEnum orientation;
+	private PlayerMovementsEnum orientationUP;
+	private PlayerMovementsEnum orientationDOWN;
+	private PlayerMovementsEnum orientationLEFT;
+	private PlayerMovementsEnum orientationRIGHT;
+	private PlayerMovementsEnum orientationA;
+	private PlayerMovementsEnum orientationS;
+	private PlayerMovementsEnum orientationSHOOT;
+	private PlayerMovementsEnum orientationCHANGE;
+	
+	//private PlayerMovementsEnum orientation;
+	
 	
     private GamePlayScreen gPS;
     private DrawUtils dU;
@@ -43,6 +55,8 @@ public class Player extends ShootObject{
     
     private float angle;
     private float angleTurret;
+    
+    private Queue<PlayerMovementsEnum> movements;
     
     
     private Vector2 movement = new Vector2();
@@ -57,14 +71,24 @@ public class Player extends ShootObject{
     	
     	this.type = type;
     	this.cannonType = cannonType;
-    	this.orientation = PlayerMovementsEnum.IDLE;
+    	//this.orientation = PlayerMovementsEnum.IDLE;
+    	
+    	this.orientationUP= PlayerMovementsEnum.IDLE;
+    	this.orientationDOWN= PlayerMovementsEnum.IDLE;
+    	this.orientationLEFT= PlayerMovementsEnum.IDLE;
+    	this.orientationRIGHT= PlayerMovementsEnum.IDLE;
+    	this.orientationA= PlayerMovementsEnum.IDLE;
+    	this.orientationS= PlayerMovementsEnum.IDLE;
+    	this.orientationSHOOT= PlayerMovementsEnum.IDLE;
+    	this.orientationCHANGE= PlayerMovementsEnum.IDLE;
+    	
     	
     	this.dU = new DrawUtils();
     	this.player_parts = new ArrayList<PlayerPart>();
     	this.angle = 0.0f;
     	this.angleTurret = 0.0f;
     	
-    	
+    	this.movements = new LinkedList<>(); 
     	
     	setShootingActive(true);
     	
@@ -150,82 +174,66 @@ public class Player extends ShootObject{
     
     public void movement(float delta) {
     	
-    	if (orientation.equals(PlayerMovementsEnum.UP)) {
-    		if (Gdx.input.isKeyPressed(Keys.UP)) {
-    			movement(delta, -1);
-    			animatedTracks(delta,true,true); 
-    		    animatedExhaust(delta,true,true);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
     	
-    	else if (orientation.equals(PlayerMovementsEnum.DOWN)) {
-    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
-    			movement(delta, 1);	
-    			animatedTracks(delta, true, true);
-    			animatedExhaust(delta,false,false);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
-    	
-    	else if (orientation.equals(PlayerMovementsEnum.LEFT)) {	
-    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-    			rotate();
-    			animatedTracks(delta, true, false);
-    			animatedExhaust(delta,false,true);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
-    	
-    	else if (orientation.equals(PlayerMovementsEnum.RIGHT)) {
-    		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-    			rotate();
-    			animatedTracks(delta, false, true);
-    			animatedExhaust(delta,true, false);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
-    	
-    	else if (orientation.equals(PlayerMovementsEnum.TURRETCLOCKWISE)) {
-    		if (Gdx.input.isKeyPressed(Keys.S)) {
-    			this.angleTurret -= GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-    			rotateTurret();
-    	   		animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
-    	
-    	else if (orientation.equals(PlayerMovementsEnum.TURRETANTICLOCKWISE)) {
-    		
-    		if (Gdx.input.isKeyPressed(Keys.A)) {
-    			this.angleTurret += GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-    			rotateTurret();
-    	   		animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}else {
-    			animatedTracks(delta, false, false);
-    			animatedExhaust(delta, false, false);
-    		}
-    	}
-    	
-    	else {
-    		animatedTracks(delta, false, false);
-			animatedExhaust(delta, false, false);
-    	}
-    	
+	    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
+	    		if (Gdx.input.isKeyPressed(Keys.UP)) {
+	    			movement(delta, -1);
+	    			animatedTracks(delta,true,true); 
+	    		    animatedExhaust(delta,true,true);
+	    		}
+
+	    	}
+	    	
+	    	if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
+	    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
+	    			movement(delta, 1);	
+	    			animatedTracks(delta, true, true);
+	    			animatedExhaust(delta,false,false);
+	    		}
+
+	    	}
+	    	
+	    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
+	    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+	    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+	    			rotate();
+	    			animatedTracks(delta, true, false);
+	    			animatedExhaust(delta,false,true);
+	    		}
+
+	    	}
+	    	
+	    	if (orientationRIGHT.equals(PlayerMovementsEnum.RIGHT)) {
+	    		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+	    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+	    			rotate();
+	    			animatedTracks(delta, false, true);
+	    			animatedExhaust(delta,true, false);
+	    		}
+
+	    	}
+	    	
+	    	if (orientationS.equals(PlayerMovementsEnum.TURRETCLOCKWISE)) {
+	    		if (Gdx.input.isKeyPressed(Keys.S)) {
+	    			this.angleTurret -= GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+	    			rotateTurret();
+	    		}
+
+	    	}
+	    	
+	    	if (orientationA.equals(PlayerMovementsEnum.TURRETANTICLOCKWISE)) {
+	    		
+	    		if (Gdx.input.isKeyPressed(Keys.A)) {
+	    			this.angleTurret += GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+	    			rotateTurret();
+	    		}
+	    	}
+	    	
+	    	
+	    	if (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+	    		animatedExhaust(delta, false, false);
+	    	}
+	    	
     }
     
     
@@ -278,9 +286,13 @@ public class Player extends ShootObject{
     	setCollisionRef(getX(),getY());
     }
     
-    public void actionPlayer(PlayerMovementsEnum orientation) {
-    	this.orientation = orientation;
-    }
+    
+    public void actionPlayerUP(PlayerMovementsEnum orientation) {this.orientationUP = orientation;}
+    public void actionPlayerDOWN(PlayerMovementsEnum orientation) {this.orientationDOWN = orientation;}
+    public void actionPlayerLEFT(PlayerMovementsEnum orientation) {this.orientationLEFT = orientation;}
+    public void actionPlayerRIGHT(PlayerMovementsEnum orientation) {this.orientationRIGHT = orientation;}
+    public void actionPlayerA(PlayerMovementsEnum orientation) {this.orientationA = orientation;}
+    public void actionPlayerS(PlayerMovementsEnum orientation) {this.orientationS = orientation;}
     
     public void draw(SpriteBatch sb) {
     	player_parts.get(INDEX_TRACK_LEFT).draw(sb);

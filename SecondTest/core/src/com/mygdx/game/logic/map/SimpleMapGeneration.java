@@ -174,7 +174,6 @@ public class SimpleMapGeneration {
 				
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
-					//cell.setTile(new StaticTiledMapTile(tRegion));
 					cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.WALL, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world));
 					layer.setCell(x, y, cell);
 				}
@@ -201,7 +200,6 @@ public class SimpleMapGeneration {
 				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && 
 					(caveMap[x-1][y-1] == false)) {
 					Cell cell = new Cell();
-					//cell.setTile(new StaticTiledMapTile(tRegion));
 					cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.FOREST, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world));
 					layer.setCell(x, y, cell);
 				}
@@ -244,13 +242,35 @@ public class SimpleMapGeneration {
 	}
 	
 	
+	public boolean hasPlayerNoObstacleAround(int i, int j) {
+		boolean noObstacle = false;
+		
+		boolean[][] caveMap = caveGenerator.getMap();
+		byte[][] forestMap = forestGenerator.getForest();
+		
+		noObstacle = (caveMap[i-1][j] == false && forestMap[i-1][j] == ForestGenerationImpl.EMPTY) &&
+				     (caveMap[i-1][j-1] == false && forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY) && 
+				     (caveMap[i-1][j+1] == false && forestMap[i-1][j+1] == ForestGenerationImpl.EMPTY) &&
+				     
+				     (caveMap[i][j-1] == false && forestMap[i][j-1] == ForestGenerationImpl.EMPTY) &&
+				     (caveMap[i][j+1] == false && forestMap[i][j+1] == ForestGenerationImpl.EMPTY) &&
+				     
+				     (caveMap[i+1][j] == false && forestMap[i+1][j] == ForestGenerationImpl.EMPTY) &&
+				     (caveMap[i+1][j-1] == false && forestMap[i+1][j-1] == ForestGenerationImpl.EMPTY) && 
+				     (caveMap[i+1][j+1] == false && forestMap[i+1][j+1] == ForestGenerationImpl.EMPTY);
+				     
+		return noObstacle;
+		
+	}
+	
+	
+	
 	public void setSinglePlayerPosition(SpawnType playerId) {
 		
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
 		
 		int situationPlayer = random.nextInt(4);
-		
 		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
 		
 		Gdx.app.log("[SingleMapGeneration]","SINGLE PLAYER POSITION " + ppE.toString());
@@ -259,10 +279,12 @@ public class SimpleMapGeneration {
 		
 		for(int i=ppE.getXIni()+1; (i<ppE.getXFin()-1) && (!DONE); i++) {
 			for (int j=ppE.getYIni()+1; (j<ppE.getYFin()-1) && (!DONE); j++) {
-				if ((caveMap[i-1][j-1] == false) && (forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY)) {			
-					NewItem player = new NewItem(playerId, ppE, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL);
-					playersSituation.add(player);
-					DONE = true;
+				if ((caveMap[i-1][j-1] == false) && (forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY)) {	
+					if (hasPlayerNoObstacleAround(i-1, j-1)) {
+						NewItem player = new NewItem(playerId, ppE, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL);
+						playersSituation.add(player);
+						DONE = true;
+					}
 				}
 			}
 		}

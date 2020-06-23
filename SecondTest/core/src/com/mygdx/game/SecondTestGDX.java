@@ -13,6 +13,7 @@ public class SecondTestGDX extends Game{
 	public static int screenHeight = 768;
 	
 	
+	/*
 	public static int tileWidth = 256;
 	public static int tileHeight = 256;
 	
@@ -27,6 +28,22 @@ public class SecondTestGDX extends Game{
 	//size (64x64) TILES
 	public static int tileWidth_TL = 64;
 	public static int tileHeight_TL = 64;
+	*/
+	
+	public static int tileWidth = 256;
+	public static int tileHeight = 256;
+	
+	//(256x256)
+	public static int sizeMapTileWidth_BG = 30;
+	public static int sizeMapTileHeight_BG = 30;
+	
+	//(64x64)
+	public static int sizeMapTileWidth_TL = 60;
+	public static int sizeMapTileHeight_TL = 60;
+	
+	//size (64x64) TILES
+	public static int tileWidth_TL = 128;
+	public static int tileHeight_TL = 128;
 	
 	
 	

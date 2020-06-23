@@ -128,7 +128,7 @@ public class GamePlayScreen implements Screen{
 		
 		if (gamePlay != null) {
 			//if (!gamePlay.boundaries()) {
-				//gamePlay.update(delta);
+			//	gamePlay.update(delta);
 				gamePlay.updateElements(delta);
 			//}
 		}
@@ -150,7 +150,6 @@ public class GamePlayScreen implements Screen{
 		
 		spriteBatch.begin();
 		if (gamePlay != null) {
-			//gamePlay.draw(spriteBatch);
 			gamePlay.drawElements(spriteBatch);
 		}		
 		spriteBatch.end();

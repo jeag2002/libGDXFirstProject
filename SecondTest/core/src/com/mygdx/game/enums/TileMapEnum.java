@@ -7,24 +7,24 @@ import com.mygdx.game.*;
 public enum TileMapEnum {
 
 	BLOCK_A_01(SecondTestGDX.resources.block_A_01,0,256,128,256,128),
-	BLOCK_A_02(SecondTestGDX.resources.block_A_02,1,128,128,64,64),
+	BLOCK_A_02(SecondTestGDX.resources.block_A_02,1,128,128,128,128),
 	
 	BLOCK_B_01(SecondTestGDX.resources.block_B_01,2,256,128,256,128),
-	BLOCK_B_02(SecondTestGDX.resources.block_B_02,3,128,128,64,64),
+	BLOCK_B_02(SecondTestGDX.resources.block_B_02,3,128,128,128,128),
 	
 	BLOCK_C_01(SecondTestGDX.resources.block_C_01,4,256,128,256,128),
-	BLOCK_C_02(SecondTestGDX.resources.block_C_02,5,128,128,64,64),
+	BLOCK_C_02(SecondTestGDX.resources.block_C_02,5,128,128,128,128),
 	
 	BLOCK_D_01(SecondTestGDX.resources.block_D_01,6,256,128,256,128),
-	BLOCK_D_02(SecondTestGDX.resources.block_D_02,7,128,128,64,64),
+	BLOCK_D_02(SecondTestGDX.resources.block_D_02,7,128,128,128,128),
 
-	PALM_01(SecondTestGDX.resources.Palm_01,8,128,128,64,64),
-	PALM_02(SecondTestGDX.resources.Palm_02,9,128,128,64,64),
-	PALM_03(SecondTestGDX.resources.Palm_03,10,128,128,64,64),
+	PALM_01(SecondTestGDX.resources.Palm_01,8,128,128,128,128),
+	PALM_02(SecondTestGDX.resources.Palm_02,9,128,128,128,128),
+	PALM_03(SecondTestGDX.resources.Palm_03,10,128,128,128,128),
 	
-	CACTUS_01(SecondTestGDX.resources.Cactus_01,11,128,128,64,64),
-	CACTUS_02(SecondTestGDX.resources.Cactus_02,12,128,128,64,64),
-	CACTUS_03(SecondTestGDX.resources.Cactus_03,13,128,128,64,64),
+	CACTUS_01(SecondTestGDX.resources.Cactus_01,11,128,128,128,128),
+	CACTUS_02(SecondTestGDX.resources.Cactus_02,12,128,128,128,128),
+	CACTUS_03(SecondTestGDX.resources.Cactus_03,13,128,128,128,128),
 	
 	GROUND_TILE_01_A(SecondTestGDX.resources.ground_tile_01_A,14, 256, 256, 256, 256),
 	GROUND_TILE_01_B(SecondTestGDX.resources.ground_tile_01_B,15, 256, 256, 256, 256),
@@ -38,12 +38,12 @@ public enum TileMapEnum {
 	
 	
 	GROUND_TILE_01_E(SecondTestGDX.resources.ground_tile_01_E,22,256, 256, 256, 256),
-	BLOCK_E_01(SecondTestGDX.resources.block_E_01,23,459,459,64,64),
-	BLOCK_E_02(SecondTestGDX.resources.block_E_02,24,255,256,64,64),
-	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,25,483,529,64,64),
+	BLOCK_E_01(SecondTestGDX.resources.block_E_01,23,459,459,128,128),
+	BLOCK_E_02(SecondTestGDX.resources.block_E_02,24,255,256,128,128),
+	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,25,483,529,128,128),
 	
-	CZECH_01(SecondTestGDX.resources.Czech_01,26,256,256,64,64),
-	CZECH_02(SecondTestGDX.resources.Czech_02,27,256,256,64,64);
+	CZECH_01(SecondTestGDX.resources.Czech_01,26,256,256,128,128),
+	CZECH_02(SecondTestGDX.resources.Czech_02,27,256,256,128,128);
 	
 	
 	private String tileMapStr;

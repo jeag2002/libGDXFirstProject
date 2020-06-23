@@ -46,7 +46,7 @@ public class Resources extends AssetManager{
 	public String block_D_01 = "maps/terrain/Block_D_01.png";
 	public String block_D_02 = "maps/terrain/Block_D_02.png";
 	
-	public String block_E_01 = "maps/terrain/block_ice.png";
+	public String block_E_01 = "maps/terrain/block_ice_2.png";
 	public String block_E_02 = "maps/terrain/Ice_01.png";
 	
 	
