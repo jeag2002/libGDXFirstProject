@@ -42,6 +42,10 @@ public class GamePlay {
 	
 	private ShapeRenderer render;
 	
+    private Vector2 movementCamera = new Vector2();
+    private Vector2 positionCamera = new Vector2();
+    private Vector2 directionCamera = new Vector2();
+	
 	private Random rand;
 	
 	public GamePlay(GamePlayScreen gPS) {	
@@ -135,7 +139,8 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-				this.camera.setToOrtho(false);
+				this.camera.setToOrtho(false, SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
+				
 				
 				ArrayList<NewItem> posPlayers = sMG.getPlayers();
 				
@@ -161,18 +166,29 @@ public class GamePlay {
 	public void playerTurretClockWise() {pEnum = PlayerMovementsEnum.TURRETCLOCKWISE; gameLogic.getPlayer().actionPlayerS(pEnum);}
 	public void playerTurretAntiClockWise() {pEnum = PlayerMovementsEnum.TURRETANTICLOCKWISE; gameLogic.getPlayer().actionPlayerA(pEnum);}
 	
-	public void update(float delta) {
+	
+	public void update(float posX, float posY) {
+
 		if (started) {
-			if (pEnum.equals(PlayerMovementsEnum.UP)) {
-				camera.translate(0, GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta);
-			}else if (pEnum.equals(PlayerMovementsEnum.LEFT)) {
-				camera.translate(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta*(-1),0);
-			}else if (pEnum.equals(PlayerMovementsEnum.RIGHT)) {
-				camera.translate(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta, 0);
-			}else if (pEnum.equals(PlayerMovementsEnum.DOWN)) {				
-				camera.translate(0, GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta*(-1));
-			}
-			camera.update();
+			
+			 float targetX, targetY;
+			   
+			 if(posX - camera.viewportWidth / 2 < 0) targetX = camera.viewportWidth / 2;
+			 else if(posX + camera.viewportWidth / 2 > SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileWidth_TL) 
+			      targetX = SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileWidth_TL - camera.viewportWidth / 2;
+			 else targetX = posX;
+			   
+			 if(posY - camera.viewportHeight / 2 < 8) targetY = camera.viewportHeight / 2 + 8;
+			 else if(posY + camera.viewportHeight / 2 > SecondTestGDX.sizeMapTileHeight_TL * SecondTestGDX.tileHeight_TL + 8) 
+			      targetY = SecondTestGDX.sizeMapTileHeight_TL * SecondTestGDX.tileHeight_TL - camera.viewportHeight / 2 + 8;
+			 else targetY = posY;
+			   
+			 float dx = targetX - camera.position.x, dy = targetY - camera.position.y, dist = (float) Math.hypot(dx, dy);
+			 Vector3 cameraVector = new Vector3((float) Math.cos(Math.atan2(dy, dx)), (float) Math.sin(Math.atan2(dy, dx)), 0);
+			 cameraVector.scl(Math.max(dist / 25f, .2f));
+			   
+			 camera.position.add(cameraVector);
+			 camera.update();
 		}
 	}
 	
@@ -212,28 +228,6 @@ public class GamePlay {
 			camera.update();
 		}
 		
-	}
-	
-	
-	
-	
-	public boolean boundaries() {
-		
-		boolean response = false;
-		
-		if (started) {
-			if (pEnum.equals(PlayerMovementsEnum.UP)) {
-				response = ((camera.position.y + SecondTestGDX.screenHeight/2) > (SecondTestGDX.sizeMapTileHeight_TL * SecondTestGDX.tileHeight_TL));
-			}else if (pEnum.equals(PlayerMovementsEnum.DOWN)) {
-				response = ((camera.position.y - SecondTestGDX.screenHeight/2) < 0);
-			}else if (pEnum.equals(PlayerMovementsEnum.LEFT)) {
-				response = ((camera.position.x - SecondTestGDX.screenWidth/2) < 0);
-			}else if (pEnum.equals(PlayerMovementsEnum.RIGHT)) {
-				response = ((camera.position.x + SecondTestGDX.screenWidth/2) > (SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileWidth_TL));
-			}
-		}
-		
-		return response;
 	}
 	
 	

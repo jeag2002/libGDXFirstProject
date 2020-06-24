@@ -127,10 +127,7 @@ public class GamePlayScreen implements Screen{
 		
 		
 		if (gamePlay != null) {
-			//if (!gamePlay.boundaries()) {
-			//	gamePlay.update(delta);
-				gamePlay.updateElements(delta);
-			//}
+			gamePlay.updateElements(delta);
 		}
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
@@ -148,10 +145,20 @@ public class GamePlayScreen implements Screen{
 			gamePlay.drawMap();
 		}
 		
+		
+		if (gamePlay != null) {
+			if (gamePlay.isStart()) {
+				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
+			}
+		}
+		
 		spriteBatch.begin();
 		if (gamePlay != null) {
-			gamePlay.drawElements(spriteBatch);
-		}		
+			if (gamePlay.isStart()) {
+				gamePlay.drawElements(spriteBatch);
+			}
+		}	
+		
 		spriteBatch.end();
 		
 		if (guiStage != null) {

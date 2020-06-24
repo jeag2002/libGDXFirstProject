@@ -178,15 +178,19 @@ public class Player extends ShootObject{
 	    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
 	    		if (Gdx.input.isKeyPressed(Keys.UP)) {
 	    			movement(delta, -1);
+	    			//gPS.getGamePlay().update(angle,delta,-1);
+	    			gPS.getGamePlay().update(getX(),getY());
 	    			animatedTracks(delta,true,true); 
 	    		    animatedExhaust(delta,true,true);
 	    		}
-
 	    	}
 	    	
 	    	if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
 	    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
 	    			movement(delta, 1);	
+	    			//gPS.getGamePlay().update(angle,delta,1);
+	    			
+	    			gPS.getGamePlay().update(getX(),getY());
 	    			animatedTracks(delta, true, true);
 	    			animatedExhaust(delta,false,false);
 	    		}
@@ -197,6 +201,7 @@ public class Player extends ShootObject{
 	    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 	    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotate();
+	    			//gPS.getGamePlay().update(delta,angle);
 	    			animatedTracks(delta, true, false);
 	    			animatedExhaust(delta,false,true);
 	    		}
@@ -207,6 +212,7 @@ public class Player extends ShootObject{
 	    		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
 	    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotate();
+	    			//gPS.getGamePlay().update(delta,angle);
 	    			animatedTracks(delta, false, true);
 	    			animatedExhaust(delta,true, false);
 	    		}
@@ -267,7 +273,7 @@ public class Player extends ShootObject{
     
     
     public void movement(float delta, float index) {
-    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index);
+    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*2);
          position.add(movement);
          super.setPosition(position.x, position.y);
          super.setCollisionRef(position.x, position.y);
@@ -295,6 +301,7 @@ public class Player extends ShootObject{
     public void actionPlayerS(PlayerMovementsEnum orientation) {this.orientationS = orientation;}
     
     public void draw(SpriteBatch sb) {
+    	
     	player_parts.get(INDEX_TRACK_LEFT).draw(sb);
     	player_parts.get(INDEX_TRACK_RIGHT).draw(sb);
     	player_parts.get(INDEX_EXHAUST_LEFT).draw(sb);
