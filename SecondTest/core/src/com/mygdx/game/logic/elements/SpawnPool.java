@@ -62,6 +62,86 @@ public class SpawnPool {
     public void returnToPool(SpawnObject object) {
         object.setSpawned(false);
     }
+    
+    
+   public SpawnObject getDynamicElementtWithCollisionById(String uuid) {
+    	
+    	SpawnObject returnObject = null;
+    	
+    	ArrayList<SpawnObject> eS1 = pools.get(SpawnType.Enemy_01);
+    	for(SpawnObject sO: eS1){
+    		/*
+    		SimpleEnemy sE = (SimpleEnemy)sO;
+    		if (sE.getCode().equalsIgnoreCase(uuid)) {
+    			returnObject = sO;
+    			break;
+    		}
+    		*/
+    	}
+    	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Enemy_02);
+        	for(SpawnObject sO: eS1){
+        		/*
+        		Turret sE = (Turret)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        		*/
+        	}
+    	}
+    	
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.MissilePlayer);
+        	for(SpawnObject sO: eS1){
+        		
+        		/*
+        		Missile sE = (Missile)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        		*/
+        	}
+    	}
+    	
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.MissileEnemy);
+        	for(SpawnObject sO: eS1){
+        		/*
+        		Missile sE = (Missile)sO;
+        		if (sE.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        		*/
+        	}
+    	}
+    	
+    	
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Item);
+        	for(SpawnObject sO: eS1){
+        		/*
+        		Bonus m = (Bonus)sO;
+        		if (m.getCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        		*/
+        	}
+    	}
+    	
+    	
+    	return returnObject;
+    }
+    
+    
+    
+    
 
     private SpawnObject createSpawnObject(SpawnType type) {
 
@@ -74,7 +154,7 @@ public class SpawnPool {
             //created = new MissilePlayer("");
         }else if (type.name() == "MissileEnemy") {
             //created = new MissileEnemy("");
-        }else if (type.name() == "Enemy") {
+        }else if (type.name() == "Enemy_01") {
             //created = new Enemy("");
         }else if (type.name() == "Item") {
             //created = new Item("");

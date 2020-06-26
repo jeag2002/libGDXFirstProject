@@ -29,12 +29,17 @@ public class SimpleMapGeneration {
    private TiledMap map;
    private World world;
 	
+   private int typeMap;
+   
    private DrawUtils dU;
    private CaveGenerationImpl caveGenerator;
    private ForestGenerationImpl forestGenerator;
    
    private ArrayList<NewItem> playersSituation;
    private ArrayList<NewItem> enemiesSituation;
+   
+   private ArrayList<StaticTiledMapColl> wallsLst;
+   private ArrayList<StaticTiledMapColl> forestLst;
    
    private Random random;
    
@@ -56,16 +61,19 @@ public class SimpleMapGeneration {
 	   playersSituation = new ArrayList<NewItem>();
 	   enemiesSituation = new ArrayList<NewItem>();
 	   
+	   wallsLst = new ArrayList<StaticTiledMapColl>();
+	   forestLst = new ArrayList<StaticTiledMapColl>();
+	   
 	   random = new Random();
 	   
    }
    
    public void setWorld(World world) {
 	   this.world = world;
-	   
-	   
-	   
    }
+   
+   public ArrayList<StaticTiledMapColl> getWallsList(){return wallsLst;}
+   public ArrayList<StaticTiledMapColl> getForestList(){return forestLst;}
    
    private void generateCave(int width, int height) {
 	   seed = System.currentTimeMillis();
@@ -95,8 +103,6 @@ public class SimpleMapGeneration {
                .withInitialTrees(20)
                .withSeedParams(7, 0.1, 0.05)
 			   .build();
-	   
-	   
 	   forestGenerator.generate();
    }
    
@@ -130,14 +136,14 @@ public class SimpleMapGeneration {
 			
 			Cell cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.BORDER, tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(x, 0, cell);
 			
 			
 			cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
 			
-			cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.BORDER, tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(x, height-1, cell);
 		}
 		
@@ -146,13 +152,13 @@ public class SimpleMapGeneration {
 			
 			Cell cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.BORDER, tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(0, y, cell);
 			
 			
 			cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.BORDER, tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
 			layer.setCell(width-1, y, cell);
 		}
 		
@@ -174,7 +180,11 @@ public class SimpleMapGeneration {
 				
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
-					cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.WALL, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world));
+					
+					StaticTiledMapColl walls = new StaticTiledMapColl(SpawnType.Wall, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world); 
+					wallsLst.add(walls);
+					
+					cell.setTile(walls);
 					layer.setCell(x, y, cell);
 				}
 				
@@ -185,12 +195,24 @@ public class SimpleMapGeneration {
 	}
 	
 	
-	public TiledMapTileLayer createForest(int width, int height, TileMapEnum tileMap) {
+	private TextureRegion processTextureRegion(int index) {
 		
-		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileMap.getWidthShow(), tileMap.getHeightShow());
+		TileMapEnum tileMap = TileMapEnum.getByIndex(index);
 		Texture text = SecondTestGDX.resources.get(tileMap.getTileMapStr());
 		text = DrawUtils.resizeTexture(text, tileMap.getWidthBef(), tileMap.getHeightBef(), tileMap.getWidthShow(), tileMap.getHeightShow());
 		TextureRegion tRegion = new TextureRegion(text);
+		return tRegion;
+	}
+	
+	
+	
+	public TiledMapTileLayer createForest(int typeMap, int width, int height, TileMapEnum tileMapElem_1, int numRandomForest) {
+	
+		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileMapElem_1.getWidthShow(), tileMapElem_1.getHeightShow());
+		
+		TextureRegion[] bufferForest = new TextureRegion[numRandomForest];
+		
+		for(int i=0; i<numRandomForest; i++) {bufferForest[i] = processTextureRegion(tileMapElem_1.getIndex()+i);}	
 		
 		byte[][] forestMap = forestGenerator.getForest();
 		boolean[][] caveMap = caveGenerator.getMap();
@@ -200,7 +222,23 @@ public class SimpleMapGeneration {
 				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && 
 					(caveMap[x-1][y-1] == false)) {
 					Cell cell = new Cell();
-					cell.setTile(new StaticTiledMapColl(TileMapLevelEnum.FOREST, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world));
+					
+					
+					int index = random.nextInt(numRandomForest);				
+					TextureRegion tRegion = bufferForest[index];
+					
+					StaticTiledMapColl forest = new StaticTiledMapColl(
+							SpawnType.getByIndex(typeMap+14), 
+							tRegion, 
+							(float)x*tileMapElem_1.getWidthShow(), 
+							(float)y*tileMapElem_1.getHeightShow(), 
+							(float)tileMapElem_1.getWidthShow(), 
+							(float)tileMapElem_1.getHeightShow(),
+							world);
+					
+					forestLst.add(forest);
+					
+					cell.setTile(forest);
 					layer.setCell(x, y, cell);
 				}
 			}
@@ -311,11 +349,13 @@ public class SimpleMapGeneration {
 	
 	public ArrayList<NewItem> getPlayers(){return playersSituation;}
 	public ArrayList<NewItem> getEnemies(){return enemiesSituation;}
+	public int getTypeMap() {return typeMap;}
 
-	
-	public TiledMap createSimpleMap(int width_bg, int height_bg, int width_tl, int height_tl, TileMapEnum tileBack, TileMapEnum tileBorder, TileMapEnum tileMap, TileMapEnum tileMapElem, int numPlayers, int numEnemies) {
+	public TiledMap createSimpleMap(int typeMap, int width_bg, int height_bg, int width_tl, int height_tl, TileMapEnum tileBack, TileMapEnum tileBorder, TileMapEnum tileMap, TileMapEnum tileMapElem_1, int numRandomForest, int numPlayers, int numEnemies) {
 		
 		map = new TiledMap();
+		
+		this.typeMap = typeMap;
 		MapLayers layers = map.getLayers();
 		generateCave(width_tl-2, height_tl-2);
 		generateForest(width_tl-2, height_tl-2);
@@ -324,7 +364,7 @@ public class SimpleMapGeneration {
 		layers.add(createBackground(width_bg, height_bg, tileBack));   //INDEX_0 => Background
 		layers.add(createBorder(width_tl, height_tl, tileBorder));	   //INDEX_1 => Border
 		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_2 => Walls
-		layers.add(createForest(width_tl, height_tl, tileMapElem));    //INDEX_3 => Forests
+		layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_3 => Forests
 		
 		
 		if (numPlayers > SINGLE_PLAYER) {

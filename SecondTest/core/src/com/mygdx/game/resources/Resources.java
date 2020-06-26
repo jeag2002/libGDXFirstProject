@@ -63,6 +63,7 @@ public class Resources extends AssetManager{
 	
 	//ice
 	public String ground_tile_01_E = "maps/terrain/Ground_Tile_01_E.png";
+	public String ground_tile_02_E = "maps/terrain/Ground_Tile_02_E.png";
 	
 	
 	//elements_terrains
@@ -76,6 +77,9 @@ public class Resources extends AssetManager{
 	
 	public String Czech_01 = "maps/terrain/Czech_01.png";
 	public String Czech_02 = "maps/terrain/Czech_02.png";
+	public String Solar_01 = "maps/terrain/solar_panel_1.png";
+	public String Solar_02 = "maps/terrain/solar_panel_2.png";
+	
 	
 	public String Iceberg_01 = "maps/terrain/Iceberg.png";
 	
@@ -167,7 +171,13 @@ public class Resources extends AssetManager{
 		load(Czech_01,Texture.class);
 		load(Czech_02,Texture.class);
 		
+		load(Solar_01,Texture.class);
+		load(Solar_02,Texture.class);
+		
+		
 		load(ground_tile_01_E,Texture.class);
+		load(ground_tile_02_E,Texture.class);
+		
 		load(block_E_01,Texture.class);
 		load(block_E_02,Texture.class);
 		load(Iceberg_01,Texture.class);

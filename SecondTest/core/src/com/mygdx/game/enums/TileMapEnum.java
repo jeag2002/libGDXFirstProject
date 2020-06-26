@@ -38,13 +38,16 @@ public enum TileMapEnum {
 	
 	
 	GROUND_TILE_01_E(SecondTestGDX.resources.ground_tile_01_E,22,256, 256, 256, 256),
-	BLOCK_E_01(SecondTestGDX.resources.block_E_01,23,459,459,128,128),
-	BLOCK_E_02(SecondTestGDX.resources.block_E_02,24,255,256,128,128),
-	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,25,483,529,128,128),
+	GROUND_TILE_02_E(SecondTestGDX.resources.ground_tile_02_E,23,256, 256, 256, 256),
 	
-	CZECH_01(SecondTestGDX.resources.Czech_01,26,256,256,128,128),
-	CZECH_02(SecondTestGDX.resources.Czech_02,27,256,256,128,128);
+	BLOCK_E_01(SecondTestGDX.resources.block_E_01,24,459,459,128,128),
+	BLOCK_E_02(SecondTestGDX.resources.block_E_02,25,255,256,128,128),
+	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,26,483,529,128,128),
 	
+	CZECH_01(SecondTestGDX.resources.Czech_01,27,256,256,128,128),
+	CZECH_02(SecondTestGDX.resources.Czech_02,28,256,256,128,128),
+	SOLAR_01(SecondTestGDX.resources.Solar_01,29,178,103,128,128),
+	SOLAR_02(SecondTestGDX.resources.Solar_02,30,128,128,128,128);
 	
 	private String tileMapStr;
 	private int index;
@@ -105,7 +108,7 @@ public enum TileMapEnum {
 	
 	
 	
-	public TileMapEnum getByIndex(int index) {
+	public static TileMapEnum getByIndex(int index) {
 		
 		TileMapEnum TME[] = TileMapEnum.values();
 		TileMapEnum tile = TileMapEnum.GROUND_TILE_02_C;

@@ -8,8 +8,10 @@ import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;
 import com.mygdx.game.logic.elements.SpawnPool;
+import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -23,6 +25,7 @@ public class GameElementLogic {
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
+	private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> explosions = new ArrayList<SpawnObject>();
 	
 	
@@ -38,6 +41,7 @@ public class GameElementLogic {
 		spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
         spawnPool.addPool(SpawnType.Explosion, explosions);
+        spawnPool.addPool(SpawnType.Item, items);
 	}
 	
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
@@ -53,6 +57,11 @@ public class GameElementLogic {
 	public Player getPlayer() {
 		return player;
 	}
+	
+	public SpawnPool getSpawnPool() {
+		return spawnPool;
+	}
+	
 	
 	public void restart() {
 		
@@ -106,6 +115,11 @@ public class GameElementLogic {
 		}
 	}
     
+	public void processCollision(float delta, TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
+    	world.step(delta, 1, 1);
+    	world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
+    }
+	
 	
 	
 

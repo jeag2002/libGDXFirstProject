@@ -42,8 +42,6 @@ public class Player extends ShootObject{
 	private PlayerMovementsEnum orientationSHOOT;
 	private PlayerMovementsEnum orientationCHANGE;
 	
-	//private PlayerMovementsEnum orientation;
-	
 	
     private GamePlayScreen gPS;
     private DrawUtils dU;
@@ -65,7 +63,7 @@ public class Player extends ShootObject{
     
     
     public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
-    	super(spawnPool, world);
+    	super(spawnPool, type, world);
     	
     	this.gPS = gPS;
     	
@@ -100,7 +98,6 @@ public class Player extends ShootObject{
 		setAnimation();
 		setAnimationParts(iniPositionX,iniPositionY,width,height);
 		
-		setReference(this);
 		setSize(width, height);
 		setPosition(iniPositionX, iniPositionY);
 		

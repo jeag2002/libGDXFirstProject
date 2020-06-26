@@ -1,12 +1,15 @@
 package com.mygdx.game.elements;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicInformation;
+import com.mygdx.game.utils.NewItem;
 
 public class CollisionObject{
 
@@ -23,21 +26,22 @@ public class CollisionObject{
     private PolygonShape shape;
     private FixtureDef fixtureDef;
     
-    private DynamicCollObject ref;
+    private String idCode;
+    private SpawnType spawnType;
     
-    public CollisionObject(World world) {
+    
+    public CollisionObject(World world, SpawnType type, String idCode) {
     	
     	this.X = 0;
     	this.Y = 0;
     	this.W = 0;
     	this.H = 0;
-    	
+    	this.idCode = idCode;
     	this.world = world;
+    	this.spawnType = type;
     	
-    }
-    
-    public void setReference(DynamicCollObject ref) {
-    	this.ref = ref;
+    	Gdx.app.log("[PLAYER]","create player ID (" + this.idCode + ")");
+    	
     }
     
     
@@ -66,7 +70,8 @@ public class CollisionObject{
     	fixtureDef.shape = shape;
     	
     	body.createFixture(fixtureDef);
-    	body.setUserData(ref.getCode());
+    	
+    	body.setUserData(new NewItem(spawnType, idCode));
     	
     	shape.dispose();
     	
@@ -77,6 +82,9 @@ public class CollisionObject{
     	return body;
     }
     
+    public String getIdCode() {
+    	return idCode;
+    }
     
     public void setCollisionRef(float X, float Y) {
     	this.X = (X+this.W/2)/GameLogicInformation.PIXELS_TO_METERS;

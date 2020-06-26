@@ -134,6 +134,7 @@ public class GamePlayScreen implements Screen{
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		
 		
+		//DRAW BACKGROUND WHEN NO GAMEPLAY
 		spriteBatch.begin();
 		if (gamePlay != null) {
 			gamePlay.drawBackground(spriteBatch);
@@ -141,8 +142,10 @@ public class GamePlayScreen implements Screen{
 		spriteBatch.end();
 		
 		
+		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
-			gamePlay.drawMap();
+			gamePlay.drawMapCamera();
+			gamePlay.drawMapBef();
 		}
 		
 		
@@ -152,14 +155,20 @@ public class GamePlayScreen implements Screen{
 			}
 		}
 		
+		//DRAW ELEMENTS (PLAYER, ITEMS, ENEMIES)
 		spriteBatch.begin();
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				gamePlay.drawElements(spriteBatch);
 			}
 		}	
-		
 		spriteBatch.end();
+		
+		//DRAW BACKGROUND WHEN GAMEPLAY (FOREST)
+		if (gamePlay != null) {
+			gamePlay.drawMapAf();
+		}
+		
 		
 		if (guiStage != null) {
 			guiStage.draw(delta);

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.elements.interfaces.GameAnimationInterface;
 import com.mygdx.game.enums.PlayerMovementsEnum;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.utils.GUID;
 
 /**
@@ -20,22 +21,11 @@ public abstract class DynamicCollObject extends CollisionObject implements GameA
 
 	private SpriteObject sO;
 	
-	private String code;
 	
-	
-	public DynamicCollObject(World world) {
-		super(world);
+	public DynamicCollObject(World world, SpawnType spawnType) {
+		super(world,spawnType,GUID.get());
 		sO = new SpriteObject();
-		code = GUID.get();
-		
 	}
-	
-	
-	public String getCode() {
-		return code;
-	}
-	
-	
 	
 	public void init(Texture[] textures, int index) {
 		sO.init(textures, index);

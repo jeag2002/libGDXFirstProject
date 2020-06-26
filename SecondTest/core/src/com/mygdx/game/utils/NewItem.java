@@ -17,6 +17,8 @@ public class NewItem {
 	private float angle;
 	private float speed;
 	
+	private String idCode;
+	
 	
 	public NewItem() {
 		this.type = SpawnType.Item;
@@ -27,18 +29,37 @@ public class NewItem {
 		this.height = 0.0f;
 		this.angle = 0.0f;
 		this.speed = 0.0f;
+		this.idCode = "";
 	}
+	
+	
+	public NewItem(SpawnType type, String idCode) {
+		super();
+		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = 0.0f;
+		this.Y = 0.0f;
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.idCode = idCode;
+	}
+	
+	
 
 	public NewItem(SpawnType type, float x, float y) {
 		super();
 		this.type = type;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
-		X = x;
-		Y = y;
-		width = 0.0f;
-		height = 0.0f;
-		angle = 0.0f;
-		speed = 0.0f;
+		this.X = x;
+		this.Y = y;
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.idCode = "";
+		
 	}
 	
 	
@@ -46,12 +67,13 @@ public class NewItem {
 		super();
 		this.type = type;
 		this.ppEnum = position;
-		X = x;
-		Y = y;
-		width = 0.0f;
-		height = 0.0f;
-		angle = 0.0f;
-		speed = 0.0f;
+		this.X = x;
+		this.Y = y;
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.idCode = "";
 	}
 	
 	
@@ -66,6 +88,7 @@ public class NewItem {
 		this.height = height;
 		this.angle = angle;
 		this.speed = speed;
+		this.idCode = "";
 	}
 	
 	
@@ -127,6 +150,14 @@ public class NewItem {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+	
+	public String getIdCode() {
+		return idCode;
+	}
+
+	public void setIdCode(String idCode) {
+		this.idCode = idCode;
 	}
 	
 	

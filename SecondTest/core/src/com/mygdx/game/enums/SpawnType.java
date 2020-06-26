@@ -12,7 +12,13 @@ public enum SpawnType {
     Explosion ("Explosion",8),
     Item ("Item",9),
     MissileEnemy ("MissileEnemy",10),
-    MissilePlayer ("MissilePlayer",11);
+    MissilePlayer ("MissilePlayer",11),
+    Border("Border",12),
+    Wall("Wall",13),
+    Forest_Desert("Forest_Desert",14),
+    Forest_Jungle("Forest_Jungle",15),
+    Forest_Fabric("Forest_Fabric",16),
+    Forest_Winter("Forest_Winter",17);
     
     private String elementStr;
 	private int index;

@@ -35,8 +35,8 @@ public abstract class ShootObject extends DynamicCollObject {
 	
 	 private boolean shootEvent;
 	
-	public ShootObject(SpawnPool spawnPool, World world) {
-		super(world);
+	public ShootObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
+		super(world, spawnType);
 		this.spawnPool = spawnPool;
         shootEvent = false;    
 	}

@@ -39,12 +39,7 @@ public class GamePlay {
 	
 	private SimpleMapGeneration sMG;
 	private boolean started;
-	
-	private ShapeRenderer render;
-	
-    private Vector2 movementCamera = new Vector2();
-    private Vector2 positionCamera = new Vector2();
-    private Vector2 directionCamera = new Vector2();
+
 	
 	private Random rand;
 	
@@ -59,8 +54,6 @@ public class GamePlay {
 		this.gameLogic = new GameElementLogic(gPS);
 	}
 	
-	
-	
 	public void start() {
 		started = true;
 	}
@@ -69,6 +62,9 @@ public class GamePlay {
 		return this.started;
 	}
 	
+	public GameElementLogic getGameLogic() {
+		return gameLogic;
+	}
 	
 	public void init() {
 		
@@ -83,16 +79,17 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		int index = rand.nextInt(4);
+		//int index = rand.nextInt(4);
 		
-		//int index = 3;
+		int index = 2;
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		
 		this.gameLogic.initWorld();
 		
 		sMG.setWorld(this.gameLogic.getWorld());
-		tiledMap = sMG.createSimpleMap(SecondTestGDX.sizeMapTileWidth_BG, 
+		tiledMap = sMG.createSimpleMap(index,
+									   SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
 									   SecondTestGDX.sizeMapTileWidth_TL, 
 									   SecondTestGDX.sizeMapTileHeight_TL, 
@@ -100,6 +97,7 @@ public class GamePlay {
 									   data[INDEX_BORDER], 
 									   data[INDEX_TILEMAP],
 									   data[INDEX_FOREST],
+									   GameLogicInformation.getRandomForestTileMap(index),
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIES);
 		situationPlayer();
@@ -197,6 +195,7 @@ public class GamePlay {
 		if (started) {
 			gameLogic.updatePlayer(delta);
 			gameLogic.updateSpawns(delta);
+			gameLogic.processCollision(delta,tiledMap, sMG.getWallsList(), sMG.getForestList());
 		}
 	}
 	
@@ -230,11 +229,6 @@ public class GamePlay {
 		
 	}
 	
-	
-	public void draw(SpriteBatch sb) {
-	}
-	
-	
 	public void drawBackground(SpriteBatch sb) {
 		if ((GameLogicInformation.getLevel() == GameLogicInformation.START) || 
 			(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION)){
@@ -242,15 +236,44 @@ public class GamePlay {
 		}
 	}
 	
-	public void drawMap() {
+	
+	public void drawMapCamera() {
 		if (started) {
 			if (tiledMap != null) {
 				camera.update();
 				tiledMapRenderer.setView(camera);
-				tiledMapRenderer.render();
 			}
 		}
 	}
+	
+	public void drawMapBef() {
+		if (started) {
+			if (tiledMap != null) {
+				
+				if (sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) {
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
+					tiledMapRenderer.render(data);
+				}else {
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(data);
+				}
+				
+			}
+		}
+	}
+	
+	public void drawMapAf() {
+		if (started) {
+			if (tiledMap != null) {
+				if (sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) {
+					int[] data = {SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(data);
+				}
+			}
+		}
+		
+	}
+	
 	
 	public void drawElements(SpriteBatch sb) {
 		if (started) {

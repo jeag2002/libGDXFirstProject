@@ -23,6 +23,11 @@ public class GameLogicInformation {
 	public static final int FABRIC_LEVEL = 2;
 	public static final int WINTER_LEVEL = 3;
 	
+	public static final int FOREST_DESERT = 3;
+	public static final int FOREST_JUNGLE = 3;
+	public static final int FOREST_FABRIC = 1;
+	public static final int FOREST_WINTER = 1;
+	public static final int FOREST_DEFAULT = 1;
 	
 	public static final float speedUpFactor = 1.0f;
 	public static final float bgSpeed = 50.0f;
@@ -74,9 +79,19 @@ public class GameLogicInformation {
 	}
 	
 	
+	public static int getRandomForestTileMap(int index) {
+		if (index == DESERT_LEVEL) {return FOREST_DESERT;}
+		else if (index == JUNGLE_LEVEL) {return FOREST_JUNGLE;}
+		else if (index == FABRIC_LEVEL) {return FOREST_FABRIC;}
+		else if (index == WINTER_LEVEL) {return FOREST_WINTER;}
+		else {return FOREST_DEFAULT;}
+	}
+	
+	
+	
 	public static TileMapEnum[] getRandomTileMap(int index) {
 		
-		TileMapEnum[] levelMap= new TileMapEnum[4];
+		TileMapEnum[] levelMap= new TileMapEnum[6];
 		
 		if (index == DESERT_LEVEL) {
 			
@@ -84,7 +99,11 @@ public class GameLogicInformation {
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;
 			levelMap[2] = TileMapEnum.BLOCK_C_02;
-			levelMap[3] = TileMapEnum.CACTUS_03;
+			
+			levelMap[3] = TileMapEnum.CACTUS_01;
+			levelMap[4] = TileMapEnum.CACTUS_02;
+			levelMap[5] = TileMapEnum.CACTUS_03;
+			
 			
 		}else if (index == JUNGLE_LEVEL) {
 			
@@ -92,7 +111,10 @@ public class GameLogicInformation {
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_D;
 			levelMap[1] = TileMapEnum.BLOCK_A_02;
 			levelMap[2] = TileMapEnum.BLOCK_D_02;
+			
 			levelMap[3] = TileMapEnum.PALM_01;
+			levelMap[4] = TileMapEnum.PALM_02;
+			levelMap[5] = TileMapEnum.PALM_03;
 			
 		}else if (index == FABRIC_LEVEL) {
 			
@@ -100,16 +122,23 @@ public class GameLogicInformation {
 			levelMap[0] = TileMapEnum.GROUND_TILE_01_A;
 			levelMap[1] = TileMapEnum.BLOCK_C_02;
 			levelMap[2] = TileMapEnum.BLOCK_A_02;
-			levelMap[3] = TileMapEnum.CZECH_01;
+			
+			levelMap[3] = TileMapEnum.SOLAR_02;
+			levelMap[4] = TileMapEnum.CZECH_01;
+			levelMap[5] = TileMapEnum.CZECH_02;
 			
 		
 		}else if (index == WINTER_LEVEL) {
 			
 			Gdx.app.log("[GameLogicInformation]", "GENERATING WINTER_LEVEL");
-			levelMap[0] = TileMapEnum.GROUND_TILE_01_E;
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_E;
 			levelMap[1] = TileMapEnum.BLOCK_E_02;
 			levelMap[2] = TileMapEnum.BLOCK_E_01;
+			
 			levelMap[3] = TileMapEnum.ICEBERG_01;
+			levelMap[4] = null;
+			levelMap[5] = null;
+			
 			
 		
 		}else {
@@ -117,7 +146,10 @@ public class GameLogicInformation {
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;
 			levelMap[2] = TileMapEnum.BLOCK_C_02;
-			levelMap[3] = TileMapEnum.CACTUS_03;
+			
+			levelMap[3] = TileMapEnum.CACTUS_01;
+			levelMap[4] = TileMapEnum.CACTUS_02;
+			levelMap[5] = TileMapEnum.CACTUS_03;
 			
 		}
 		
