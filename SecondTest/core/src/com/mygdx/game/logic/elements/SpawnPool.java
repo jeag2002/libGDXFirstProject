@@ -1,10 +1,11 @@
 package com.mygdx.game.logic.elements;
 
-import java.lang.reflect.Constructor;
 import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
 import com.mygdx.game.enums.*;
+import com.mygdx.game.screens.GamePlayScreen;
 
 public class SpawnPool {
 
@@ -14,9 +15,11 @@ public class SpawnPool {
     private String nameOfPackage = "com.mygdx.game.logic.elements.*";
 
     private World world;
+    private GamePlayScreen gPS;
     
-    public SpawnPool(World world){
+    public SpawnPool(World world, GamePlayScreen gPS){
     	this.world = world;
+    	this.gPS = gPS;
     }
     
     
@@ -70,13 +73,13 @@ public class SpawnPool {
     	
     	ArrayList<SpawnObject> eS1 = pools.get(SpawnType.Enemy_01);
     	for(SpawnObject sO: eS1){
-    		/*
+    		
     		SimpleEnemy sE = (SimpleEnemy)sO;
-    		if (sE.getCode().equalsIgnoreCase(uuid)) {
+    		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
     			returnObject = sO;
     			break;
     		}
-    		*/
+    		
     	}
     	
     	if (returnObject == null) {
@@ -147,21 +150,14 @@ public class SpawnPool {
 
     String className = nameOfPackage + type.name();
     try {
-
-        //Workaround to compile with GWT for Html5 deploy
         SpawnObject created = null;
         if (type.name() == "MissilePlayer") {
-            //created = new MissilePlayer("");
         }else if (type.name() == "MissileEnemy") {
-            //created = new MissileEnemy("");
         }else if (type.name() == "Enemy_01") {
-            //created = new Enemy("");
+            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
         }else if (type.name() == "Item") {
-            //created = new Item("");
         }else if (type.name() == "Obstacle") {
-            //created = new Obstacle("");
         }else if (type.name() == "Explosion") {
-            //created = new Explosion("");
         }else {
             System.err.println("SpawnPool: " + type.name()
                     + " not able to spawn. Maybe forgot to add in createSpawnObject()?");

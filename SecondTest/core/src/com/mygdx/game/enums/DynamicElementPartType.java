@@ -1,0 +1,15 @@
+package com.mygdx.game.enums;
+
+public enum DynamicElementPartType {
+	
+	TRACK_LEFT_PLAYER,
+	TRACK_RIGHT_PLAYER,
+	EXHAUST_LEFT_PLAYER,
+	EXHAUST_RIGHT_PLAYER,
+	HULL_PLAYER,
+	GUN_PLAYER,
+	
+	LEFT_WING_ENEMY_1,
+	RIGHT_WING_ENEMY_1,
+	BODY_ENEMY_1;
+}

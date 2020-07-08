@@ -8,6 +8,9 @@ import com.mygdx.game.utils.DrawUtils;
 public class GameLogicElementInformation {
 	
 	
+	
+	
+	
 	public static final Texture[] hullPlayer01Text = {
 			DrawUtils.resizeTexture(
 					SecondTestGDX.resources.get(ElementEnum.HULL_PLAYER_1.getElementStr(),Texture.class),
@@ -23,11 +26,8 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_PLAYER_1_A.getWidthBef(), 
 					ElementEnum.GUN_PLAYER_1_A.getHeightBef(), 
 					ElementEnum.GUN_PLAYER_1_A.getWidthShow(), 
-					ElementEnum.GUN_PLAYER_1_A.getHeightShow())
-			
+					ElementEnum.GUN_PLAYER_1_A.getHeightShow())		
 	};
-	
-
 	
 	public static final Texture[] trackPlayerText = {
 		DrawUtils.resizeTexture(
@@ -97,5 +97,115 @@ public class GameLogicElementInformation {
 					ElementEnum.EXHAUST_07.getWidthShow(),
 					ElementEnum.EXHAUST_07.getHeightShow())
 	};
+	
+	
+	public static final Texture[] Enemy_01_LeftWing = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_LEFT_WING.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_LEFT_WING.getWidthBef(),
+					ElementEnum.ENEMY_1_LEFT_WING.getHeightBef(),
+					ElementEnum.ENEMY_1_LEFT_WING.getWidthShow(),
+					ElementEnum.ENEMY_1_LEFT_WING.getHeightShow())	
+	};
+	
+	public static final Texture[] Enemy_01_RightWing = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_RIGHT_WING.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_RIGHT_WING.getWidthBef(),
+					ElementEnum.ENEMY_1_RIGHT_WING.getHeightBef(),
+					ElementEnum.ENEMY_1_RIGHT_WING.getWidthShow(),
+					ElementEnum.ENEMY_1_RIGHT_WING.getHeightShow())	
+	};
+	
+	public static final Texture[] Enemy_01_Body = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_BODY.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_BODY.getWidthBef(),
+					ElementEnum.ENEMY_1_BODY.getHeightBef(),
+					ElementEnum.ENEMY_1_BODY.getWidthShow(),
+					ElementEnum.ENEMY_1_BODY.getHeightShow())
+	};
+
+
+	
+	
+	public static final Texture[] Enemy_01_Wander = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_01.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_01.getWidthBef(),
+					ElementEnum.ENEMY_1_01.getHeightBef(),
+					ElementEnum.ENEMY_1_01.getWidthShow(),
+					ElementEnum.ENEMY_1_01.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_02.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_02.getWidthBef(),
+					ElementEnum.ENEMY_1_02.getHeightBef(),
+					ElementEnum.ENEMY_1_02.getWidthShow(),
+					ElementEnum.ENEMY_1_02.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_03.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_03.getWidthBef(),
+					ElementEnum.ENEMY_1_03.getHeightBef(),
+					ElementEnum.ENEMY_1_03.getWidthShow(),
+					ElementEnum.ENEMY_1_03.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_04.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_04.getWidthBef(),
+					ElementEnum.ENEMY_1_04.getHeightBef(),
+					ElementEnum.ENEMY_1_04.getWidthShow(),
+					ElementEnum.ENEMY_1_04.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_05.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_05.getWidthBef(),
+					ElementEnum.ENEMY_1_05.getHeightBef(),
+					ElementEnum.ENEMY_1_05.getWidthShow(),
+					ElementEnum.ENEMY_1_05.getHeightShow()),
+		
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_06.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_06.getWidthBef(),
+					ElementEnum.ENEMY_1_06.getHeightBef(),
+					ElementEnum.ENEMY_1_06.getWidthShow(),
+					ElementEnum.ENEMY_1_06.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_07.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_07.getWidthBef(),
+					ElementEnum.ENEMY_1_07.getHeightBef(),
+					ElementEnum.ENEMY_1_07.getWidthShow(),
+					ElementEnum.ENEMY_1_07.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_08.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_08.getWidthBef(),
+					ElementEnum.ENEMY_1_08.getHeightBef(),
+					ElementEnum.ENEMY_1_08.getWidthShow(),
+					ElementEnum.ENEMY_1_08.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_09.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_09.getWidthBef(),
+					ElementEnum.ENEMY_1_09.getHeightBef(),
+					ElementEnum.ENEMY_1_09.getWidthShow(),
+					ElementEnum.ENEMY_1_09.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.ENEMY_1_0A.getElementStr(),Texture.class),
+					ElementEnum.ENEMY_1_0A.getWidthBef(),
+					ElementEnum.ENEMY_1_0A.getHeightBef(),
+					ElementEnum.ENEMY_1_0A.getWidthShow(),
+					ElementEnum.ENEMY_1_0A.getHeightShow())
+	
+	};
+	
+	
+	
+	
+	
+	
 
 }

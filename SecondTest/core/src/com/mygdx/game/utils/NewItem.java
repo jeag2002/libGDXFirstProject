@@ -92,6 +92,11 @@ public class NewItem {
 	}
 	
 	
+	public String toString() {
+		return "type " + type + " enum " + ppEnum +  " X (" + X + ") Y (" + Y + ") width (" + width + ") height (" + height + ") angle (" + angle + ") speed (" + speed + ") idCode [" + idCode + "]"; 
+	}
+	
+	
 	public DynamicElementPositionEnum getPlayerPosition() {
 		return ppEnum;
 	}

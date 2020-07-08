@@ -3,5 +3,6 @@
 <module>
 	<inherits name="com.google.common.base.Base" />
 	<inherits name="com.google.common.collect.Collect" />
+	<inherits name='com.badlogic.gdx.ai' />
 	<source path="com/mygdx/game" />
 </module>

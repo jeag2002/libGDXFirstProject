@@ -3,13 +3,15 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.elements.player.Player;
+import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
+import com.mygdx.game.elements.players.simpleplayer.Player;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;
 import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
+import com.mygdx.game.utils.NewItem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +38,7 @@ public class GameElementLogic {
 	}
 	
 	public void initWorld () {
-		spawnPool = new SpawnPool(world);
+		spawnPool = new SpawnPool(world, gPS);
 		spawnPool.addPool(SpawnType.Enemy_01, enemies);
 		spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
@@ -48,6 +50,15 @@ public class GameElementLogic {
 		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(iniPositionX, iniPositionY, width, height);
 	}
+	
+	public void generateEnemy(NewItem itemEnemy) {
+		
+		SimpleEnemy sE = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_01);
+		sE.init(itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
+		sE.setSpawned(true);
+		
+	}
+	
 	
 	
 	public World getWorld() {

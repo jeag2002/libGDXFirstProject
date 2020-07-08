@@ -13,6 +13,7 @@ public class Resources extends AssetManager{
 	private static final String TAG = "[RESOURCES]";
 	
 	public String imgSplash = "splash/splash-2.png";
+	public String imgSplash_1 = "splash/intermission_2.jpg";
 	public String imgIntermission = "splash/intermission_4.jpg";
 	
 	private String fnt = "fonts/Bangers_bitmap.fnt";
@@ -107,6 +108,25 @@ public class Resources extends AssetManager{
 	public String tire_01 = "elements/tires/Tire_Track_01.png";
 	public String tire_02 = "elements/tires/Tire_Track_02.png";
 	
+	//enemy_1
+	public String enemy_1_01 = "elements/enemy_1/Bomb_Idle_B_000.png";
+	public String enemy_1_02 = "elements/enemy_1/Bomb_Idle_B_001.png";
+	public String enemy_1_03 = "elements/enemy_1/Bomb_Idle_B_002.png";
+	public String enemy_1_04 = "elements/enemy_1/Bomb_Idle_B_003.png";
+	public String enemy_1_05 = "elements/enemy_1/Bomb_Idle_B_004.png";
+	public String enemy_1_06 = "elements/enemy_1/Bomb_Idle_B_005.png";
+	public String enemy_1_07 = "elements/enemy_1/Bomb_Idle_B_006.png";
+	public String enemy_1_08 = "elements/enemy_1/Bomb_Idle_B_007.png";
+	public String enemy_1_09 = "elements/enemy_1/Bomb_Idle_B_008.png";
+	public String enemy_1_0A = "elements/enemy_1/Bomb_Idle_B_009.png";
+	
+	//enemy_1_parts
+	public String enemy_1_part_01 = "elements/enemy_1/Bomb_Idle_B_000.png";
+	public String enemy_1_part_02 = "elements/enemy_1/Bomb_Idle_B_001.png";
+	public String enemy_1_part_03 = "elements/enemy_1/Bomb_Idle_B_002.png";
+	
+	
+	
 	public void loadAssets() {
 		
 		BitmapFontParameter fontParam = new BitmapFontParameter();
@@ -116,6 +136,7 @@ public class Resources extends AssetManager{
 		load(fnt,BitmapFont.class,fontParam);
 		
 		load(imgSplash,Texture.class);
+		load(imgSplash_1,Texture.class);
 		load(imgIntermission,Texture.class);
 		
 		load(musicSplash,Music.class);
@@ -202,6 +223,21 @@ public class Resources extends AssetManager{
 		
 		load(tire_01,Texture.class);
 		load(tire_02,Texture.class);
+		
+		load(enemy_1_01,Texture.class);
+		load(enemy_1_02,Texture.class);
+		load(enemy_1_03,Texture.class);
+		load(enemy_1_04,Texture.class);
+		load(enemy_1_05,Texture.class);
+		load(enemy_1_06,Texture.class);
+		load(enemy_1_07,Texture.class);
+		load(enemy_1_08,Texture.class);
+		load(enemy_1_09,Texture.class);
+		load(enemy_1_0A,Texture.class);
+		
+		load(enemy_1_part_01,Texture.class);
+		load(enemy_1_part_02,Texture.class);
+		load(enemy_1_part_03,Texture.class);
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

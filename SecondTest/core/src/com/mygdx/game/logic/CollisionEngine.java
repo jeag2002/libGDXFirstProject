@@ -9,7 +9,8 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.mygdx.game.elements.player.Player;
+import com.mygdx.game.elements.players.simpleplayer.Player;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
@@ -24,6 +25,10 @@ public class CollisionEngine implements ContactListener{
 	private TiledMapTileLayer walls;
 	private TiledMapTileLayer forests;
 	
+	private SpawnPool pool;
+	private Player player;
+	
+	
 	private ArrayList<StaticTiledMapColl> wallElements;
 	private ArrayList<StaticTiledMapColl> forestElements;
 	
@@ -33,24 +38,29 @@ public class CollisionEngine implements ContactListener{
 		this.map = map;
 		this.wallElements = walls;
 		this.forestElements = forest;
+		
+		this.walls = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_WALLS);
+		this.forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
+		this.pool = gPS.getGamePlay().getGameLogic().getSpawnPool();
+		this.player = gPS.getGamePlay().getGameLogic().getPlayer();
 	}
+	
+	//https://experto.dev/patron-de-diseno-observer-en-java/
+	
 	
 	@Override
 	public void beginContact(Contact contact) {
 		
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
+		//System.out.println("ObjectStrA " +  objectStrA.getType() + " ObjectStrB " +  objectStrB.getType());
 		
-		System.out.println("ObjectStrA " +  objectStrA.getType() + " ObjectStrB " +  objectStrB.getType());
+		if ((objectStrA.getType().equals(SpawnType.Player_01) && (objectStrB.getType().equals(SpawnType.Wall) || objectStrB.getType().equals(SpawnType.Forest_Winter)))) {
+			collisionPlayerToStatic(objectStrA, objectStrB); 
+		}else if (((objectStrA.getType().equals(SpawnType.Wall) || objectStrA.getType().equals(SpawnType.Forest_Winter))) && objectStrB.getType().equals(SpawnType.Player_01)) {
+			collisionStaticToPlayer(objectStrA, objectStrB);
+		}
 		
-		//WALLS
-		walls = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_WALLS);
-		//FORESTS
-		forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
-		//DYNAMIC ELEMENTS
-		SpawnPool pool = gPS.getGamePlay().getGameLogic().getSpawnPool();
-		//PLAYER
-		Player player = gPS.getGamePlay().getGameLogic().getPlayer();
 		
 	}
 
@@ -85,25 +95,25 @@ public class CollisionEngine implements ContactListener{
 	}
 	
 	
-	private void collisionDynamicToDynamic(Object DynamicA, Object DynamicB) {
+	private void collisionDynamicToDynamic(NewItem DynamicA, NewItem DynamicB) {
 	}
 	
-	private void collisionDynamicToPlayer(Object DynamicA, Player playerB) {
+	private void collisionDynamicToPlayer(NewItem DynamicA, NewItem playerB) {
 	}
 	
-	private void collisionPlayerToDynamic(Player playerA, Object DynamicB) {
+	private void collisionPlayerToDynamic(NewItem playerA, NewItem DynamicB) {
 	}
 	
-	private void collisionDynamicToStatic(Object DynamicA, Object StaticB) {
+	private void collisionDynamicToStatic(NewItem DynamicA, NewItem StaticB) {
 	}
 	
-	private void collisionStaticToDynamic(Object StaticA, Object DynamicB) {
+	private void collisionStaticToDynamic(NewItem StaticA, NewItem DynamicB) {
 	}
 	
-	private void collisionStaticToPlayer(Object StaticA, Player playerB) {
+	private void collisionStaticToPlayer(NewItem StaticA, NewItem playerB) {
 	}
 	
-	private void collisionPlayerToStatic(Player playerA, Object StaticB) {
+	private void collisionPlayerToStatic(NewItem playerA, NewItem StaticB) {
 	}
 
 }

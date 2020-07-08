@@ -19,3 +19,20 @@ workGDX_c/3dTiledWorld ==> generación procedural 3D
 workGDX_d/dungen ==> generación procedural Dungen (portal generación de dungeons y pasadizo entre ellos)
 workGDX_e/level-generator ==> generación procedural terrenos.
 workGDX_f/thelegendofericc ==> generación dungeon 
+
+
+//IA (steering behaviors)
+https://www.gamedevelopment.blog/full-libgdx-game-tutorial-ashley-steering-behaviors/
+
+//Lights
+https://www.youtube.com/watch?v=p024Ix0I8W0
+https://github.com/macbury/R0x16
+
+A*
+https://www.youtube.com/watch?v=wu3vzR9k3QA
+https://github.com/aboglioli/libgdx-pathfinding-example
+https://www.reddit.com/r/libgdx/comments/66p6y0/are_there_any_good_2d_path_finding_tutorials_you/
+
+https://github.com/xaguzman/pathfinding
+https://github.com/libgdx/gdx-ai/wiki/A*
+https://happycoding.io/tutorials/libgdx/pathfinding

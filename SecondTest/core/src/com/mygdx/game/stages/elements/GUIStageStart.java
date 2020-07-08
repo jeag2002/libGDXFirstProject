@@ -81,7 +81,7 @@ public class GUIStageStart {
 	        		  @Override
 	        		  public void run() {
 	        			  gPS.getGamePlay().processTileGeneration();
-	        			  Gdx.app.log("[GUIStageStart]", "TILE GENERATION MAP FINISHED");
+	        			  Gdx.app.log("[GUISTAGESTART]", "TILE GENERATION MAP FINISHED");
 	        		  }
 	        	  });
 
@@ -90,7 +90,7 @@ public class GUIStageStart {
 	          		@Override
 	          	    public void run() {
 	          			gPS.initGamePlay();
-	          			Gdx.app.log("[GUIStageStart]", "INIT GAMEPLAY");
+	          			Gdx.app.log("[GUISTAGESTART]", "INIT GAMEPLAY");
 	          		}},6);
 	        	  
 	        	  
@@ -142,29 +142,6 @@ public class GUIStageStart {
 	          }
 	        });
 	    grpStartUI.addActor(buttonScore);
-	    //stage.addActor(buttonScore);
-	    
-	    /*
-	    Skin uiSkin_4 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
-	    buttonGameMode = new ImageButton(uiSkin_4);
-	    buttonGameMode.setSize(200.0f,150.0f);
-	    buttonGameMode.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.gameButton, Texture.class)));
-	    buttonGameMode.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(SecondTestGDX.resources.get(SecondTestGDX.resources.gameButton, Texture.class)));
-	    buttonGameMode.setPosition((SecondTestGDX.screenWidth / 2) - 200,(SecondTestGDX.screenHeight / 2) - 400);
-	    buttonGameMode.setVisible(false);
-	    buttonGameMode.addListener(new InputListener(){
-	          @Override
-	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-	          }
-	          
-	          @Override
-	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-	            return true;
-	          }
-	        });
-	    grpStartUI.addActor(buttonGameMode);
-	    //stage.addActor(buttonGameMode);
-	     */
 		
 	    
 	    Skin uiSkin_4 = new Skin(Gdx.files.internal("gui/skin/uiskin.json"));
@@ -186,7 +163,6 @@ public class GUIStageStart {
 	          }
 	        });
 	    grpStartUI.addActor(buttonExit);
-	    //stage.addActor(buttonExit);
 		
 		
 		stage.addActor(grpStartUI);
@@ -197,8 +173,7 @@ public class GUIStageStart {
 		wItem.setVisible(show);
 		buttonStart.setVisible(show);
 		buttonSettings.setVisible(show);
-		buttonScore.setVisible(show);
-		//buttonGameMode.setVisible(show);
+		buttonScore.setVisible(show);;
 		buttonExit.setVisible(show);
 		
 		if (show) {

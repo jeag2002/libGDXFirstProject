@@ -1,11 +1,15 @@
 package com.mygdx.game.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.BackgroundMusicEnum;
 import com.mygdx.game.enums.TileMapEnum;
+import com.mygdx.game.logic.elements.SpawnObject;
+import com.mygdx.game.utils.NewItem;
 
 public class GameLogicInformation {
 
@@ -17,6 +21,11 @@ public class GameLogicInformation {
 	
 	public static final int PLAYERS = 1;
 	public static final int ENEMIES = 20;
+	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
+	
+	public static final double SEEK_DISTANCE = 500;
+	public static final double ATTACK_DISTANCE = 128;
+	
 	
 	public static final int DESERT_LEVEL = 0;
 	public static final int JUNGLE_LEVEL = 1;
@@ -34,7 +43,15 @@ public class GameLogicInformation {
 	
 	private static int level;
 	
-	public static final String backGround_Start = SecondTestGDX.resources.imgSplash; 
+	
+	public static final ArrayList<Body> toDeletedDynamicBodiesWithCollision = new ArrayList<Body>();
+	public static final ArrayList<Body> toDeletedStaticBodiesWithCollision = new ArrayList<Body>();
+	public static final ArrayList<SpawnObject> toDeletedDynamicBodiesWithoutCollision = new ArrayList<SpawnObject>();
+    public static final ArrayList<NewItem> toCreatedItemsWithCollision = new ArrayList<NewItem>(); 
+	
+	
+	public static final String backGround_Start = SecondTestGDX.resources.imgSplash;
+    //public static final String backGround_Start = SecondTestGDX.resources.imgSplash_1;
 	public static final String backGround_Intermission = SecondTestGDX.resources.imgIntermission;
 	
 	public static final String backGround_Start_MP3 = SecondTestGDX.resources.musicSplash;
@@ -95,7 +112,7 @@ public class GameLogicInformation {
 		
 		if (index == DESERT_LEVEL) {
 			
-			Gdx.app.log("[GameLogicInformation]", "GENERATING DESERT_LEVEL");
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING DESERT_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;
 			levelMap[2] = TileMapEnum.BLOCK_C_02;
@@ -107,7 +124,7 @@ public class GameLogicInformation {
 			
 		}else if (index == JUNGLE_LEVEL) {
 			
-			Gdx.app.log("[GameLogicInformation]", "GENERATING JUNGLE_LEVEL");
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING JUNGLE_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_D;
 			levelMap[1] = TileMapEnum.BLOCK_A_02;
 			levelMap[2] = TileMapEnum.BLOCK_D_02;
@@ -118,7 +135,7 @@ public class GameLogicInformation {
 			
 		}else if (index == FABRIC_LEVEL) {
 			
-			Gdx.app.log("[GameLogicInformation]", "GENERATING INDUSTRIAL_LEVEL");
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING INDUSTRIAL_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_01_A;
 			levelMap[1] = TileMapEnum.BLOCK_C_02;
 			levelMap[2] = TileMapEnum.BLOCK_A_02;
@@ -130,7 +147,7 @@ public class GameLogicInformation {
 		
 		}else if (index == WINTER_LEVEL) {
 			
-			Gdx.app.log("[GameLogicInformation]", "GENERATING WINTER_LEVEL");
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING WINTER_LEVEL");
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_E;
 			levelMap[1] = TileMapEnum.BLOCK_E_02;
 			levelMap[2] = TileMapEnum.BLOCK_E_01;

@@ -13,13 +13,17 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
 import com.mygdx.game.enums.DynamicElementPositionEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
 import com.mygdx.game.enums.TileMapLevelEnum;
+import com.mygdx.game.logic.GameLogicInformation;
+import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.logic.map.procedural.CaveGenerationImpl;
 import com.mygdx.game.logic.map.procedural.ForestGenerationImpl;
+import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.DrawUtils;
 import com.mygdx.game.utils.NewItem;
 
@@ -27,7 +31,11 @@ public class SimpleMapGeneration {
 	
    private long seed;
    private TiledMap map;
+   
    private World world;
+   private GamePlayScreen gPS;
+   private SpawnPool pool;
+   
 	
    private int typeMap;
    
@@ -37,6 +45,7 @@ public class SimpleMapGeneration {
    
    private ArrayList<NewItem> playersSituation;
    private ArrayList<NewItem> enemiesSituation;
+   //private ArrayList<SimpleEnemy> enemiesSituation;
    
    private ArrayList<StaticTiledMapColl> wallsLst;
    private ArrayList<StaticTiledMapColl> forestLst;
@@ -48,12 +57,11 @@ public class SimpleMapGeneration {
    public static final int INDEX_BORDER = 1;
    public static final int INDEX_WALLS = 2;
    public static final int INDEX_FOREST = 3;
+   public static final int INDEX_ENEMIES = 4;
     
-   public static final int INDEX_PLAYER = 4;
-   public static final int INDEX_ENEMIES = 5;
-   
-   
+   public static final int INDEX_PLAYER = 5;
    public static final int SINGLE_PLAYER = 1;
+   
    
 	
    public SimpleMapGeneration() {
@@ -68,8 +76,10 @@ public class SimpleMapGeneration {
 	   
    }
    
-   public void setWorld(World world) {
+   public void setWorld(SpawnPool pool, World world, GamePlayScreen gPS) {
+	   this.pool = pool;
 	   this.world = world;
+	   this.gPS = gPS;
    }
    
    public ArrayList<StaticTiledMapColl> getWallsList(){return wallsLst;}
@@ -308,10 +318,12 @@ public class SimpleMapGeneration {
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
 		
-		int situationPlayer = random.nextInt(4);
-		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
+		//int situationPlayer = random.nextInt(4);
+		//DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
 		
-		Gdx.app.log("[SingleMapGeneration]","SINGLE PLAYER POSITION " + ppE.toString());
+		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.LEFTDOWN;
+		
+		Gdx.app.log("[SINGLEMAPGENERATION]","SINGLE PLAYER POSITION " + ppE.toString());
 		
 		boolean DONE = false;
 		
@@ -343,12 +355,82 @@ public class SimpleMapGeneration {
 	}
 	
 	
-	public void setEnemiesPosition(int width, int height, int numEnemies) {
+	public boolean noSameSituationAsPlayer(int i, int j) {
+		boolean sameSituation = false;
+		
+		for(int p=0; p<playersSituation.size() && (!sameSituation); p++){
+			NewItem player = playersSituation.get(p);
+			double distance = Math.sqrt( Math.pow( (player.getX() - SecondTestGDX.tileWidth_TL*i) , 2) +  Math.pow( (player.getY() - SecondTestGDX.tileHeight_TL * j) ,2));
+			sameSituation = (distance <= GameLogicInformation.MIN_DISTANCE_BETWEEN_ENEMIES);
+		
+		}
+		
+		return sameSituation;
+	}
+	
+	
+	public boolean noMinimunDistanceBetweenEnemies(int i, int j, ArrayList<NewItem> auxEnemies) {
+		boolean noMinimunDistance = false;
+		
+		for(int p=0; p<auxEnemies.size() && (!noMinimunDistance); p++) {
+			NewItem enemy = auxEnemies.get(p);
+			double distance = Math.sqrt( Math.pow( (enemy.getX() - SecondTestGDX.tileWidth_TL*i) , 2) +  Math.pow( (enemy.getY() - SecondTestGDX.tileHeight_TL * j) ,2));
+			noMinimunDistance = (distance <= GameLogicInformation.MIN_DISTANCE_BETWEEN_ENEMIES);
+		}
+		
+		
+		return noMinimunDistance; 
 		
 	}
 	
+	
+	
+	private void setEnemiesPositionSector(int width, int height, DynamicElementPositionEnum ppE, int numEnemies) {
+		
+		
+		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+		
+		boolean[][] caveMap = caveGenerator.getMap();
+		byte[][] forestMap = forestGenerator.getForest();
+		
+		
+		boolean DONE = false;
+		
+		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+				//FREE SPACE
+				if ((caveMap[x-1][y-1] == false) && (forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY)) {	
+					//ENEMIES
+					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesSituation)) {
+						//PLAYER
+						if (!noSameSituationAsPlayer(x,y)) {
+							NewItem sE = new NewItem(SpawnType.Enemy_01, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+							enemiesSituation.add(sE);
+							numEnemies--;							
+							DONE = (numEnemies <= 0);	
+						}
+					}
+				}
+			}	
+		}
+		
+		Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES "  + ppE +  " GENERATED (" + enemiesSituation.size() + ")");
+	}
+	
+	
+	public void setEnemiesPosition(int width, int height, int numEnemies) {
+		setEnemiesPositionSector(width, height, DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
+		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
+		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
+		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
+	}
+	
+	
+	
 	public ArrayList<NewItem> getPlayers(){return playersSituation;}
 	public ArrayList<NewItem> getEnemies(){return enemiesSituation;}
+	
+	
 	public int getTypeMap() {return typeMap;}
 
 	public TiledMap createSimpleMap(int typeMap, int width_bg, int height_bg, int width_tl, int height_tl, TileMapEnum tileBack, TileMapEnum tileBorder, TileMapEnum tileMap, TileMapEnum tileMapElem_1, int numRandomForest, int numPlayers, int numEnemies) {
@@ -373,8 +455,7 @@ public class SimpleMapGeneration {
 			setSinglePlayerPosition(SpawnType.getByIndex(0));
 		}
 		
-		
-		setEnemiesPosition(width_tl, height_tl, numEnemies);			//ENEMIES
+		setEnemiesPosition(width_tl, height_tl, numEnemies);
 		
 		return map;
 	}

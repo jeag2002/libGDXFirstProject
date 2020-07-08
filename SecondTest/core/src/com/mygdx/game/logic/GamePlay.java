@@ -3,6 +3,7 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -79,15 +80,17 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//int index = rand.nextInt(4);
+		int index = rand.nextInt(4);
 		
-		int index = 2;
+		
+		
+		//int index = 2;
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		
 		this.gameLogic.initWorld();
 		
-		sMG.setWorld(this.gameLogic.getWorld());
+		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		tiledMap = sMG.createSimpleMap(index,
 									   SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
@@ -137,8 +140,8 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-				this.camera.setToOrtho(false, SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
-				
+				//this.camera.setToOrtho(false, SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
+				this.camera.setToOrtho(false);
 				
 				ArrayList<NewItem> posPlayers = sMG.getPlayers();
 				
@@ -150,6 +153,8 @@ public class GamePlay {
 			    	this.camera.update();
 			    }
 			    
+			    ArrayList<NewItem> enemyLst = sMG.getEnemies();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemy(sE);}
 			    
 			}
 		}

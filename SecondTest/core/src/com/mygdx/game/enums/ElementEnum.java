@@ -1,5 +1,6 @@
 package com.mygdx.game.enums;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.SecondTestGDX;
 
 public enum ElementEnum {
@@ -15,7 +16,23 @@ public enum ElementEnum {
 	EXHAUST_04(SecondTestGDX.resources.exhaustFire_04,7,22,29,16,32),
 	EXHAUST_05(SecondTestGDX.resources.exhaustFire_05,8,22,29,16,32),
 	EXHAUST_06(SecondTestGDX.resources.exhaustFire_06,9,22,29,16,32),
-	EXHAUST_07(SecondTestGDX.resources.exhaustFire_07,10,22,29,16,32);
+	EXHAUST_07(SecondTestGDX.resources.exhaustFire_07,10,22,29,16,32),
+	
+	ENEMY_1_01(SecondTestGDX.resources.enemy_1_01,11,256,256,64,64),
+	ENEMY_1_02(SecondTestGDX.resources.enemy_1_02,12,256,256,64,64),
+	ENEMY_1_03(SecondTestGDX.resources.enemy_1_03,13,256,256,64,64),
+	ENEMY_1_04(SecondTestGDX.resources.enemy_1_04,14,256,256,64,64),
+	ENEMY_1_05(SecondTestGDX.resources.enemy_1_05,15,256,256,64,64),
+	ENEMY_1_06(SecondTestGDX.resources.enemy_1_06,16,256,256,64,64),
+	ENEMY_1_07(SecondTestGDX.resources.enemy_1_07,17,256,256,64,64),
+	ENEMY_1_08(SecondTestGDX.resources.enemy_1_08,18,256,256,64,64),
+	ENEMY_1_09(SecondTestGDX.resources.enemy_1_09,19,256,256,64,64),
+	ENEMY_1_0A(SecondTestGDX.resources.enemy_1_0A,20,256,256,64,64),
+	
+	ENEMY_1_LEFT_WING(SecondTestGDX.resources.enemy_1_part_01,21,256,256,16,16),
+	ENEMY_1_RIGHT_WING(SecondTestGDX.resources.enemy_1_part_02,22,256,256,16,16),
+	ENEMY_1_BODY(SecondTestGDX.resources.enemy_1_part_03,23,256,256,16,16);
+	
 	
 	
 	
