@@ -63,7 +63,12 @@ public class SimpleMapGeneration {
    public static final int SINGLE_PLAYER = 1;
    
    
-	
+   public static final int TYPE_DESERT = 0;
+   public static final int TYPE_JUNGLE = 1;
+   public static final int TYPE_FABRIC = 2;
+   public static final int TYPE_WINTER = 3;
+   
+  
    public SimpleMapGeneration() {
 	   
 	   playersSituation = new ArrayList<NewItem>();
@@ -146,14 +151,14 @@ public class SimpleMapGeneration {
 			
 			Cell cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(x, 0, cell);
 			
 			
 			cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
 			
-			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(x, height-1, cell);
 		}
 		
@@ -162,13 +167,13 @@ public class SimpleMapGeneration {
 			
 			Cell cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(0, y, cell);
 			
 			
 			cell = new Cell();
 			//cell.setTile(new StaticTiledMapTile(tRegion));
-			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world));
+			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(width-1, y, cell);
 		}
 		
@@ -191,7 +196,7 @@ public class SimpleMapGeneration {
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
 					
-					StaticTiledMapColl walls = new StaticTiledMapColl(SpawnType.Wall, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world); 
+					StaticTiledMapColl walls = new StaticTiledMapColl(SpawnType.Wall, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world, true); 
 					wallsLst.add(walls);
 					
 					cell.setTile(walls);
@@ -244,7 +249,9 @@ public class SimpleMapGeneration {
 							(float)y*tileMapElem_1.getHeightShow(), 
 							(float)tileMapElem_1.getWidthShow(), 
 							(float)tileMapElem_1.getHeightShow(),
-							world);
+							world,
+							(typeMap == TYPE_WINTER)
+							);
 					
 					forestLst.add(forest);
 					
@@ -318,10 +325,10 @@ public class SimpleMapGeneration {
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
 		
-		//int situationPlayer = random.nextInt(4);
-		//DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
+		int situationPlayer = random.nextInt(4);
+		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
 		
-		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.LEFTDOWN;
+		//DynamicElementPositionEnum ppE = DynamicElementPositionEnum.LEFTDOWN;
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]","SINGLE PLAYER POSITION " + ppE.toString());
 		
@@ -420,9 +427,9 @@ public class SimpleMapGeneration {
 	
 	public void setEnemiesPosition(int width, int height, int numEnemies) {
 		setEnemiesPositionSector(width, height, DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
-		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
-		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
-		//setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
+		setEnemiesPositionSector(width, height, DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
+	    setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
+		setEnemiesPositionSector(width, height, DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
 	}
 	
 	

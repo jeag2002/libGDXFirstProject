@@ -7,9 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.utils.DFUtils;
 
-//https://github.com/libgdx/gdx-ai/blob/master/tests/src/com/badlogic/gdx/ai/tests/fsm/BobState.java
-//https://stackoverflow.com/questions/27871472/how-to-stop-seek-steering-behaviour-orbiting-target-in-box2d
-
 
 public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 	
@@ -44,11 +41,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 					posPlayerY + posPlayerHeight/2);
 			
 			
-			//Vector2 posEnemy = enemy.getPosition();
-			//Vector2 posPlayer = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getBody().getPosition();
-			//double distance = DFUtils.distance(posEnemy, posPlayer);
-			
-			
 			if (distance <= GameLogicInformation.ATTACK_DISTANCE) {
 				data = "ATTACK";
 				enemy.getStateMachine().changeState(ATTACK);
@@ -62,9 +54,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 				enemy.getStateMachine().changeState(SLEEP);
 				enemy.setShootingActive(false);
 			}
-			
-			
-			//Gdx.app.log("[STATE_MACHINE_ENEMY]","ENEMY (" + enemy.getIdCode() + ") DISTANCE PLAYER (" +  distance + ") STATE (" + data + ")" );
 			
 			
 		}
@@ -108,13 +97,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 					posPlayerX + posPlayerWidth/2, 
 					posPlayerY + posPlayerHeight/2);
 			
-			
-			//Vector2 posEnemy = enemy.getPosition();
-			//Vector2 posPlayer = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getBody().getPosition();
-			//double distance = DFUtils.distance(posEnemy, posPlayer);
-			
-			
-			
 			if (distance <= GameLogicInformation.ATTACK_DISTANCE) {
 				data = "ATTACK";
 				enemy.getStateMachine().changeState(ATTACK);
@@ -128,8 +110,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 				enemy.getStateMachine().changeState(SLEEP);
 				enemy.setShootingActive(false);
 			}
-			
-			//Gdx.app.log("[STATE_MACHINE_ENEMY]","ENEMY (" + enemy.getIdCode() + ") DISTANCE PLAYER (" +  distance + ") STATE (" + data + ")" );
 			
 		}
 		
@@ -172,11 +152,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 					posPlayerY + posPlayerHeight/2);
 			
 			
-			//Vector2 posEnemy = enemy.getPosition();
-			//Vector2 posPlayer = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getBody().getPosition();
-			//double distance = DFUtils.distance(posEnemy, posPlayer);
-			
-			
 			if (distance <= GameLogicInformation.ATTACK_DISTANCE) {
 				data = "ATTACK";
 				enemy.getStateMachine().changeState(ATTACK);
@@ -191,7 +166,6 @@ public enum SimpleEnemyStateEnum implements State<SimpleEnemy>{
 				enemy.setShootingActive(false);
 			}
 			
-			//Gdx.app.log("[STATE_MACHINE_ENEMY]","ENEMY (" + enemy.getIdCode() + ") DISTANCE PLAYER (" +  distance + ") STATE (" + data + ")" );
 		}
 		
 		@Override

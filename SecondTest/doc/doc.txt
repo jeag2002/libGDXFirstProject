@@ -28,6 +28,8 @@ https://www.gamedevelopment.blog/full-libgdx-game-tutorial-ashley-steering-behav
 https://www.youtube.com/watch?v=p024Ix0I8W0
 https://github.com/macbury/R0x16
 
+//https://experto.dev/patron-de-diseno-observer-en-java/
+
 A*
 https://www.youtube.com/watch?v=wu3vzR9k3QA
 https://github.com/aboglioli/libgdx-pathfinding-example
@@ -36,3 +38,7 @@ https://www.reddit.com/r/libgdx/comments/66p6y0/are_there_any_good_2d_path_findi
 https://github.com/xaguzman/pathfinding
 https://github.com/libgdx/gdx-ai/wiki/A*
 https://happycoding.io/tutorials/libgdx/pathfinding
+
+Collision:
+https://github.com/tyler6699/evoscape/blob/tutorial_006/core/src/uk/co/carelesslabs/Hero.java
+https://github.com/dfour/box2dtut

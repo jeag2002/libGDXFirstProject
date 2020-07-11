@@ -156,6 +156,7 @@ public class GamePlay {
 			    ArrayList<NewItem> enemyLst = sMG.getEnemies();
 			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemy(sE);}
 			    
+			    gameLogic.configureCollision(tiledMap, sMG.getWallsList(), sMG.getForestList());
 			}
 		}
 	}
@@ -198,9 +199,9 @@ public class GamePlay {
 	
 	public void updateElements(float delta) {
 		if (started) {
+			gameLogic.stepWorld(delta);
 			gameLogic.updatePlayer(delta);
 			gameLogic.updateSpawns(delta);
-			gameLogic.processCollision(delta,tiledMap, sMG.getWallsList(), sMG.getForestList());
 		}
 	}
 	

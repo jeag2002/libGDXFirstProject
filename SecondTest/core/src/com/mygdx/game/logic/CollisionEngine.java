@@ -34,6 +34,7 @@ public class CollisionEngine implements ContactListener{
 	
 	
 	public CollisionEngine(GamePlayScreen gPS, TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
+		super();
 		this.gPS = gPS;
 		this.map = map;
 		this.wallElements = walls;
@@ -45,7 +46,7 @@ public class CollisionEngine implements ContactListener{
 		this.player = gPS.getGamePlay().getGameLogic().getPlayer();
 	}
 	
-	//https://experto.dev/patron-de-diseno-observer-en-java/
+	
 	
 	
 	@Override
@@ -53,21 +54,14 @@ public class CollisionEngine implements ContactListener{
 		
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
-		//System.out.println("ObjectStrA " +  objectStrA.getType() + " ObjectStrB " +  objectStrB.getType());
 		
-		if ((objectStrA.getType().equals(SpawnType.Player_01) && (objectStrB.getType().equals(SpawnType.Wall) || objectStrB.getType().equals(SpawnType.Forest_Winter)))) {
-			collisionPlayerToStatic(objectStrA, objectStrB); 
-		}else if (((objectStrA.getType().equals(SpawnType.Wall) || objectStrA.getType().equals(SpawnType.Forest_Winter))) && objectStrB.getType().equals(SpawnType.Player_01)) {
-			collisionStaticToPlayer(objectStrA, objectStrB);
-		}
-		
+		//System.out.println("BEGIN Collision objectA " + objectStrA.getType() + " objectB " + objectStrB.getType());
 		
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
-		
+			
 	}
 
 	@Override
@@ -82,38 +76,5 @@ public class CollisionEngine implements ContactListener{
 		
 	}
 	
-	
-	private StaticTiledMapColl getElementById(ArrayList<StaticTiledMapColl> elements, String ID) {
-		StaticTiledMapColl response = null;
-		for(StaticTiledMapColl elem: elements){
-			if (elem.getCodeId().equals(ID)) {
-				response = elem;
-				break;
-			}
-		}
-		return response;
-	}
-	
-	
-	private void collisionDynamicToDynamic(NewItem DynamicA, NewItem DynamicB) {
-	}
-	
-	private void collisionDynamicToPlayer(NewItem DynamicA, NewItem playerB) {
-	}
-	
-	private void collisionPlayerToDynamic(NewItem playerA, NewItem DynamicB) {
-	}
-	
-	private void collisionDynamicToStatic(NewItem DynamicA, NewItem StaticB) {
-	}
-	
-	private void collisionStaticToDynamic(NewItem StaticA, NewItem DynamicB) {
-	}
-	
-	private void collisionStaticToPlayer(NewItem StaticA, NewItem playerB) {
-	}
-	
-	private void collisionPlayerToStatic(NewItem playerA, NewItem StaticB) {
-	}
 
 }

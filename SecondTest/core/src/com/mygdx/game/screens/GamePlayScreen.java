@@ -92,7 +92,7 @@ public class GamePlayScreen implements Screen{
 		
 		
 		stopMusic();
-		initMusic();
+		//initMusic();
 	}
 	
 	

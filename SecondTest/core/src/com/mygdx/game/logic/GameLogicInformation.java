@@ -20,7 +20,7 @@ public class GameLogicInformation {
 	public static final float PIXELS_TO_METERS = 100f;
 	
 	public static final int PLAYERS = 1;
-	public static final int ENEMIES = 20;
+	public static final int ENEMIES = 100;
 	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
 	
 	public static final double SEEK_DISTANCE = 500;
@@ -40,6 +40,7 @@ public class GameLogicInformation {
 	
 	public static final float speedUpFactor = 1.0f;
 	public static final float bgSpeed = 50.0f;
+	public static final float bgSpeedPos = 20.0f;
 	
 	private static int level;
 	

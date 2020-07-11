@@ -1,13 +1,12 @@
 package com.mygdx.game.elements.players.simpleplayer;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
@@ -22,6 +21,7 @@ import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.DrawUtils;
+
 
 public class Player extends ShootPlayerObject{
 	
@@ -58,6 +58,7 @@ public class Player extends ShootPlayerObject{
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
     
+    private boolean collDetection;
     
     public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
     	super(spawnPool, type, world);
@@ -66,7 +67,6 @@ public class Player extends ShootPlayerObject{
     	
     	this.type = type;
     	this.cannonType = cannonType;
-    	//this.orientation = PlayerMovementsEnum.IDLE;
     	
     	this.orientationUP= PlayerMovementsEnum.IDLE;
     	this.orientationDOWN= PlayerMovementsEnum.IDLE;
@@ -83,14 +83,25 @@ public class Player extends ShootPlayerObject{
     	this.angle = 0.0f;
     	this.angleTurret = 0.0f;
     	
-    	//this.movements = new LinkedList<>(); 
+    	this.collDetection = false;
+    	
     	
     	setShootingActive(true);
     	
     }
     
 	
-    public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
+    
+    public boolean isCollDetection() {
+		return collDetection;
+	}
+
+	public void setCollDetection(boolean collDetection) {
+		this.collDetection = collDetection;
+	}
+	
+
+	public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
 		
 		setAnimation();
 		setAnimationParts(iniPositionX,iniPositionY,width,height);
@@ -152,41 +163,35 @@ public class Player extends ShootPlayerObject{
     	exhaust_right.setSize(ElementEnum.EXHAUST_01.getWidthShow(), ElementEnum.EXHAUST_01.getHeightShow());
     	exhaust_right.setPosition(iniPositionX+width/2, iniPositionY-ElementEnum.EXHAUST_01.getHeightShow()+8);
     	player_parts.add(exhaust_right);
-    	
-    	
-    	
-    	
     }
     
     
     public void update(float delta) {
     	movement(delta);
-    	collision();
     	super.update(delta);
     }
     
     
     public void movement(float delta) {
-    	
-    	
-	    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
-	    		if (Gdx.input.isKeyPressed(Keys.UP)) {
-	    			movement(delta, -1);
-	    			gPS.getGamePlay().update(getX(),getY());
-	    			animatedTracks(delta,true,true); 
-	    		    animatedExhaust(delta,true,true);
-	    		}
-	    	}
-	    	
-	    	if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
-	    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
-	    			movement(delta, 1);		    			
-	    			gPS.getGamePlay().update(getX(),getY());
-	    			animatedTracks(delta, true, true);
-	    			animatedExhaust(delta,false,false);
-	    		}
-
-	    	}
+    	   	
+		    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
+		    		if (Gdx.input.isKeyPressed(Keys.UP)) {
+		    			movement(delta, -1);
+		    			gPS.getGamePlay().update(getX(),getY());
+		    			animatedTracks(delta,true,true); 
+		    		    animatedExhaust(delta,true,true);
+		    		}
+		    	}
+		    	
+		    	if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
+		    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
+		    			movement(delta, 1);		    			
+		    			gPS.getGamePlay().update(getX(),getY());
+		    			animatedTracks(delta, true, true);
+		    			animatedExhaust(delta,false,false);
+		    		}
+	
+		    	}
 	    	
 	    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
 	    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -226,6 +231,8 @@ public class Player extends ShootPlayerObject{
 	    	
 	    	
 	    	if (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+	    		
+	    		super.setCollisionVel(0.0f, 0.0f);
 	    		animatedExhaust(delta, false, false);
 	    	}
 	    	
@@ -247,6 +254,11 @@ public class Player extends ShootPlayerObject{
     public void rotate() {
     	super.rotate(angle);
     	direction.set((float)Math.cos(Math.toRadians(angle+270)), (float)Math.sin(Math.toRadians(angle+270))).nor();
+    	
+    	super.setCollisionAngleRef(getX(), getY(), angle*MathUtils.degRad);
+    	
+    	//super.setCollisionAngle(angle);
+    	
     	player_parts.get(INDEX_TRACK_LEFT).rotate(angle,24,getHeight()/2);
     	player_parts.get(INDEX_TRACK_RIGHT).rotate(angle,-8,getHeight()/2); 	
     	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
@@ -264,23 +276,24 @@ public class Player extends ShootPlayerObject{
     public void movement(float delta, float index) {
     	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*2);
          position.add(movement);
-         super.setPosition(position.x, position.y);
-         super.setCollisionRef(position.x, position.y);
+         
+         super.setCollisionVel(movement.x, movement.y);
+         Vector2 posRelative = super.getPositionFromBodyToPixel();
+         super.setPosition(posRelative.x, posRelative.y);
+         
+         
          
          player_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());
          player_parts.get(INDEX_TRACK_RIGHT).setPosition(getX()+40, getY());
          player_parts.get(INDEX_GUN).setPosition(getX()+(getWidth()/2)-(ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2), getY()+8);
          player_parts.get(INDEX_EXHAUST_LEFT).setPosition(getX()+(getWidth()/2)-16, getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
          player_parts.get(INDEX_EXHAUST_RIGHT).setPosition(getX()+(getWidth()/2), getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
-         
     }
-    
     
     
     public void collision() {
     	setCollisionRef(getX(),getY());
     }
-    
     
     public void actionPlayerUP(PlayerMovementsEnum orientation) {this.orientationUP = orientation;}
     public void actionPlayerDOWN(PlayerMovementsEnum orientation) {this.orientationDOWN = orientation;}
@@ -322,6 +335,13 @@ public class Player extends ShootPlayerObject{
 	public void dispose() {
 		player_parts.clear();
 	}
+
+
+
+	
+
+
+	
 	
 	
 

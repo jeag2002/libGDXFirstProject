@@ -127,11 +127,17 @@ public class GameElementLogic {
 	}
     
 	public void processCollision(float delta, TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
-    	world.step(delta, 1, 1);
-    	world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
+		world.step(delta, 1, 1);
+		world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
     }
 	
+	public void configureCollision(TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
+		world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
+	}
 	
+	public void stepWorld(float delta) {
+		world.step(delta, 1, 1);
+	}
 	
 
 }

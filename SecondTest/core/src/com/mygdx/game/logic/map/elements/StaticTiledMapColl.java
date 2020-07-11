@@ -22,10 +22,10 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
 	private float W;
 	private float H;
 	private String idCode;
-	
+	private boolean isCollided;
 	
 
-	public StaticTiledMapColl(SpawnType type, TextureRegion copy, float X, float Y, float W, float H, World world) {
+	public StaticTiledMapColl(SpawnType type, TextureRegion copy, float X, float Y, float W, float H, World world, boolean isCollided) {
 		super(copy);
 		this.type = type;
 		this.X = X;
@@ -33,11 +33,11 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
 		this.W = W;
 		this.H = H;
 		this.idCode = GUID.get();
-		
-		createCollElement(X,Y,W,H,world);
+		this.isCollided = isCollided;
+		createCollElement(X,Y,W,H,world, isCollided);
 	}
 	
-	private void createCollElement(float X, float Y, float W, float H,World world) {
+	private void createCollElement(float X, float Y, float W, float H,World world, boolean isCollided) {
 		
     	BodyDef bodyDef = new BodyDef();
     	bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -59,10 +59,14 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
     	shape.setAsBox(iniW, iniH);
     	
     	FixtureDef fixtureDef = new FixtureDef();
+    	
     	fixtureDef.shape = shape;
+    	fixtureDef.isSensor = !isCollided;
     	
     	body.createFixture(fixtureDef);
     	body.setUserData(new NewItem(type,idCode));
+    	
+    	
     	
     	shape.dispose();
 	}
