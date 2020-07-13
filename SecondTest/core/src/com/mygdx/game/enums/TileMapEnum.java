@@ -39,7 +39,7 @@ public enum TileMapEnum {
 	
 	GROUND_TILE_01_E(SecondTestGDX.resources.ground_tile_01_E,22,256, 256, 256, 256),
 	GROUND_TILE_02_E(SecondTestGDX.resources.ground_tile_02_E,23,256, 256, 256, 256),
-	
+		
 	BLOCK_E_01(SecondTestGDX.resources.block_E_01,24,459,459,128,128),
 	BLOCK_E_02(SecondTestGDX.resources.block_E_02,25,255,256,128,128),
 	ICEBERG_01(SecondTestGDX.resources.Iceberg_01,26,483,529,128,128),
@@ -47,7 +47,28 @@ public enum TileMapEnum {
 	CZECH_01(SecondTestGDX.resources.Czech_01,27,256,256,128,128),
 	CZECH_02(SecondTestGDX.resources.Czech_02,28,256,256,128,128),
 	SOLAR_01(SecondTestGDX.resources.Solar_01,29,178,103,128,128),
-	SOLAR_02(SecondTestGDX.resources.Solar_02,30,128,128,128,128);
+	SOLAR_02(SecondTestGDX.resources.Solar_02,30,128,128,128,128),
+	
+	GROUND_TILE_01_F(SecondTestGDX.resources.ground_tile_01_F,31,256, 256, 256, 256),
+	GROUND_TILE_02_F(SecondTestGDX.resources.ground_tile_02_F,32,256, 256, 256, 256),
+	
+	TREE_01(SecondTestGDX.resources.Tree_01,33,128,128,128,128),
+	TREE_02(SecondTestGDX.resources.Tree_02,34,128,128,128,128),
+	TREE_03(SecondTestGDX.resources.Tree_03,35,128,128,128,128),
+	TREE_04(SecondTestGDX.resources.Tree_04,36,128,128,128,128),
+	TREE_05(SecondTestGDX.resources.Tree_05,37,128,128,128,128),
+	TREE_06(SecondTestGDX.resources.Tree_06,38,128,128,128,128),
+	TREE_07(SecondTestGDX.resources.Tree_07,39,128,128,128,128),
+	TREE_08(SecondTestGDX.resources.Tree_08,40,128,128,128,128),
+	TREE_09(SecondTestGDX.resources.Tree_09,41,128,128,128,128),
+	
+	BLOCK_F_01(SecondTestGDX.resources.block_F_01,42,256,128,256,128),
+	BLOCK_F_02(SecondTestGDX.resources.block_F_02,43,128,128,128,128),
+	
+	BUILDING_01(SecondTestGDX.resources.Building_01,44,512,512,128,128);
+	
+
+	
 	
 	private String tileMapStr;
 	private int index;

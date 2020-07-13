@@ -66,6 +66,10 @@ public class Resources extends AssetManager{
 	public String ground_tile_01_E = "maps/terrain/Ground_Tile_01_E.png";
 	public String ground_tile_02_E = "maps/terrain/Ground_Tile_02_E.png";
 	
+	//badlands
+	public String ground_tile_01_F = "maps/terrain/Ground_Tile_01_F.png";
+	public String ground_tile_02_F = "maps/terrain/Ground_Tile_02_F.png";
+	
 	
 	//elements_terrains
 	public String Palm_01 = "maps/terrain/Palm_01.png";
@@ -78,9 +82,25 @@ public class Resources extends AssetManager{
 	
 	public String Czech_01 = "maps/terrain/Czech_01.png";
 	public String Czech_02 = "maps/terrain/Czech_02.png";
+	
 	public String Solar_01 = "maps/terrain/solar_panel_1.png";
 	public String Solar_02 = "maps/terrain/solar_panel_2.png";
 	
+	
+	public String Tree_01 = "maps/terrain/Tree_01.png";
+	public String Tree_02 = "maps/terrain/Tree_02.png";
+	public String Tree_03 = "maps/terrain/Tree_03.png";
+	public String Tree_04 = "maps/terrain/Tree_04.png";
+	public String Tree_05 = "maps/terrain/Tree_05.png";
+	public String Tree_06 = "maps/terrain/Tree_06.png";
+	public String Tree_07 = "maps/terrain/Tree_07.png";
+	public String Tree_08 = "maps/terrain/Tree_08.png";
+	public String Tree_09 = "maps/terrain/Tree_09.png";
+	
+	public String Building_01 = "maps/terrain/Building_A_01.png";
+	
+	public String block_F_01 = "maps/terrain/Block_E_01.png";
+	public String block_F_02 = "maps/terrain/Block_E_02.png";
 	
 	public String Iceberg_01 = "maps/terrain/Iceberg.png";
 	
@@ -238,6 +258,26 @@ public class Resources extends AssetManager{
 		load(enemy_1_part_01,Texture.class);
 		load(enemy_1_part_02,Texture.class);
 		load(enemy_1_part_03,Texture.class);
+		
+		//Badland
+		load(ground_tile_01_F,Texture.class);
+		load(ground_tile_02_F,Texture.class);
+		
+		load(block_F_01,Texture.class);
+		load(block_F_02,Texture.class);
+		
+		load(Building_01,Texture.class);
+		
+		load(Tree_01,Texture.class);
+		load(Tree_02,Texture.class);
+		load(Tree_03,Texture.class);
+		load(Tree_04,Texture.class);
+		load(Tree_05,Texture.class);
+		load(Tree_06,Texture.class);
+		load(Tree_07,Texture.class);
+		load(Tree_08,Texture.class);
+		load(Tree_09,Texture.class);
+		
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

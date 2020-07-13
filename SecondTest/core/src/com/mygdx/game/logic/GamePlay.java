@@ -80,9 +80,7 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		int index = rand.nextInt(4);
-		
-		
+		int index = rand.nextInt(5);
 		
 		//int index = 2;
 		

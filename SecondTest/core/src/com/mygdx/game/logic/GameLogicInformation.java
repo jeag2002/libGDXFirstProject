@@ -31,11 +31,14 @@ public class GameLogicInformation {
 	public static final int JUNGLE_LEVEL = 1;
 	public static final int FABRIC_LEVEL = 2;
 	public static final int WINTER_LEVEL = 3;
+	public static final int BADLAND_LEVEL = 4;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
 	public static final int FOREST_FABRIC = 1;
 	public static final int FOREST_WINTER = 1;
+	public static final int FOREST_BADLAND = 3;
+	
 	public static final int FOREST_DEFAULT = 1;
 	
 	public static final float speedUpFactor = 1.0f;
@@ -102,6 +105,7 @@ public class GameLogicInformation {
 		else if (index == JUNGLE_LEVEL) {return FOREST_JUNGLE;}
 		else if (index == FABRIC_LEVEL) {return FOREST_FABRIC;}
 		else if (index == WINTER_LEVEL) {return FOREST_WINTER;}
+		else if (index == BADLAND_LEVEL) {return FOREST_BADLAND;}
 		else {return FOREST_DEFAULT;}
 	}
 	
@@ -157,6 +161,17 @@ public class GameLogicInformation {
 			levelMap[4] = null;
 			levelMap[5] = null;
 			
+		}else if (index == BADLAND_LEVEL) {	
+			
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING BADLAND_LEVEL");
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_F;
+			levelMap[1] = TileMapEnum.BUILDING_01;
+			levelMap[2] = TileMapEnum.BLOCK_F_02;
+			
+			levelMap[3] = TileMapEnum.TREE_07;
+			levelMap[4] = TileMapEnum.TREE_08;
+			levelMap[5] = TileMapEnum.TREE_09;
 			
 		
 		}else {

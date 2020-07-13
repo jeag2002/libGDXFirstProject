@@ -3,8 +3,8 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
 import com.mygdx.game.elements.players.simpleplayer.Player;
+import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;

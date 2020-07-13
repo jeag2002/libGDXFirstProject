@@ -3,7 +3,7 @@ package com.mygdx.game.logic.elements;
 import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
+import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.*;
 import com.mygdx.game.screens.GamePlayScreen;
 

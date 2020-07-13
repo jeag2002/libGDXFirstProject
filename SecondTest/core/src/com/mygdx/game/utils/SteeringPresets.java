@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.elements.enemies.IASteeringBehaviourEnemiesObject;
+import com.mygdx.game.elements.simpleenemy.IASteeringBehaviourEnemiesObject;
 
 /**
  * Steering Strategies

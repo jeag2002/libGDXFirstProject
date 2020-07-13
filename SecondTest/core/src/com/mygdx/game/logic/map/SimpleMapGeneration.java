@@ -13,7 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
-import com.mygdx.game.elements.enemies.simpleenemies.SimpleEnemy;
+import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.DynamicElementPositionEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
