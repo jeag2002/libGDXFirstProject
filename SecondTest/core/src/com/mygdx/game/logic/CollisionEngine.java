@@ -55,7 +55,7 @@ public class CollisionEngine implements ContactListener{
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
 		
-		//System.out.println("BEGIN Collision objectA " + objectStrA.getType() + " objectB " + objectStrB.getType());
+	    System.out.println("BEGIN Collision objectA " + objectStrA.getType() + " objectB " + objectStrB.getType());
 		
 	}
 

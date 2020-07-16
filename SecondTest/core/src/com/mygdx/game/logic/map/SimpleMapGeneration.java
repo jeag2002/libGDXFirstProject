@@ -67,6 +67,8 @@ public class SimpleMapGeneration {
    public static final int TYPE_JUNGLE = 1;
    public static final int TYPE_FABRIC = 2;
    public static final int TYPE_WINTER = 3;
+   public static final int TYPE_BADLANDS = 4;
+   public static final int TYPE_VOLCANO = 5;
    
   
    public SimpleMapGeneration() {
@@ -196,7 +198,15 @@ public class SimpleMapGeneration {
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
 					
-					StaticTiledMapColl walls = new StaticTiledMapColl(SpawnType.Wall, tRegion, (float)x*tileMap.getWidthShow(), (float)y*tileMap.getHeightShow(), (float)tileMap.getWidthShow(), (float)tileMap.getHeightShow(), world, true); 
+					StaticTiledMapColl walls = new StaticTiledMapColl(
+							SpawnType.getByIndex(typeMap+13), 
+							tRegion, 
+							(float)x*tileMap.getWidthShow(), 
+							(float)y*tileMap.getHeightShow(), 
+							(float)tileMap.getWidthShow(), 
+							(float)tileMap.getHeightShow(), 
+							world, 
+							true); 
 					wallsLst.add(walls);
 					
 					cell.setTile(walls);
@@ -243,14 +253,14 @@ public class SimpleMapGeneration {
 					TextureRegion tRegion = bufferForest[index];
 					
 					StaticTiledMapColl forest = new StaticTiledMapColl(
-							SpawnType.getByIndex(typeMap+14), 
+							SpawnType.getByIndex(typeMap+19), 
 							tRegion, 
 							(float)x*tileMapElem_1.getWidthShow(), 
 							(float)y*tileMapElem_1.getHeightShow(), 
 							(float)tileMapElem_1.getWidthShow(), 
 							(float)tileMapElem_1.getHeightShow(),
 							world,
-							(typeMap == TYPE_WINTER)
+							(typeMap == TYPE_WINTER) || (typeMap == TYPE_VOLCANO)
 							);
 					
 					forestLst.add(forest);

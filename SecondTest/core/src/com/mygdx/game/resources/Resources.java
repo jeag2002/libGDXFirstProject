@@ -104,6 +104,13 @@ public class Resources extends AssetManager{
 	
 	public String Iceberg_01 = "maps/terrain/Iceberg.png";
 	
+	//volcano
+	public String VolcanoFloor = "maps/terrain/volcano_floor_1.png";
+	public String VolcanoForest_1 = "maps/terrain/volcano_forest_1.png";
+	public String VolcanoForest_2 = "maps/terrain/volcano_forest_2.png";
+	public String VolcanoWall = "maps/terrain/volcano_wall.png";
+	
+	
 	//elements
 	public String platform = "elements/Platform.png";
 	public String dot_a = "elements/Dot_A.png";
@@ -278,7 +285,11 @@ public class Resources extends AssetManager{
 		load(Tree_08,Texture.class);
 		load(Tree_09,Texture.class);
 		
-		
+		//Volcano
+		load(VolcanoFloor,Texture.class);
+		load(VolcanoForest_1,Texture.class);
+		load(VolcanoForest_2,Texture.class);
+		load(VolcanoWall,Texture.class);
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}

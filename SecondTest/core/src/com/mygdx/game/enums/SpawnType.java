@@ -14,11 +14,20 @@ public enum SpawnType {
     MissileEnemy ("MissileEnemy",10),
     MissilePlayer ("MissilePlayer",11),
     Border("Border",12),
-    Wall("Wall",13),
-    Forest_Desert("Forest_Desert",14),
-    Forest_Jungle("Forest_Jungle",15),
-    Forest_Fabric("Forest_Fabric",16),
-    Forest_Winter("Forest_Winter",17);
+    
+    Wall_Desert("Wall_Desert",13),
+    Wall_Jungle("Wall_Jungle",14),
+    Wall_Fabric("Wall_Fabric",15),
+    Wall_Winter("Wall_Winter",16),
+    Wall_Badlands("Wall_Badlands",17),
+    Wall_Volcano("Wall_Volcano",18),
+    
+    Forest_Desert("Forest_Desert",19),
+    Forest_Jungle("Forest_Jungle",20),
+    Forest_Fabric("Forest_Fabric",21),
+    Forest_Winter("Forest_Winter",22),
+    Forest_Badlands("Forest_Badlands",23),
+    Forest_Volcano("Forest_Volcano",24);
     
     private String elementStr;
 	private int index;

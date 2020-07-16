@@ -32,12 +32,14 @@ public class GameLogicInformation {
 	public static final int FABRIC_LEVEL = 2;
 	public static final int WINTER_LEVEL = 3;
 	public static final int BADLAND_LEVEL = 4;
+	public static final int VOLCANO_LEVEL = 5;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
 	public static final int FOREST_FABRIC = 1;
 	public static final int FOREST_WINTER = 1;
 	public static final int FOREST_BADLAND = 3;
+	public static final int FOREST_VOLCANO = 1;
 	
 	public static final int FOREST_DEFAULT = 1;
 	
@@ -106,6 +108,7 @@ public class GameLogicInformation {
 		else if (index == FABRIC_LEVEL) {return FOREST_FABRIC;}
 		else if (index == WINTER_LEVEL) {return FOREST_WINTER;}
 		else if (index == BADLAND_LEVEL) {return FOREST_BADLAND;}
+		else if (index == VOLCANO_LEVEL) {return FOREST_VOLCANO;}
 		else {return FOREST_DEFAULT;}
 	}
 	
@@ -172,6 +175,17 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.TREE_07;
 			levelMap[4] = TileMapEnum.TREE_08;
 			levelMap[5] = TileMapEnum.TREE_09;
+		
+		}else if (index == VOLCANO_LEVEL) {
+			
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING VOLCANO_LEVEL");
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_01_B;
+			levelMap[1] = TileMapEnum.BLOCK_F_02;
+			levelMap[2] = TileMapEnum.VOLCANO_FOREST_1;
+			levelMap[3] = TileMapEnum.VOLCANO_WALL;
+			levelMap[4] = null;
+			levelMap[5] = null;
 			
 		
 		}else {
