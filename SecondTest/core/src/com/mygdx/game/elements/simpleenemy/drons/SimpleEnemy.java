@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -31,6 +32,9 @@ import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.SteeringPresets;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Telegraph{
 
 	
@@ -49,6 +53,10 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private StateMachine<SimpleEnemy, SimpleEnemyStateEnum> stateMachine;
 	
+	private PointLight light;
+	
+	
+	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
@@ -64,7 +72,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		
 	}
 	
-	public void init (float iniPositionX, float iniPositionY, float width,  float height,  float angle, float speed, boolean activateGun) {
+	public void init (RayHandler rayHandler, float iniPositionX, float iniPositionY, float width,  float height,  float angle, float speed, boolean activateGun) {
 		
 		super.init(SpawnType.MissileEnemy);
 		setIniAnimation();
@@ -76,6 +84,11 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		
 		setShootingActive(activateGun);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
+		
+		this.light = new PointLight(rayHandler, 20, Color.WHITE, 3, 0, 0);
+		this.light.setSoftnessLength(0f);
+		this.light.attachToBody(this.getBody());
+		
 		
 		stateMachine = new DefaultStateMachine<SimpleEnemy, SimpleEnemyStateEnum>(this, SimpleEnemyStateEnum.SLEEP);
 		setIA();

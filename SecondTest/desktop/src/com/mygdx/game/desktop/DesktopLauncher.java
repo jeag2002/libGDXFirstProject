@@ -12,7 +12,8 @@ public class DesktopLauncher {
 		config.height = 768;
 		
 		config.title = "TanksDemo";
-		config.useGL30 = true;
+		//config.useGL30 = true;
+		
 		
 		new LwjglApplication(new SecondTestGDX(), config);
 	}

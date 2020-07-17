@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -81,6 +82,7 @@ public class GamePlayScreen implements Screen{
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public void initGamePlay() {
 		GameLogicInformation.setLevel(GameLogicInformation.GAMEPLAY);
 		gamePlay.start();
@@ -89,7 +91,7 @@ public class GamePlayScreen implements Screen{
 		guiStage.activeGUI(GUIEnum.GAMEPLAY);
 		
 		spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
-		
+		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 		
 		stopMusic();
 		//initMusic();
@@ -131,8 +133,9 @@ public class GamePlayScreen implements Screen{
 		}
 		
 		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
-		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+	
 		
 		//DRAW BACKGROUND WHEN NO GAMEPLAY
 		spriteBatch.begin();
@@ -144,14 +147,18 @@ public class GamePlayScreen implements Screen{
 		
 		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
-			gamePlay.drawMapCamera();
-			gamePlay.drawMapBef();
+			if (gamePlay.isStart()) {
+				gamePlay.drawMapCamera();
+				gamePlay.drawMapBef();
+			}
 		}
 		
 		
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
+				//gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
+				
 			}
 		}
 		
@@ -164,9 +171,13 @@ public class GamePlayScreen implements Screen{
 		}	
 		spriteBatch.end();
 		
-		//DRAW BACKGROUND WHEN GAMEPLAY (FOREST)
+		//DRAW BACKGROUND WHEN GAMEPLAY (FOREST) + LIGHTS
 		if (gamePlay != null) {
-			gamePlay.drawMapAf();
+			if (gamePlay.isStart()) {
+				gamePlay.drawMapAf();
+				gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
+				gamePlay.renderRayHandler();
+			}
 		}
 		
 		
@@ -200,6 +211,7 @@ public class GamePlayScreen implements Screen{
 	
 	@Override
 	public void dispose() {
+		gamePlay.dispose();
 	}
 	
 	

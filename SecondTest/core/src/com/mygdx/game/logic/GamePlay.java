@@ -20,12 +20,22 @@ import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.screens.elements.Background;
 import com.mygdx.game.utils.NewItem;
 
+
+
+//https://stackoverflow.com/questions/33439674/box2dlights-not-works-in-libgdx
+//
+
 public class GamePlay {
 	
 	private static final int INDEX_BACKGROUND = 0;
 	private static final int INDEX_BORDER = 1;
 	private static final int INDEX_TILEMAP = 2;
 	private static final int INDEX_FOREST = 3;
+	
+	private static final int NO_LIGHTS = 0;
+	private static final int LIGHTS = 1;
+	
+	private int lights;
 	
 	private GamePlayScreen gPS;
 	private Background background;
@@ -38,9 +48,9 @@ public class GamePlay {
 	
 	private GameElementLogic gameLogic;
 	
+	
 	private SimpleMapGeneration sMG;
 	private boolean started;
-
 	
 	private Random rand;
 	
@@ -53,6 +63,8 @@ public class GamePlay {
 		this.pEnum = PlayerMovementsEnum.IDLE;
 		this.rand = new Random();	
 		this.gameLogic = new GameElementLogic(gPS);
+		
+		this.lights = -1;
 	}
 	
 	public void start() {
@@ -99,6 +111,10 @@ public class GamePlay {
 									   GameLogicInformation.getRandomForestTileMap(index),
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIES);
+		this.lights = sMG.setLights();
+		
+		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
+		
 		situationPlayer();
 	}
 	
@@ -286,10 +302,26 @@ public class GamePlay {
 		}
 	}
 	
+	
+	public void renderRayHandler() {
+		if (started) {
+			if (tiledMap != null) {
+				if (this.lights == LIGHTS) {
+					gameLogic.renderRayHandler();
+				}
+			}
+		}
+	}
+	
+	
 	public OrthographicCamera getCamera() {
 		return this.camera;
 	}
 	
+	
+	public void dispose() {
+		gameLogic.dispose();
+	}
 	
 
 }

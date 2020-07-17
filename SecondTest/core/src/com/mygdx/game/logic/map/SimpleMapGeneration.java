@@ -106,6 +106,11 @@ public class SimpleMapGeneration {
 	   caveGenerator.generate();
    }
    
+   public int setLights() {
+	   int lights = random.nextInt(2);
+	   return lights;
+   }
+   
    
    private void generateForest(int width, int height) {
 	   

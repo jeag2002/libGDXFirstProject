@@ -12,10 +12,13 @@ import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.NewItem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 public class GameElementLogic {
 	
@@ -23,6 +26,9 @@ public class GameElementLogic {
 	private Player player;
 	private GamePlayScreen gPS;
 	private SpawnPool spawnPool;
+	
+	private RayHandler rayHandler;
+	private PointLight myLight;
 	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
@@ -35,6 +41,21 @@ public class GameElementLogic {
 		
 		this.gPS = gPS;
 		this.world = new World(new Vector2(0,0),true);
+		this.rayHandler = new RayHandler(world);
+		
+		rayHandler.setCulling(true);
+        rayHandler.useDiffuseLight(true);
+        rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f,1.0f);
+        
+        
+        
+        
+		this.rayHandler.setShadows(true);
+		
+		this.myLight = new PointLight(rayHandler, 20, Color.WHITE, 3, 0, 0);
+		this.myLight.setSoftnessLength(0f);
+		
+		
 	}
 	
 	public void initWorld () {
@@ -49,18 +70,18 @@ public class GameElementLogic {
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
 		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(iniPositionX, iniPositionY, width, height);
+		this.myLight.attachToBody(player.getBody());
 	}
 	
 	public void generateEnemy(NewItem itemEnemy) {
 		
 		SimpleEnemy sE = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_01);
-		sE.init(itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
+		sE.init(rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		sE.setSpawned(true);
 		
 	}
 	
-	
-	
+
 	public World getWorld() {
 		return world;
 	}
@@ -73,6 +94,13 @@ public class GameElementLogic {
 		return spawnPool;
 	}
 	
+	public RayHandler getRayHandler() {
+		return rayHandler;
+	}
+	
+	public PointLight getPointLight() {
+		return myLight;
+	}
 	
 	public void restart() {
 		
@@ -125,11 +153,11 @@ public class GameElementLogic {
 			player.update(delta);
 		}
 	}
-    
-	public void processCollision(float delta, TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
-		world.step(delta, 1, 1);
-		world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
-    }
+	
+	
+	public void renderRayHandler() {
+		rayHandler.updateAndRender();
+	}
 	
 	public void configureCollision(TiledMap map, ArrayList<StaticTiledMapColl> walls, ArrayList<StaticTiledMapColl> forest) {
 		world.setContactListener(new CollisionEngine(gPS,map, walls, forest));
@@ -139,5 +167,11 @@ public class GameElementLogic {
 		world.step(delta, 1, 1);
 	}
 	
+	
+	public void dispose() {
+		world.dispose();
+		rayHandler.dispose();
+		myLight.dispose();
+	}
 
 }

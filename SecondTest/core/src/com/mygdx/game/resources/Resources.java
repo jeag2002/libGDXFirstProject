@@ -153,6 +153,35 @@ public class Resources extends AssetManager{
 	public String enemy_1_part_03 = "elements/enemy_1/Bomb_Idle_B_002.png";
 	
 	
+	//enemy_2
+	public String gunEnemy_2_A = "elements/enemy_2/Gun_01.png";
+	public String hullEnemy_2_A = "elements/enemy_2/Hull_01.png";
+	public String tire_03 = "elements/tires/Tire_Track_03.png";
+	public String tire_04 = "elements/tires/Tire_Track_04.png";
+	
+	//enemy_3
+	public String enemy_3_01 = "elements/enemy_3/Bomb_Idle_A_000.png";
+	public String enemy_3_02 = "elements/enemy_3/Bomb_Idle_A_001.png";
+	public String enemy_3_03 = "elements/enemy_3/Bomb_Idle_A_002.png";		
+	public String enemy_3_04 = "elements/enemy_3/Bomb_Idle_A_003.png";
+	public String enemy_3_05 = "elements/enemy_3/Bomb_Idle_A_004.png";
+	public String enemy_3_06 = "elements/enemy_3/Bomb_Idle_A_005.png";
+	public String enemy_3_07 = "elements/enemy_3/Bomb_Idle_A_006.png";
+	public String enemy_3_08 = "elements/enemy_3/Bomb_Idle_A_007.png";
+	public String enemy_3_09 = "elements/enemy_3/Bomb_Idle_A_008.png";
+	public String enemy_3_0A = "elements/enemy_3/Bomb_Idle_A_009.png";
+	
+	public String laser = "elements/shots/laser/Laser.png";
+	public String plasma = "elements/shots/laser/Plasma.png";
+	
+	public String explosions_01 = "elements/explosions/Explosion_A_01.png";
+	public String explosions_02 = "elements/explosions/Explosion_A_02.png";
+	public String explosions_03 = "elements/explosions/Explosion_A_03.png";
+	public String explosions_04 = "elements/explosions/Explosion_A_04.png";
+	public String explosions_05 = "elements/explosions/Explosion_A_05.png";
+	
+	
+	
 	
 	public void loadAssets() {
 		
@@ -290,6 +319,34 @@ public class Resources extends AssetManager{
 		load(VolcanoForest_1,Texture.class);
 		load(VolcanoForest_2,Texture.class);
 		load(VolcanoWall,Texture.class);
+		
+		
+		//enemy_2
+		load(gunEnemy_2_A,Texture.class);
+		load(hullEnemy_2_A ,Texture.class);
+		load(tire_03 ,Texture.class);
+		load(tire_04 ,Texture.class);
+		
+		//enemy_3
+		load(enemy_3_01 ,Texture.class);
+		load(enemy_3_02 ,Texture.class);
+		load(enemy_3_03 ,Texture.class);		
+		load(enemy_3_04 ,Texture.class);
+		load(enemy_3_05 ,Texture.class);
+		load(enemy_3_06 ,Texture.class);
+		load(enemy_3_07 ,Texture.class);
+		load(enemy_3_08 ,Texture.class);
+		load(enemy_3_09 ,Texture.class);
+		load(enemy_3_0A ,Texture.class);
+		
+		load(laser ,Texture.class);
+		load(plasma ,Texture.class);
+		
+		load(explosions_01 ,Texture.class);
+		load(explosions_02 ,Texture.class);
+		load(explosions_03 ,Texture.class);
+		load(explosions_04 ,Texture.class);
+		load(explosions_05 ,Texture.class);
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}
