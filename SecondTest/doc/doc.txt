@@ -35,6 +35,7 @@ https://www.gamedevelopment.blog/full-libgdx-game-tutorial-ashley-steering-behav
 //Lights
 https://www.youtube.com/watch?v=p024Ix0I8W0
 https://github.com/macbury/R0x16
+https://libgdx.info/box2d-light-pooled-particle-effects-and-particleemitter2d/
 
 A*
 https://www.youtube.com/watch?v=wu3vzR9k3QA

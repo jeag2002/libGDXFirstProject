@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 
+import box2dLight.ConeLight;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
@@ -28,7 +29,9 @@ public class GameElementLogic {
 	private SpawnPool spawnPool;
 	
 	private RayHandler rayHandler;
-	private PointLight myLight;
+	
+	private PointLight myLight_point;
+	private ConeLight myLight_cone;
 	
 	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
@@ -45,15 +48,16 @@ public class GameElementLogic {
 		
 		rayHandler.setCulling(true);
         rayHandler.useDiffuseLight(true);
-        rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f,1.0f);
+        rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f,1.0f);
         
-        
-        
-        
+       
 		this.rayHandler.setShadows(true);
 		
-		this.myLight = new PointLight(rayHandler, 20, Color.WHITE, 3, 0, 0);
-		this.myLight.setSoftnessLength(0f);
+		this.myLight_point = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
+		this.myLight_cone = new ConeLight(rayHandler, 20, Color.WHITE, 25, 0, 0, 0, 9);
+		
+		this.myLight_point.setSoftnessLength(1f);
+		this.myLight_cone.setSoftnessLength(1f);
 		
 		
 	}
@@ -70,7 +74,9 @@ public class GameElementLogic {
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
 		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(iniPositionX, iniPositionY, width, height);
-		this.myLight.attachToBody(player.getBody());
+		
+		this.myLight_point.attachToBody(player.getBody());
+		this.myLight_cone.attachToBody(player.getBody(), 0, 0, 90.0f);
 	}
 	
 	public void generateEnemy(NewItem itemEnemy) {
@@ -98,9 +104,7 @@ public class GameElementLogic {
 		return rayHandler;
 	}
 	
-	public PointLight getPointLight() {
-		return myLight;
-	}
+
 	
 	public void restart() {
 		
@@ -171,7 +175,8 @@ public class GameElementLogic {
 	public void dispose() {
 		world.dispose();
 		rayHandler.dispose();
-		myLight.dispose();
+		myLight_point.dispose();
+		myLight_cone.dispose();
 	}
 
 }

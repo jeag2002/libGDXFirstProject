@@ -180,6 +180,8 @@ public class Resources extends AssetManager{
 	public String explosions_04 = "elements/explosions/Explosion_A_04.png";
 	public String explosions_05 = "elements/explosions/Explosion_A_05.png";
 	
+	//lightmaps
+	public String lightmap = "maps/lights/lightmap.png";
 	
 	
 	
@@ -347,6 +349,8 @@ public class Resources extends AssetManager{
 		load(explosions_03 ,Texture.class);
 		load(explosions_04 ,Texture.class);
 		load(explosions_05 ,Texture.class);
+		
+		load(lightmap, Texture.class);
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}

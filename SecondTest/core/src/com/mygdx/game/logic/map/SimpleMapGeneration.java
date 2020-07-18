@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile.BlendMode;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -55,9 +56,10 @@ public class SimpleMapGeneration {
     
    public static final int INDEX_BACKGROUND = 0;
    public static final int INDEX_BORDER = 1;
-   public static final int INDEX_WALLS = 2;
-   public static final int INDEX_FOREST = 3;
-   public static final int INDEX_ENEMIES = 4;
+   public static final int INDEX_LIGHTMAPS = 2;
+   public static final int INDEX_WALLS = 3;
+   public static final int INDEX_FOREST = 4;
+   public static final int INDEX_ENEMIES = 5;
     
    public static final int INDEX_PLAYER = 5;
    public static final int SINGLE_PLAYER = 1;
@@ -188,6 +190,36 @@ public class SimpleMapGeneration {
 	}
 	
 	
+	
+	public TiledMapTileLayer createLightMap(int width, int height, int width_tile, int heigh_tile) {
+		
+		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, width_tile, heigh_tile);
+		
+		Texture text = SecondTestGDX.resources.get(SecondTestGDX.resources.lightmap);
+		text = DrawUtils.resizeTexture(text, 256, 256, 128, 128);
+		TextureRegion tRegion = new TextureRegion(text);
+		
+		boolean[][] caveMap = caveGenerator.getMap();
+		
+		for(int x=1; x<width-1; x++) {
+			for(int y=1; y<height-1; y++) {
+				
+				if (caveMap[x-1][y-1]) {
+					Cell cell = new Cell();
+					StaticTiledMapTile ligthmap = new StaticTiledMapTile(tRegion);
+					cell.setTile(ligthmap);
+					layer.setCell(x, y, cell);
+				}
+				
+			}
+		}
+		
+		return layer;
+	}
+	
+	
+	
+	
 	public TiledMapTileLayer createCave(int width, int height, TileMapEnum tileMap) {
 		
 		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, tileMap.getWidthShow(), tileMap.getHeightShow());
@@ -203,7 +235,7 @@ public class SimpleMapGeneration {
 				if (caveMap[x-1][y-1]) {
 					Cell cell = new Cell();
 					
-					StaticTiledMapColl walls = new StaticTiledMapColl(
+					StaticTiledMapColl wall = new StaticTiledMapColl(
 							SpawnType.getByIndex(typeMap+13), 
 							tRegion, 
 							(float)x*tileMap.getWidthShow(), 
@@ -212,9 +244,11 @@ public class SimpleMapGeneration {
 							(float)tileMap.getHeightShow(), 
 							world, 
 							true); 
-					wallsLst.add(walls);
+				
+						
+					wallsLst.add(wall);
 					
-					cell.setTile(walls);
+					cell.setTile(wall);
 					layer.setCell(x, y, cell);
 				}
 				
@@ -467,8 +501,9 @@ public class SimpleMapGeneration {
 		
 		layers.add(createBackground(width_bg, height_bg, tileBack));   //INDEX_0 => Background
 		layers.add(createBorder(width_tl, height_tl, tileBorder));	   //INDEX_1 => Border
-		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_2 => Walls
-		layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_3 => Forests
+		layers.add(createLightMap(width_tl, height_tl, 128, 128));	   //INDEX_2 => LightMap	
+		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_3 => Walls
+		layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_4 => Forests
 		
 		
 		if (numPlayers > SINGLE_PLAYER) {

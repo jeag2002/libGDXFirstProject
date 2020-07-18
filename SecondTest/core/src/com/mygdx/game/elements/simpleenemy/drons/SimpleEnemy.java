@@ -85,7 +85,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		setShootingActive(activateGun);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		
-		this.light = new PointLight(rayHandler, 20, Color.WHITE, 3, 0, 0);
+		this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
 		this.light.setSoftnessLength(0f);
 		this.light.attachToBody(this.getBody());
 		
@@ -124,11 +124,13 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 			
 			this.getBody().setLinearVelocity(0.0f, 0.0f);
 			this.getBody().setAngularVelocity(0.0f);	
+			light.setActive(false);
 			
 			this.setBehavior(null);
 		}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.SEEK)) {
 			
 			this.setBehavior(SteeringPresets.arrive(entity, target, true));
+			light.setActive(true);
 		
 		}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
 			
@@ -141,6 +143,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 			this.getBody().setAngularVelocity(0.0f);			
 			
 			this.setBehavior(null);
+			light.setActive(true);
 		}
 	}
 	

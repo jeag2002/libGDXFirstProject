@@ -94,7 +94,7 @@ public class GamePlayScreen implements Screen{
 		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 		
 		stopMusic();
-		//initMusic();
+		initMusic();
 	}
 	
 	
@@ -175,8 +175,12 @@ public class GamePlayScreen implements Screen{
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				gamePlay.drawMapAf();
+				
 				gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 				gamePlay.renderRayHandler();
+				
+				gamePlay.drawMapGloomingVolcano(delta);
+				
 			}
 		}
 		

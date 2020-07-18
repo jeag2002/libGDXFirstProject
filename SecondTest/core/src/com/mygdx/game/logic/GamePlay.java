@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -21,10 +23,6 @@ import com.mygdx.game.screens.elements.Background;
 import com.mygdx.game.utils.NewItem;
 
 
-
-//https://stackoverflow.com/questions/33439674/box2dlights-not-works-in-libgdx
-//
-
 public class GamePlay {
 	
 	private static final int INDEX_BACKGROUND = 0;
@@ -35,13 +33,16 @@ public class GamePlay {
 	private static final int NO_LIGHTS = 0;
 	private static final int LIGHTS = 1;
 	
+	private static final float TIME = 0.5f;
+	
+	
 	private int lights;
 	
 	private GamePlayScreen gPS;
 	private Background background;
 	
 	private TiledMap tiledMap;
-	private TiledMapRenderer tiledMapRenderer;
+	private OrthogonalTiledMapRenderer tiledMapRenderer;
 	private OrthographicCamera camera;
 	
 	private PlayerMovementsEnum pEnum;
@@ -54,6 +55,11 @@ public class GamePlay {
 	
 	private Random rand;
 	
+	private float time;
+	
+	private boolean pulse;
+	
+	
 	public GamePlay(GamePlayScreen gPS) {	
 		this.gPS = gPS;
 		this.background = new Background();
@@ -64,7 +70,11 @@ public class GamePlay {
 		this.rand = new Random();	
 		this.gameLogic = new GameElementLogic(gPS);
 		
+		this.time = 0;
+		
 		this.lights = -1;
+		this.pulse = false;
+		
 	}
 	
 	public void start() {
@@ -92,13 +102,20 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		int index = rand.nextInt(6);
+		//int index = rand.nextInt(6);
+		int index = GameLogicInformation.VOLCANO_LEVEL;
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		
 		this.gameLogic.initWorld();
 		
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
+		
+		//this.lights = sMG.setLights();
+		//this.lights = NO_LIGHTS;
+		this.lights = LIGHTS;
+		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
+		
 		tiledMap = sMG.createSimpleMap(index,
 									   SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
@@ -111,9 +128,7 @@ public class GamePlay {
 									   GameLogicInformation.getRandomForestTileMap(index),
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIES);
-		this.lights = sMG.setLights();
 		
-		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		situationPlayer();
 	}
@@ -268,10 +283,18 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				
-				if (sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) {
+				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) ) {
+					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
 					tiledMapRenderer.render(data);
-				}else {
+				
+				}else if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
+					
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(data);
+				
+				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL)){
+					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				}
@@ -283,13 +306,42 @@ public class GamePlay {
 	public void drawMapAf() {
 		if (started) {
 			if (tiledMap != null) {
-				if (sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) {
-					int[] data = {SimpleMapGeneration.INDEX_FOREST};
-					tiledMapRenderer.render(data);
+				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL)) {
+					if (this.lights != LIGHTS) {
+						int[] data = {SimpleMapGeneration.INDEX_FOREST};
+						tiledMapRenderer.render(data);
+					}
 				}
 			}
 		}
+	}
+	
+	
+	public void drawMapGloomingVolcano(float delta) {
 		
+		if (started) {
+			if (tiledMap != null) {
+				if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
+					
+					this.time += delta;
+					if (time >= TIME) {time = 0; pulse = !pulse;}
+					
+					
+					int[] index_walls = {SimpleMapGeneration.INDEX_WALLS};
+					tiledMapRenderer.render(index_walls);
+					
+					if (pulse) {
+						tiledMapRenderer.getBatch().begin();
+						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
+						tiledMapRenderer.renderTileLayer(sMG.createLightMap( SecondTestGDX.sizeMapTileWidth_TL, SecondTestGDX.sizeMapTileHeight_TL, 128, 128));
+						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+						tiledMapRenderer.getBatch().end();
+					}
+					
+					
+				}
+			}
+		}
 	}
 	
 	
