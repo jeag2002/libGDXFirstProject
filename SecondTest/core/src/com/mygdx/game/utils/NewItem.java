@@ -10,12 +10,17 @@ public class NewItem {
 	
 	private float X;
 	private float Y;
+
+	private int index_X;
+	private int index_Y;
 	
 	private float width;
 	private float height;
 	
 	private float angle;
 	private float speed;
+	
+	private int index; 
 	
 	private String idCode;
 	
@@ -25,10 +30,15 @@ public class NewItem {
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
+		
+		this.index_X = 0;
+		this.index_Y = 0;
+		
 		this.width = 0.0f;
 		this.height = 0.0f;
 		this.angle = 0.0f;
 		this.speed = 0.0f;
+		this.index = 0;
 		this.idCode = "";
 	}
 	
@@ -39,10 +49,15 @@ public class NewItem {
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
+		
+		this.index_X = 0;
+		this.index_Y = 0;
+		
 		this.width = 0.0f;
 		this.height = 0.0f;
 		this.angle = 0.0f;
 		this.speed = 0.0f;
+		this.index = 0;
 		this.idCode = idCode;
 	}
 	
@@ -54,13 +69,53 @@ public class NewItem {
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
+		
+		this.index_X = 0;
+		this.index_Y = 0;
+		
 		this.width = 0.0f;
 		this.height = 0.0f;
 		this.angle = 0.0f;
 		this.speed = 0.0f;
+		this.index = 0;
+		this.idCode = "";		
+	}
+	
+	public NewItem(SpawnType type, float x, float y, int index) {
+		super();
+		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = x;
+		this.Y = y;
+		this.index_X = 0;
+		this.index_Y = 0;
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.index = index;
+		this.idCode = "";
+	}
+	
+	public NewItem(SpawnType type, float x, float y, int index_X, int index_Y, int index) {
+		
+		super();
+		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = x;
+		this.Y = y;
+		this.index_X = index_X;
+		this.index_Y = index_Y;
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.index = index;
 		this.idCode = "";
 		
+		
 	}
+	
 	
 	
 	public NewItem(SpawnType type, DynamicElementPositionEnum position, float x, float y) {
@@ -69,10 +124,13 @@ public class NewItem {
 		this.ppEnum = position;
 		this.X = x;
 		this.Y = y;
+		this.index_X = 0;
+		this.index_Y = 0;
 		this.width = 0.0f;
 		this.height = 0.0f;
 		this.angle = 0.0f;
 		this.speed = 0.0f;
+		this.index = 0;
 		this.idCode = "";
 	}
 	
@@ -84,10 +142,13 @@ public class NewItem {
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
+		this.index_X = 0;
+		this.index_Y = 0;
 		this.width = width;
 		this.height = height;
 		this.angle = angle;
 		this.speed = speed;
+		this.index = 0;
 		this.idCode = "";
 	}
 	
@@ -165,6 +226,32 @@ public class NewItem {
 		this.idCode = idCode;
 	}
 	
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
+	public int getIndex_X() {
+		return index_X;
+	}
+
+
+	public void setIndex_X(int index_X) {
+		this.index_X = index_X;
+	}
+
+
+	public int getIndex_Y() {
+		return index_Y;
+	}
+
+
+	public void setIndex_Y(int index_Y) {
+		this.index_Y = index_Y;
+	}
 	
 
 }

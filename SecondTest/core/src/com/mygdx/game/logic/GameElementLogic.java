@@ -3,10 +3,12 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.complexenemy.tanks.TankEnemy;
 import com.mygdx.game.elements.players.simpleplayer.Player;
 import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
+import com.mygdx.game.ia.MapGraph;
 import com.mygdx.game.logic.elements.SpawnObject;
 import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
@@ -33,7 +35,9 @@ public class GameElementLogic {
 	private PointLight myLight_point;
 	private ConeLight myLight_cone;
 	
-	private ArrayList<SpawnObject> enemies = new ArrayList<SpawnObject>();
+	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
+	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
+	private ArrayList<SpawnObject> enemiesMine = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
@@ -64,9 +68,14 @@ public class GameElementLogic {
 	
 	public void initWorld () {
 		spawnPool = new SpawnPool(world, gPS);
-		spawnPool.addPool(SpawnType.Enemy_01, enemies);
+		
+		spawnPool.addPool(SpawnType.Enemy_01, enemiesDron);
+		spawnPool.addPool(SpawnType.Enemy_02, enemiesTank);
+		spawnPool.addPool(SpawnType.Enemy_03, enemiesMine);
+		
 		spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
+        
         spawnPool.addPool(SpawnType.Explosion, explosions);
         spawnPool.addPool(SpawnType.Item, items);
 	}
@@ -79,13 +88,19 @@ public class GameElementLogic {
 		this.myLight_cone.attachToBody(player.getBody(), 0, 0, 90.0f);
 	}
 	
-	public void generateEnemy(NewItem itemEnemy) {
+	public void generateEnemyDRON(NewItem itemEnemy) {
 		
 		SimpleEnemy sE = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_01);
 		sE.init(rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		sE.setSpawned(true);
-		
 	}
+	
+	public void generateEnemyTANK(MapGraph map, NewItem itemEnemy, NewItem Objective) {
+		TankEnemy tank = (TankEnemy)spawnPool.getFromPool(SpawnType.Enemy_02);
+		tank.init(map, itemEnemy, Objective, rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
+		tank.setSpawned(true);
+	}
+	
 	
 
 	public World getWorld() {
@@ -108,16 +123,26 @@ public class GameElementLogic {
 	
 	public void restart() {
 		
-		enemies.clear();
+		enemiesDron.clear();
+		enemiesTank.clear();
+		enemiesMine.clear();
+		
 		missilesEnemies.clear();
 		missilesPlayer.clear();
-		explosions.clear();
 		
+		explosions.clear();
+		items.clear();
 	}
 	
 	public void drawSpawns(SpriteBatch sb) {
 	        
-	    for (SpawnObject e: enemies) {
+	    for (SpawnObject e: enemiesDron) {
+	        if (e.isSpawned()){e.draw(sb);}
+	    }
+	    for (SpawnObject e: enemiesTank) {
+	        if (e.isSpawned()){e.draw(sb);}
+	    }
+	    for (SpawnObject e: enemiesMine) {
 	        if (e.isSpawned()){e.draw(sb);}
 	    }
 	    for (SpawnObject m: missilesEnemies) {
@@ -129,6 +154,9 @@ public class GameElementLogic {
 	    for (SpawnObject ex: explosions) {
 	        if (ex.isSpawned()) {ex.draw(sb);}
 	    }
+	    for (SpawnObject ex: items) {
+	        if (ex.isSpawned()) {ex.draw(sb);}
+	    }
 	}
 	
 	public void drawPlayer(SpriteBatch sb) {
@@ -138,9 +166,15 @@ public class GameElementLogic {
 	}
 	
 	public void updateSpawns(float delta) {
-    	for (SpawnObject e: enemies) {
+    	for (SpawnObject e: enemiesDron) {
             if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
-        } 
+        }
+    	for (SpawnObject e: enemiesTank) {
+            if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
+        }
+    	for (SpawnObject e: enemiesMine) {
+            if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
+        }
     	for (SpawnObject m: missilesEnemies) {
             if (m.isSpawned()) {m.update(delta, GameLogicInformation.speedUpFactor);}
         }
@@ -150,6 +184,10 @@ public class GameElementLogic {
         for (SpawnObject ex: explosions) {
              if (ex.isSpawned()) {ex.update(delta, GameLogicInformation.speedUpFactor);}
         }
+        for (SpawnObject ex: items) {
+	        if (ex.isSpawned()) {ex.update(delta, GameLogicInformation.speedUpFactor);}
+	    }
+        
     }
 	
 	public void updatePlayer(float delta) {

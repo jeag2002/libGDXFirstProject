@@ -20,7 +20,11 @@ public class GameLogicInformation {
 	public static final float PIXELS_TO_METERS = 100f;
 	
 	public static final int PLAYERS = 1;
-	public static final int ENEMIES = 100;
+	
+	public static final int ENEMIESDRON = 100;
+	public static final int ENEMIESTANK = 4;
+	public static final int ENEMIESMINE = 20;
+	
 	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
 	
 	public static final double SEEK_DISTANCE = 500;

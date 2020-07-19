@@ -3,7 +3,7 @@ package com.mygdx.game.enums;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.SecondTestGDX;
 
-public enum ElementEnum {
+public enum ElementEnum {	
 	
 	HULL_PLAYER_1(SecondTestGDX.resources.bodyPlayer_01, 0, 256, 256, 64, 64),
 	GUN_PLAYER_1_A(SecondTestGDX.resources.gunPlayer_01_A, 1, 94, 212, 32, 64),
@@ -31,7 +31,12 @@ public enum ElementEnum {
 	
 	ENEMY_1_LEFT_WING(SecondTestGDX.resources.enemy_1_part_01,21,256,256,16,16),
 	ENEMY_1_RIGHT_WING(SecondTestGDX.resources.enemy_1_part_02,22,256,256,16,16),
-	ENEMY_1_BODY(SecondTestGDX.resources.enemy_1_part_03,23,256,256,16,16);
+	ENEMY_1_BODY(SecondTestGDX.resources.enemy_1_part_03,23,256,256,16,16),
+	
+	HULL_ENEMY2(SecondTestGDX.resources.hullEnemy_2_A, 24, 256, 256, 64, 64),
+	GUN_ENEMY2(SecondTestGDX.resources.gunEnemy_2_A, 25, 94, 212, 32, 64),
+	TRACK_03(SecondTestGDX.resources.tire_03,26,42,246,16,64),
+	TRACK_04(SecondTestGDX.resources.tire_04,27,42,246,16,64);
 	
 	
 	

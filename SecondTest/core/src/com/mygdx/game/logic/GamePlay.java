@@ -25,10 +25,12 @@ import com.mygdx.game.utils.NewItem;
 
 public class GamePlay {
 	
-	private static final int INDEX_BACKGROUND = 0;
-	private static final int INDEX_BORDER = 1;
-	private static final int INDEX_TILEMAP = 2;
-	private static final int INDEX_FOREST = 3;
+	
+	private static final int INDEX_GAMELOGICINFORMATION_BACKGROUND = 0;
+	private static final int INDEX_GAMELOGICINFORMATION_BORDER = 1;
+	private static final int INDEX_GAMELOGICINFORMATION_TILEMAP = 2;
+	private static final int INDEX_GAMELOGICINFORMATION_FOREST = 3;
+	
 	
 	private static final int NO_LIGHTS = 0;
 	private static final int LIGHTS = 1;
@@ -103,17 +105,15 @@ public class GamePlay {
 	public void processTileGeneration() {
 		
 		//int index = rand.nextInt(6);
-		int index = GameLogicInformation.VOLCANO_LEVEL;
+		int index = GameLogicInformation.DESERT_LEVEL;
 		
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
-		
 		this.gameLogic.initWorld();
-		
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		
 		//this.lights = sMG.setLights();
-		//this.lights = NO_LIGHTS;
-		this.lights = LIGHTS;
+		this.lights = NO_LIGHTS;
+		//this.lights = LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -121,13 +121,15 @@ public class GamePlay {
 									   SecondTestGDX.sizeMapTileHeight_BG,
 									   SecondTestGDX.sizeMapTileWidth_TL, 
 									   SecondTestGDX.sizeMapTileHeight_TL, 
-									   data[INDEX_BACKGROUND],
-									   data[INDEX_BORDER], 
-									   data[INDEX_TILEMAP],
-									   data[INDEX_FOREST],
+									   data[INDEX_GAMELOGICINFORMATION_BACKGROUND],
+									   data[INDEX_GAMELOGICINFORMATION_BORDER], 
+									   data[INDEX_GAMELOGICINFORMATION_TILEMAP],
+									   data[INDEX_GAMELOGICINFORMATION_FOREST],
 									   GameLogicInformation.getRandomForestTileMap(index),
 									   GameLogicInformation.PLAYERS,
-									   GameLogicInformation.ENEMIES);
+									   GameLogicInformation.ENEMIESDRON,
+									   GameLogicInformation.ENEMIESTANK,
+									   GameLogicInformation.ENEMIESMINE);
 		
 		
 		situationPlayer();
@@ -180,8 +182,18 @@ public class GamePlay {
 			    	this.camera.update();
 			    }
 			    
-			    ArrayList<NewItem> enemyLst = sMG.getEnemies();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemy(sE);}
+			   
+			    //-->ENEMY DRON
+			    ArrayList<NewItem> enemyLst = sMG.getEnemiesDRON();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    
+			    //-->ENEMY TANK
+			    enemyLst = sMG.getEnemiesTANK();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, new NewItem());}
+			    
+			    //-->ENEMY MINE
+			    enemyLst = sMG.getEnemiesMINE();
+			    for(NewItem sE: enemyLst) {}
 			    
 			    gameLogic.configureCollision(tiledMap, sMG.getWallsList(), sMG.getForestList());
 			}

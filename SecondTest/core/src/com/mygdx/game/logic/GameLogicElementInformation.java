@@ -8,6 +8,41 @@ import com.mygdx.game.utils.DrawUtils;
 public class GameLogicElementInformation {
 	
 	
+	public static final Texture[] hullEnemy02Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.HULL_ENEMY2.getElementStr(),Texture.class),
+					ElementEnum.HULL_ENEMY2.getWidthBef(),
+					ElementEnum.HULL_ENEMY2.getHeightBef(),
+					ElementEnum.HULL_ENEMY2.getWidthShow(),
+					ElementEnum.HULL_ENEMY2.getHeightShow())
+	};
+	
+	public static final Texture[] cannonEnemy02Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY2.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY2.getWidthBef(), 
+					ElementEnum.GUN_ENEMY2.getHeightBef(), 
+					ElementEnum.GUN_ENEMY2.getWidthShow(), 
+					ElementEnum.GUN_ENEMY2.getHeightShow())		
+	};
+	
+	public static final Texture[] trackEnemyText = {
+		DrawUtils.resizeTexture(
+				SecondTestGDX.resources.get(ElementEnum.TRACK_03.getElementStr(),Texture.class),
+				ElementEnum.TRACK_03.getWidthBef(),
+				ElementEnum.TRACK_03.getHeightBef(),
+				ElementEnum.TRACK_03.getWidthShow(),
+				ElementEnum.TRACK_03.getHeightShow()),
+		
+		DrawUtils.resizeTexture(
+				SecondTestGDX.resources.get(ElementEnum.TRACK_04.getElementStr(),Texture.class),
+				ElementEnum.TRACK_04.getWidthBef(),
+				ElementEnum.TRACK_04.getHeightBef(),
+				ElementEnum.TRACK_04.getWidthShow(),
+				ElementEnum.TRACK_04.getHeightShow())			
+		};
+	
+	
 	
 	
 	
@@ -44,6 +79,9 @@ public class GameLogicElementInformation {
 				ElementEnum.TRACK_02.getWidthShow(),
 				ElementEnum.TRACK_02.getHeightShow())			
 		};
+	
+	
+	
 	
 	
 	public static final Texture[] ExhaustPlayerText = {

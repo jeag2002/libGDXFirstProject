@@ -3,6 +3,7 @@ package com.mygdx.game.logic.elements;
 import java.util.*;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.complexenemy.tanks.TankEnemy;
 import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.*;
 import com.mygdx.game.screens.GamePlayScreen;
@@ -71,6 +72,7 @@ public class SpawnPool {
     	
     	SpawnObject returnObject = null;
     	
+    	//DRONE
     	ArrayList<SpawnObject> eS1 = pools.get(SpawnType.Enemy_01);
     	for(SpawnObject sO: eS1){
     		
@@ -82,6 +84,7 @@ public class SpawnPool {
     		
     	}
     	
+    	//TANK
     	if (returnObject == null) {
     		
     		eS1 = pools.get(SpawnType.Enemy_02);
@@ -95,6 +98,17 @@ public class SpawnPool {
         		*/
         	}
     	}
+    	
+    	//MINE
+    	if (returnObject == null) {
+    		
+    		eS1 = pools.get(SpawnType.Enemy_03);
+    		for (SpawnObject sO: eS1) {
+    			
+    		}
+    		
+    	}
+    	
     	
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.MissilePlayer);
@@ -155,7 +169,10 @@ public class SpawnPool {
         }else if (type.name() == "MissileEnemy") {
         }else if (type.name() == "Enemy_01") {
             created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
-        }else if (type.name() == "Item") {
+        }else if (type.name() == "Enemy_02") {
+        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
+        }else if (type.name() == "Enemy_03") {
+    	}else if (type.name() == "Item") {
         }else if (type.name() == "Obstacle") {
         }else if (type.name() == "Explosion") {
         }else {

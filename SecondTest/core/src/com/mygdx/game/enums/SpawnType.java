@@ -5,14 +5,19 @@ public enum SpawnType {
     Player_02 ("Player_02",1),
     Player_03 ("Player_03",2),
     Player_04 ("Player_04",3),
+    
     Enemy_01 ("Enemy_01",4),
     Enemy_02 ("Enemy_02",5),
     Enemy_03 ("Enemy_03",6),
     Enemy_04 ("Enemy_04",7),
+    
     Explosion ("Explosion",8),
+    
     Item ("Item",9),
+    
     MissileEnemy ("MissileEnemy",10),
     MissilePlayer ("MissilePlayer",11),
+    
     Border("Border",12),
     
     Wall_Desert("Wall_Desert",13),
@@ -27,7 +32,9 @@ public enum SpawnType {
     Forest_Fabric("Forest_Fabric",21),
     Forest_Winter("Forest_Winter",22),
     Forest_Badlands("Forest_Badlands",23),
-    Forest_Volcano("Forest_Volcano",24);
+    Forest_Volcano("Forest_Volcano",24),
+    
+    Path_Node("Node",25);
     
     private String elementStr;
 	private int index;
