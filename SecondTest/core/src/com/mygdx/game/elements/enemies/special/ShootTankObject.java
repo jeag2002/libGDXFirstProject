@@ -1,4 +1,4 @@
-package com.mygdx.game.elements.enemies;
+package com.mygdx.game.elements.enemies.special;
 
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import com.mygdx.game.logic.elements.SpawnPool;
  *
  */
 
-public abstract class ShootEnemiesObject extends DynamicCollEnemiesObject {
+public abstract class ShootTankObject extends DynamicTankObject {
 	
 
 	 private SpawnType missilesPool; 
@@ -34,7 +34,7 @@ public abstract class ShootEnemiesObject extends DynamicCollEnemiesObject {
 	
 	 private boolean shootEvent;
 	
-	public ShootEnemiesObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
+	public ShootTankObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
 		super(world, spawnType);
 		this.spawnPool = spawnPool;
         shootEvent = false;    

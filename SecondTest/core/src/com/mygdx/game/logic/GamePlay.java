@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.PlayerMovementsEnum;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
 import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.screens.GamePlayScreen;
@@ -25,6 +26,8 @@ import com.mygdx.game.utils.NewItem;
 
 public class GamePlay {
 	
+	
+	private static final int INDEX_SINGLE_PLAYER = 1;
 	
 	private static final int INDEX_GAMELOGICINFORMATION_BACKGROUND = 0;
 	private static final int INDEX_GAMELOGICINFORMATION_BORDER = 1;
@@ -105,15 +108,19 @@ public class GamePlay {
 	public void processTileGeneration() {
 		
 		//int index = rand.nextInt(6);
-		int index = GameLogicInformation.DESERT_LEVEL;
+		//int index = GameLogicInformation.FABRIC_LEVEL;
+		int index = GameLogicInformation.VOLCANO_LEVEL;
 		
+		
+		//int index = GameLogicInformation.DESERT_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		
 		//this.lights = sMG.setLights();
-		this.lights = NO_LIGHTS;
 		//this.lights = LIGHTS;
+		
+		this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -140,7 +147,7 @@ public class GamePlay {
 		
 		ArrayList<NewItem> posPlayers = sMG.getPlayers();
 		
-		if (posPlayers.size() > 0) {
+		if (posPlayers.size() == INDEX_SINGLE_PLAYER) {
 			
 			NewItem posPlayer = posPlayers.get(0);
 			
@@ -149,8 +156,15 @@ public class GamePlay {
 									  posPlayer.getY(),
 									  SecondTestGDX.tilePlayerWidth_TL, 
 									  SecondTestGDX.tilePlayerHeight_TL);
-									  
-		    
+			
+			
+			
+			//public NewItem(SpawnType type, float x, float y, float width, float height, float angle, float speed) 
+			
+			NewItem playerFlag = new NewItem(SpawnType.Item, posPlayer.getX()-SecondTestGDX.tilePlayerWidth_TL, posPlayer.getY(),SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+			this.gameLogic.generateItem(SpawnType.Item_PlatformPlayer, playerFlag);
+			
+			
 		}
 	}
 	
@@ -169,7 +183,6 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				this.tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-				//this.camera.setToOrtho(false, SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
 				this.camera.setToOrtho(false);
 				
 				ArrayList<NewItem> posPlayers = sMG.getPlayers();
@@ -182,18 +195,25 @@ public class GamePlay {
 			    	this.camera.update();
 			    }
 			    
-			   
-			    //-->ENEMY DRON
-			    ArrayList<NewItem> enemyLst = sMG.getEnemiesDRON();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    //-->EXIT
+			    NewItem item = sMG.setExit();
+			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, item);
 			    
+			   
 			    //-->ENEMY TANK
-			    enemyLst = sMG.getEnemiesTANK();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, new NewItem());}
+			    ArrayList<NewItem>  enemyLst = sMG.getEnemiesTANK();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, item);}
+			    
 			    
 			    //-->ENEMY MINE
 			    enemyLst = sMG.getEnemiesMINE();
-			    for(NewItem sE: enemyLst) {}
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    
+			    //-->ENEMY DRON
+			     enemyLst = sMG.getEnemiesDRON();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    
+			    
 			    
 			    gameLogic.configureCollision(tiledMap, sMG.getWallsList(), sMG.getForestList());
 			}
@@ -204,10 +224,11 @@ public class GamePlay {
 	public void playerMoveLeft() {pEnum = PlayerMovementsEnum.LEFT; gameLogic.getPlayer().actionPlayerLEFT(pEnum);}
 	public void playerMoveRight() {pEnum = PlayerMovementsEnum.RIGHT; gameLogic.getPlayer().actionPlayerRIGHT(pEnum);}
 	public void playerMoveDown() {pEnum = PlayerMovementsEnum.DOWN; gameLogic.getPlayer().actionPlayerDOWN(pEnum);}
-	public void playerShoot() {}
+	public void playerShoot() {pEnum = PlayerMovementsEnum.SHOOT; gameLogic.getPlayer().actionPlayerSHOOT(pEnum);}
 	public void playerChange() {}
 	public void playerTurretClockWise() {pEnum = PlayerMovementsEnum.TURRETCLOCKWISE; gameLogic.getPlayer().actionPlayerS(pEnum);}
 	public void playerTurretAntiClockWise() {pEnum = PlayerMovementsEnum.TURRETANTICLOCKWISE; gameLogic.getPlayer().actionPlayerA(pEnum);}
+	public void playerMouseMoved() {pEnum = PlayerMovementsEnum.MOUSEMOVED; gameLogic.getPlayer().actionPlayerMOUSEMOVE(pEnum);}
 	
 	
 	public void update(float posX, float posY) {
@@ -295,6 +316,12 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				
+				//TEST-COLLISION
+				int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
+				tiledMapRenderer.render(data);
+				
+				
+				/*
 				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
@@ -310,6 +337,7 @@ public class GamePlay {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				}
+				*/
 				
 			}
 		}
@@ -320,8 +348,8 @@ public class GamePlay {
 			if (tiledMap != null) {
 				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL)) {
 					if (this.lights != LIGHTS) {
-						int[] data = {SimpleMapGeneration.INDEX_FOREST};
-						tiledMapRenderer.render(data);
+						//int[] data = {SimpleMapGeneration.INDEX_FOREST};
+						//tiledMapRenderer.render(data);
 					}
 				}
 			}
@@ -335,6 +363,7 @@ public class GamePlay {
 			if (tiledMap != null) {
 				if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
 					
+					/*
 					this.time += delta;
 					if (time >= TIME) {time = 0; pulse = !pulse;}
 					
@@ -349,7 +378,7 @@ public class GamePlay {
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						tiledMapRenderer.getBatch().end();
 					}
-					
+					*/
 					
 				}
 			}

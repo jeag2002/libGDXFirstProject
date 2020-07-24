@@ -2,6 +2,7 @@ package com.mygdx.game.utils;
 
 import com.mygdx.game.enums.DynamicElementPositionEnum;
 import com.mygdx.game.enums.SpawnType;
+import com.mygdx.game.ia.MapConnection;
 
 public class NewItem {
 	
@@ -154,8 +155,27 @@ public class NewItem {
 	
 	
 	public String toString() {
-		return "type " + type + " enum " + ppEnum +  " X (" + X + ") Y (" + Y + ") width (" + width + ") height (" + height + ") angle (" + angle + ") speed (" + speed + ") idCode [" + idCode + "]"; 
+		if (type.equals(SpawnType.Path_Node)) {
+			return "node id " + index +  "(" + index_X + "," + index_Y + ")";
+		}else {
+			return "type " + type + " enum " + ppEnum +  " X (" + X + ") Y (" + Y + ") width (" + width + ") height (" + height + ") angle (" + angle + ") speed (" + speed + ") idCode [" + idCode + "]"; 
+		}
 	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+	        if (this == obj) return true;
+	        if (obj == null) return false;
+	        if (getClass() != obj.getClass()) return false;
+	        
+	        final NewItem other = (NewItem)obj;
+	        
+	        boolean test = (other.getIndex_X() == this.getIndex_X()) && (other.getIndex_Y() == this.getIndex_Y());
+	        return test;
+	        
+	        
+	}        
 	
 	
 	public DynamicElementPositionEnum getPlayerPosition() {

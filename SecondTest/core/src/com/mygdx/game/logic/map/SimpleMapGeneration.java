@@ -16,7 +16,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.SecondTestGDX;
-import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
+import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.enums.DynamicElementPositionEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
@@ -55,7 +55,7 @@ public class SimpleMapGeneration {
    private ArrayList<NewItem> enemiesTANKSituation;
    private ArrayList<NewItem> enemiesMINESituation;
    
-   //private ArrayList<SimpleEnemy> enemiesSituation;
+   private NewItem exit;
    
    private ArrayList<StaticTiledMapColl> wallsLst;
    private ArrayList<StaticTiledMapColl> forestLst;
@@ -95,6 +95,7 @@ public class SimpleMapGeneration {
 	   
 	   graph = new MapGraph();
 	   
+	   exit = null;
 	   random = new Random();
 	   
    }
@@ -174,14 +175,11 @@ public class SimpleMapGeneration {
 		for(int x=0; x<width; x++) {
 			
 			Cell cell = new Cell();
-			//cell.setTile(new StaticTiledMapTile(tRegion));
 			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,0.0f , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(x, 0, cell);
 			
 			
 			cell = new Cell();
-			//cell.setTile(new StaticTiledMapTile(tRegion));
-			
 			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)x*tileBorder.getWidthShow() ,  (float)(height-1)*tileBorder.getWidthShow()  , (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(x, height-1, cell);
 		}
@@ -190,13 +188,11 @@ public class SimpleMapGeneration {
 		for(int y=1; y<height-1; y++) {
 			
 			Cell cell = new Cell();
-			//cell.setTile(new StaticTiledMapTile(tRegion));
 			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, 0.0f, (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(0, y, cell);
 			
 			
 			cell = new Cell();
-			//cell.setTile(new StaticTiledMapTile(tRegion));
 			cell.setTile(new StaticTiledMapColl(SpawnType.Border, tRegion, (float)(width-1)*tileBorder.getWidthShow(), (float)y*tileBorder.getHeightShow(), (float)tileBorder.getWidthShow(), (float)tileBorder.getHeightShow(), world, true));
 			layer.setCell(width-1, y, cell);
 		}
@@ -384,24 +380,30 @@ public class SimpleMapGeneration {
 	
 	
 	
+	
+	
+	
+	
 	public void setSinglePlayerPosition(SpawnType playerId) {
 		
-		boolean[][] caveMap = caveGenerator.getMap();
-		byte[][] forestMap = forestGenerator.getForest();
-		
-		int situationPlayer = random.nextInt(4);
-		DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
-		Gdx.app.log("[SINGLEMAPGENERATION]","SINGLE PLAYER POSITION " + ppE.toString());
-		
-		boolean DONE = false;
-		
-		for(int i=ppE.getXIni()+1; (i<ppE.getXFin()-1) && (!DONE); i++) {
-			for (int j=ppE.getYIni()+1; (j<ppE.getYFin()-1) && (!DONE); j++) {
-				if ((caveMap[i-1][j-1] == false) && (forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY)) {	
-					if (hasPlayerNoObstacleAround(i-1, j-1)) {
-						NewItem player = new NewItem(playerId, ppE, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL);
-						playersSituation.add(player);
-						DONE = true;
+		if ((caveGenerator != null) && (forestGenerator != null)) {
+			boolean[][] caveMap = caveGenerator.getMap();
+			byte[][] forestMap = forestGenerator.getForest();
+			
+			int situationPlayer = random.nextInt(4);
+			DynamicElementPositionEnum ppE = DynamicElementPositionEnum.getByIndex(situationPlayer);
+			Gdx.app.log("[SINGLEMAPGENERATION]","SINGLE PLAYER POSITION " + ppE.toString());
+			
+			boolean DONE = false;
+			
+			for(int i=ppE.getXIni()+1; (i<ppE.getXFin()-1) && (!DONE); i++) {
+				for (int j=ppE.getYIni()+1; (j<ppE.getYFin()-1) && (!DONE); j++) {
+					if ((caveMap[i-1][j-1] == false) && (forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY)) {	
+						if (hasPlayerNoObstacleAround(i-1, j-1)) {
+							NewItem player = new NewItem(playerId, ppE, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL);
+							playersSituation.add(player);
+							DONE = true;
+						}
 					}
 				}
 			}
@@ -410,7 +412,7 @@ public class SimpleMapGeneration {
 		if (playersSituation.size() == 0) {
 			NewItem player = new NewItem(playerId, 
 					                     DynamicElementPositionEnum.IDLE, 
-					                     (SecondTestGDX.sizeMapTileWidth_TL/2) * SecondTestGDX.tileWidth_TL, 
+					                     (SecondTestGDX.sizeMapTileWidth_TL/4) * SecondTestGDX.tileWidth_TL, 
 					                     (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL);
 			playersSituation.add(player);
 		}
@@ -452,11 +454,9 @@ public class SimpleMapGeneration {
 	}
 	
 	
-	
-	private void setEnemiesDRONPositionSector(int width, int height, DynamicElementPositionEnum ppE, int numEnemies) {
-		
-		
-		TiledMapTileLayer layer = new TiledMapTileLayer(width, height, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+	//DRON SITUATION
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	private void setEnemiesDRONPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
 		
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
@@ -484,16 +484,111 @@ public class SimpleMapGeneration {
 	}
 	
 	
-	public void setEnemiesDRONPosition(int width, int height, int numEnemies) {
-		setEnemiesDRONPositionSector(width, height, DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
-		setEnemiesDRONPositionSector(width, height, DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
-	    setEnemiesDRONPositionSector(width, height, DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
-		setEnemiesDRONPositionSector(width, height, DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
+	public void setEnemiesDRONPosition(int numEnemies) {
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
+	    setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
 		Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_01 + ") GENERATED (" + enemiesDRONSituation.size() + ")");
 		
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//MINE SITUATION
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	public void setEnemiesMINEPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
+		
+		byte[][] forestMap = forestGenerator.getForest();
+		
+		boolean DONE = false;
+		
+		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+				//FREE SPACE
+				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST)) {	
+					//ENEMIES
+					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation)) {
+						//PLAYER
+						if (!noSameSituationAsPlayer(x,y)) {
+							NewItem sE = new NewItem(SpawnType.Item, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+							enemiesMINESituation.add(sE);
+							numEnemies--;							
+							DONE = (numEnemies <= 0);	
+						}
+					}
+				}
+			}	
+		}			
+	}
 	
 	
+	public void setEnemiesMINEPosition(int numEnemies) {
+		
+		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO)) {
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);	
+			Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Item_Mine + ") GENERATED (" + enemiesMINESituation.size() + ")");
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//TANKS
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	public void setEnemiesTANKPosition(DynamicElementPositionEnum ppE, boolean sameSitAsPlayer) {
+		
+		if (!sameSitAsPlayer) {
+			
+			boolean[][] caveMap = caveGenerator.getMap();
+			byte[][] forestMap = forestGenerator.getForest();
+			
+			
+			boolean DONE = false;
+			
+			for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+				for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+					//FREE SPACE
+					if ((caveMap[x-1][y-1] == false) && (forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY)) {	
+						//ENEMIES
+						if (!noMinimunDistanceBetweenEnemies(x,y,enemiesTANKSituation)) {
+							//PLAYER
+							if (!noSameSituationAsPlayer(x,y)) {
+								NewItem sE = new NewItem(SpawnType.Enemy_02, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+								enemiesTANKSituation.add(sE);						
+								DONE = true;
+							}
+						}
+					}
+				}	
+			}		
+		}
+	}
+	
+	
+	
+	
+	public void setEnemiesTANKPosition(NewItem player) {
+		
+		//setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTDOWN, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN)); 
+		//setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTHIGH, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH)); 
+		//setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTDOWN, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN)); 
+		//setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTHIGH, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH)); 
+		//Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_02 + ") GENERATED (" + enemiesTANKSituation.size() + ")");
+		
+		NewItem tank = new NewItem(SpawnType.Enemy_02, 
+                3*(SecondTestGDX.sizeMapTileWidth_TL/4) * SecondTestGDX.tileWidth_TL, 
+                (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		enemiesTANKSituation.add(tank);
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//GRAPH GENERATOR
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	public boolean checkNode(NewItem fromItem, int i, int j, int width, int heigh) {
 		boolean res = false;
 		
@@ -521,8 +616,6 @@ public class SimpleMapGeneration {
 		}	
 	}
 	
-	
-	
 	public void generateGraph(int width, int height) {
 		
 		boolean[][] caveMap = caveGenerator.getMap();
@@ -540,75 +633,115 @@ public class SimpleMapGeneration {
 			}	
 		}
 		
-		Array<NewItem> nodes = graph.getNodes();
+		ArrayList<NewItem> nodes = graph.getNodes();
 		
 		
-		for(int i=0; i<nodes.size; i++) {
+		for(int i=0; i<nodes.size(); i++) {
 			NewItem fromItem = nodes.get(i);
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()-1,
-						fromItem.getIndex_Y()+1, 0 ));
-			
-			}else if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
+						fromItem.getIndex_Y()+1, 0 );
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			} 
+			
+			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X(), 
-						fromItem.getIndex_Y()+1, 0 ));
-			
-			}else if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
+						fromItem.getIndex_Y()+1, 0 );
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
+				
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL,
 						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()+1, 0 ));
-			
-			}else if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
+						fromItem.getIndex_Y()+1, 0 );
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem,  nodes.get(index));
+			
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()-1, 
-						fromItem.getIndex_Y(), 0 ));
-			
-			}else if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
+						fromItem.getIndex_Y(), 0 );
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
 						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL,
 						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y(), 0 ));
-			
-			}else if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
+						fromItem.getIndex_Y(), 0 );
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node,
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node,
 						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL,
 						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()-1, 
-						fromItem.getIndex_Y()-1, 0 ));
+						fromItem.getIndex_Y()-1, 0 );
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
 			
-			}else if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X(), 
-						fromItem.getIndex_Y()-1, 0 ));
+						fromItem.getIndex_Y()-1, 0 );
+				int index = nodes.indexOf(toItem);
 				
-			}else if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
 				
-				graph.addEdge(fromItem, new NewItem(SpawnType.Path_Node, 
+				graph.addEdge(fromItem, nodes.get(index));
+				
+			}
+			
+			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
 						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()-1, 0 ));
+						fromItem.getIndex_Y()-1, 0 );
+				
+				int index = nodes.indexOf(toItem);
+				
+				graph.addEdge(fromItem, nodes.get(index));
 			}
 		}
 		
@@ -616,6 +749,210 @@ public class SimpleMapGeneration {
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* MAP GENERATION DONE");
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//EXIT 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public NewItem setExitInMap(DynamicElementPositionEnum ppE) {
+		
+		NewItem location = null;
+		
+		boolean[][] caveMap = caveGenerator.getMap();
+		byte[][] forestMap = forestGenerator.getForest();
+		boolean DONE = false;
+		
+		for(int i=ppE.getXIni()+1; (i<ppE.getXFin()-1) && (!DONE); i++) {
+			for (int j=ppE.getYIni()+1; (j<ppE.getYFin()-1) && (!DONE); j++) {
+				if ((caveMap[i-1][j-1] == false) && (forestMap[i-1][j-1] == ForestGenerationImpl.EMPTY)) {	
+					if (hasPlayerNoObstacleAround(i-1, j-1)) {
+						location = new NewItem(SpawnType.Item, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.sizeMapTileHeight_TL, 0,0);
+						DONE = true;
+					}
+				}
+			}
+		}
+		
+		
+		
+		return location;
+		
+	}
+	
+	
+	
+	public NewItem setExit() {
+		//this.exit = setExitInMap(DynamicElementPositionEnum.CENTER);
+		
+		if (this.exit == null) {
+			this.exit = new NewItem(SpawnType.Item,
+					 (SecondTestGDX.sizeMapTileWidth_TL/2) * SecondTestGDX.tileWidth_TL - SecondTestGDX.tilePlayerWidth_TL/2, 
+					 (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL, 
+					 SecondTestGDX.tilePlayerWidth_TL, 
+					 SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		}
+		
+		return this.exit;
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	//CHECK GRAPH GENERATION TEST
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public boolean checkTestNode(NewItem fromItem, int i, int j, int width, int heigh) {
+		boolean res = false;
+		
+		List<MapConnection> connections = graph.getEdges();
+		
+		MapConnection conn = new MapConnection(fromItem, new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0));
+		MapConnection revConn = new MapConnection(new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0), fromItem);
+		
+		if (i < 1 || i >= (width-1)) {
+			return false;
+		}else if (j < 1 || j >= (heigh-1)) {
+			return false;
+		}else if (connections.contains(conn)) {
+			return false;
+		}else if (connections.contains(revConn)) {
+			return false;
+		}else {
+			return true;
+		}	
+	
+	}
+	
+	
+	
+	public void generateTestGraph(int width, int height) {
+		
+		//NODES
+		for(int x=1; x<width-1; x++) {
+			for(int y=1; y<height-1; y++) {
+				graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, 0 ));
+			}	
+		}
+		
+		//EDGES
+		ArrayList<NewItem> nodes = graph.getNodes();
+		
+		
+		for(int i=0; i<nodes.size(); i++) {
+			NewItem fromItem = nodes.get(i);
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
+						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X()-1,
+						fromItem.getIndex_Y()+1, 0 );
+				
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
+						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X(), 
+						fromItem.getIndex_Y()+1, 0 );
+				
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
+				
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL, 
+						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL,
+						fromItem.getIndex_X()+1, 
+						fromItem.getIndex_Y()+1, 0 );
+				
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem,  nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
+						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X()-1, 
+						fromItem.getIndex_Y(), 0 );
+				
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
+						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL,
+						fromItem.getIndex_X()+1, 
+						fromItem.getIndex_Y(), 0 );
+				
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node,
+						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL,
+						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X()-1, 
+						fromItem.getIndex_Y()-1, 0 );
+				int index = nodes.indexOf(toItem);
+				graph.addEdge(fromItem, nodes.get(index));
+			
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
+						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X(), 
+						fromItem.getIndex_Y()-1, 0 );
+				int index = nodes.indexOf(toItem);
+				
+				
+				graph.addEdge(fromItem, nodes.get(index));
+				
+			}
+			
+			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
+				
+				NewItem toItem = new NewItem(SpawnType.Path_Node, 
+						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
+						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+						fromItem.getIndex_X()+1, 
+						fromItem.getIndex_Y()-1, 0 );
+				
+				int index = nodes.indexOf(toItem);
+				
+				graph.addEdge(fromItem, nodes.get(index));
+			}
+		}
+		
+		
+		
+		//Gdx.app.log("[SINGLEMAPGENERATION]"," NODES " +  graph.getNodes());
+		//Gdx.app.log("[SINGLEMAPGENERATION]"," EDGES " +  graph.getEdges());
+		
+		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* TEST MAP GENERATION DONE");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	public ArrayList<NewItem> getPlayers(){return playersSituation;}
@@ -623,13 +960,13 @@ public class SimpleMapGeneration {
 	public ArrayList<NewItem> getEnemiesTANK(){return enemiesTANKSituation;}
 	public ArrayList<NewItem> getEnemiesMINE(){return enemiesMINESituation;}
 	
-	
 	public int getTypeMap() {return typeMap;}
 	public MapGraph getGraph() {return graph;}
-
 	public void setGraph(MapGraph graph) {this.graph = graph;}
 	
-
+		
+	//MOST IMPORTANT FUNCTION. WORLD GENERATION
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	public TiledMap createSimpleMap(int typeMap, 
 			int width_bg, 
 			int height_bg, 
@@ -649,15 +986,15 @@ public class SimpleMapGeneration {
 		
 		this.typeMap = typeMap;
 		MapLayers layers = map.getLayers();
-		generateCave(width_tl-2, height_tl-2);
-		generateForest(width_tl-2, height_tl-2);
+		//generateCave(width_tl-2, height_tl-2);
+		//generateForest(width_tl-2, height_tl-2);
 		
 		
 		layers.add(createBackground(width_bg, height_bg, tileBack));   //INDEX_0 => Background
 		layers.add(createBorder(width_tl, height_tl, tileBorder));	   //INDEX_1 => Border
-		layers.add(createLightMap(width_tl, height_tl, 128, 128));	   //INDEX_2 => LightMap	
-		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_3 => Walls
-		layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_4 => Forests
+		//layers.add(createLightMap(width_tl, height_tl, 128, 128));	   //INDEX_2 => LightMap	
+		//layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_3 => Walls
+		//layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_4 => Forests
 		
 		
 		if (numPlayers > SINGLE_PLAYER) {
@@ -666,12 +1003,21 @@ public class SimpleMapGeneration {
 			setSinglePlayerPosition(SpawnType.getByIndex(0));
 		}
 		
-		generateGraph(width_tl, height_tl);
-		setEnemiesDRONPosition(width_tl, height_tl, numEnemiesDRON);
+		generateTestGraph(width_tl, height_tl);
+		//generateGraph(width_tl, height_tl);
+		
+		if (numPlayers == SINGLE_PLAYER) {
+			NewItem player = playersSituation.get(0);
+			setEnemiesTANKPosition(player);
+		}
+		
+		
+		//setEnemiesMINEPosition(numEnemiesMINE);
+		//setEnemiesDRONPosition(numEnemiesDRON);
 		
 		return map;
 	}
-	
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 }

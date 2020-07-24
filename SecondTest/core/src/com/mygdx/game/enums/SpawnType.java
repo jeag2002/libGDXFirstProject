@@ -34,7 +34,17 @@ public enum SpawnType {
     Forest_Badlands("Forest_Badlands",23),
     Forest_Volcano("Forest_Volcano",24),
     
-    Path_Node("Node",25);
+    Path_Node("Node",25),
+    
+    Item_PlatformPlayer("PlatformPlayer",26),
+    Item_PlatformEnemy("PlatformEnemy",27),
+    Item_PlatformEndLevel("PlatformEndLevel",28),
+    Item_Mine("PlatformMine",29),
+    
+    Missile_Laser("Laser", 30),
+    Missile_Plasma("Plasma",31);
+    
+    
     
     private String elementStr;
 	private int index;

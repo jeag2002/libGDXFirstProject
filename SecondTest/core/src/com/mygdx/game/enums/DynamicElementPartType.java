@@ -18,5 +18,7 @@ public enum DynamicElementPartType {
 	EXHAUST_LEFT_ENEMY_2,
 	EXHAUST_RIGHT_ENEMY_2,
 	HULL_ENEMY_2,
-	GUN_ENEMY_2;
+	GUN_ENEMY_2,
+	
+	BADGE;
 }

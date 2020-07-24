@@ -3,13 +3,17 @@ package com.mygdx.game.elements.players.simpleplayer;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
 import com.mygdx.game.elements.players.ShootPlayerObject;
 import com.mygdx.game.enums.ElementEnum;
@@ -22,9 +26,15 @@ import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.DrawUtils;
 
+import box2dLight.ConeLight;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 
 public class Player extends ShootPlayerObject{
 	
+	
+	private static final float INTERVAL_BETWEEN_SHOOT = 0.1f;
 	
 	private static final int INDEX_TRACK_LEFT = 0;
 	private static final int INDEX_TRACK_RIGHT = 1;
@@ -41,6 +51,7 @@ public class Player extends ShootPlayerObject{
 	private PlayerMovementsEnum orientationS;
 	private PlayerMovementsEnum orientationSHOOT;
 	private PlayerMovementsEnum orientationCHANGE;
+	private PlayerMovementsEnum orientationMOUSEMOVE;
 	
 	
     private GamePlayScreen gPS;
@@ -49,16 +60,26 @@ public class Player extends ShootPlayerObject{
     private SpawnType type;
     private ElementEnum cannonType;
     
+    private Sound sfxShot;
+    private float sfxShotVolume; 
+    
+	private PointLight myLight_point;
+	private ConeLight myLight_cone;
+    
     private float speed;
     
     private float angle;
     private float angleTurret;
+    
+    private float time;
     
     private Vector2 movement = new Vector2();
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
     
     private boolean collDetection;
+    
+   
     
     public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
     	super(spawnPool, type, world);
@@ -76,6 +97,7 @@ public class Player extends ShootPlayerObject{
     	this.orientationS= PlayerMovementsEnum.IDLE;
     	this.orientationSHOOT= PlayerMovementsEnum.IDLE;
     	this.orientationCHANGE= PlayerMovementsEnum.IDLE;
+    	this.orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
     	
     	
     	this.dU = new DrawUtils();
@@ -83,9 +105,16 @@ public class Player extends ShootPlayerObject{
     	this.angle = 0.0f;
     	this.angleTurret = 0.0f;
     	
+    	this.time = 0.0f;
+    	
     	this.collDetection = false;
+    	this.sfxShotVolume = 0.97f;
     	
+	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
+	    super.resetGuns();
+		
     	
+    	initShootingEngine(SpawnType.MissilePlayer);
     	setShootingActive(true);
     	
     }
@@ -101,7 +130,7 @@ public class Player extends ShootPlayerObject{
 	}
 	
 
-	public void setLocationAndSize(float iniPositionX, float iniPositionY, float width, float height) {
+	public void setLocationAndSize(RayHandler rayHandler, float iniPositionX, float iniPositionY, float width, float height) {
 		
 		setAnimation();
 		setAnimationParts(iniPositionX,iniPositionY,width,height);
@@ -114,8 +143,23 @@ public class Player extends ShootPlayerObject{
 		
 		setSpeed(0, 0);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
+		
+		this.setShootingRayHandler(rayHandler);
+		
+		//LIGHT PLAYER
+		//////////////////////////////////////////////////////////////////////////////////////////////
+		this.myLight_point = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
+		this.myLight_cone = new ConeLight(rayHandler, 20, Color.WHITE, 25, 0, 0, 0, 9);
+		
+		this.myLight_point.setSoftnessLength(1f);
+		this.myLight_cone.setSoftnessLength(1f);
+		
+		this.myLight_point.attachToBody(getBody());
+		this.myLight_cone.attachToBody(getBody(), 0, 0, 90.0f);
+		//////////////////////////////////////////////////////////////////////////////////////////////
 	}
     
+
     public void setAnimation() {
     	
     	if (type.equals(SpawnType.Player_01)) {
@@ -173,6 +217,9 @@ public class Player extends ShootPlayerObject{
     
     
     public void movement(float delta) {
+    	
+    			
+    	
     	   	
 		    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
 		    		if (Gdx.input.isKeyPressed(Keys.UP)) {
@@ -229,6 +276,19 @@ public class Player extends ShootPlayerObject{
 	    		}
 	    	}
 	    	
+	    	if (orientationSHOOT.equals(PlayerMovementsEnum.SHOOT)) {
+	    		
+	    		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) && SecondTestGDX.isMouseEnabled) {
+	    			shootGeneration(delta);
+	    		}
+	    	}
+	    	
+	    	if (orientationMOUSEMOVE.equals(PlayerMovementsEnum.MOUSEMOVED)) {
+		    	if ((SecondTestGDX.isMouseEnabled) && (!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.S))) {
+		    		rotateTurretMouse();
+		    		orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
+		    	}
+	    	}
 	    	
 	    	if (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
 	    		
@@ -236,6 +296,26 @@ public class Player extends ShootPlayerObject{
 	    		animatedExhaust(delta, false, false);
 	    	}
 	    	
+    }
+    
+    
+    public void shootGeneration(float delta) {
+    	
+    	time += delta;
+		float speedGun = 800.0f;
+		
+		if (time  >= INTERVAL_BETWEEN_SHOOT) {
+			
+			float shootAngle = angle+angleTurret+90;
+			float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+			float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad)); 
+			
+			time = 0.0f;
+			this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+			this.setShootEvent(true);
+			sfxShot.play();
+		
+		}
     }
     
     
@@ -267,6 +347,27 @@ public class Player extends ShootPlayerObject{
     	player_parts.get(INDEX_EXHAUST_RIGHT).rotate(angle, 0, 56);
     	
     }
+    
+    
+    public void rotateTurretMouse() {
+    	
+    	Vector2 gunPosition = new Vector2();
+    	Vector2 mousePosition = new Vector2();
+    	
+    	gunPosition.x = player_parts.get(INDEX_GUN).getX();
+    	gunPosition.y = player_parts.get(INDEX_GUN).getY();
+    	
+    	mousePosition.x = Gdx.input.getX();
+    	mousePosition.y = Gdx.input.getY();
+    	
+    	angleTurret = (float) Math.atan2((gunPosition.y-mousePosition.y),(gunPosition.x-mousePosition.x));
+    	angleTurret = (angleTurret*MathUtils.radDeg + 270)*(-1);
+    	
+    	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );		
+    			
+    }
+    
+    
     
     public void rotateTurret() {
     	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
@@ -301,6 +402,8 @@ public class Player extends ShootPlayerObject{
     public void actionPlayerRIGHT(PlayerMovementsEnum orientation) {this.orientationRIGHT = orientation;}
     public void actionPlayerA(PlayerMovementsEnum orientation) {this.orientationA = orientation;}
     public void actionPlayerS(PlayerMovementsEnum orientation) {this.orientationS = orientation;}
+    public void actionPlayerSHOOT(PlayerMovementsEnum orientation) {this.orientationSHOOT = orientation;}
+    public void actionPlayerMOUSEMOVE(PlayerMovementsEnum orientation) {this.orientationMOUSEMOVE = orientation;}
     
     public void draw(SpriteBatch sb) {
     	
@@ -334,6 +437,14 @@ public class Player extends ShootPlayerObject{
 	
 	public void dispose() {
 		player_parts.clear();
+		myLight_point.dispose();
+		myLight_cone.dispose();
+	}
+	
+	
+	public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
 	}
 
 

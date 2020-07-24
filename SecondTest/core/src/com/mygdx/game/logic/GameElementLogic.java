@@ -3,9 +3,10 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.elements.complexenemy.tanks.TankEnemy;
+import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
+import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
+import com.mygdx.game.elements.items.Item;
 import com.mygdx.game.elements.players.simpleplayer.Player;
-import com.mygdx.game.elements.simpleenemy.drons.SimpleEnemy;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.ia.MapGraph;
@@ -32,12 +33,8 @@ public class GameElementLogic {
 	
 	private RayHandler rayHandler;
 	
-	private PointLight myLight_point;
-	private ConeLight myLight_cone;
-	
 	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
-	private ArrayList<SpawnObject> enemiesMine = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
@@ -54,16 +51,7 @@ public class GameElementLogic {
         rayHandler.useDiffuseLight(true);
         rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f,1.0f);
         
-       
 		this.rayHandler.setShadows(true);
-		
-		this.myLight_point = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
-		this.myLight_cone = new ConeLight(rayHandler, 20, Color.WHITE, 25, 0, 0, 0, 9);
-		
-		this.myLight_point.setSoftnessLength(1f);
-		this.myLight_cone.setSoftnessLength(1f);
-		
-		
 	}
 	
 	public void initWorld () {
@@ -71,7 +59,6 @@ public class GameElementLogic {
 		
 		spawnPool.addPool(SpawnType.Enemy_01, enemiesDron);
 		spawnPool.addPool(SpawnType.Enemy_02, enemiesTank);
-		spawnPool.addPool(SpawnType.Enemy_03, enemiesMine);
 		
 		spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
@@ -82,14 +69,10 @@ public class GameElementLogic {
 	
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
 		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
-		player.setLocationAndSize(iniPositionX, iniPositionY, width, height);
-		
-		this.myLight_point.attachToBody(player.getBody());
-		this.myLight_cone.attachToBody(player.getBody(), 0, 0, 90.0f);
+		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
 	}
 	
 	public void generateEnemyDRON(NewItem itemEnemy) {
-		
 		SimpleEnemy sE = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_01);
 		sE.init(rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		sE.setSpawned(true);
@@ -99,9 +82,15 @@ public class GameElementLogic {
 		TankEnemy tank = (TankEnemy)spawnPool.getFromPool(SpawnType.Enemy_02);
 		tank.init(map, itemEnemy, Objective, rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		tank.setSpawned(true);
+		itemEnemy.setX(itemEnemy.getX() - itemEnemy.getWidth());
+		generateItem(SpawnType.Item_PlatformEnemy, itemEnemy);
 	}
 	
-	
+	public void generateItem(SpawnType subItem, NewItem itemEnemy) {
+		Item item = (Item)spawnPool.getFromPool(SpawnType.Item);
+		item.init(rayHandler, subItem ,itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight());
+		item.setSpawned(true);
+	}
 
 	public World getWorld() {
 		return world;
@@ -125,7 +114,6 @@ public class GameElementLogic {
 		
 		enemiesDron.clear();
 		enemiesTank.clear();
-		enemiesMine.clear();
 		
 		missilesEnemies.clear();
 		missilesPlayer.clear();
@@ -135,16 +123,19 @@ public class GameElementLogic {
 	}
 	
 	public void drawSpawns(SpriteBatch sb) {
-	        
+		
+		for (SpawnObject ex: items) {
+	        if (ex.isSpawned()) {ex.draw(sb);}
+	    }   
+		
+		for (SpawnObject e: enemiesTank) {
+	        if (e.isSpawned()){e.draw(sb);}
+	    }
+		
 	    for (SpawnObject e: enemiesDron) {
 	        if (e.isSpawned()){e.draw(sb);}
 	    }
-	    for (SpawnObject e: enemiesTank) {
-	        if (e.isSpawned()){e.draw(sb);}
-	    }
-	    for (SpawnObject e: enemiesMine) {
-	        if (e.isSpawned()){e.draw(sb);}
-	    }
+	    
 	    for (SpawnObject m: missilesEnemies) {
 	        if (m.isSpawned()) {m.draw(sb);}     
 	    }	
@@ -154,9 +145,7 @@ public class GameElementLogic {
 	    for (SpawnObject ex: explosions) {
 	        if (ex.isSpawned()) {ex.draw(sb);}
 	    }
-	    for (SpawnObject ex: items) {
-	        if (ex.isSpawned()) {ex.draw(sb);}
-	    }
+	    
 	}
 	
 	public void drawPlayer(SpriteBatch sb) {
@@ -170,9 +159,6 @@ public class GameElementLogic {
             if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
         }
     	for (SpawnObject e: enemiesTank) {
-            if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
-        }
-    	for (SpawnObject e: enemiesMine) {
             if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
         }
     	for (SpawnObject m: missilesEnemies) {
@@ -213,8 +199,6 @@ public class GameElementLogic {
 	public void dispose() {
 		world.dispose();
 		rayHandler.dispose();
-		myLight_point.dispose();
-		myLight_cone.dispose();
 	}
 
 }

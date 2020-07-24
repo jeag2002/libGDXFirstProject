@@ -32,6 +32,11 @@ public class MapConnection implements Connection<NewItem> {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "EDGE " + fromNode.getIndex() + " TO " + toNode.getIndex(); 
+	}
+	
 	 @Override
 	 public boolean equals(Object obj) {
 	        if (this == obj) return true;

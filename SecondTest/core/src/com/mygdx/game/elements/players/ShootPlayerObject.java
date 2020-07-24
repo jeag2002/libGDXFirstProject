@@ -4,9 +4,11 @@ package com.mygdx.game.elements.players;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.enums.MissileTypeEnum;
+import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnPool;
+
+import box2dLight.RayHandler;
 /**
  * Child class used by player and enemies. Represents items that can spawn other items
  *
@@ -26,11 +28,17 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	 private float shootingInterval = 0.5f;
 	
 	 private boolean shootEvent;
+	 
+	 private RayHandler rayHandler;
 	
 	public ShootPlayerObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
 		super(world, spawnType);
 		this.spawnPool = spawnPool;
         shootEvent = false;    
+	}
+	
+	public void setShootingRayHandler(RayHandler rayHandler) {
+		this.rayHandler = rayHandler;
 	}
 	 
 	 public class Gun {
@@ -43,7 +51,7 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	        float originY;
 	        float width;
 	        float height;
-	        MissileTypeEnum missType;
+	        SpawnType missType;
 	        
 	        
 	        
@@ -56,7 +64,7 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	        }
 	 }
 	 
-	 public void addGun(MissileTypeEnum missType, float angle, float speed, float originX, float originY, float offsetX, float offsetY, float width, float height) {
+	 public void addGun(SpawnType missType, float angle, float speed, float originX, float originY, float offsetX, float offsetY, float width, float height) {
 		 	
 		 	Gun gun = new Gun(0,0);
 		 	gun.missType = missType;
@@ -89,7 +97,7 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	}
 	
 	
-	public void init(SpawnType missilPool) {
+	public void initShootingEngine(SpawnType missilPool) {
 		this.missilesPool = missilPool;
 		this.shootingActive = true;
 		this.timer = 0.0f;
@@ -103,7 +111,10 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	 
 	public void update(float delta) {
         if (shootingActive) {
-            shoot();
+        	if (shootEvent) {
+        		shoot();
+        		shootEvent = false;
+        	}
         }
     }
 	
@@ -120,16 +131,16 @@ public abstract class ShootPlayerObject extends DynamicCollPlayerObject {
 	public void shoot() {
 		
 		ArrayList<Gun> removableGun = new ArrayList<Gun>();
-		/*
+		
 	    for (Gun g: guns) {
 	         if (g.active) {
 	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);  
-	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
+	            m.init(rayHandler, g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
 	            m.setPool(spawnPool);
 	            removableGun.add(g);
 	         }
 	     }
-	     */
+	     
 	     guns.removeAll(removableGun);
 	} 
 	

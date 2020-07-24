@@ -36,7 +36,26 @@ public enum ElementEnum {
 	HULL_ENEMY2(SecondTestGDX.resources.hullEnemy_2_A, 24, 256, 256, 64, 64),
 	GUN_ENEMY2(SecondTestGDX.resources.gunEnemy_2_A, 25, 94, 212, 32, 64),
 	TRACK_03(SecondTestGDX.resources.tire_03,26,42,246,16,64),
-	TRACK_04(SecondTestGDX.resources.tire_04,27,42,246,16,64);
+	TRACK_04(SecondTestGDX.resources.tire_04,27,42,246,16,64),
+	
+	ENEMY_3_01(SecondTestGDX.resources.enemy_3_01,28,256,256,64,64),
+	ENEMY_3_02(SecondTestGDX.resources.enemy_3_02,29,256,256,64,64),
+	ENEMY_3_03(SecondTestGDX.resources.enemy_3_03,30,256,256,64,64),
+	ENEMY_3_04(SecondTestGDX.resources.enemy_3_04,31,256,256,64,64),
+	ENEMY_3_05(SecondTestGDX.resources.enemy_3_05,32,256,256,64,64),
+	ENEMY_3_06(SecondTestGDX.resources.enemy_3_06,33,256,256,64,64),
+	ENEMY_3_07(SecondTestGDX.resources.enemy_3_07,34,256,256,64,64),
+	ENEMY_3_08(SecondTestGDX.resources.enemy_3_08,35,256,256,64,64),
+	ENEMY_3_09(SecondTestGDX.resources.enemy_3_09,36,256,256,64,64),
+	ENEMY_3_0A(SecondTestGDX.resources.enemy_3_0A,37,256,256,64,64),
+	
+	PLATFORM_01(SecondTestGDX.resources.platform, 38, 256,256,64,64),
+	PLATFORM_DOT_R(SecondTestGDX.resources.dot_a, 39, 256,256,64,64),
+	PLATFORM_DOT_B(SecondTestGDX.resources.dot_b, 40, 256,256,64,64),
+	PLATFORM_DOT_E(SecondTestGDX.resources.dot_c, 41, 256,256,64,64),
+	
+	LASER(SecondTestGDX.resources.laser, 42,128,128,32,64),
+	PLASMA(SecondTestGDX.resources.plasma, 43,128,128,32,64);
 	
 	
 	

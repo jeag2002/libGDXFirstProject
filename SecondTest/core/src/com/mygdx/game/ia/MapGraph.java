@@ -30,8 +30,16 @@ public class MapGraph implements IndexedGraph<NewItem>{
 		nodes.add(node);
 	}
 	
+	/*
 	public Array<NewItem> getNodes(){
 		return nodes;
+	}
+	*/
+	
+	public ArrayList<NewItem> getNodes(){
+		ArrayList<NewItem> response = new ArrayList<NewItem>(Arrays.asList(nodes.toArray(NewItem.class)));
+		return response;
+		
 	}
 	
 	public List<MapConnection> getEdges(){
