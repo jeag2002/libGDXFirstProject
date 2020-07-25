@@ -95,10 +95,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	}
 	
 	public void animate(float delta) {
-		
-
-			this.AnimationByTime(delta);
-
+		this.AnimationByTime(delta);
 	}
 	
 	
@@ -139,8 +136,6 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	@Override
 	public void update(float delta, float boostFactor) {
 		
-		//setCollisionRef(getX(),getY());
-		
 		animate(delta);
 		
 		if (isSpawned()) {	 
@@ -149,12 +144,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	         super.setCollisionVel(movement.x, movement.y);
 	         Vector2 posRelative = super.getPositionFromBodyToPixel();
 	         super.setPosition(posRelative.x, posRelative.y);
-			 
-			 
-			 //position.add(movement);
-	         //super.setPosition(position.x, position.y);
-	         //super.setCollisionRef(position.x, position.y);
-	         
+			  
 	         if (getX() > SecondTestGDX.screenWidth || 
 	             getX() < 0 || 
 	             getY() > SecondTestGDX.screenHeight || 

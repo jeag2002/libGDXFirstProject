@@ -42,7 +42,9 @@ public enum SpawnType {
     Item_Mine("PlatformMine",29),
     
     Missile_Laser("Laser", 30),
-    Missile_Plasma("Plasma",31);
+    Missile_Plasma("Plasma",31),
+    
+    Simple_Explosion("Simple_Explosion",32);
     
     
     

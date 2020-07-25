@@ -42,9 +42,8 @@ public class CollisionPlayerObject{
     }
     
     
-    
-    public void createCollisionObject(float X, float Y, float W, float H, BodyType type) {
-    	    	
+    public void createCollisionObject(float X, float Y, float W, float H, BodyType type, boolean isSensor) {
+    	
     	BodyDef bodyDef = new BodyDef();
     	bodyDef.type = BodyDef.BodyType.DynamicBody;
     	
@@ -66,13 +65,20 @@ public class CollisionPlayerObject{
     	
     	fixtureDef = new FixtureDef();
     	fixtureDef.shape = shape;
+    	fixtureDef.isSensor = isSensor;
     	
     	body.createFixture(fixtureDef);
     	
+    	
+    	
     	body.setUserData(new NewItem(spawnType, idCode));
     	shape.dispose();
-    	
-    	
+    
+    }
+    
+    
+    public void createCollisionObject(float X, float Y, float W, float H, BodyType type) {
+    	createCollisionObject(X, Y, W, H, type, false);
     }
     
     

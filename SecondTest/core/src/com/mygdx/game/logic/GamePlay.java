@@ -118,9 +118,9 @@ public class GamePlay {
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		
 		//this.lights = sMG.setLights();
-		//this.lights = LIGHTS;
+		this.lights = LIGHTS;
 		
-		this.lights = NO_LIGHTS;
+		//this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -198,6 +198,10 @@ public class GamePlay {
 			    //-->EXIT
 			    NewItem item = sMG.setExit();
 			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, item);
+			    
+			    //-->EXPLOSION
+			    NewItem explosion = new NewItem(SpawnType.Explosion,SecondTestGDX.screenWidth/2, SecondTestGDX.screenHeight/4 );
+			    this.gameLogic.generateExplosion(SpawnType.Simple_Explosion, explosion);
 			    
 			   
 			    //-->ENEMY TANK

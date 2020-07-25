@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
+import com.mygdx.game.elements.explosions.SimpleExplosion;
 import com.mygdx.game.elements.items.Item;
 import com.mygdx.game.elements.players.simpleplayer.Player;
 import com.mygdx.game.enums.ElementEnum;
@@ -91,7 +92,13 @@ public class GameElementLogic {
 		item.init(rayHandler, subItem ,itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight());
 		item.setSpawned(true);
 	}
-
+	
+	public void generateExplosion(SpawnType subItem, NewItem itemEnemy) {
+		SimpleExplosion explosion = (SimpleExplosion)spawnPool.getFromPool(SpawnType.Explosion);
+		explosion.init(rayHandler, subItem, itemEnemy.getX(), itemEnemy.getY());
+		explosion.setSpawned(true);
+	}
+	
 	public World getWorld() {
 		return world;
 	}

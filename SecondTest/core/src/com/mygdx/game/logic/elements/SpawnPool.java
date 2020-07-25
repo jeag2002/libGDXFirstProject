@@ -5,6 +5,7 @@ import java.util.*;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
+import com.mygdx.game.elements.explosions.SimpleExplosion;
 import com.mygdx.game.elements.items.Item;
 import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.*;
@@ -77,7 +78,6 @@ public class SpawnPool {
     	//DRONE
     	ArrayList<SpawnObject> eS1 = pools.get(SpawnType.Enemy_01);
     	for(SpawnObject sO: eS1){
-    		
     		SimpleEnemy sE = (SimpleEnemy)sO;
     		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
     			returnObject = sO;
@@ -88,10 +88,8 @@ public class SpawnPool {
     	
     	//TANK
     	if (returnObject == null) {
-    		
     		eS1 = pools.get(SpawnType.Enemy_02);
         	for(SpawnObject sO: eS1){
-        		
         		TankEnemy sE = (TankEnemy)sO;
         		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
         			returnObject = sO;
@@ -104,7 +102,6 @@ public class SpawnPool {
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.MissilePlayer);
         	for(SpawnObject sO: eS1){
-        		
         		Missile sE = (Missile)sO;
         		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
         			returnObject = sO;
@@ -116,19 +113,16 @@ public class SpawnPool {
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.MissileEnemy);
         	for(SpawnObject sO: eS1){
-        		
         		Missile sE = (Missile)sO;
         		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
         			returnObject = sO;
         			break;
         		}
-        	
         	}
     	}
     	
     	//SPAWN PLAYER + SPAWN ENEMIES + SPAWN EXIT + ENEMIES (MINES)
     	if (returnObject == null) {
-    		
     		eS1 = pools.get(SpawnType.Item);
         	for(SpawnObject sO: eS1){
         		Item i = (Item)sO;
@@ -138,6 +132,19 @@ public class SpawnPool {
         		}
         	}
     	}
+    	
+    	//SPAWN EXPLOSIONS
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.Explosion);
+        	for(SpawnObject sO: eS1){
+        		SimpleExplosion i = (SimpleExplosion)sO;
+        		if (i.getIdCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
     	
     	return returnObject;
     }
@@ -162,6 +169,7 @@ public class SpawnPool {
     	}else if (type.name() == "Item") {
     		created = new Item(this, type, world, gPS);
         }else if (type.name() == "Explosion") {
+        	created = new SimpleExplosion(SpawnType.Explosion, this, world, gPS);
         }else {
             System.err.println("SpawnPool: " + type.name()
                     + " not able to spawn. Maybe forgot to add in createSpawnObject()?");
