@@ -7,12 +7,15 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnPool;
 //import com.gdx.game.elements.gun.Missile;
 //import com.gdx.game.engine.GamePlay;
 //import com.gdx.game.stages.enums.MissileTypeEnum;
 //import com.gdx.game.stages.enums.SpawnType;
+
+import box2dLight.RayHandler;
 
 /**
  * Child class used by player and enemies. Represents items that can spawn other items
@@ -33,11 +36,17 @@ public abstract class ShootTankObject extends DynamicTankObject {
 	 private float shootingInterval = 0.5f;
 	
 	 private boolean shootEvent;
+	 
+	 private RayHandler rayHandler;
 	
 	public ShootTankObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
 		super(world, spawnType);
 		this.spawnPool = spawnPool;
         shootEvent = false;    
+	}
+	
+	public void setShootingRayHandler(RayHandler rayHandler) {
+		this.rayHandler = rayHandler;
 	}
 	 
 	 public class Gun {
@@ -96,11 +105,10 @@ public abstract class ShootTankObject extends DynamicTankObject {
 	}
 	
 	
-	public void init(SpawnType missilPool) {
+	public void initShootingEngine(SpawnType missilPool) {
 		this.missilesPool = missilPool;
 		this.shootingActive = true;
 		this.timer = 0.0f;
-		
 	}
 	
 	
@@ -127,16 +135,15 @@ public abstract class ShootTankObject extends DynamicTankObject {
 	public void shoot() {
 		
 		ArrayList<Gun> removableGun = new ArrayList<Gun>();
-		/*
+		
 	    for (Gun g: guns) {
 	         if (g.active) {
 	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);  
-	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
+	            m.init(rayHandler, g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
 	            m.setPool(spawnPool);
 	            removableGun.add(g);
 	         }
 	     }
-	     */
 	     guns.removeAll(removableGun);
 	} 
 	

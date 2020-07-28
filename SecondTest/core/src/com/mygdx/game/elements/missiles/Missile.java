@@ -84,7 +84,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		 super.setSpeed(this.speed, this.speed);
 		 
 		 super.getSprite().setOriginCenter();
-		 super.rotate(angle+90);
+		 super.rotate(angle-90);
 		 
 		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		 

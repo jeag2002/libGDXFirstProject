@@ -26,6 +26,27 @@ public class NewItem {
 	private String idCode;
 	
 	
+	public NewItem(NewItem copy) {
+		
+		this.type = copy.getType();
+		this.ppEnum = copy.getPlayerPosition();
+		this.X = copy.getX();
+		this.Y = copy.getY();
+		
+		this.index_X = copy.getIndex_X();
+		this.index_Y = copy.getIndex_Y();
+		
+		this.width = copy.getWidth();
+		this.height = copy.getHeight();
+		this.angle = copy.getAngle();
+		this.speed = copy.getSpeed();
+		this.index = copy.getIndex();
+		this.idCode = copy.getIdCode();
+		
+	}
+	
+	
+	
 	public NewItem() {
 		this.type = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;

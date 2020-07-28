@@ -1,6 +1,7 @@
 package com.mygdx.game.elements.enemies.special;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -70,10 +71,30 @@ public class CollisionTankObject extends IAPathFindingObject{
     	body.setUserData(new NewItem(spawnType, idCode));
     	
     	
-    	shape.dispose();
-    	
-    	
+    	shape.dispose();	
     }
+    
+    public void setCollisionAngleRef(float X, float Y, float angle) {	
+    	this.X = (X+this.W/2)/GameLogicInformation.PIXELS_TO_METERS;
+    	this.Y = (Y+this.H/2)/GameLogicInformation.PIXELS_TO_METERS;
+    	body.setTransform(this.X, this.Y, angle);
+    }
+    
+    public void setCollisionVel(float X, float Y) {
+    	body.setLinearVelocity(X, Y);
+    }
+    
+    public void setCollisionAngle(float angle) {
+    	body.setAngularVelocity(angle);
+    }
+    
+    public Vector2 getPositionFromBodyToPixel() {
+    	Vector2 bodyPos = body.getPosition();
+    	bodyPos.x = (bodyPos.x * GameLogicInformation.PIXELS_TO_METERS) - this.W/2; 
+    	bodyPos.y = (bodyPos.y * GameLogicInformation.PIXELS_TO_METERS) - this.H/2;
+    	return bodyPos;	
+    }
+    
     
     
     public Body getBody() {

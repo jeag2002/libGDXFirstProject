@@ -13,7 +13,7 @@ public class SecondTestGDX extends Game{
 	public static int screenHeight = 768;
 	
 	
-	
+	/*
 	public static int tileWidth = 256;
 	public static int tileHeight = 256;
 	
@@ -28,9 +28,10 @@ public class SecondTestGDX extends Game{
 	//size (64x64) TILES
 	public static int tileWidth_TL = 128;
 	public static int tileHeight_TL = 128;
+	*/
 	
 	
-	/*
+	
 	public static int tileWidth = 256;
 	public static int tileHeight = 256;
 	
@@ -45,7 +46,7 @@ public class SecondTestGDX extends Game{
 	//size (64x64) TILES
 	public static int tileWidth_TL = 128;
 	public static int tileHeight_TL = 128;
-	*/
+	
 	
 	
 	/*
@@ -83,7 +84,7 @@ public class SecondTestGDX extends Game{
 	public LoadingScreen loadingScreen;
 	public GamePlayScreen gamePlayScreen;
 	
-	public static boolean isMouseEnabled = true;
+	public static boolean isMouseEnabled = false;
 	
 	
 	@Override

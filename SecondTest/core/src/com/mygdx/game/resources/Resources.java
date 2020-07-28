@@ -187,6 +187,11 @@ public class Resources extends AssetManager{
 	//gameplay 
 	public String cursor = "gui/gameplay/cursor.png";
 	
+	//city
+	public String background_city = "maps/terrain/Ground_Tile_01_G.png";
+	public String wall_city = "maps/terrain/building_3.png";
+	public String parterre = "maps/terrain/parterre_1.png";
+	
 	
 	
 	public void loadAssets() {
@@ -357,6 +362,10 @@ public class Resources extends AssetManager{
 		
 		load(lightmap, Texture.class);
 		load(cursor, Texture.class);
+		
+		load(background_city, Texture.class);
+		load(wall_city,Texture.class);
+		load(parterre,Texture.class);
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

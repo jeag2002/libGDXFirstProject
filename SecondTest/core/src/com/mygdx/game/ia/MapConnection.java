@@ -10,10 +10,11 @@ public class MapConnection implements Connection<NewItem> {
 	NewItem toNode;
 	float cost;
 	
-	public MapConnection(NewItem fromNode, NewItem toNode){
+	public MapConnection(NewItem fromNode, NewItem toNode, float cost){
 	    this.fromNode = fromNode;
 	    this.toNode = toNode;
-	    cost = Vector2.dst(fromNode.getX(), fromNode.getY(), toNode.getX(), toNode.getY());
+	    //cost = Vector2.dst(fromNode.getX(), fromNode.getY(), toNode.getX(), toNode.getY());
+	    this.cost = cost;
 	}
 
 	@Override

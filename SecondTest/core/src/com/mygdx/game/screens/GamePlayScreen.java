@@ -94,7 +94,7 @@ public class GamePlayScreen implements Screen{
 		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 		
 		stopMusic();
-		initMusic();
+		//initMusic();
 	}
 	
 	
@@ -157,8 +157,6 @@ public class GamePlayScreen implements Screen{
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
-				//gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
-				
 			}
 		}
 		

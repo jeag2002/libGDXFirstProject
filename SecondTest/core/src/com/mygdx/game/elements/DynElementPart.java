@@ -35,9 +35,16 @@ public class DynElementPart extends AnimatedObject{
 
 	@Override
 	public void AnimationLoop(float delta, boolean loop) {	
-		if (dynElementPartType.equals(DynamicElementPartType.TRACK_LEFT_PLAYER) || dynElementPartType.equals(DynamicElementPartType.TRACK_RIGHT_PLAYER)) {
+		if (dynElementPartType.equals(DynamicElementPartType.TRACK_LEFT_PLAYER) || 
+			dynElementPartType.equals(DynamicElementPartType.TRACK_RIGHT_PLAYER) ||
+			dynElementPartType.equals(DynamicElementPartType.TRACK_LEFT_ENEMY_2) ||
+			dynElementPartType.equals(DynamicElementPartType.TRACK_RIGHT_ENEMY_2)) {
 			AnimationPlayerLoopTrack(delta,loop);
-		}else if (dynElementPartType.equals(DynamicElementPartType.EXHAUST_LEFT_PLAYER) || dynElementPartType.equals(DynamicElementPartType.EXHAUST_RIGHT_PLAYER)) {
+		}else if (
+			dynElementPartType.equals(DynamicElementPartType.EXHAUST_LEFT_PLAYER) || 
+			dynElementPartType.equals(DynamicElementPartType.EXHAUST_RIGHT_PLAYER) ||
+			dynElementPartType.equals(DynamicElementPartType.EXHAUST_LEFT_ENEMY_2) ||
+			dynElementPartType.equals(DynamicElementPartType.EXHAUST_RIGHT_ENEMY_2)) {
 			AnimationPlayerLoopExhaust(loop);
 		}
 	}

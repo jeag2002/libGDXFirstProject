@@ -70,7 +70,11 @@ public enum TileMapEnum {
 	VOLCANO_FLOOR(SecondTestGDX.resources.VolcanoFloor,45,1024,1024,256,256),
 	VOLCANO_WALL(SecondTestGDX.resources.VolcanoWall,46,128,128,128,128),
 	VOLCANO_FOREST_1(SecondTestGDX.resources.VolcanoForest_1,47,2000,2000,128,128),
-	VOLCANO_FOREST_2(SecondTestGDX.resources.VolcanoForest_2,48,2000,2000,128,128);
+	VOLCANO_FOREST_2(SecondTestGDX.resources.VolcanoForest_2,48,2000,2000,128,128),
+	
+	BACKGROUND_CITY(SecondTestGDX.resources.background_city,49,258,258,256,256),
+	WALL_CITY(SecondTestGDX.resources.wall_city,50,128,128,128,128),
+	PARK_CITY(SecondTestGDX.resources.parterre,51,128,128,128,128);
 	
 	
 	private String tileMapStr;

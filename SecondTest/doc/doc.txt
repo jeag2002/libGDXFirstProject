@@ -19,6 +19,9 @@ https://www.pngwave.com/png-clip-art-blaea
 https://www.pngwing.com/en/free-png-zsazu
 
 
+buildings:
+https://www.mapforge-software.com/product/modern-streets-tiles/
+
 
 Estudio:
 
@@ -42,6 +45,8 @@ https://www.youtube.com/watch?v=wu3vzR9k3QA
 https://github.com/aboglioli/libgdx-pathfinding-example
 https://www.reddit.com/r/libgdx/comments/66p6y0/are_there_any_good_2d_path_finding_tutorials_you/
 https://www.youtube.com/watch?v=Jy9lNEA-_p0
+
+http://www.cs.cornell.edu/courses/cs3152/2015sp/lectures/20-Pathfinding.pdf
 
 
 https://github.com/xaguzman/pathfinding

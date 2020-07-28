@@ -64,6 +64,8 @@ public class GamePlay {
 	
 	private boolean pulse;
 	
+	private NewItem exit;
+	
 	
 	public GamePlay(GamePlayScreen gPS) {	
 		this.gPS = gPS;
@@ -79,6 +81,8 @@ public class GamePlay {
 		
 		this.lights = -1;
 		this.pulse = false;
+		
+		this.exit = new NewItem();
 		
 	}
 	
@@ -107,20 +111,11 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//int index = rand.nextInt(6);
-		//int index = GameLogicInformation.FABRIC_LEVEL;
-		int index = GameLogicInformation.VOLCANO_LEVEL;
-		
-		
-		//int index = GameLogicInformation.DESERT_LEVEL;
+		int index = rand.nextInt(7);
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		
-		//this.lights = sMG.setLights();
-		this.lights = LIGHTS;
-		
-		//this.lights = NO_LIGHTS;
+		this.lights = sMG.setLights();
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -196,26 +191,26 @@ public class GamePlay {
 			    }
 			    
 			    //-->EXIT
-			    NewItem item = sMG.setExit();
-			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, item);
+			    exit = sMG.setExit();
+			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, exit);
 			    
 			    //-->EXPLOSION
-			    NewItem explosion = new NewItem(SpawnType.Explosion,SecondTestGDX.screenWidth/2, SecondTestGDX.screenHeight/4 );
-			    this.gameLogic.generateExplosion(SpawnType.Simple_Explosion, explosion);
+			    //NewItem explosion = new NewItem(SpawnType.Explosion,SecondTestGDX.screenWidth/2, SecondTestGDX.screenHeight/4 );
+			    //this.gameLogic.generateExplosion(SpawnType.Simple_Explosion, explosion);
 			    
 			   
 			    //-->ENEMY TANK
-			    ArrayList<NewItem>  enemyLst = sMG.getEnemiesTANK();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, item);}
+			    //ArrayList<NewItem>  enemyLst = sMG.getEnemiesTANK();
+			    //for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
 			    
 			    
 			    //-->ENEMY MINE
-			    enemyLst = sMG.getEnemiesMINE();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    //enemyLst = sMG.getEnemiesMINE();
+			    //for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
 			    
 			    //-->ENEMY DRON
-			     enemyLst = sMG.getEnemiesDRON();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    //enemyLst = sMG.getEnemiesDRON();
+			    //for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
 			    
 			    
 			    
@@ -321,12 +316,12 @@ public class GamePlay {
 			if (tiledMap != null) {
 				
 				//TEST-COLLISION
-				int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
-				tiledMapRenderer.render(data);
+				//int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
+				//tiledMapRenderer.render(data);
 				
 				
-				/*
-				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) ) {
+				
+				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
 					tiledMapRenderer.render(data);
@@ -336,12 +331,12 @@ public class GamePlay {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
-				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL)){
+				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL) || (sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)){
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				}
-				*/
+				
 				
 			}
 		}
@@ -350,10 +345,10 @@ public class GamePlay {
 	public void drawMapAf() {
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL)) {
+				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL)) {
 					if (this.lights != LIGHTS) {
-						//int[] data = {SimpleMapGeneration.INDEX_FOREST};
-						//tiledMapRenderer.render(data);
+						int[] data = {SimpleMapGeneration.INDEX_FOREST};
+						tiledMapRenderer.render(data);
 					}
 				}
 			}
@@ -367,7 +362,7 @@ public class GamePlay {
 			if (tiledMap != null) {
 				if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
 					
-					/*
+					
 					this.time += delta;
 					if (time >= TIME) {time = 0; pulse = !pulse;}
 					
@@ -382,7 +377,7 @@ public class GamePlay {
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						tiledMapRenderer.getBatch().end();
 					}
-					*/
+					
 					
 				}
 			}
