@@ -27,7 +27,7 @@ public class GameLogicInformation {
 	
 	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
 	
-	public static final double SEEK_DISTANCE = 500;
+	public static final double SEEK_DISTANCE = 750;
 	public static final double ATTACK_DISTANCE = 128;
 	
 	

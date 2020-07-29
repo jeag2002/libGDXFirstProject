@@ -39,6 +39,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 
 	
 	private static final float TRANSITION_BETWEEN_ANIM = 0.05f;
+	private static final float INTERVAL_BETWEEN_SHOOT = 0.05f;
 	
 	private GamePlayScreen gPS;
 	private SpawnType typeEnemy;
@@ -55,7 +56,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private PointLight light;
 	
-	
+	private float angle;
 	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
@@ -65,6 +66,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		this.typeEnemy = type;
 		
 		this.timer = 0.0f;
+		
+		this.angle = 0.0f;
 		
 		this.isSpawned = false;
 		
@@ -89,6 +92,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		this.light.setSoftnessLength(0f);
 		this.light.attachToBody(this.getBody());
 		
+		this.setShootingRayHandler(rayHandler);
+		super.setShootingActive(false);
 		
 		stateMachine = new DefaultStateMachine<SimpleEnemy, SimpleEnemyStateEnum>(this, SimpleEnemyStateEnum.SLEEP);
 		setIA();
@@ -125,12 +130,14 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 			this.getBody().setLinearVelocity(0.0f, 0.0f);
 			this.getBody().setAngularVelocity(0.0f);	
 			light.setActive(false);
+			super.setShootingActive(false);
 			
 			this.setBehavior(null);
 		}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.SEEK)) {
 			
 			this.setBehavior(SteeringPresets.arrive(entity, target, true));
 			light.setActive(true);
+			super.setShootingActive(false);
 		
 		}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
 			
@@ -144,6 +151,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 			
 			this.setBehavior(null);
 			light.setActive(true);
+			super.setShootingActive(true);
 		}
 	}
 	
@@ -168,7 +176,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 				init(hullTXT,indexHullWander);
 			}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
 				Texture[] hullTXT = GameLogicElementInformation.Enemy_01_Body;
-				init(hullTXT,indexHullAttack);
+				//init(hullTXT,indexHullAttack);
+				init(hullTXT,indexHullWander);
 			}
 		}
 	}
@@ -214,8 +223,11 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 					if (indexHullWander >= GameLogicElementInformation.Enemy_01_Wander.length) {indexHullWander = 0;}
 					setTextureToSpriteByIndex(indexHullWander); 
 				}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
-					if (indexHullAttack >= GameLogicElementInformation.Enemy_01_Body.length) {indexHullWander = 0;}
-					setTextureToSpriteByIndex(indexHullAttack);
+					//if (indexHullAttack >= GameLogicElementInformation.Enemy_01_Body.length) {indexHullWander = 0;}
+					//setTextureToSpriteByIndex(indexHullAttack);
+					if (indexHullWander >= GameLogicElementInformation.Enemy_01_Wander.length) {indexHullWander = 0;}
+					setTextureToSpriteByIndex(indexHullWander);
+					
 				}			
 			}
 		}		
@@ -249,13 +261,15 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	public void update(float delta, float boostFactor) {
 		
 		stateMachine.update();
-		
 		setIA();
+		
 		super.updateBehaviour(delta);
 		updatePosition();
 		updateAnimation(delta, boostFactor);
 		rotateAnimation();
 		
+		shootGeneration(delta);
+		updateShooting(delta);
 	}
 	
 	
@@ -271,13 +285,38 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	}
 	
 	public void rotateAnimation() {
-	    
+		this.angle = this.getBody().getAngle() * MathUtils.radiansToDegrees;			
+		this.angle += 90;
+		getSprite().setOriginCenter();
+		getSprite().setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
+		getSprite().setRotation(this.angle);
+	}
+	
+	public void updateShooting(float delta) {
 		if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
-			float angle = this.getBody().getAngle() * MathUtils.radiansToDegrees;
-			getSprite().setOriginCenter();
-			getSprite().setRotation(angle+270);
+			super.update(delta);
 		}
 	}
+	
+	
+	public void shootGeneration(float delta) {
+	    	
+		 	if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
+		 
+		    	timer += delta;
+				float speedGun = 800.0f;
+				
+				if (timer  >= INTERVAL_BETWEEN_SHOOT) {
+					float x = (float) ((getX()+16) + 8.0 * Math.cos(this.angle*MathUtils.degRad)); 
+					float y = (float) ((getY()) + 8.0 * Math.sin(this.angle*MathUtils.degRad)); 
+					timer = 0.0f;
+					this.addGun(SpawnType.Missile_Plasma, this.angle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
+					this.setShootEvent(true);
+				}
+			
+		 	}
+	 }
+	
 	
 	
 	

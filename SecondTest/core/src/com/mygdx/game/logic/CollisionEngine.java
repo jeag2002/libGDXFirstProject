@@ -40,8 +40,8 @@ public class CollisionEngine implements ContactListener{
 		this.wallElements = walls;
 		this.forestElements = forest;
 		
-		//this.walls = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_WALLS);
-		//this.forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
+		this.walls = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_WALLS);
+		this.forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
 		this.pool = gPS.getGamePlay().getGameLogic().getSpawnPool();
 		this.player = gPS.getGamePlay().getGameLogic().getPlayer();
 	}

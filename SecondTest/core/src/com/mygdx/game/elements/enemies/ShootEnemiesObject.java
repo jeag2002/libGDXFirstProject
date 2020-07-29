@@ -7,12 +7,15 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnPool;
 //import com.gdx.game.elements.gun.Missile;
 //import com.gdx.game.engine.GamePlay;
 //import com.gdx.game.stages.enums.MissileTypeEnum;
 //import com.gdx.game.stages.enums.SpawnType;
+
+import box2dLight.RayHandler;
 
 /**
  * Child class used by player and enemies. Represents items that can spawn other items
@@ -33,14 +36,20 @@ public abstract class ShootEnemiesObject extends DynamicCollEnemiesObject {
 	 private float shootingInterval = 0.5f;
 	
 	 private boolean shootEvent;
+	 private RayHandler rayHandler;
+	 
 	
 	public ShootEnemiesObject(SpawnPool spawnPool, SpawnType spawnType, World world) {
 		super(world, spawnType);
 		this.spawnPool = spawnPool;
         shootEvent = false;    
 	}
-	 
-	 public class Gun {
+	
+	public void setShootingRayHandler(RayHandler rayHandler) {
+		this.rayHandler = rayHandler;
+	}
+	
+	public class Gun {
 	        boolean active = false;
 	        float speed = 100.0f;
 	        float angle;
@@ -127,16 +136,16 @@ public abstract class ShootEnemiesObject extends DynamicCollEnemiesObject {
 	public void shoot() {
 		
 		ArrayList<Gun> removableGun = new ArrayList<Gun>();
-		/*
+		
 	    for (Gun g: guns) {
 	         if (g.active) {
 	            Missile m = (Missile) spawnPool.getFromPool(missilesPool);  
-	            m.init(g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
+	            m.init(rayHandler, g.missType, gunPower,g.originX + g.offsetX, g.originY  + g.offsetY, g.angle, g.speed, g.width, g.height);
 	            m.setPool(spawnPool);
 	            removableGun.add(g);
 	         }
 	     }
-	     */
+	     
 	     guns.removeAll(removableGun);
 	} 
 	

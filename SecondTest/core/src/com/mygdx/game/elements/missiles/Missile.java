@@ -86,7 +86,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		 super.getSprite().setOriginCenter();
 		 super.rotate(angle-90);
 		 
-		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
+		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody,true);
 		 
 		 this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
 		 this.light.setSoftnessLength(0f);
@@ -139,11 +139,15 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		animate(delta);
 		
 		if (isSpawned()) {	 
+			 
 			 movement.set(direction).scl(speed * delta * boostFactor);
-	         
-	         super.setCollisionVel(movement.x, movement.y);
-	         Vector2 posRelative = super.getPositionFromBodyToPixel();
-	         super.setPosition(posRelative.x, posRelative.y);
+			 //position.add(movement);
+	         //super.setPosition(position.x, position.y);
+	         //super.setCollisionRef(position.x, position.y);
+			  
+	        super.setCollisionVel(movement.x, movement.y);
+	        Vector2 posRelative = super.getPositionFromBodyToPixel();
+	        super.setPosition(posRelative.x, posRelative.y);
 			  
 	         if (getX() > SecondTestGDX.screenWidth || 
 	             getX() < 0 || 

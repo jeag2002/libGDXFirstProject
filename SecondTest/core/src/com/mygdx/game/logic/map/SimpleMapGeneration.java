@@ -1050,7 +1050,7 @@ public class SimpleMapGeneration {
 		*/
 		
 		//setEnemiesMINEPosition(numEnemiesMINE);
-		//setEnemiesDRONPosition(numEnemiesDRON);
+		setEnemiesDRONPosition(numEnemiesDRON);
 		
 		return map;
 	}

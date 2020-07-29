@@ -111,11 +111,13 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		int index = rand.nextInt(7);
+		//int index = rand.nextInt(7);
+		int index = GameLogicInformation.CITY_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		this.lights = sMG.setLights();
+		//this.lights = sMG.setLights();
+		this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -209,8 +211,8 @@ public class GamePlay {
 			    //for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
 			    
 			    //-->ENEMY DRON
-			    //enemyLst = sMG.getEnemiesDRON();
-			    //for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
+			    for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
 			    
 			    
 			    
