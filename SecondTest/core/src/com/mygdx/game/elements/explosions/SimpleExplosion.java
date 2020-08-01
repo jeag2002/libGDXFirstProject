@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.players.CollisionPlayerObject;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;
@@ -78,8 +80,7 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 
 	@Override
 	public void kill(SpawnPool pool) {
-		// TODO Auto-generated method stub
-		
+		dispose();
 	}
 
 	@Override
@@ -95,6 +96,21 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 	public void draw(SpriteBatch sb) {
 		pe.draw(sb);
 	}
+
+
+
+	@Override
+	public Body getBox2DBody() {
+		return null;
+	}
+	
+	
+	public void dispose() {
+		this.light.remove();
+		this.light.dispose();
+		this.pe.dispose();
+	}
+	
 }
 
 /*

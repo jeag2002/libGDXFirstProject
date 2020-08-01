@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.elements.DynElementPart;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
@@ -439,6 +440,12 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	public void animatedExhaust(float delta, boolean trackleft, boolean trackright) {
 		enemy_parts.get(INDEX_EXHAUST_LEFT).AnimationLoop(delta, trackleft);
 		enemy_parts.get(INDEX_EXHAUST_RIGHT).AnimationLoop(delta, trackright);
+	}
+
+
+	@Override
+	public Body getBox2DBody() {
+		return this.getBody();
 	}
 	
 	

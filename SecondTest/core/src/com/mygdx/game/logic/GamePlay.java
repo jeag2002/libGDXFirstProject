@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
@@ -22,6 +23,7 @@ import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.screens.elements.Background;
 import com.mygdx.game.utils.NewItem;
+import com.mygdx.game.utils.ShaderEngine;
 
 
 public class GamePlay {
@@ -38,7 +40,7 @@ public class GamePlay {
 	private static final int NO_LIGHTS = 0;
 	private static final int LIGHTS = 1;
 	
-	private static final float TIME = 0.5f;
+	private static final float TIME = 1f;
 	
 	
 	private int lights;
@@ -61,11 +63,17 @@ public class GamePlay {
 	private Random rand;
 	
 	private float time;
+	private float time_2;
 	
 	private boolean pulse;
+	private boolean pulse_2;
 	
 	private NewItem exit;
 	
+	private ShaderProgram shader;
+	
+	
+	private Vector3 LIGHT_POS;
 	
 	public GamePlay(GamePlayScreen gPS) {	
 		this.gPS = gPS;
@@ -78,11 +86,20 @@ public class GamePlay {
 		this.gameLogic = new GameElementLogic(gPS);
 		
 		this.time = 0;
+		this.time_2 = 0;
 		
 		this.lights = -1;
 		this.pulse = false;
+		this.pulse_2 = false;
 		
 		this.exit = new NewItem();
+		
+		this.shader = ShaderEngine.generateShaderNormalMap();
+		
+		this.LIGHT_POS = new Vector3();
+		LIGHT_POS.x = 0;
+		LIGHT_POS.y = 0;
+		LIGHT_POS.z = ShaderEngine.DEFAULT_LIGHT_Z;
 		
 	}
 	
@@ -117,7 +134,8 @@ public class GamePlay {
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		//this.lights = sMG.setLights();
-		this.lights = NO_LIGHTS;
+		//this.lights = NO_LIGHTS;
+		//this.lights = LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(index,
@@ -257,12 +275,12 @@ public class GamePlay {
 		}
 	}
 	
-	
 	public void updateElements(float delta) {
 		if (started) {
 			gameLogic.stepWorld(delta);
 			gameLogic.updatePlayer(delta);
 			gameLogic.updateSpawns(delta);
+			gameLogic.removeSpawn();
 		}
 	}
 	
@@ -317,12 +335,6 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				
-				//TEST-COLLISION
-				//int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
-				//tiledMapRenderer.render(data);
-				
-				
-				
 				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
@@ -333,13 +345,15 @@ public class GamePlay {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
-				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL) || (sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)){
+				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL)){
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
+					
+				}else if (sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL) {
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
+					tiledMapRenderer.render(data);
 				}
-				
-				
 			}
 		}
 	}
@@ -358,6 +372,69 @@ public class GamePlay {
 	}
 	
 	
+
+	
+	public void drawWallCity(float delta) {
+		
+		if (started) {
+			if (tiledMap != null) {
+				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+					
+					
+					
+					tiledMapRenderer.getBatch().begin();
+					tiledMapRenderer.getBatch().setShader(shader);
+					
+					float x = this.getGameLogic().getPlayer().getX() / (float)SecondTestGDX.screenWidth;
+					float y = this.getGameLogic().getPlayer().getY() / (float)SecondTestGDX.screenHeight;
+							
+					LIGHT_POS.x = x;
+					LIGHT_POS.y = y;
+					LIGHT_POS.z = Math.max(0f, LIGHT_POS.z - (delta * 0.005f));
+					
+					//send a Vector4f to GLSL
+					shader.setUniformf("LightPos", LIGHT_POS);
+					
+					tiledMapRenderer.renderTileLayer(sMG.getLightLayer());
+					tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
+					
+					tiledMapRenderer.getBatch().end();
+				}
+			}
+		}
+			
+	}
+	
+	
+	public void drawForestCity() {
+		if (started) {
+			if (tiledMap != null) {
+				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+					
+					int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(index_forest);
+				}
+			}	
+		}
+	}
+	
+	
+	
+	/*
+	public void drawNormalCity() {
+		if (started) {
+			if (tiledMap != null) {
+				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+					
+					int[] index_lightmap = {SimpleMapGeneration.INDEX_LIGHTMAPS};
+					tiledMapRenderer.render(index_lightmap);
+				}
+			}	
+		}
+	}
+	*/
+	
+	
 	public void drawMapGloomingVolcano(float delta) {
 		
 		if (started) {
@@ -368,14 +445,23 @@ public class GamePlay {
 					this.time += delta;
 					if (time >= TIME) {time = 0; pulse = !pulse;}
 					
+					this.time_2 += delta;
+					if (time_2 >= TIME*0.5) {time_2 = 0; pulse_2 = !pulse_2;}
+						
 					
-					int[] index_walls = {SimpleMapGeneration.INDEX_WALLS};
-					tiledMapRenderer.render(index_walls);
+					if (pulse_2) {
+						int[] index_walls = {SimpleMapGeneration.INDEX_WALLS};
+						tiledMapRenderer.render(index_walls);
+					}else {
+						int[] index_walls_2 = {SimpleMapGeneration.INDEX_ALTERNATIVE};
+						tiledMapRenderer.render(index_walls_2);
+					}
+					
 					
 					if (pulse) {
 						tiledMapRenderer.getBatch().begin();
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
-						tiledMapRenderer.renderTileLayer(sMG.createLightMap( SecondTestGDX.sizeMapTileWidth_TL, SecondTestGDX.sizeMapTileHeight_TL, 128, 128));
+						tiledMapRenderer.renderTileLayer(sMG.getLightLayer());
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						tiledMapRenderer.getBatch().end();
 					}
@@ -386,6 +472,10 @@ public class GamePlay {
 		}
 	}
 	
+	
+	public TiledMap getTiledMap() {
+		return this.tiledMap;
+	}
 	
 	public void drawElements(SpriteBatch sb) {
 		if (started) {
@@ -415,6 +505,7 @@ public class GamePlay {
 	
 	public void dispose() {
 		gameLogic.dispose();
+		shader.dispose();
 	}
 	
 

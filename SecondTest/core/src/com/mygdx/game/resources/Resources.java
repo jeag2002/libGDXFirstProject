@@ -190,8 +190,21 @@ public class Resources extends AssetManager{
 	//city
 	public String background_city = "maps/terrain/Ground_Tile_01_G.png";
 	public String wall_city = "maps/terrain/building_3.png";
+	public String wall_city_normal = "maps/terrain/building_3_normalmap.png";
 	public String parterre = "maps/terrain/parterre_1.png";
 	
+	//bonus
+	public String hp_bonus = "elements/bonus/HP_Bonus.png";
+	public String armor_bonus = "elements/bonus/Armor_Bonus.png";
+	public String ammunition_bonus = "elements/bonus/Ammunition_Bonus.png";
+	
+	//holes
+	public String hole_1 = "maps/terrain/hole_1.png";
+	public String hole_2 = "maps/terrain/hole_2.png";
+	public String hole_3 = "maps/terrain/hole_3.png";
+	public String hole_4 = "maps/terrain/hole_4.png";
+	public String hole_5 = "maps/terrain/hole_5.png";
+	public String hole_6 = "maps/terrain/hole_6.png";
 	
 	
 	public void loadAssets() {
@@ -365,7 +378,20 @@ public class Resources extends AssetManager{
 		
 		load(background_city, Texture.class);
 		load(wall_city,Texture.class);
+		load(wall_city_normal,Texture.class);
 		load(parterre,Texture.class);
+		
+		load(hp_bonus, Texture.class);
+		load(armor_bonus, Texture.class);
+		load(ammunition_bonus, Texture.class);
+		
+		//elements destroyed
+		load(hole_1, Texture.class);
+		load(hole_2, Texture.class);
+		load(hole_3, Texture.class);
+		load(hole_4, Texture.class);
+		load(hole_5, Texture.class);
+		load(hole_6, Texture.class);
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

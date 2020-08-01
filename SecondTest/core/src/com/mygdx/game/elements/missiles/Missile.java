@@ -17,6 +17,7 @@ import com.mygdx.game.logic.elements.SpawnPool;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class Missile extends DynamicCollPlayerObject implements SpawnObject {
@@ -129,7 +130,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 
 	@Override
 	public void kill(SpawnPool pool) {
-		pool.returnToPool(this);
+		dispose();
 		super.setPosition(SecondTestGDX.screenWidth, 0);
 	}
 
@@ -185,8 +186,16 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 
 	@Override
 	public void AnimationLoop(float delta, boolean loop) {}
+
+
+	@Override
+	public Body getBox2DBody() {
+		return super.getBody();
+	}
 	
-	
+	public void dispose() {
+		light.remove();
+	}
 	
 	
 }

@@ -9,12 +9,21 @@ import com.mygdx.game.elements.explosions.SimpleExplosion;
 import com.mygdx.game.elements.items.Item;
 import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.*;
+import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
 
 public class SpawnPool {
 
-    private HashMap<SpawnType, ArrayList<SpawnObject>> pools
-            = new HashMap<SpawnType, ArrayList<SpawnObject>>();
+    private HashMap<SpawnType, ArrayList<SpawnObject>> pools = new HashMap<SpawnType, ArrayList<SpawnObject>>();
+    
+	private ArrayList<SpawnObject> deletedBodiesWithCollision;
+    private ArrayList<SpawnObject> deletedBodiesWithOutCollision;
+    
+    private ArrayList<StaticTiledMapColl> deletedWallsWithCollision;
+    private ArrayList<StaticTiledMapColl> deletedForestWithCollision;
+    
+	private ArrayList<SpawnObject> createdBodiesWithCollision;
+    private ArrayList<SpawnObject> createdBodiesWithOutCollision;
     
     private String nameOfPackage = "com.mygdx.game.logic.elements.*";
 
@@ -24,6 +33,14 @@ public class SpawnPool {
     public SpawnPool(World world, GamePlayScreen gPS){
     	this.world = world;
     	this.gPS = gPS;
+    	
+        this.deletedBodiesWithCollision = new ArrayList<SpawnObject>();
+        this.deletedBodiesWithOutCollision  = new ArrayList<SpawnObject>();
+        this.deletedWallsWithCollision = new ArrayList<StaticTiledMapColl>();
+        this.deletedForestWithCollision = new ArrayList<StaticTiledMapColl>();
+        this.createdBodiesWithCollision  = new ArrayList<SpawnObject>();
+        this.createdBodiesWithOutCollision  = new ArrayList<SpawnObject>();
+    	
     }
     
     
@@ -68,6 +85,12 @@ public class SpawnPool {
 
     public void returnToPool(SpawnObject object) {
         object.setSpawned(false);
+        pools.get(SpawnType.MissileEnemy).remove(object);
+        pools.get(SpawnType.MissilePlayer).remove(object);
+        pools.get(SpawnType.Enemy_01).remove(object);
+        pools.get(SpawnType.Enemy_02).remove(object);
+        pools.get(SpawnType.Item).remove(object);
+        pools.get(SpawnType.Explosion).remove(object);
     }
     
     
@@ -98,7 +121,7 @@ public class SpawnPool {
         	}
     	}
     	
-    	
+    	//MISSILE_PLAYER
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.MissilePlayer);
         	for(SpawnObject sO: eS1){
@@ -110,6 +133,7 @@ public class SpawnPool {
         	}
     	}
     	
+    	//MISSILE_ENEMY
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.MissileEnemy);
         	for(SpawnObject sO: eS1){
@@ -149,41 +173,91 @@ public class SpawnPool {
     	return returnObject;
     }
     
-    
+   	
+   	
+    public void clear() {
+    	
+        pools.get(SpawnType.MissileEnemy).clear();
+        pools.get(SpawnType.MissilePlayer).clear();
+        pools.get(SpawnType.Enemy_01).clear();
+        pools.get(SpawnType.Enemy_02).clear();
+        pools.get(SpawnType.Item).clear();
+        pools.get(SpawnType.Explosion).clear();
+        pools.clear();
+        
+        deletedForestWithCollision.clear();
+        deletedWallsWithCollision.clear();
+        deletedBodiesWithCollision.clear();
+        deletedBodiesWithOutCollision.clear();
+        createdBodiesWithCollision.clear();
+        createdBodiesWithOutCollision.clear();
+    }
     
     
 
     private SpawnObject createSpawnObject(SpawnType type) {
 
-    String className = nameOfPackage + type.name();
-    try {
-        SpawnObject created = null;
-        if (type.name() == "MissilePlayer") {
-        	created = new Missile(SpawnType.MissilePlayer, world);
-        }else if (type.name() == "MissileEnemy") {
-        	created = new Missile(SpawnType.MissileEnemy, world);
-        }else if (type.name() == "Enemy_01") {
-            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
-        }else if (type.name() == "Enemy_02") {
-        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
-    	}else if (type.name() == "Item") {
-    		created = new Item(this, type, world, gPS);
-        }else if (type.name() == "Explosion") {
-        	created = new SimpleExplosion(SpawnType.Explosion, this, world, gPS);
-        }else {
-            System.err.println("SpawnPool: " + type.name()
-                    + " not able to spawn. Maybe forgot to add in createSpawnObject()?");
-        }
-
-        return created;
-
-    } catch(Exception e) {
-        System.err.println(e);
-        System.err.println("Type name: " + type.name());
-        System.err.println("Class name: " + className);
+	    String className = nameOfPackage + type.name();
+	    try {
+	        SpawnObject created = null;
+	        if (type.name() == "MissilePlayer") {
+	        	created = new Missile(SpawnType.MissilePlayer, world);
+	        }else if (type.name() == "MissileEnemy") {
+	        	created = new Missile(SpawnType.MissileEnemy, world);
+	        }else if (type.name() == "Enemy_01") {
+	            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
+	        }else if (type.name() == "Enemy_02") {
+	        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
+	    	}else if (type.name() == "Item") {
+	    		created = new Item(this, type, world, gPS);
+	        }else if (type.name() == "Explosion") {
+	        	created = new SimpleExplosion(SpawnType.Explosion, this, world, gPS);
+	        }else {
+	            System.err.println("SpawnPool: " + type.name()
+	                    + " not able to spawn. Maybe forgot to add in createSpawnObject()?");
+	        }
+	
+	        return created;
+	
+	    } catch(Exception e) {
+	        System.err.println(e);
+	        System.err.println("Type name: " + type.name());
+	        System.err.println("Class name: " + className);
+	    }
+	    return null;
     }
-    return null;
-}
+    
+    public ArrayList<StaticTiledMapColl> getDeletedForestsWithCollision() {
+		return deletedForestWithCollision;
+	}
+
+    
+    public ArrayList<StaticTiledMapColl> getDeletedWallsWithCollision() {
+		return deletedWallsWithCollision;
+	}
+
+    public ArrayList<SpawnObject> getDeletedBodiesWithCollision() {
+		return deletedBodiesWithCollision;
+	}
+
+
+	public ArrayList<SpawnObject> getDeletedBodiesWithOutCollision() {
+		return deletedBodiesWithOutCollision;
+	}
+
+
+	public ArrayList<SpawnObject> getCreatedBodiesWithCollision() {
+		return createdBodiesWithCollision;
+	}
+
+
+	public ArrayList<SpawnObject> getCreatedBodiesWithOutCollision() {
+		return createdBodiesWithOutCollision;
+	}
+
+    
+    
+    
 
 }
 

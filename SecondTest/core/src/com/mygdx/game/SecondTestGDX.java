@@ -3,6 +3,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.game.resources.Resources;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.screens.LoadingScreen;
@@ -89,6 +90,8 @@ public class SecondTestGDX extends Game{
 	
 	@Override
 	public void create() {
+		
+		ShaderProgram.pedantic = false;
 		
 		resources = new Resources();
 		loadingScreen = new LoadingScreen(this);

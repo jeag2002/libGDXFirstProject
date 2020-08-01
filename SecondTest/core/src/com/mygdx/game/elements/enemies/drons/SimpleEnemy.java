@@ -17,7 +17,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
 import com.mygdx.game.elements.enemies.IASteeringBehaviourEnemiesObject;
 import com.mygdx.game.elements.enemies.ShootEnemiesObject;
@@ -39,13 +41,14 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 
 	
 	private static final float TRANSITION_BETWEEN_ANIM = 0.05f;
-	private static final float INTERVAL_BETWEEN_SHOOT = 0.05f;
+	private static final float INTERVAL_BETWEEN_SHOOT = 0.25f;
 	
 	private GamePlayScreen gPS;
 	private SpawnType typeEnemy;
 	
 	private ArrayList<DynElementPart> enemy_parts;
 	private float timer;
+	private float timer_shoot;
 	
 	private int indexHullWander = 0;
 	private int indexHullAttack = 0;
@@ -58,6 +61,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private float angle;
 	
+	private SpawnPool pool;
+	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
@@ -65,7 +70,10 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		this.gPS = gPS;
 		this.typeEnemy = type;
 		
+		this.pool = spawnPool;
+		
 		this.timer = 0.0f;
+		this.timer_shoot = 0.0f;
 		
 		this.angle = 0.0f;
 		
@@ -249,11 +257,14 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	@Override
 	public void setPool(SpawnPool pool) {		
+		this.pool = pool;
 	}
 
 	
 	@Override
 	public void kill(SpawnPool pool) {
+		dispose();
+		super.setPosition(SecondTestGDX.screenWidth, 0);
 	}
 
 	
@@ -285,6 +296,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	}
 	
 	public void rotateAnimation() {
+		
 		this.angle = this.getBody().getAngle() * MathUtils.radiansToDegrees;			
 		this.angle += 90;
 		getSprite().setOriginCenter();
@@ -303,13 +315,14 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	    	
 		 	if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
 		 
-		    	timer += delta;
+		    	timer_shoot += delta;
 				float speedGun = 800.0f;
 				
-				if (timer  >= INTERVAL_BETWEEN_SHOOT) {
+				if (timer_shoot  >= INTERVAL_BETWEEN_SHOOT) {
+					
 					float x = (float) ((getX()+16) + 8.0 * Math.cos(this.angle*MathUtils.degRad)); 
 					float y = (float) ((getY()) + 8.0 * Math.sin(this.angle*MathUtils.degRad)); 
-					timer = 0.0f;
+					timer_shoot = 0.0f;
 					this.addGun(SpawnType.Missile_Plasma, this.angle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
 					this.setShootEvent(true);
 				}
@@ -328,5 +341,16 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		}
 	}
 
+	@Override
+	public Body getBox2DBody() {
+		return super.getBody();
+	}
+
+	
+	public void dispose() {
+		light.remove();
+		//light.dispose();
+		enemy_parts.clear();
+	}
 	
 }

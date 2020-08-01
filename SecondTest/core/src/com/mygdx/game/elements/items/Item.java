@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
 import com.mygdx.game.elements.players.DynamicCollPlayerObject;
 import com.mygdx.game.enums.DynamicElementPartType;
@@ -176,7 +178,8 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 
 	@Override
 	public void kill(SpawnPool pool) {
-		// TODO Auto-generated method stub
+		dispose();
+		super.setPosition(SecondTestGDX.screenWidth, 0);
 		
 	}
 
@@ -193,8 +196,18 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
     	if (subType.equals(SpawnType.Item_PlatformPlayer) || subType.equals(SpawnType.Item_PlatformEnemy) || subType.equals(SpawnType.Item_PlatformEndLevel)) {
     		item_parts.get(this.INDEX_SUBITEM).draw(sb);
     	}
+	}
+
+
+	@Override
+	public Body getBox2DBody() {
+		return super.getBody();
 	}	
 	
+	
+	public void dispose() {
+		this.light.remove();
+	}
 	
 	
 	

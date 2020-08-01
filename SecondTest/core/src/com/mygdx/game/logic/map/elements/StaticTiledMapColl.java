@@ -21,23 +21,30 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
 	private float Y;
 	private float W;
 	private float H;
+	private int indexX;
+	private int indexY;
 	private String idCode;
 	private boolean isCollided;
+	private Body body;
 	
 
-	public StaticTiledMapColl(SpawnType type, TextureRegion copy, float X, float Y, float W, float H, World world, boolean isCollided) {
+	public StaticTiledMapColl(SpawnType type, TextureRegion copy, float X, float Y, float W, float H, int index_X, int index_Y, World world, boolean isCollided) {
 		super(copy);
+		
 		this.type = type;
 		this.X = X;
 		this.Y = Y;
 		this.W = W;
 		this.H = H;
+		this.indexX = index_X;
+		this.indexY = index_Y;
+		
 		this.idCode = GUID.get();
 		this.isCollided = isCollided;
-		createCollElement(X,Y,W,H,world, isCollided);
+		createCollElement(X,Y,W,H,index_X, index_Y, world, isCollided);
 	}
 	
-	private void createCollElement(float X, float Y, float W, float H,World world, boolean isCollided) {
+	private void createCollElement(float X, float Y, float W, float H, int index_X, int index_Y, World world, boolean isCollided) {
 		
     	BodyDef bodyDef = new BodyDef();
     	bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -51,7 +58,7 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
     	float iniY = (Y+H/2)/GameLogicInformation.PIXELS_TO_METERS;
     	bodyDef.position.set(iniX,iniY);
     	
-    	Body body = world.createBody(bodyDef);
+    	body = world.createBody(bodyDef);
     	PolygonShape shape = new PolygonShape();
     	
     	float iniW =  W/2/GameLogicInformation.PIXELS_TO_METERS;
@@ -64,12 +71,15 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
     	fixtureDef.isSensor = !isCollided;
     	
     	body.createFixture(fixtureDef);
-    	body.setUserData(new NewItem(type,idCode));
-    	
-    	
+    	body.setUserData(new NewItem(type,idCode, index_X, index_Y));
     	
     	shape.dispose();
 	}
+	
+	public Body getBody() {
+		return body;
+	}
+	
 	
 	public String getCodeId() {
 		return idCode;
@@ -107,6 +117,23 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
 	public void setH(float h) {
 		H = h;
 	}
+	
+	public int getIndexX() {
+		return indexX;
+	}
+
+	public void setIndexX(int indexX) {
+		this.indexX = indexX;
+	}
+
+	public int getIndexY() {
+		return indexY;
+	}
+
+	public void setIndexY(int indexY) {
+		this.indexY = indexY;
+	}
+
 
 	
 

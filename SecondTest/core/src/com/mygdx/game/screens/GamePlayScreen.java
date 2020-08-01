@@ -144,21 +144,26 @@ public class GamePlayScreen implements Screen{
 		}
 		spriteBatch.end();
 		
+		if (gamePlay != null) {
+			if (gamePlay.isStart()) {
+				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
+			}
+		}
+		
 		
 		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				gamePlay.drawMapCamera();
 				gamePlay.drawMapBef();
+
+				gamePlay.drawWallCity(delta);
+				//gamePlay.drawNormalCity();
+				gamePlay.drawForestCity();
+				
 			}
 		}
 		
-		
-		if (gamePlay != null) {
-			if (gamePlay.isStart()) {
-				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
-			}
-		}
 		
 		//DRAW ELEMENTS (PLAYER, ITEMS, ENEMIES)
 		spriteBatch.begin();

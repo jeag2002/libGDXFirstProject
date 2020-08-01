@@ -83,6 +83,28 @@ public class NewItem {
 		this.idCode = idCode;
 	}
 	
+	public NewItem(SpawnType type, String idCode, int index_X, int index_Y) {
+		
+		
+		super();
+		this.type = type;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = 0.0f;
+		this.Y = 0.0f;
+		
+		this.index_X = index_X;
+		this.index_Y = index_Y;
+		
+		this.width = 0.0f;
+		this.height = 0.0f;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.index = 0;
+		this.idCode = idCode;
+		
+		
+	}
+	
 	
 
 	public NewItem(SpawnType type, float x, float y) {
