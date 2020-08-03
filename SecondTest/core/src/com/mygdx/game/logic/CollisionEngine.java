@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -85,6 +86,7 @@ public class CollisionEngine implements ContactListener{
 			other.getType().equals(SpawnType.Wall_Winter) ||
 			other.getType().equals(SpawnType.Forest_Volcano) ||
 			other.getType().equals(SpawnType.Forest_Winter) ||
+			other.getType().equals(SpawnType.Forest_Space) ||
 			other.getType().equals(SpawnType.Border)) {
 			
 				SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
@@ -124,13 +126,32 @@ public class CollisionEngine implements ContactListener{
 				}
 			
 			if (other.getType().equals(SpawnType.Forest_Volcano) ||
-				other.getType().equals(SpawnType.Forest_Winter)) {
+				other.getType().equals(SpawnType.Forest_Winter) ||
+				other.getType().equals(SpawnType.Forest_Space)) {
 					
 				Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
+				
 				if (cell != null) {
-					StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
-					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+					
+					if (other.getType().equals(SpawnType.Forest_Space)) {
+						
+						if (cell.getTile() instanceof AnimatedTiledMapTile) {
+							AnimatedTiledMapTile tile = (AnimatedTiledMapTile)cell.getTile();						
+							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().contains(tile)) {
+								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().add(tile);
+							}
+						}else {
+							StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+							}
+						}
+					
+					}else {
+						StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
 							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+						}
 					}
 				}
 			}
@@ -155,6 +176,7 @@ public class CollisionEngine implements ContactListener{
 			other.getType().equals(SpawnType.Wall_Winter) ||
 			other.getType().equals(SpawnType.Forest_Volcano) ||
 			other.getType().equals(SpawnType.Forest_Winter) ||
+			other.getType().equals(SpawnType.Forest_Space) ||
 			other.getType().equals(SpawnType.Border)) {
 		
 			SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
@@ -195,14 +217,32 @@ public class CollisionEngine implements ContactListener{
 			
 			
 			if (other.getType().equals(SpawnType.Forest_Volcano) ||
-			    other.getType().equals(SpawnType.Forest_Winter)) {	
+			    other.getType().equals(SpawnType.Forest_Winter) ||
+			    other.getType().equals(SpawnType.Forest_Space)) {	
 				
 				Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
 				
 				if (cell != null) {
-					StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
-					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
-						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+					
+					if (other.getType().equals(SpawnType.Forest_Space)) {
+						
+						if (cell.getTile() instanceof AnimatedTiledMapTile) {
+							AnimatedTiledMapTile tile = (AnimatedTiledMapTile)cell.getTile();						
+							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().contains(tile)) {
+								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().add(tile);
+							}
+						}else {
+							StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+							}
+						}
+						
+					}else {
+						StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+						}
 					}
 				}
 

@@ -94,7 +94,7 @@ public class GamePlayScreen implements Screen{
 		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 		
 		stopMusic();
-		//initMusic();
+	    initMusic();
 	}
 	
 	
@@ -158,7 +158,6 @@ public class GamePlayScreen implements Screen{
 				gamePlay.drawMapBef();
 
 				gamePlay.drawWallCity(delta);
-				//gamePlay.drawNormalCity();
 				gamePlay.drawForestCity();
 				
 			}
@@ -183,6 +182,7 @@ public class GamePlayScreen implements Screen{
 				gamePlay.renderRayHandler();
 				
 				gamePlay.drawMapGloomingVolcano(delta);
+				gamePlay.drawForestSpace();
 				
 			}
 		}

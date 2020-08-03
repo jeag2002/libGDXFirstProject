@@ -38,6 +38,7 @@ public class GameLogicInformation {
 	public static final int BADLAND_LEVEL = 4;
 	public static final int VOLCANO_LEVEL = 5;
 	public static final int CITY_LEVEL = 6;
+	public static final int SPACE_LEVEL = 7;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
@@ -46,6 +47,7 @@ public class GameLogicInformation {
 	public static final int FOREST_BADLAND = 3;
 	public static final int FOREST_VOLCANO = 1;
 	public static final int FOREST_CITY = 1;
+	public static final int FOREST_SPACE = 2;
 	
 	public static final int FOREST_DEFAULT = 1;
 	
@@ -116,6 +118,7 @@ public class GameLogicInformation {
 		else if (index == BADLAND_LEVEL) {return FOREST_BADLAND;}
 		else if (index == VOLCANO_LEVEL) {return FOREST_VOLCANO;}
 		else if (index == CITY_LEVEL) {return FOREST_CITY;}
+		else if (index == SPACE_LEVEL) {return FOREST_SPACE;}
 		else {return FOREST_DEFAULT;}
 	}
 	
@@ -123,7 +126,7 @@ public class GameLogicInformation {
 	
 	public static TileMapEnum[] getRandomTileMap(int index) {
 		
-		TileMapEnum[] levelMap= new TileMapEnum[6];
+		TileMapEnum[] levelMap= new TileMapEnum[8];
 		
 		if (index == DESERT_LEVEL) {
 			
@@ -135,6 +138,9 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.CACTUS_01;
 			levelMap[4] = TileMapEnum.CACTUS_02;
 			levelMap[5] = TileMapEnum.CACTUS_03;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
 			
 			
 		}else if (index == JUNGLE_LEVEL) {
@@ -148,6 +154,9 @@ public class GameLogicInformation {
 			levelMap[4] = TileMapEnum.PALM_02;
 			levelMap[5] = TileMapEnum.PALM_03;
 			
+			levelMap[6] = null;
+			levelMap[7] = null;
+			
 		}else if (index == FABRIC_LEVEL) {
 			
 			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING INDUSTRIAL_LEVEL");
@@ -159,6 +168,9 @@ public class GameLogicInformation {
 			levelMap[4] = TileMapEnum.CZECH_01;
 			levelMap[5] = TileMapEnum.CZECH_02;
 			
+			levelMap[6] = null;
+			levelMap[7] = null;
+			
 		
 		}else if (index == WINTER_LEVEL) {
 			
@@ -168,8 +180,12 @@ public class GameLogicInformation {
 			levelMap[2] = TileMapEnum.BLOCK_E_01;
 			
 			levelMap[3] = TileMapEnum.ICEBERG_01;
+			
 			levelMap[4] = null;
 			levelMap[5] = null;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
 			
 		}else if (index == BADLAND_LEVEL) {	
 			
@@ -182,6 +198,9 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.TREE_07;
 			levelMap[4] = TileMapEnum.TREE_08;
 			levelMap[5] = TileMapEnum.TREE_09;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
 		
 		}else if (index == VOLCANO_LEVEL) {
 			
@@ -191,8 +210,12 @@ public class GameLogicInformation {
 			levelMap[1] = TileMapEnum.BLOCK_F_02;
 			levelMap[2] = TileMapEnum.VOLCANO_FOREST_1;
 			levelMap[3] = TileMapEnum.VOLCANO_WALL;
+			
 			levelMap[4] = null;
 			levelMap[5] = null;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
 			
 		}else if (index == CITY_LEVEL) {
 			
@@ -203,8 +226,24 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.PARK_CITY;
 			levelMap[4] = null;
 			levelMap[5] = null;
-			
 		
+		}else if (index == SPACE_LEVEL) {
+			
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING SPACE_LEVEL");
+		
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_A;
+			
+			levelMap[1] = TileMapEnum.SPACE_WALL;
+			levelMap[2] = TileMapEnum.SPACE_WALL;
+			
+			levelMap[3] = TileMapEnum.SPACE_FOREST_1;
+			
+			levelMap[4] = TileMapEnum.SPACE_FAN_1;
+			levelMap[5] = TileMapEnum.SPACE_FAN_2;
+			levelMap[6] = TileMapEnum.SPACE_FAN_3;
+			levelMap[7] = TileMapEnum.SPACE_FAN_4;
+			
+			
 		}else {
 			
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
@@ -214,6 +253,9 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.CACTUS_01;
 			levelMap[4] = TileMapEnum.CACTUS_02;
 			levelMap[5] = TileMapEnum.CACTUS_03;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
 			
 		}
 		

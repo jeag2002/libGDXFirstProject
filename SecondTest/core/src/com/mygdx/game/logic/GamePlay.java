@@ -128,13 +128,13 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//int index = rand.nextInt(7);
-		int index = GameLogicInformation.CITY_LEVEL;
+		//int index = rand.nextInt(8);
+		int index = GameLogicInformation.WINTER_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		//this.lights = sMG.setLights();
-		//this.lights = NO_LIGHTS;
+		this.lights = NO_LIGHTS;
 		//this.lights = LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
@@ -353,6 +353,7 @@ public class GamePlay {
 				}else if (sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL) {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
 					tiledMapRenderer.render(data);
+				
 				}
 			}
 		}
@@ -361,7 +362,7 @@ public class GamePlay {
 	public void drawMapAf() {
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL)) {
+				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.SPACE_LEVEL)) {
 					if (this.lights != LIGHTS) {
 						int[] data = {SimpleMapGeneration.INDEX_FOREST};
 						tiledMapRenderer.render(data);
@@ -385,8 +386,11 @@ public class GamePlay {
 					tiledMapRenderer.getBatch().begin();
 					tiledMapRenderer.getBatch().setShader(shader);
 					
-					float x = this.getGameLogic().getPlayer().getX() / (float)SecondTestGDX.screenWidth;
-					float y = this.getGameLogic().getPlayer().getY() / (float)SecondTestGDX.screenHeight;
+					//float x = this.getGameLogic().getPlayer().getX() / (float)SecondTestGDX.screenWidth;
+					//float y = this.getGameLogic().getPlayer().getY() / (float)SecondTestGDX.screenHeight;
+					
+					float x = this.getGameLogic().getPlayer().getX() / camera.viewportWidth;
+					float y = this.getGameLogic().getPlayer().getY() / camera.viewportHeight;
 							
 					LIGHT_POS.x = x;
 					LIGHT_POS.y = y;
@@ -395,7 +399,7 @@ public class GamePlay {
 					//send a Vector4f to GLSL
 					shader.setUniformf("LightPos", LIGHT_POS);
 					
-					tiledMapRenderer.renderTileLayer(sMG.getLightLayer());
+					tiledMapRenderer.renderTileLayer(sMG.getLightWallLayer());
 					tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
 					
 					tiledMapRenderer.getBatch().end();
@@ -419,20 +423,25 @@ public class GamePlay {
 	}
 	
 	
-	
-	/*
-	public void drawNormalCity() {
+	public void drawForestSpace() {
+		
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+				if ((sMG.getTypeMap() == GameLogicInformation.SPACE_LEVEL)) {
 					
-					int[] index_lightmap = {SimpleMapGeneration.INDEX_LIGHTMAPS};
-					tiledMapRenderer.render(index_lightmap);
+					int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(index_forest);
+					
+					tiledMapRenderer.getBatch().begin();
+					tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
+					tiledMapRenderer.renderTileLayer(sMG.getLightForestLayer());
+					tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+					tiledMapRenderer.getBatch().end();
 				}
 			}	
 		}
 	}
-	*/
+	
 	
 	
 	public void drawMapGloomingVolcano(float delta) {
@@ -461,7 +470,7 @@ public class GamePlay {
 					if (pulse) {
 						tiledMapRenderer.getBatch().begin();
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
-						tiledMapRenderer.renderTileLayer(sMG.getLightLayer());
+						tiledMapRenderer.renderTileLayer(sMG.getLightWallLayer());
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						tiledMapRenderer.getBatch().end();
 					}

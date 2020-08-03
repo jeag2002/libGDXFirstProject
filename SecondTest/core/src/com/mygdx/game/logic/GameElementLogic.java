@@ -3,6 +3,7 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.elements.explosions.SimpleExplosion;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
 import box2dLight.ConeLight;
@@ -202,14 +205,31 @@ public class GameElementLogic {
 		        world.destroyBody(cell.getBody());
 		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_WALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).setCell(cell.getIndexX(),cell.getIndexY(), null);
-			    ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+			    ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSWALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 			   
 		    }
 		    spawnPool.getDeletedWallsWithCollision().clear();
+		    
+		    
+		    for (AnimatedTiledMapTile cell: spawnPool.getDeletedAnimForestWithCollision()) {
+		    	StaticTiledMapTile data[] = cell.getFrameTiles();
+		    	for(int i=0; i<data.length; i++) {
+		    		StaticTiledMapColl tile = (StaticTiledMapColl)data[i];
+		    		world.destroyBody(tile.getBody());
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
+		    	}
+		    	
+		    	
+		    	
+		    }
+		    
+		    spawnPool.getDeletedAnimForestWithCollision().clear();
 		 
 		    for (StaticTiledMapColl cell: spawnPool.getDeletedForestsWithCollision()) {
 		    	world.destroyBody(cell.getBody());
 		    	((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		    	((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 		    }
 		    
 		    spawnPool.getDeletedForestsWithCollision().clear();

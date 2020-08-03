@@ -82,7 +82,15 @@ public enum TileMapEnum {
 	HOLE_CITY(SecondTestGDX.resources.hole_3,55,459,459,128,128),
 	HOLE_FABRIC(SecondTestGDX.resources.hole_4,56,459,459,128,128),
 	HOLE_VOLCANO(SecondTestGDX.resources.hole_5,57,459,459,128,128),
-	HOLE_DESERT(SecondTestGDX.resources.hole_6,58,459,459,128,128);
+	HOLE_DESERT(SecondTestGDX.resources.hole_6,58,459,459,128,128),
+	
+	
+	SPACE_WALL(SecondTestGDX.resources.space_wall,59,256,256,128,128),
+	SPACE_FOREST_1(SecondTestGDX.resources.space_forest,60,256,256,128,128),
+	SPACE_FAN_1(SecondTestGDX.resources.space_fan_1,61,256,256,128,128),
+	SPACE_FAN_2(SecondTestGDX.resources.space_fan_2,62,256,256,128,128),
+	SPACE_FAN_3(SecondTestGDX.resources.space_fan_3,63,256,256,128,128),
+	SPACE_FAN_4(SecondTestGDX.resources.space_fan_4,64,256,256,128,128);
 	
 	private String tileMapStr;
 	private int index;

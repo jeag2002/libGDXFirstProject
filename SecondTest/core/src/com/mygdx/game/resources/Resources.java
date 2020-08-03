@@ -206,6 +206,14 @@ public class Resources extends AssetManager{
 	public String hole_5 = "maps/terrain/hole_5.png";
 	public String hole_6 = "maps/terrain/hole_6.png";
 	
+	//space
+	public String space_wall = "maps/terrain/zspace.png";
+	public String space_forest = "maps/terrain/zspace_forest.png";
+	public String space_fan_1 = "maps/terrain/zspace_fan_1.png";
+	public String space_fan_2 = "maps/terrain/zspace_fan_2.png";
+	public String space_fan_3 = "maps/terrain/zspace_fan_3.png";
+	public String space_fan_4 = "maps/terrain/zspace_fan_4.png";
+	
 	
 	public void loadAssets() {
 		
@@ -392,6 +400,15 @@ public class Resources extends AssetManager{
 		load(hole_4, Texture.class);
 		load(hole_5, Texture.class);
 		load(hole_6, Texture.class);
+		
+		//space
+		load(space_wall, Texture.class);
+		load(space_forest, Texture.class);
+		load(space_fan_1, Texture.class);
+		load(space_fan_2, Texture.class);
+		load(space_fan_3, Texture.class);
+		load(space_fan_4, Texture.class);
+		
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

@@ -82,3 +82,18 @@ https://www.youtube.com/watch?v=4DUfwAEx4Ts
 https://www.badlogicgames.com/forum/viewtopic.php?f=17&t=25667
 https://github.com/CypherCove/FlexBatch
 http://file.allitebooks.com/20150529/Libgdx%20Cross-platform%20Game%20Development%20Cookbook.pdf
+
+SPACE
+https://craftpix.net/product/space-shooter-creation-kit-pixel-art/
+https://opengameart.org/content/space-background-1
+https://opengameart.org/content/weg-art-background-space
+https://opengameart.org/content/space-blocks
+https://opengameart.org/content/space-cartoony-tiled-texture
+
+
+SPACE (FirstTest)
+https://opengameart.org/content/space-ship-shooter-pixel-art-assets
+https://opengameart.org/content/seamless-space-rocks-textures-pack-512px
+
+camera rotation:
+https://stackoverflow.com/questions/16509244/set-camera-rotation-in-libgdx

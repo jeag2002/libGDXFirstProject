@@ -2,6 +2,7 @@ package com.mygdx.game.logic.elements;
 
 import java.util.*;
 
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
@@ -22,6 +23,8 @@ public class SpawnPool {
     private ArrayList<StaticTiledMapColl> deletedWallsWithCollision;
     private ArrayList<StaticTiledMapColl> deletedForestWithCollision;
     
+    private ArrayList<AnimatedTiledMapTile> deletedAnimForestWithCollision;
+    
 	private ArrayList<SpawnObject> createdBodiesWithCollision;
     private ArrayList<SpawnObject> createdBodiesWithOutCollision;
     
@@ -38,6 +41,7 @@ public class SpawnPool {
         this.deletedBodiesWithOutCollision  = new ArrayList<SpawnObject>();
         this.deletedWallsWithCollision = new ArrayList<StaticTiledMapColl>();
         this.deletedForestWithCollision = new ArrayList<StaticTiledMapColl>();
+        this.deletedAnimForestWithCollision = new ArrayList<AnimatedTiledMapTile>();
         this.createdBodiesWithCollision  = new ArrayList<SpawnObject>();
         this.createdBodiesWithOutCollision  = new ArrayList<SpawnObject>();
     	
@@ -255,7 +259,9 @@ public class SpawnPool {
 		return createdBodiesWithOutCollision;
 	}
 
-    
+	public ArrayList<AnimatedTiledMapTile> getDeletedAnimForestWithCollision() {
+		return deletedAnimForestWithCollision;
+	}
     
     
 

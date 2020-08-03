@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -330,14 +331,13 @@ public class Player extends ShootPlayerObject{
     }
     
     
-    
     public void rotate() {
     	super.rotate(angle);
     	direction.set((float)Math.cos(Math.toRadians(angle+270)), (float)Math.sin(Math.toRadians(angle+270))).nor();
-    	
     	super.setCollisionAngleRef(getX(), getY(), angle*MathUtils.degRad);
     	
-    	//super.setCollisionAngle(angle);
+    	//DISABLED ROTATION OF CAMERA.
+    	//testingCameraRotation();
     	
     	player_parts.get(INDEX_TRACK_LEFT).rotate(angle,24,getHeight()/2);
     	player_parts.get(INDEX_TRACK_RIGHT).rotate(angle,-8,getHeight()/2); 	
@@ -447,7 +447,16 @@ public class Player extends ShootPlayerObject{
 	     sfxShotVolume = volume;
 	}
 
-
+	//ROTATION CAMERA
+	public void testingCameraRotation() {
+    	
+    	OrthographicCamera cameraCobayera = this.gPS.getGamePlay().getCamera();
+    	float anglePlayerCobayero = this.angle;
+    	float angleCameraCobayera = (float)Math.atan2(cameraCobayera.up.x, cameraCobayera.up.y)*MathUtils.radiansToDegrees;
+    	angleCameraCobayera = (-1)*angleCameraCobayera + 180;
+    	this.gPS.getGamePlay().getCamera().rotate((angleCameraCobayera-anglePlayerCobayero)+180);
+    	
+    }
 
 	
 
