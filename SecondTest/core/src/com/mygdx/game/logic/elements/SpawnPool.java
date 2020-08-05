@@ -93,6 +93,7 @@ public class SpawnPool {
         pools.get(SpawnType.MissilePlayer).remove(object);
         pools.get(SpawnType.Enemy_01).remove(object);
         pools.get(SpawnType.Enemy_02).remove(object);
+        pools.get(SpawnType.Enemy_03).remove(object);
         pools.get(SpawnType.Item).remove(object);
         pools.get(SpawnType.Explosion).remove(object);
     }
@@ -124,6 +125,20 @@ public class SpawnPool {
         		}
         	}
     	}
+    	
+    	//TURRET
+    	if (returnObject == null) {
+    		eS1 = pools.get(SpawnType.Enemy_03);
+        	for(SpawnObject sO: eS1){
+        		SimpleEnemy sE = (SimpleEnemy)sO;
+        		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
+        			returnObject = sO;
+        			break;
+        		}
+        	}
+    	}
+    	
+    	
     	
     	//MISSILE_PLAYER
     	if (returnObject == null) {
@@ -185,6 +200,7 @@ public class SpawnPool {
         pools.get(SpawnType.MissilePlayer).clear();
         pools.get(SpawnType.Enemy_01).clear();
         pools.get(SpawnType.Enemy_02).clear();
+        pools.get(SpawnType.Enemy_03).clear();
         pools.get(SpawnType.Item).clear();
         pools.get(SpawnType.Explosion).clear();
         pools.clear();
@@ -208,11 +224,12 @@ public class SpawnPool {
 	        	created = new Missile(SpawnType.MissilePlayer, world);
 	        }else if (type.name() == "MissileEnemy") {
 	        	created = new Missile(SpawnType.MissileEnemy, world);
-	        }else if (type.name() == "Enemy_01") {
+	        }else if (type.name() == "Enemy_01") { //DRONS
 	            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
-	        }else if (type.name() == "Enemy_02") {
+	        }else if (type.name() == "Enemy_02") { //TANKS	
 	        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
-	    	}else if (type.name() == "Item") {
+	        }else if (type.name() == "Enemy_03") { //TURRETS
+	        }else if (type.name() == "Item") {
 	    		created = new Item(this, type, world, gPS);
 	        }else if (type.name() == "Explosion") {
 	        	created = new SimpleExplosion(SpawnType.Explosion, this, world, gPS);

@@ -74,6 +74,7 @@ public enum TileMapEnum {
 	
 	BACKGROUND_CITY(SecondTestGDX.resources.background_city,49,258,258,256,256),
 	WALL_CITY(SecondTestGDX.resources.wall_city,50,128,128,128,128),
+	//WALL_CITY(SecondTestGDX.resources.wall_city,50,128,128,256,256),
 	WALL_CITY_NORMAL(SecondTestGDX.resources.wall_city_normal,51,128,128,128,128),
 	PARK_CITY(SecondTestGDX.resources.parterre,52,128,128,128,128),
 	

@@ -42,6 +42,7 @@ public class GameElementLogic {
 	
 	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
+	private ArrayList<SpawnObject> enemiesTurrets = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesEnemies = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> missilesPlayer = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> items = new ArrayList<SpawnObject>();
@@ -66,6 +67,7 @@ public class GameElementLogic {
 		
 		spawnPool.addPool(SpawnType.Enemy_01, enemiesDron);
 		spawnPool.addPool(SpawnType.Enemy_02, enemiesTank);
+		spawnPool.addPool(SpawnType.Enemy_03, enemiesTurrets);
 		
 		spawnPool.addPool(SpawnType.MissileEnemy, missilesEnemies);
         spawnPool.addPool(SpawnType.MissilePlayer, missilesPlayer);
@@ -127,6 +129,7 @@ public class GameElementLogic {
 		
 		enemiesDron.clear();
 		enemiesTank.clear();
+		enemiesTurrets.clear();
 		
 		missilesEnemies.clear();
 		missilesPlayer.clear();
@@ -142,15 +145,15 @@ public class GameElementLogic {
 		for (SpawnObject ex: items) {
 	        if (ex.isSpawned()) {ex.draw(sb);}
 	    }   
-		
 		for (SpawnObject e: enemiesTank) {
 	        if (e.isSpawned()){e.draw(sb);}
 	    }
-		
 	    for (SpawnObject e: enemiesDron) {
 	        if (e.isSpawned()){e.draw(sb);}
 	    }
-	    
+	    for(SpawnObject e:enemiesTurrets) {
+	    	if(e.isSpawned()) {e.draw(sb);}
+	    }
 	    for (SpawnObject m: missilesEnemies) {
 	        if (m.isSpawned()) {m.draw(sb);}     
 	    }	
@@ -160,7 +163,6 @@ public class GameElementLogic {
 	    for (SpawnObject ex: explosions) {
 	        if (ex.isSpawned()) {ex.draw(sb);}
 	    }
-	    
 	}
 	
 	public void drawPlayer(SpriteBatch sb) {
@@ -176,6 +178,9 @@ public class GameElementLogic {
     	for (SpawnObject e: enemiesTank) {
             if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
         }
+    	for(SpawnObject e: enemiesTurrets) {
+    		if (e.isSpawned()) {e.update(delta, GameLogicInformation.speedUpFactor);}
+    	}
     	for (SpawnObject m: missilesEnemies) {
             if (m.isSpawned()) {m.update(delta, GameLogicInformation.speedUpFactor);}
         }

@@ -37,8 +37,8 @@ public class GamePlay {
 	private static final int INDEX_GAMELOGICINFORMATION_FOREST = 3;
 	
 	
-	private static final int NO_LIGHTS = 0;
-	private static final int LIGHTS = 1;
+	public static final int NO_LIGHTS = 0;
+	public static final int LIGHTS = 1;
 	
 	private static final float TIME = 1f;
 	
@@ -72,8 +72,9 @@ public class GamePlay {
 	
 	private ShaderProgram shader;
 	
+	private int levelIndex;
 	
-	private Vector3 LIGHT_POS;
+	//private Vector3 LIGHT_POS;
 	
 	public GamePlay(GamePlayScreen gPS) {	
 		this.gPS = gPS;
@@ -92,14 +93,13 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
+		this.levelIndex = GameLogicInformation.CITY_LEVEL;
+		this.lights = NO_LIGHTS;
+		
 		this.exit = new NewItem();
 		
-		this.shader = ShaderEngine.generateShaderNormalMap();
+		this.shader = ShaderEngine.generateSepiaShaderMap();
 		
-		this.LIGHT_POS = new Vector3();
-		LIGHT_POS.x = 0;
-		LIGHT_POS.y = 0;
-		LIGHT_POS.z = ShaderEngine.DEFAULT_LIGHT_Z;
 		
 	}
 	
@@ -126,19 +126,27 @@ public class GamePlay {
 		}
 	}
 	
+	
+	public int getLevelIndex() {
+		return this.levelIndex;
+	}
+	
+	public int getLights() {
+		return this.lights;
+	}
+	
 	public void processTileGeneration() {
 		
 		//int index = rand.nextInt(8);
-		int index = GameLogicInformation.WINTER_LEVEL;
-		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(index);
+		//this.levelIndex  = GameLogicInformation.VOLCANO_LEVEL;
+		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
 		//this.lights = sMG.setLights();
-		this.lights = NO_LIGHTS;
 		//this.lights = LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
-		tiledMap = sMG.createSimpleMap(index,
+		tiledMap = sMG.createSimpleMap(this.levelIndex,
 									   SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
 									   SecondTestGDX.sizeMapTileWidth_TL, 
@@ -147,7 +155,7 @@ public class GamePlay {
 									   data[INDEX_GAMELOGICINFORMATION_BORDER], 
 									   data[INDEX_GAMELOGICINFORMATION_TILEMAP],
 									   data[INDEX_GAMELOGICINFORMATION_FOREST],
-									   GameLogicInformation.getRandomForestTileMap(index),
+									   GameLogicInformation.getRandomForestTileMap(this.levelIndex),
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIESDRON,
 									   GameLogicInformation.ENEMIESTANK,
@@ -225,8 +233,8 @@ public class GamePlay {
 			    
 			    
 			    //-->ENEMY MINE
-			    //enemyLst = sMG.getEnemiesMINE();
-			    //for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    ArrayList<NewItem> enemyLst = sMG.getEnemiesMINE();
+			    for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
 			    
 			    //-->ENEMY DRON
 			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
@@ -285,6 +293,8 @@ public class GamePlay {
 	}
 	
 	
+	public ShaderProgram getShader() {return this.shader;}
+	
 	
 	public void initialboundaries(float xInitialPlayer, float yInitialPlayer) {
 		
@@ -335,24 +345,38 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				
-				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL) ) {
+				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
 					tiledMapRenderer.render(data);
 				
-				}else if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
+				}else if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
-				}else if ((sMG.getTypeMap() == GameLogicInformation.WINTER_LEVEL)){
+				}else if ((this.levelIndex  == GameLogicInformation.WINTER_LEVEL)){
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 					
-				}else if (sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL) {
-					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
-					tiledMapRenderer.render(data);
+				}else if (this.levelIndex == GameLogicInformation.CITY_LEVEL) {
+					
+					if (this.lights == LIGHTS) {
+						int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
+						tiledMapRenderer.render(data);
+					}else {
+						
+						tiledMapRenderer.getBatch().begin();
+						tiledMapRenderer.getBatch().setShader(this.getShader());
+						tiledMapRenderer.renderTileLayer(sMG.getBackgroundLayer());
+						tiledMapRenderer.renderTileLayer(sMG.getBorderLayer());
+						tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
+						tiledMapRenderer.renderTileLayer(sMG.getForestLayer());
+						tiledMapRenderer.getBatch().end();
+					}
+					
+					
 				
 				}
 			}
@@ -362,7 +386,7 @@ public class GamePlay {
 	public void drawMapAf() {
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() != GameLogicInformation.WINTER_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.VOLCANO_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.CITY_LEVEL) && (sMG.getTypeMap() != GameLogicInformation.SPACE_LEVEL)) {
+				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) && (this.levelIndex  != GameLogicInformation.SPACE_LEVEL)) {
 					if (this.lights != LIGHTS) {
 						int[] data = {SimpleMapGeneration.INDEX_FOREST};
 						tiledMapRenderer.render(data);
@@ -375,68 +399,27 @@ public class GamePlay {
 	
 
 	
-	public void drawWallCity(float delta) {
-		
-		if (started) {
-			if (tiledMap != null) {
-				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
-					
-					
-					
-					tiledMapRenderer.getBatch().begin();
-					tiledMapRenderer.getBatch().setShader(shader);
-					
-					//float x = this.getGameLogic().getPlayer().getX() / (float)SecondTestGDX.screenWidth;
-					//float y = this.getGameLogic().getPlayer().getY() / (float)SecondTestGDX.screenHeight;
-					
-					float x = this.getGameLogic().getPlayer().getX() / camera.viewportWidth;
-					float y = this.getGameLogic().getPlayer().getY() / camera.viewportHeight;
-							
-					LIGHT_POS.x = x;
-					LIGHT_POS.y = y;
-					LIGHT_POS.z = Math.max(0f, LIGHT_POS.z - (delta * 0.005f));
-					
-					//send a Vector4f to GLSL
-					shader.setUniformf("LightPos", LIGHT_POS);
-					
-					tiledMapRenderer.renderTileLayer(sMG.getLightWallLayer());
-					tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
-					
-					tiledMapRenderer.getBatch().end();
-				}
-			}
-		}
-			
-	}
 	
-	
-	public void drawForestCity() {
-		if (started) {
-			if (tiledMap != null) {
-				if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
-					
-					int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
-					tiledMapRenderer.render(index_forest);
-				}
-			}	
-		}
-	}
 	
 	
 	public void drawForestSpace() {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() == GameLogicInformation.SPACE_LEVEL)) {
+				if ((this.levelIndex  == GameLogicInformation.SPACE_LEVEL)) {
 					
 					int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(index_forest);
 					
-					tiledMapRenderer.getBatch().begin();
-					tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
-					tiledMapRenderer.renderTileLayer(sMG.getLightForestLayer());
-					tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-					tiledMapRenderer.getBatch().end();
+					if (this.lights == LIGHTS) {
+					
+						tiledMapRenderer.getBatch().begin();
+						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
+						tiledMapRenderer.renderTileLayer(sMG.getLightForestLayer());
+						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+						tiledMapRenderer.getBatch().end();
+					
+					}
 				}
 			}	
 		}
@@ -448,7 +431,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((sMG.getTypeMap() == GameLogicInformation.VOLCANO_LEVEL)) {
+				if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)) {
 					
 					
 					this.time += delta;
@@ -519,3 +502,62 @@ public class GamePlay {
 	
 
 }
+
+//this.shader = ShaderEngine.generateShaderNormalMap();
+//this.LIGHT_POS = new Vector3();
+//LIGHT_POS.x = 0;
+//LIGHT_POS.y = 0;
+//LIGHT_POS.z = ShaderEngine.DEFAULT_LIGHT_Z;
+
+/*
+public void drawWallCity(float delta) {
+	
+	if (started) {
+		if (tiledMap != null) {
+			if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+				
+				
+				
+				
+				tiledMapRenderer.getBatch().begin();
+				tiledMapRenderer.getBatch().setShader(shader);
+				
+				//float x = this.getGameLogic().getPlayer().getX() / (float)SecondTestGDX.screenWidth;
+				//float y = this.getGameLogic().getPlayer().getY() / (float)SecondTestGDX.screenHeight;
+				
+				float x = this.getGameLogic().getPlayer().getX() / camera.viewportWidth;
+				float y = this.getGameLogic().getPlayer().getY() / camera.viewportHeight;
+						
+				LIGHT_POS.x = x;
+				LIGHT_POS.y = y;
+				LIGHT_POS.z = Math.max(0f, LIGHT_POS.z - (delta * 0.005f));
+				
+				//send a Vector4f to GLSL
+				shader.setUniformf("Resolution", camera.viewportWidth, camera.viewportHeight);
+				shader.setUniformf("LightPos", LIGHT_POS);
+				
+				tiledMapRenderer.renderTileLayer(sMG.getLightWallLayer());
+				tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
+				
+				tiledMapRenderer.getBatch().end();
+				
+			}
+		}
+	}
+		
+}
+*/
+
+/*
+public void drawForestCity() {
+	if (started) {
+		if (tiledMap != null) {
+			if ((sMG.getTypeMap() == GameLogicInformation.CITY_LEVEL)) {
+				
+				int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
+				tiledMapRenderer.render(index_forest);
+			}
+		}	
+	}
+}
+*/

@@ -38,10 +38,11 @@ public enum SpawnType {
     Item_Bonus("Bonus",34),
     Missile_Laser("Laser", 35),
     Missile_Plasma("Plasma",36),
-    Simple_Explosion("Simple_Explosion",37),
-    Item_Bonus_Life("Bonus_Life",38),
-    Item_Bonus_Shield("Bonus_Shield",39),
-    Item_Bonus_Bullet("Bonus_Bullet",40);
+    Missile_Pulse("Pulse",37),
+    Simple_Explosion("Simple_Explosion",38),
+    Item_Bonus_Life("Bonus_Life",39),
+    Item_Bonus_Shield("Bonus_Shield",40),
+    Item_Bonus_Bullet("Bonus_Bullet",41);
     
     
     

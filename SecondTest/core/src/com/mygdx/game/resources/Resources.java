@@ -13,7 +13,6 @@ public class Resources extends AssetManager{
 	private static final String TAG = "[RESOURCES]";
 	
 	public String imgSplash = "splash/splash-2.png";
-	public String imgSplash_1 = "splash/intermission_2.jpg";
 	public String imgIntermission = "splash/intermission_4.jpg";
 	
 	private String fnt = "fonts/Bangers_bitmap.fnt";
@@ -148,12 +147,6 @@ public class Resources extends AssetManager{
 	public String enemy_1_09 = "elements/enemy_1/Bomb_Idle_B_008.png";
 	public String enemy_1_0A = "elements/enemy_1/Bomb_Idle_B_009.png";
 	
-	//enemy_1_parts
-	public String enemy_1_part_01 = "elements/enemy_1/Bomb_Idle_B_000.png";
-	public String enemy_1_part_02 = "elements/enemy_1/Bomb_Idle_B_001.png";
-	public String enemy_1_part_03 = "elements/enemy_1/Bomb_Idle_B_002.png";
-	
-	
 	//enemy_2
 	public String gunEnemy_2_A = "elements/enemy_2/Gun_01.png";
 	public String hullEnemy_2_A = "elements/enemy_2/Hull_01.png";
@@ -172,14 +165,23 @@ public class Resources extends AssetManager{
 	public String enemy_3_09 = "elements/enemy_3/Bomb_Idle_A_008.png";
 	public String enemy_3_0A = "elements/enemy_3/Bomb_Idle_A_009.png";
 	
+	//enemy_4
+	public String enemy_4_01 = "elements/enemy_4/Bomb_Idle_C_000.png";
+	public String enemy_4_02 = "elements/enemy_4/Bomb_Idle_C_001.png";
+	public String enemy_4_03 = "elements/enemy_4/Bomb_Idle_C_002.png";		
+	public String enemy_4_04 = "elements/enemy_4/Bomb_Idle_C_003.png";
+	public String enemy_4_05 = "elements/enemy_4/Bomb_Idle_C_004.png";
+	public String enemy_4_06 = "elements/enemy_4/Bomb_Idle_C_005.png";
+	public String enemy_4_07 = "elements/enemy_4/Bomb_Idle_C_006.png";
+	public String enemy_4_08 = "elements/enemy_4/Bomb_Idle_C_007.png";
+	public String enemy_4_09 = "elements/enemy_4/Bomb_Idle_C_008.png";
+	public String enemy_4_0A = "elements/enemy_4/Bomb_Idle_C_009.png";
+	
+	
 	public String laser = "elements/shots/laser/Laser.png";
 	public String plasma = "elements/shots/laser/Plasma.png";
+	public String pulse = "elements/shots/laser/Proton.png";
 	
-	public String explosions_01 = "elements/explosions/Explosion_A_01.png";
-	public String explosions_02 = "elements/explosions/Explosion_A_02.png";
-	public String explosions_03 = "elements/explosions/Explosion_A_03.png";
-	public String explosions_04 = "elements/explosions/Explosion_A_04.png";
-	public String explosions_05 = "elements/explosions/Explosion_A_05.png";
 	
 	//lightmaps
 	public String lightmap = "maps/lights/lightmap.png";
@@ -224,7 +226,6 @@ public class Resources extends AssetManager{
 		load(fnt,BitmapFont.class,fontParam);
 		
 		load(imgSplash,Texture.class);
-		load(imgSplash_1,Texture.class);
 		load(imgIntermission,Texture.class);
 		
 		load(musicSplash,Music.class);
@@ -324,10 +325,6 @@ public class Resources extends AssetManager{
 		load(enemy_1_09,Texture.class);
 		load(enemy_1_0A,Texture.class);
 		
-		load(enemy_1_part_01,Texture.class);
-		load(enemy_1_part_02,Texture.class);
-		load(enemy_1_part_03,Texture.class);
-		
 		//Badland
 		load(ground_tile_01_F,Texture.class);
 		load(ground_tile_02_F,Texture.class);
@@ -372,14 +369,21 @@ public class Resources extends AssetManager{
 		load(enemy_3_09 ,Texture.class);
 		load(enemy_3_0A ,Texture.class);
 		
+		//enemy_4
+		load(enemy_4_01 ,Texture.class);
+		load(enemy_4_02 ,Texture.class);
+		load(enemy_4_03 ,Texture.class);		
+		load(enemy_4_04 ,Texture.class);
+		load(enemy_4_05 ,Texture.class);
+		load(enemy_4_06 ,Texture.class);
+		load(enemy_4_07 ,Texture.class);
+		load(enemy_4_08 ,Texture.class);
+		load(enemy_4_09 ,Texture.class);
+		load(enemy_4_0A ,Texture.class);
+		
 		load(laser ,Texture.class);
 		load(plasma ,Texture.class);
-		
-		load(explosions_01 ,Texture.class);
-		load(explosions_02 ,Texture.class);
-		load(explosions_03 ,Texture.class);
-		load(explosions_04 ,Texture.class);
-		load(explosions_05 ,Texture.class);
+		load(pulse ,Texture.class);
 		
 		load(lightmap, Texture.class);
 		load(cursor, Texture.class);

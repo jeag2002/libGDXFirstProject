@@ -132,13 +132,14 @@ public class GamePlayScreen implements Screen{
 			gamePlay.updateElements(delta);
 		}
 		
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-	
+		
 		
 		//DRAW BACKGROUND WHEN NO GAMEPLAY
-		spriteBatch.begin();
+		spriteBatch.begin();		
+		
 		if (gamePlay != null) {
 			gamePlay.drawBackground(spriteBatch);
 		}
@@ -151,27 +152,39 @@ public class GamePlayScreen implements Screen{
 		}
 		
 		
+
+		
+		
 		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				gamePlay.drawMapCamera();
-				gamePlay.drawMapBef();
-
-				gamePlay.drawWallCity(delta);
-				gamePlay.drawForestCity();
-				
+				gamePlay.drawMapBef();				
+			}
+		}
+	
+		
+		//DRAW ELEMENTS (PLAYER, ITEMS, ENEMIES)
+		spriteBatch.begin();
+		
+		if (gamePlay != null) {
+			if (gamePlay.isStart()) {
+				if ((gamePlay.getLevelIndex() == GameLogicInformation.CITY_LEVEL) && (gamePlay.getLights() == GamePlay.NO_LIGHTS)){
+					spriteBatch.setShader(gamePlay.getShader());
+				}
 			}
 		}
 		
 		
-		//DRAW ELEMENTS (PLAYER, ITEMS, ENEMIES)
-		spriteBatch.begin();
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				gamePlay.drawElements(spriteBatch);
 			}
 		}	
 		spriteBatch.end();
+		
+	
+		
 		
 		//DRAW BACKGROUND WHEN GAMEPLAY (FOREST) + LIGHTS
 		if (gamePlay != null) {

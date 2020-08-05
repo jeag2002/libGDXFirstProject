@@ -10,7 +10,7 @@ public class ShaderEngine {
 	//public static final float AMBIENT_INTENSITY = 0.2f;
 	//public static final float LIGHT_INTENSITY = 1f;
 
-	public static final float DEFAULT_LIGHT_Z = 1f;
+	public static final float DEFAULT_LIGHT_Z = 0.1f;
 	public static final float AMBIENT_INTENSITY = 1f;
 	public static final float LIGHT_INTENSITY = 1f;
 	
@@ -22,7 +22,26 @@ public class ShaderEngine {
 	public static final Vector3 LIGHT_COLOR = new Vector3(1f, 1f, 1f);
 	public static final Vector3 AMBIENT_COLOR = new Vector3(1f, 1f, 1f);
 	public static final Vector3 FALLOFF = new Vector3(1f, 1f, 1f);
-
+		
+	
+	
+	public static ShaderProgram generateSepiaShaderMap() {
+		
+		ShaderProgram shader = new ShaderProgram(
+				ShaderPrograms.VERT_SEPIA_MAP,
+				ShaderPrograms.FRAG_SEPIA_MAP);
+		
+		if (shader.isCompiled()) {
+			shader.begin();
+			shader.end();
+			return shader;
+		}else {
+			return null;
+		}
+		
+		
+	}
+	
 
 	
 	public static ShaderProgram generateShaderNormalMap() {
@@ -35,7 +54,7 @@ public class ShaderEngine {
 			shader.begin();
 			
 			shader.setUniformi("u_normals", 1);
-			shader.setUniformf("Resolution", SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
+			//shader.setUniformf("Resolution", SecondTestGDX.screenWidth, SecondTestGDX.screenHeight);
 			shader.setUniformf("LightColor", LIGHT_COLOR.x, LIGHT_COLOR.y, LIGHT_COLOR.z, LIGHT_INTENSITY);
 			shader.setUniformf("AmbientColor", AMBIENT_COLOR.x, AMBIENT_COLOR.y, AMBIENT_COLOR.z, AMBIENT_INTENSITY);
 			shader.setUniformf("Falloff", FALLOFF);

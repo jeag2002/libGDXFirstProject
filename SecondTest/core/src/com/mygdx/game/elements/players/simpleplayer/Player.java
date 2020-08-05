@@ -219,19 +219,17 @@ public class Player extends ShootPlayerObject{
     
     public void movement(float delta) {
     	
-    			
-    	
     	   	
-		    	if (orientationUP.equals(PlayerMovementsEnum.UP)) {
+		    if (orientationUP.equals(PlayerMovementsEnum.UP)) {
 		    		if (Gdx.input.isKeyPressed(Keys.UP)) {
 		    			movement(delta, -1);
 		    			gPS.getGamePlay().update(getX(),getY());
 		    			animatedTracks(delta,true,true); 
 		    		    animatedExhaust(delta,true,true);
 		    		}
-		    	}
+		    }
 		    	
-		    	if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
+		    if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
 		    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
 		    			movement(delta, 1);		    			
 		    			gPS.getGamePlay().update(getX(),getY());
@@ -239,7 +237,7 @@ public class Player extends ShootPlayerObject{
 		    			animatedExhaust(delta,false,false);
 		    		}
 	
-		    	}
+		    }
 	    	
 	    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
 	    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {

@@ -51,7 +51,6 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	private float timer_shoot;
 	
 	private int indexHullWander = 0;
-	private int indexHullAttack = 0;
 	
 	private boolean isSpawned;
 	
@@ -87,7 +86,6 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		
 		super.init(SpawnType.MissileEnemy);
 		setIniAnimation();
-		setIniAnimationParts();
 		
 		setSize(width, height);
 		setPosition(iniPositionX, iniPositionY);
@@ -183,28 +181,13 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 				Texture[] hullTXT = GameLogicElementInformation.Enemy_01_Wander;
 				init(hullTXT,indexHullWander);
 			}else if (stateMachine.getCurrentState().equals(SimpleEnemyStateEnum.ATTACK)) {
-				Texture[] hullTXT = GameLogicElementInformation.Enemy_01_Body;
-				//init(hullTXT,indexHullAttack);
+				Texture[] hullTXT = GameLogicElementInformation.Enemy_01_Wander;
 				init(hullTXT,indexHullWander);
 			}
 		}
 	}
 	
-	private void setIniAnimationParts() {
-		if (typeEnemy.equals(SpawnType.Enemy_01)) {
-			
-			DynElementPart enemy_1_left_wing = new DynElementPart(DynamicElementPartType.LEFT_WING_ENEMY_1);
-			enemy_1_left_wing.init(GameLogicElementInformation.Enemy_01_LeftWing, 0);
-			enemy_1_left_wing.setSize(ElementEnum.ENEMY_1_LEFT_WING.getWidthShow(), ElementEnum.ENEMY_1_LEFT_WING.getHeightShow());
-	    	enemy_parts.add(enemy_1_left_wing);
-			
-	    	DynElementPart enemy_1_right_wing = new DynElementPart(DynamicElementPartType.RIGHT_WING_ENEMY_1);
-			enemy_1_right_wing.init(GameLogicElementInformation.Enemy_01_RightWing, 0);
-			enemy_1_right_wing.setSize(ElementEnum.ENEMY_1_RIGHT_WING.getWidthShow(), ElementEnum.ENEMY_1_RIGHT_WING.getHeightShow());
-	    	enemy_parts.add(enemy_1_left_wing);
-	 
-		}
-	}
+	
 	
 	
 	@Override

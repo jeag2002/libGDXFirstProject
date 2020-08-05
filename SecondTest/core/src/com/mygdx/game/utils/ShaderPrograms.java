@@ -6,6 +6,42 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class ShaderPrograms {
 	
+	
+	public static final String VERT_SEPIA_MAP =
+			"uniform mat4 u_projTrans;\r\n" + 
+			"attribute vec4 a_position;\r\n" + 
+			"attribute vec2 a_texCoord0;\r\n" + 
+			"attribute vec4 a_color;\r\n" + 
+			"varying vec4 v_color;\r\n" + 
+			"varying vec2 v_texCoord;\r\n" + 
+			"void main() {\r\n" + 
+				"gl_Position = u_projTrans * a_position;\r\n" + 
+				"v_texCoord = a_texCoord0;\r\n" + 
+				"v_color = a_color;\r\n" + 
+			"}\r\n" + 
+			"";
+	
+	public static final String FRAG_SEPIA_MAP =
+			"#ifdef GL_ES\r\n" + 
+			"precision mediump float;\r\n" + 
+			"precision mediump int;\r\n" + 
+			"#else\r\n" + 
+			"#define highp;\r\n" + 
+			"#endif\r\n" + 
+			"uniform sampler2D u_texture;\r\n" + 
+			"varying vec4 v_color;\r\n" + 
+			"varying vec2 v_texCoord;\r\n" + 
+			"const vec3 grayScaleMultiplier = vec3(0.299, 0.587, 0.114);\r\n" + 
+			"const vec3 sepia = vec3(1.2, 1.0, 0.8);\r\n" + 
+			"void main() {\r\n" + 
+			"vec4 texColor = texture2D(u_texture, v_texCoord);\r\n" + 
+			"vec3 gray = vec3(dot(texColor.rgb, grayScaleMultiplier));\r\n" + 
+			"gl_FragColor = vec4(gray * sepia, texColor.a);\r\n" + 
+			"}\r\n" + 
+			"";
+	
+	
+	
 	public static final String VERT_NORMAL_MAP =  
 			"attribute vec4 "+ShaderProgram.POSITION_ATTRIBUTE+";\n" +
 			"attribute vec4 "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +

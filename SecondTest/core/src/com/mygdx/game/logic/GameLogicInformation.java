@@ -13,6 +13,11 @@ import com.mygdx.game.utils.NewItem;
 
 public class GameLogicInformation {
 
+	
+	public static final int NUM_LEVELS = 10;
+	public static final int FIRST_LEVEL = 0;
+	public static final int END_GAME = 10;
+	
 	public static final int START = 0;
 	public static final int INTERMISSION = 1;
 	public static final int GAMEPLAY = 2;
@@ -23,7 +28,7 @@ public class GameLogicInformation {
 	
 	public static final int ENEMIESDRON = 100;
 	public static final int ENEMIESTANK = 4;
-	public static final int ENEMIESMINE = 20;
+	public static final int ENEMIESMINE = 100;
 	
 	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
 	
@@ -51,17 +56,16 @@ public class GameLogicInformation {
 	
 	public static final int FOREST_DEFAULT = 1;
 	
+	public static final int NO_LIGHTS = 0;
+	public static final int LIGHTS = 1;
+	
+	
 	public static final float speedUpFactor = 1.0f;
 	public static final float bgSpeed = 50.0f;
 	public static final float bgSpeedPos = 20.0f;
 	
 	private static int level;
-	
-	
-	public static final ArrayList<Body> toDeletedDynamicBodiesWithCollision = new ArrayList<Body>();
-	public static final ArrayList<Body> toDeletedStaticBodiesWithCollision = new ArrayList<Body>();
-	public static final ArrayList<SpawnObject> toDeletedDynamicBodiesWithoutCollision = new ArrayList<SpawnObject>();
-    public static final ArrayList<NewItem> toCreatedItemsWithCollision = new ArrayList<NewItem>(); 
+	private static int levelGameplay;
 	
 	
 	public static final String backGround_Start = SecondTestGDX.resources.imgSplash;
@@ -72,6 +76,18 @@ public class GameLogicInformation {
 	public static final String backGround_Intermission_MP3 = SecondTestGDX.resources.musicIntermission;
 	
 	private static BackgroundMusicEnum mEnum;
+	
+	public static void setLevelGamePlay(int level) {
+		if ((level >= FIRST_LEVEL) && (level < END_GAME)) {
+			GameLogicInformation.levelGameplay = level;
+		}else {
+			GameLogicInformation.levelGameplay = GameLogicInformation.FIRST_LEVEL;
+		}
+	}
+	
+	public static int getLevelGamePlay() {
+		return GameLogicInformation.levelGameplay;
+	}
 	
 	public static void setLevel(int level) {
 		

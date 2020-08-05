@@ -74,7 +74,7 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		
 		
-		if (!type.equals(SpawnType.Item_Mine)) {
+		if (!this.subType.equals(SpawnType.Item_Mine)) {
 			this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
 			this.light.setSoftnessLength(0f);
 			this.light.attachToBody(this.getBody());
