@@ -57,6 +57,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		this.item_parts = new ArrayList<DynElementPart>();
 	}	
 	
+	public SpawnType getSubType() {
+		return this.subType;
+	}
 	
 	public void init (RayHandler rayHandler, SpawnType subtype, float iniPositionX, float iniPositionY, float width,  float height) {
 		
@@ -206,7 +209,7 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	
 	public void dispose() {
-		this.light.remove();
+		if (this.light != null) {this.light.remove();}
 	}
 	
 	

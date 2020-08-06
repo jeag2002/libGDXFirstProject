@@ -54,6 +54,7 @@ public class SimpleMapGeneration {
    private ArrayList<NewItem> playersSituation;
    
    private ArrayList<NewItem> enemiesDRONSituation;
+   private ArrayList<NewItem> enemiesCENTROIDSituation;
    private ArrayList<NewItem> enemiesTANKSituation;
    private ArrayList<NewItem> enemiesMINESituation;
    
@@ -107,6 +108,8 @@ public class SimpleMapGeneration {
 	   enemiesDRONSituation = new ArrayList<NewItem>();
 	   enemiesTANKSituation = new ArrayList<NewItem>();
 	   enemiesMINESituation = new ArrayList<NewItem>();
+	   enemiesCENTROIDSituation = new ArrayList<NewItem>();
+	   
 	   
 	   wallsLst = new ArrayList<StaticTiledMapColl>();
 	   forestLst = new ArrayList<StaticTiledMapColl>();
@@ -732,6 +735,55 @@ public class SimpleMapGeneration {
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	//WATCHTOWER SITUATION
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
+		
+		byte[][] forestMap = forestGenerator.getForest();
+		boolean[][] caveMap = caveGenerator.getMap();
+		
+		boolean DONE = false;
+		
+		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+				//FREE SPACE
+				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (caveMap[x-1][y-1] == false) ) {	
+					//ENEMIES
+					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation) && 
+					   (!noMinimunDistanceBetweenEnemies(x,y,enemiesCENTROIDSituation))) {
+						//PLAYER
+						if (!noSameSituationAsPlayer(x,y)) {
+							NewItem sE = new NewItem(SpawnType.Enemy_03, 
+									x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL , 
+									y*SecondTestGDX.tileHeight_TL + SecondTestGDX.tilePlayerHeight_TL, 
+									SecondTestGDX.tilePlayerWidth_TL, 
+									SecondTestGDX.tilePlayerHeight_TL, 0,0);
+							enemiesCENTROIDSituation.add(sE);
+							numEnemies--;							
+							DONE = (numEnemies <= 0);	
+						}
+					}
+				}
+			}	
+		}			
+	}
+	
+	public void setEnemiesCENTROIDPosition(int numEnemies) {
+		
+		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE)) {
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);	
+			Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_03 + ") GENERATED (" + enemiesCENTROIDSituation.size() + ")");
+		}
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	//MINE SITUATION
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	public void setEnemiesMINEPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
@@ -1236,7 +1288,8 @@ public class SimpleMapGeneration {
 	public ArrayList<NewItem> getEnemiesDRON(){return enemiesDRONSituation;}
 	public ArrayList<NewItem> getEnemiesTANK(){return enemiesTANKSituation;}
 	public ArrayList<NewItem> getEnemiesMINE(){return enemiesMINESituation;}
-	
+	public ArrayList<NewItem> getEnemiesWATCHTOWER(){return this.enemiesCENTROIDSituation;}
+
 	public int getTypeMap() {return typeMap;}
 	public MapGraph getGraph() {return graph;}
 	public void setGraph(MapGraph graph) {this.graph = graph;}
@@ -1257,7 +1310,8 @@ public class SimpleMapGeneration {
 			int numPlayers, 
 			int numEnemiesDRON, 
 			int numEnemiesTANK, 
-			int numEnemiesMINE) {
+			int numEnemiesMINE,
+			int numEnemiesWATCHTOWER) {
 		
 		map = new TiledMap();
 		
@@ -1295,6 +1349,7 @@ public class SimpleMapGeneration {
 		*/
 		
 		setEnemiesMINEPosition(numEnemiesMINE);
+		setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
 		setEnemiesDRONPosition(numEnemiesDRON);
 		
 		return map;

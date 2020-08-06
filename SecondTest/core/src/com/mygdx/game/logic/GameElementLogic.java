@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.elements.enemies.centroid.WatchTowerEnemy;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.elements.explosions.SimpleExplosion;
@@ -86,6 +87,13 @@ public class GameElementLogic {
 		sE.init(rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		sE.setSpawned(true);
 	}
+	
+	public void generateEnemyWATCHTOWER(NewItem itemEnemy) {
+		WatchTowerEnemy sE = (WatchTowerEnemy)spawnPool.getFromPool(SpawnType.Enemy_03);
+		sE.init(rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
+		sE.setSpawned(true);
+	}
+	
 	
 	public void generateEnemyTANK(MapGraph map, NewItem itemEnemy, NewItem Objective) {
 		TankEnemy tank = (TankEnemy)spawnPool.getFromPool(SpawnType.Enemy_02);

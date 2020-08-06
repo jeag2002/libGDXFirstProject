@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.elements.enemies.centroid.WatchTowerEnemy;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.elements.explosions.SimpleExplosion;
@@ -130,7 +131,7 @@ public class SpawnPool {
     	if (returnObject == null) {
     		eS1 = pools.get(SpawnType.Enemy_03);
         	for(SpawnObject sO: eS1){
-        		SimpleEnemy sE = (SimpleEnemy)sO;
+        		WatchTowerEnemy sE = (WatchTowerEnemy)sO;
         		if (sE.getIdCode().equalsIgnoreCase(uuid)) {
         			returnObject = sO;
         			break;
@@ -229,6 +230,7 @@ public class SpawnPool {
 	        }else if (type.name() == "Enemy_02") { //TANKS	
 	        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
 	        }else if (type.name() == "Enemy_03") { //TURRETS
+	        	created = new WatchTowerEnemy(this, SpawnType.Enemy_03, world,gPS);
 	        }else if (type.name() == "Item") {
 	    		created = new Item(this, type, world, gPS);
 	        }else if (type.name() == "Explosion") {

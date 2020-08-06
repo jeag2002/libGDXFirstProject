@@ -94,7 +94,7 @@ public class GamePlay {
 		this.pulse_2 = false;
 		
 		this.levelIndex = GameLogicInformation.CITY_LEVEL;
-		this.lights = NO_LIGHTS;
+		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
 		
@@ -159,7 +159,8 @@ public class GamePlay {
 									   GameLogicInformation.PLAYERS,
 									   GameLogicInformation.ENEMIESDRON,
 									   GameLogicInformation.ENEMIESTANK,
-									   GameLogicInformation.ENEMIESMINE);
+									   GameLogicInformation.ENEMIESMINE,
+									   GameLogicInformation.ENEMIESWATCHTOWER);
 		
 		
 		situationPlayer();
@@ -233,8 +234,14 @@ public class GamePlay {
 			    
 			    
 			    //-->ENEMY MINE
-			    ArrayList<NewItem> enemyLst = sMG.getEnemiesMINE();
-			    for(NewItem sE: enemyLst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
+			    for(NewItem sE: enemyMINELst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    
+			   
+			    //-->ENEMY WATCHTOWER
+			    ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
+			    for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
+			    
 			    
 			    //-->ENEMY DRON
 			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();

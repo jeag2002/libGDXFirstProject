@@ -28,12 +28,14 @@ public class GameLogicInformation {
 	
 	public static final int ENEMIESDRON = 100;
 	public static final int ENEMIESTANK = 4;
-	public static final int ENEMIESMINE = 100;
+	public static final int ENEMIESMINE = 20;
+	public static final int ENEMIESWATCHTOWER = 20;
 	
 	public static final double MIN_DISTANCE_BETWEEN_ENEMIES = 200.0f;
 	
 	public static final double SEEK_DISTANCE = 750;
 	public static final double ATTACK_DISTANCE = 128;
+	public static final double ATTACK_DISTANCE_WATCHTOWER = 500;
 	
 	
 	public static final int DESERT_LEVEL = 0;
