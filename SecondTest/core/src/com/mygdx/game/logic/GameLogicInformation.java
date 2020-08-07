@@ -35,7 +35,7 @@ public class GameLogicInformation {
 	
 	public static final double SEEK_DISTANCE = 750;
 	public static final double ATTACK_DISTANCE = 128;
-	public static final double ATTACK_DISTANCE_WATCHTOWER = 500;
+	public static final double ATTACK_DISTANCE_WATCHTOWER = 300;
 	
 	
 	public static final int DESERT_LEVEL = 0;
@@ -46,6 +46,7 @@ public class GameLogicInformation {
 	public static final int VOLCANO_LEVEL = 5;
 	public static final int CITY_LEVEL = 6;
 	public static final int SPACE_LEVEL = 7;
+	//public static final int ISLAND_LEVEL = 8;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
@@ -55,6 +56,7 @@ public class GameLogicInformation {
 	public static final int FOREST_VOLCANO = 1;
 	public static final int FOREST_CITY = 1;
 	public static final int FOREST_SPACE = 2;
+	//public static final int FOREST_ISLAND = 3;
 	
 	public static final int FOREST_DEFAULT = 1;
 	
@@ -137,6 +139,7 @@ public class GameLogicInformation {
 		else if (index == VOLCANO_LEVEL) {return FOREST_VOLCANO;}
 		else if (index == CITY_LEVEL) {return FOREST_CITY;}
 		else if (index == SPACE_LEVEL) {return FOREST_SPACE;}
+		//else if (index == ISLAND_LEVEL) {return FOREST_ISLAND;}
 		else {return FOREST_DEFAULT;}
 	}
 	
@@ -244,6 +247,8 @@ public class GameLogicInformation {
 			levelMap[3] = TileMapEnum.PARK_CITY;
 			levelMap[4] = null;
 			levelMap[5] = null;
+			levelMap[6] = null;
+			levelMap[7] = null;
 		
 		}else if (index == SPACE_LEVEL) {
 			
@@ -261,8 +266,27 @@ public class GameLogicInformation {
 			levelMap[6] = TileMapEnum.SPACE_FAN_3;
 			levelMap[7] = TileMapEnum.SPACE_FAN_4;
 			
+		}
+		/*
+		else if (index == ISLAND_LEVEL) {
 			
-		}else {
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING ISLAND_LEVEL");
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_01_D;
+			
+			levelMap[1] = TileMapEnum.BLOCK_B_02;
+			levelMap[2] = TileMapEnum.WATER_1;
+			
+			levelMap[3] = TileMapEnum.PALM_01;
+			levelMap[4] = TileMapEnum.PALM_02;
+			levelMap[5] = TileMapEnum.PALM_03;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
+			
+			
+			
+		}*/else {
 			
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;

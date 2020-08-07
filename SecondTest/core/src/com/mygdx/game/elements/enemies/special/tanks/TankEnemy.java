@@ -277,6 +277,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.MOVE)) {
 			movementTANKState(delta);		
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.ATTACK)) {
+			//movementTANKState(delta);
 			attackTANKState(delta);
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.STOP)) {
 			stopTANKState(delta);
@@ -307,7 +308,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 		setShootingActive(true);
 		rotateTurret();
-		//shootGeneration(delta);
+		shootGeneration(delta);
 		animatedTracks(delta, false, false);
 		animatedExhaust(delta, false, false);
 		super.update(delta);
@@ -328,6 +329,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     	
     	angleTurret = (float) Math.atan2((gunPosition.y-player_position.y),(gunPosition.x-player_position.x));
     	angleTurret = (angleTurret*MathUtils.radDeg);
+    	
+    	angleTurret += 270;
     	
     	enemy_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );		
     			

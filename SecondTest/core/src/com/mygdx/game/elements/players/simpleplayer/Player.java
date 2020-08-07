@@ -305,7 +305,10 @@ public class Player extends ShootPlayerObject{
 		
 		if (time  >= INTERVAL_BETWEEN_SHOOT) {
 			
-			float shootAngle = angle+angleTurret+90;
+			float shootAngle = 0.0f;
+			
+			if (SecondTestGDX.isMouseEnabled) {shootAngle = angleTurret + 90;} else {shootAngle = angle+angleTurret+90;}
+			
 			float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
 			float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad)); 
 			
@@ -339,7 +342,13 @@ public class Player extends ShootPlayerObject{
     	
     	player_parts.get(INDEX_TRACK_LEFT).rotate(angle,24,getHeight()/2);
     	player_parts.get(INDEX_TRACK_RIGHT).rotate(angle,-8,getHeight()/2); 	
-    	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	
+    	
+    	if (!SecondTestGDX.isMouseEnabled) {
+    		player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	}else {
+    		player_parts.get(INDEX_GUN).rotate(angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	}
     	
     	player_parts.get(INDEX_EXHAUST_LEFT).rotate(angle, 16, 56);
     	player_parts.get(INDEX_EXHAUST_RIGHT).rotate(angle, 0, 56);
@@ -358,17 +367,34 @@ public class Player extends ShootPlayerObject{
     	mousePosition.x = Gdx.input.getX();
     	mousePosition.y = Gdx.input.getY();
     	
-    	angleTurret = (float) Math.atan2((gunPosition.y-mousePosition.y),(gunPosition.x-mousePosition.x));
-    	angleTurret = (angleTurret*MathUtils.radDeg + 270)*(-1);
     	
-    	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );		
+    	float originX = this.gPS.getGamePlay().getCamera().position.x - SecondTestGDX.screenWidth/2;
+    	float originY = this.gPS.getGamePlay().getCamera().position.y - SecondTestGDX.screenHeight/2; 
+    	
+    	gunPosition.x = gunPosition.x;
+    	gunPosition.y = gunPosition.y;
+    	
+    	mousePosition.x += originX;
+    	mousePosition.y += originY;
+    	
+    	
+    	angleTurret = (float) Math.atan2((gunPosition.y-mousePosition.y),(gunPosition.x-mousePosition.x));
+    	//angleTurret = (angleTurret*MathUtils.radDeg + 270)*(-1);
+    	angleTurret = (-1)*(angleTurret*MathUtils.radDeg - 90);
+    	
+    	player_parts.get(INDEX_GUN).rotate(angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );		
     			
     }
     
     
     
     public void rotateTurret() {
-    	player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	
+    	if (!SecondTestGDX.isMouseEnabled) {
+    		player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	}else {
+    		player_parts.get(INDEX_GUN).rotate(angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	}
     }
     
     

@@ -216,6 +216,10 @@ public class Resources extends AssetManager{
 	public String space_fan_3 = "maps/terrain/zspace_fan_3.png";
 	public String space_fan_4 = "maps/terrain/zspace_fan_4.png";
 	
+	//water-1
+	public String water_1 = "maps/terrain/water-2.jpg";
+	
+	
 	
 	public void loadAssets() {
 		
@@ -412,6 +416,8 @@ public class Resources extends AssetManager{
 		load(space_fan_2, Texture.class);
 		load(space_fan_3, Texture.class);
 		load(space_fan_4, Texture.class);
+		
+		load(water_1, Texture.class);
 		
 		
 		

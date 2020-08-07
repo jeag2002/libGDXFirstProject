@@ -89,11 +89,10 @@ public class GamePlay {
 		this.time = 0;
 		this.time_2 = 0;
 		
-		this.lights = -1;
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.CITY_LEVEL;
+		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -229,8 +228,8 @@ public class GamePlay {
 			    
 			   
 			    //-->ENEMY TANK
-			    //ArrayList<NewItem>  enemyLst = sMG.getEnemiesTANK();
-			    //for(NewItem sE: enemyLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
+			    ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
+			    for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
 			    
 			    
 			    //-->ENEMY MINE

@@ -1,6 +1,7 @@
 package com.mygdx.game.utils;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
 
@@ -41,8 +42,6 @@ public class ShaderEngine {
 		
 		
 	}
-	
-
 	
 	public static ShaderProgram generateShaderNormalMap() {
 		

@@ -97,3 +97,9 @@ https://opengameart.org/content/seamless-space-rocks-textures-pack-512px
 
 camera rotation:
 https://stackoverflow.com/questions/16509244/set-camera-rotation-in-libgdx
+
+RAIN: (particles)
+https://jvm-gaming.org/t/slick2d-how-to-create-a-rain-and-snow/38860/2
+
+RAIN/SNOW: (shaders)
+http://www.glslsandbox.com/e#36547.0

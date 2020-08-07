@@ -40,8 +40,6 @@ public class ShaderPrograms {
 			"}\r\n" + 
 			"";
 	
-	
-	
 	public static final String VERT_NORMAL_MAP =  
 			"attribute vec4 "+ShaderProgram.POSITION_ATTRIBUTE+";\n" +
 			"attribute vec4 "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +

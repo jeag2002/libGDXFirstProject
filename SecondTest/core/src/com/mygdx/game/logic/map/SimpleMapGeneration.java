@@ -99,6 +99,7 @@ public class SimpleMapGeneration {
    public static final int TYPE_VOLCANO = 5;
    public static final int TYPE_CITY = 6;
    public static final int TYPE_SPACE = 7;
+   public static final int TYPE_ISLAND = 8;
    
   
    public SimpleMapGeneration() {
@@ -921,13 +922,17 @@ public class SimpleMapGeneration {
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
 		
+		int index = 0;
 		
 		for(int x=1; x<width-1; x++) {
 			for(int y=1; y<height-1; y++) {
 				if (caveMap[x-1][y-1] == false) {
 					if ((forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY) ||
 					   ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (this.typeMap != TYPE_WINTER) && (this.typeMap != TYPE_VOLCANO))) {
-						graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, 0 ));
+						graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, index));
+						//graph.addNode(new NewItem(SpawnType.Path_Node, y*SecondTestGDX.tileWidth_TL, x*SecondTestGDX.tileHeight_TL, y, x, index));
+						index++;
+						
 					}
 				}
 			}	
@@ -941,15 +946,19 @@ public class SimpleMapGeneration {
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
 				
+				
 				NewItem toItem = new NewItem(SpawnType.Path_Node, 
 						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
 						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()-1,
 						fromItem.getIndex_Y()+1, 0 );
 				
-				int index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				index = nodes.indexOf(toItem);
+				
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			
 			} 
 			
@@ -961,9 +970,11 @@ public class SimpleMapGeneration {
 						fromItem.getIndex_X(), 
 						fromItem.getIndex_Y()+1, 0 );
 				
-				int index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				index = nodes.indexOf(toItem);
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			
 			}
 			
@@ -976,9 +987,11 @@ public class SimpleMapGeneration {
 						fromItem.getIndex_X()+1, 
 						fromItem.getIndex_Y()+1, 0 );
 				
-				int index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem,  nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				index = nodes.indexOf(toItem);
+				if (index != -1) {
+					graph.addEdge(fromItem,  nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			
 			}
 			
@@ -990,9 +1003,12 @@ public class SimpleMapGeneration {
 						fromItem.getIndex_X()-1, 
 						fromItem.getIndex_Y(), 0 );
 				
-				int index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				index = nodes.indexOf(toItem);
+				
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			}
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
@@ -1003,9 +1019,12 @@ public class SimpleMapGeneration {
 						fromItem.getIndex_X()+1, 
 						fromItem.getIndex_Y(), 0 );
 				
-				int index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				index = nodes.indexOf(toItem);
+				
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			}
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
@@ -1015,10 +1034,12 @@ public class SimpleMapGeneration {
 						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X()-1, 
 						fromItem.getIndex_Y()-1, 0 );
-				int index = nodes.indexOf(toItem);
+				index = nodes.indexOf(toItem);
 				
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			
 			}
 			
@@ -1029,11 +1050,12 @@ public class SimpleMapGeneration {
 						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
 						fromItem.getIndex_X(), 
 						fromItem.getIndex_Y()-1, 0 );
-				int index = nodes.indexOf(toItem);
+				index = nodes.indexOf(toItem);
 				
-				
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 				
 			}
 			
@@ -1045,10 +1067,12 @@ public class SimpleMapGeneration {
 						fromItem.getIndex_X()+1, 
 						fromItem.getIndex_Y()-1, 0 );
 				
-				int index = nodes.indexOf(toItem);
+				index = nodes.indexOf(toItem);
 				
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
+				if (index != -1) {
+					graph.addEdge(fromItem, nodes.get(index),1);
+					graph.addEdge(nodes.get(index),fromItem,1);
+				}
 			}
 		}
 		
@@ -1341,16 +1365,16 @@ public class SimpleMapGeneration {
 		generateGraph(width_tl, height_tl);
 		
 		
-		/*
+		
 		if (numPlayers == SINGLE_PLAYER) {
 			NewItem player = playersSituation.get(0);
 			setEnemiesTANKPosition(player);
 		}
-		*/
 		
-		setEnemiesMINEPosition(numEnemiesMINE);
-		setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
-		setEnemiesDRONPosition(numEnemiesDRON);
+		
+		//setEnemiesMINEPosition(numEnemiesMINE);
+		//setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
+		//setEnemiesDRONPosition(numEnemiesDRON);
 		
 		return map;
 	}
