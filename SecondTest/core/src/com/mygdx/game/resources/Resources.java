@@ -27,6 +27,9 @@ public class Resources extends AssetManager{
 	public String musicGameplay_5 = "music/gameplay_5.mp3";
 	public String musicGameplay_6 = "music/gameplay_6.mp3";
 	
+	public String testSquare = "test/square.png";
+	
+	
 	public String startButton = "gui/start/Start_BTN.png";
 	public String exitButton = "gui/start/Exit_1_BTN.png";
 	public String gameButton = "gui/start/GameMode_BTN.png";
@@ -147,11 +150,22 @@ public class Resources extends AssetManager{
 	public String enemy_1_09 = "elements/enemy_1/Bomb_Idle_B_008.png";
 	public String enemy_1_0A = "elements/enemy_1/Bomb_Idle_B_009.png";
 	
-	//enemy_2
+	//enemy_2 (TANK_1)
 	public String gunEnemy_2_A = "elements/enemy_2/Gun_01.png";
 	public String hullEnemy_2_A = "elements/enemy_2/Hull_01.png";
 	public String tire_03 = "elements/tires/Tire_Track_03.png";
 	public String tire_04 = "elements/tires/Tire_Track_04.png";
+	
+	//enemy_2 (TANK_2)
+	public String gunEnemy_2_B = "elements/enemy_2_1/Gun_06.png";
+	public String hullEnemy_2_B = "elements/enemy_2_1/Hull_05.png";
+	public String tire_05 = "elements/tires/Tire_Track_05.png";
+	public String tire_06 = "elements/tires/Tire_Track_06.png";
+	
+	//enemy_2 (TANK_3)
+	public String gunEnemy_2_C = "elements/enemy_2_2/Gun_08.png";
+	public String hullEnemy_2_C = "elements/enemy_2_2/Hull_06.png";
+	
 	
 	//enemy_3
 	public String enemy_3_01 = "elements/enemy_3/Bomb_Idle_A_000.png";
@@ -181,6 +195,7 @@ public class Resources extends AssetManager{
 	public String laser = "elements/shots/laser/Laser.png";
 	public String plasma = "elements/shots/laser/Plasma.png";
 	public String pulse = "elements/shots/laser/Proton.png";
+	public String missile = "elements/shots/missile/Heavy_Shell.png";
 	
 	
 	//lightmaps
@@ -228,6 +243,8 @@ public class Resources extends AssetManager{
 		fontParam.minFilter = Texture.TextureFilter.Linear;
 		
 		load(fnt,BitmapFont.class,fontParam);
+		
+		load(testSquare, Texture.class);
 		
 		load(imgSplash,Texture.class);
 		load(imgIntermission,Texture.class);
@@ -361,6 +378,18 @@ public class Resources extends AssetManager{
 		load(tire_03 ,Texture.class);
 		load(tire_04 ,Texture.class);
 		
+		
+		//enemy_2 (TANK_2)
+		load(gunEnemy_2_B,Texture.class);
+		load(hullEnemy_2_B ,Texture.class);
+		load(tire_05 ,Texture.class);
+		load(tire_06 ,Texture.class);
+		
+		//enemy_2 (TANK_3)
+		load(gunEnemy_2_C ,Texture.class);
+		load(hullEnemy_2_C  ,Texture.class);
+		
+		
 		//enemy_3
 		load(enemy_3_01 ,Texture.class);
 		load(enemy_3_02 ,Texture.class);
@@ -388,6 +417,7 @@ public class Resources extends AssetManager{
 		load(laser ,Texture.class);
 		load(plasma ,Texture.class);
 		load(pulse ,Texture.class);
+		load(missile,Texture.class);
 		
 		load(lightmap, Texture.class);
 		load(cursor, Texture.class);

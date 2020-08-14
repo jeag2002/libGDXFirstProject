@@ -77,6 +77,8 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	    	 text_laser_1 = GameLogicElementInformation.plasma;
 	     }else if (subType.equals(SpawnType.Missile_Pulse)) {
 	    	 text_laser_1 = GameLogicElementInformation.pulse;
+	     }else if (subType.equals(SpawnType.Missile_Missile)) {
+	    	 text_laser_1 = GameLogicElementInformation.missile;
 	     }
 	     
 		 

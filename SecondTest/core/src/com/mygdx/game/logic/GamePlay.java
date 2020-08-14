@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
+		this.levelIndex = GameLogicInformation.BADLAND_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -231,20 +231,23 @@ public class GamePlay {
 			    ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
 			    for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
 			    
+			    //-->NODE INI TANK
+			    ArrayList<NewItem> nodesTANKLst = sMG.getTankIniNodes();
+			    for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
 			    
 			    //-->ENEMY MINE
-			    ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
-			    for(NewItem sE: enemyMINELst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    //ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
+			    //for(NewItem sE: enemyMINELst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
 			    
 			   
 			    //-->ENEMY WATCHTOWER
-			    ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
-			    for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
+			    //ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
+			    //for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
 			    
 			    
 			    //-->ENEMY DRON
-			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
-			    for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    //ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
+			    //for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
 			    
 			    
 			    
@@ -351,6 +354,13 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				
+				//TEST
+				//int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER};
+				//tiledMapRenderer.render(data);
+				
+				
+				
+				
 				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
@@ -380,11 +390,9 @@ public class GamePlay {
 						tiledMapRenderer.renderTileLayer(sMG.getCaveLayer());
 						tiledMapRenderer.renderTileLayer(sMG.getForestLayer());
 						tiledMapRenderer.getBatch().end();
-					}
-					
-					
-				
+					}	
 				}
+				
 			}
 		}
 	}
@@ -429,6 +437,21 @@ public class GamePlay {
 				}
 			}	
 		}
+	}
+	
+	
+	public void drawGraphGrid() {
+		
+		if (started) {
+			if (tiledMap != null) {
+				if (SecondTestGDX.graphGridEnabled) {
+					int[] index_graph = {SimpleMapGeneration.INDEX_GRAPHPATH};
+					tiledMapRenderer.render(index_graph);
+				}
+			}
+		}
+		
+		
 	}
 	
 	

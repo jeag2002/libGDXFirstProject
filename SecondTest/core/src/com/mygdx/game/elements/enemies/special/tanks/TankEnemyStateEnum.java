@@ -19,8 +19,8 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 	
 	MOVE(){
 		
-		private static final float DST_EXIT = 90.0f;
-		private static final float DST_PLAYER = 500.0f;
+		private static final float DST_EXIT = 150.0f;
+		private static final float DST_PLAYER = 300.0f;
 		
 		@Override
 		public void enter(TankEnemy enemy) {
@@ -45,6 +45,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			}else {
 				float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 				if (dst <= DST_EXIT) {
+					System.out.println("TANK " + enemy.getIdCode() + " ARRIVE TO DESTINATION. CHANGE TO STOP");
 					enemy.getStateMachine().changeState(STOP);
 				}
 			}	
@@ -72,7 +73,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 	
 	ATTACK(){
 		
-		private static final float DST_EXIT = 90.0f;
+		private static final float DST_EXIT = 100.0f;
 		private static final float DST_PLAYER = 500.0f;
 		
 		@Override
@@ -123,7 +124,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 	
 	STOP(){
 		
-		private static final float DST_EXIT = 90.0f;
+		private static final float DST_EXIT = 100.0f;
 		private static final float DST_PLAYER = 500.0f;
 		
 		

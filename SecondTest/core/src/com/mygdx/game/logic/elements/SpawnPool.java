@@ -228,7 +228,7 @@ public class SpawnPool {
 	        }else if (type.name() == "Enemy_01") { //DRONS
 	            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
 	        }else if (type.name() == "Enemy_02") { //TANKS	
-	        	created = new TankEnemy(this, SpawnType.Enemy_02, ElementEnum.GUN_ENEMY2, world, gPS);
+	        	created = new TankEnemy(this, SpawnType.Enemy_02, world, gPS);
 	        }else if (type.name() == "Enemy_03") { //TURRETS
 	        	created = new WatchTowerEnemy(this, SpawnType.Enemy_03, world,gPS);
 	        }else if (type.name() == "Item") {

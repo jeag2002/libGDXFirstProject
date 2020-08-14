@@ -93,7 +93,11 @@ public enum TileMapEnum {
 	SPACE_FAN_3(SecondTestGDX.resources.space_fan_3,63,256,256,128,128),
 	SPACE_FAN_4(SecondTestGDX.resources.space_fan_4,64,256,256,128,128),
 	
-	WATER_1(SecondTestGDX.resources.water_1,64,512,512,128,128);
+	WATER_1(SecondTestGDX.resources.water_1,64,512,512,128,128),
+	
+	SQUARE(SecondTestGDX.resources.testSquare, 65,128,128,128,128),
+	
+	BLOCK_D_02_1(SecondTestGDX.resources.block_D_02,65,128,128,256,256);
 	
 	
 	private String tileMapStr;

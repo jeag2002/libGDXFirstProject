@@ -63,7 +63,17 @@ public enum ElementEnum {
 	ENEMY_4_07(SecondTestGDX.resources.enemy_4_07,48,256,256,64,64),
 	ENEMY_4_08(SecondTestGDX.resources.enemy_4_08,49,256,256,64,64),
 	ENEMY_4_09(SecondTestGDX.resources.enemy_4_09,50,256,256,64,64),
-	ENEMY_4_0A(SecondTestGDX.resources.enemy_4_0A,51,256,256,64,64);
+	ENEMY_4_0A(SecondTestGDX.resources.enemy_4_0A,51,256,256,64,64),
+	
+	MISSILE(SecondTestGDX.resources.missile,52,128,128,32,64),
+	
+	HULL_ENEMY3(SecondTestGDX.resources.hullEnemy_2_B, 53, 256, 256, 64, 64),
+	GUN_ENEMY3(SecondTestGDX.resources.gunEnemy_2_B, 54, 94, 212, 32, 64),
+	TRACK_05(SecondTestGDX.resources.tire_05,55,42,246,16,64),
+	TRACK_06(SecondTestGDX.resources.tire_06,56,42,246,16,64),
+	
+	HULL_ENEMY4(SecondTestGDX.resources.hullEnemy_2_C, 57, 256, 256, 64, 64),
+	GUN_ENEMY4(SecondTestGDX.resources.gunEnemy_2_C, 58, 94, 212, 32, 64);
 	
 	private String elementStr;
 	private int index;

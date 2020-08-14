@@ -7,6 +7,8 @@ import com.mygdx.game.ia.MapConnection;
 public class NewItem {
 	
 	private SpawnType type;
+	private SpawnType subType;
+
 	private DynamicElementPositionEnum ppEnum;
 	
 	private float X;
@@ -29,6 +31,8 @@ public class NewItem {
 	public NewItem(NewItem copy) {
 		
 		this.type = copy.getType();
+		this.subType = copy.getSubType();
+		
 		this.ppEnum = copy.getPlayerPosition();
 		this.X = copy.getX();
 		this.Y = copy.getY();
@@ -49,6 +53,8 @@ public class NewItem {
 	
 	public NewItem() {
 		this.type = SpawnType.Item;
+		this.subType = SpawnType.Item;
+		
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
@@ -68,6 +74,7 @@ public class NewItem {
 	public NewItem(SpawnType type, String idCode) {
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
@@ -88,6 +95,7 @@ public class NewItem {
 		
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = 0.0f;
 		this.Y = 0.0f;
@@ -110,6 +118,7 @@ public class NewItem {
 	public NewItem(SpawnType type, float x, float y) {
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
@@ -128,6 +137,7 @@ public class NewItem {
 	public NewItem(SpawnType type, float x, float y, int index) {
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
@@ -145,6 +155,7 @@ public class NewItem {
 		
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
@@ -165,6 +176,7 @@ public class NewItem {
 	public NewItem(SpawnType type, DynamicElementPositionEnum position, float x, float y) {
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = position;
 		this.X = x;
 		this.Y = y;
@@ -183,6 +195,7 @@ public class NewItem {
 		
 		super();
 		this.type = type;
+		this.subType = SpawnType.Item;
 		this.ppEnum = DynamicElementPositionEnum.IDLE;
 		this.X = x;
 		this.Y = y;
@@ -195,6 +208,26 @@ public class NewItem {
 		this.index = 0;
 		this.idCode = "";
 	}
+	
+	public NewItem(SpawnType type, SpawnType subType, float x, float y, float width, float height, float angle, float speed) {
+		
+		super();
+		this.type = type;
+		this.subType = subType;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = x;
+		this.Y = y;
+		this.index_X = 0;
+		this.index_Y = 0;
+		this.width = width;
+		this.height = height;
+		this.angle = angle;
+		this.speed = speed;
+		this.index = 0;
+		this.idCode = "";
+	}
+	
+	
 	
 	
 	public String toString() {
@@ -314,6 +347,14 @@ public class NewItem {
 
 	public void setIndex_Y(int index_Y) {
 		this.index_Y = index_Y;
+	}
+	
+	public SpawnType getSubType() {
+		return subType;
+	}
+
+	public void setSubType(SpawnType subType) {
+		this.subType = subType;
 	}
 	
 

@@ -42,7 +42,11 @@ public enum SpawnType {
     Simple_Explosion("Simple_Explosion",38),
     Item_Bonus_Life("Bonus_Life",39),
     Item_Bonus_Shield("Bonus_Shield",40),
-    Item_Bonus_Bullet("Bonus_Bullet",41);
+    Item_Bonus_Bullet("Bonus_Bullet",41),
+    Missile_Missile("Missile",42),
+    Tank_Level_1("Tank_Level_1",43),
+    Tank_Level_2("Tank_Level_2",44),
+    Tank_Level_3("Tank_level_3",45);
     
     
     

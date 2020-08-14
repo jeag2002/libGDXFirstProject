@@ -97,10 +97,10 @@ public class GameElementLogic {
 	
 	public void generateEnemyTANK(MapGraph map, NewItem itemEnemy, NewItem Objective) {
 		TankEnemy tank = (TankEnemy)spawnPool.getFromPool(SpawnType.Enemy_02);
-		tank.init(map, itemEnemy, Objective, rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
+		tank.init(map, itemEnemy.getSubType(), itemEnemy, Objective, rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		tank.setSpawned(true);
-		itemEnemy.setX(itemEnemy.getX() + itemEnemy.getWidth());
-		generateItem(SpawnType.Item_PlatformEnemy, itemEnemy);
+		//itemEnemy.setX(itemEnemy.getX() + itemEnemy.getWidth());
+		//generateItem(SpawnType.Item_PlatformEnemy, itemEnemy);
 	}
 	
 	public void generateItem(SpawnType subItem, NewItem itemEnemy) {

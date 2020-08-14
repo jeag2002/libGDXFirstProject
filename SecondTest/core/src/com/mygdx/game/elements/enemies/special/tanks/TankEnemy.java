@@ -51,7 +51,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 
 	
 	private GamePlayScreen gPS;
+	
 	private SpawnType typeEnemy;
+	private SpawnType subTypeEnemy;
+	
 	private ArrayList<DynElementPart> enemy_parts;
 	private float timer;
 	private boolean isSpawned;
@@ -67,7 +70,6 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
     
-	private ElementEnum cannonType;
 	private NewItem previousNode;
 	private NewItem objective;
 	
@@ -78,11 +80,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	private StateMachine<TankEnemy, TankEnemyStateEnum> stateMachine;
 	
 	
-	public TankEnemy(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
+	public TankEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
 		this.gPS = gPS;
 		this.typeEnemy = type;	
-		this.cannonType = cannonType;
 		this.timer = 0.0f;
 		this.isSpawned = false;
 		this.previousNode = new NewItem();
@@ -91,8 +92,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	}
 	
 	
-	public void init (MapGraph graph, NewItem posTank, NewItem posObjective, RayHandler rayHandler, float iniPositionX, float iniPositionY, float width,  float height,  float angle, float speed, boolean activateGun) {
+	public void init (MapGraph graph, SpawnType subType, NewItem posTank, NewItem posObjective, RayHandler rayHandler, float iniPositionX, float iniPositionY, float width,  float height,  float angle, float speed, boolean activateGun) {
 		
+		
+		this.subTypeEnemy = subType;
 		
 		setAnimation();
 		setAnimationParts(iniPositionX, iniPositionY, width, height);
@@ -140,36 +143,80 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
     public void setAnimation() {
 	    	
-	    	if (typeEnemy.equals(SpawnType.Enemy_02)) {
+	    	if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
+	    		
 	    		Texture[] hullTXT = GameLogicElementInformation.hullEnemy02Text;
+	    		init(hullTXT,0);
+	    		
+	    	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
+	    		
+	    		Texture[] hullTXT = GameLogicElementInformation.hullEnemy02_1Text;
+	    		init(hullTXT,0);
+	    		
+	    	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_3)){
+	    		Texture[] hullTXT = GameLogicElementInformation.hullEnemy02_2Text;
 	    		init(hullTXT,0);
 	    	}
 	}
 	
     public void setAnimationParts(float iniPositionX, float iniPositionY, float width, float height) {
     	
+    	if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
+    	
+    		DynElementPart track_left = new DynElementPart(DynamicElementPartType.TRACK_LEFT_ENEMY_2);
+    		track_left.init(GameLogicElementInformation.trackEnemyText, 0);
+    		track_left.setSize(ElementEnum.TRACK_03.getWidthShow(), ElementEnum.TRACK_03.getHeightShow());
+    		track_left.setPosition(iniPositionX+8, iniPositionY);
+    		enemy_parts.add(track_left);
+    	
+    		DynElementPart track_right = new DynElementPart(DynamicElementPartType.TRACK_RIGHT_ENEMY_2);
+    		track_right.init(GameLogicElementInformation.trackEnemyText, 0);
+    		track_right.setSize(ElementEnum.TRACK_03.getWidthShow(), ElementEnum.TRACK_03.getHeightShow());
+    		track_right.setPosition(iniPositionX+48-8, iniPositionY);
+    		enemy_parts.add(track_right);
     	
     	
-    	DynElementPart track_left = new DynElementPart(DynamicElementPartType.TRACK_LEFT_ENEMY_2);
-    	track_left.init(GameLogicElementInformation.trackEnemyText, 0);
-    	track_left.setSize(ElementEnum.TRACK_03.getWidthShow(), ElementEnum.TRACK_03.getHeightShow());
-    	track_left.setPosition(iniPositionX+8, iniPositionY);
-    	enemy_parts.add(track_left);
+    	}else {
+    		
+    		DynElementPart track_left = new DynElementPart(DynamicElementPartType.TRACK_LEFT_ENEMY_2);
+        	track_left.init(GameLogicElementInformation.trackEnemyText_1, 0);
+        	track_left.setSize(ElementEnum.TRACK_05.getWidthShow(), ElementEnum.TRACK_05.getHeightShow());
+        	track_left.setPosition(iniPositionX+8, iniPositionY);
+        	enemy_parts.add(track_left);
+        	
+        	DynElementPart track_right = new DynElementPart(DynamicElementPartType.TRACK_RIGHT_ENEMY_2);
+        	track_right.init(GameLogicElementInformation.trackEnemyText_1, 0);
+        	track_right.setSize(ElementEnum.TRACK_05.getWidthShow(), ElementEnum.TRACK_05.getHeightShow());
+        	track_right.setPosition(iniPositionX+48-8, iniPositionY);
+        	enemy_parts.add(track_right);
+    		
+    	}
     	
-    	DynElementPart track_right = new DynElementPart(DynamicElementPartType.TRACK_RIGHT_ENEMY_2);
-    	track_right.init(GameLogicElementInformation.trackEnemyText, 0);
-    	track_right.setSize(ElementEnum.TRACK_03.getWidthShow(), ElementEnum.TRACK_03.getHeightShow());
-    	track_right.setPosition(iniPositionX+48-8, iniPositionY);
-    	enemy_parts.add(track_right);
     	
     	
     	DynElementPart gun = new DynElementPart(DynamicElementPartType.GUN_ENEMY_2);
     	Texture gunTXT[] = null;
-    	if (cannonType.equals(ElementEnum.GUN_ENEMY2)) {
+    	if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
+    		
     		gunTXT = GameLogicElementInformation.cannonEnemy02Text;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_ENEMY2.getWidthShow(), ElementEnum.GUN_ENEMY2.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY2.getWidthShow()/2), iniPositionY+8);
+        	
+    	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
+    		
+    		gunTXT = GameLogicElementInformation.cannonEnemy02_1Text;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_ENEMY3.getWidthShow(), ElementEnum.GUN_ENEMY3.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY3.getWidthShow()/2), iniPositionY+8);
+        	
+    	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_3)) {
+    		
+    		gunTXT = GameLogicElementInformation.cannonEnemy02_2Text;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_ENEMY4.getWidthShow(), ElementEnum.GUN_ENEMY4.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY4.getWidthShow()/2), iniPositionY+8);
+        	
     	}
     	enemy_parts.add(gun);
     	
@@ -275,15 +322,18 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	private void processIATank(float delta) {
 		
 		if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.MOVE)) {
-			movementTANKState(delta);		
+			movementTANKState(delta);	
+			//System.out.println("TANK ID " + this.getIdCode() + " MOVE");
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.ATTACK)) {
-			//movementTANKState(delta);
 			attackTANKState(delta);
+			//System.out.println("TANK ID " + this.getIdCode() + " ATTACK");
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.STOP)) {
 			stopTANKState(delta);
+			//System.out.println("TANK ID " + this.getIdCode() + " STOP");
 		}
 		
 		setCollisionRef(getX(),getY());	
+		
 	}
 	
 	private void movementTANKState(float delta) {
@@ -297,6 +347,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	
 	private void stopTANKState(float delta) {
+		stop();
 		setShootingActive(false);
 		animatedTracks(delta, false, false);
 		animatedExhaust(delta, false, false);
@@ -306,6 +357,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	private void attackTANKState(float delta) {
 		
+		stop();
 		setShootingActive(true);
 		rotateTurret();
 		shootGeneration(delta);
@@ -330,9 +382,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     	angleTurret = (float) Math.atan2((gunPosition.y-player_position.y),(gunPosition.x-player_position.x));
     	angleTurret = (angleTurret*MathUtils.radDeg);
     	
-    	angleTurret += 270;
+    	angleTurret += 90;
     	
-    	enemy_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );		
+    	//enemy_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
+    	enemy_parts.get(INDEX_GUN).rotate(angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
     			
     }
     
@@ -346,11 +399,20 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 			float speedGun = 800.0f;
 			
 			if (timer  >= INTERVAL_BETWEEN_SHOOT) {
-				float shootAngle = angle+angleTurret+90;
+				float shootAngle = angleTurret+90;
 				float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
 				float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad)); 
 				timer = 0.0f;
-				this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
+				
+				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
+					this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
+				}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				}else {
+					this.addGun(SpawnType.Missile_Missile, shootAngle, speedGun, x , y, 0, 0, ElementEnum.MISSILE.getWidthShow(), ElementEnum.MISSILE.getHeightShow());
+				}
+				
 				this.setShootEvent(true);
 			}
 	 }
@@ -403,6 +465,12 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     	enemy_parts.get(INDEX_EXHAUST_RIGHT).rotate(angle, 0, 56);
     	
     }
+	
+	
+	public void stop() {
+		this.getBody().setLinearVelocity(0.0f, 0.0f);
+		this.getBody().setAngularVelocity(0.0f);	
+	}
 	
 	
 	public void movement(float delta, float index) {

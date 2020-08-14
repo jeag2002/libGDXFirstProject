@@ -56,6 +56,7 @@ public class SimpleMapGeneration {
    private ArrayList<NewItem> enemiesDRONSituation;
    private ArrayList<NewItem> enemiesCENTROIDSituation;
    private ArrayList<NewItem> enemiesTANKSituation;
+   private ArrayList<NewItem> tankIniNodeSituation;
    private ArrayList<NewItem> enemiesMINESituation;
    
    private NewItem exit;
@@ -77,6 +78,8 @@ public class SimpleMapGeneration {
    private TiledMapTileLayer lightWallLayer;
    private TiledMapTileLayer lightForestLayer;
    
+   private TiledMapTileLayer graphLayer;
+   
     
    public static final int INDEX_BACKGROUND = 0;
    public static final int INDEX_BORDER = 1;
@@ -85,6 +88,7 @@ public class SimpleMapGeneration {
    public static final int INDEX_FOREST = 4;
    public static final int INDEX_ALTERNATIVE = 5; 
    public static final int INDEX_LIGHTMAPSFOREST = 6;
+   public static final int INDEX_GRAPHPATH = 7;
    
    
    public static final int INDEX_PLAYER = 5;
@@ -107,7 +111,10 @@ public class SimpleMapGeneration {
 	   playersSituation = new ArrayList<NewItem>();
 	   
 	   enemiesDRONSituation = new ArrayList<NewItem>();
+	   
 	   enemiesTANKSituation = new ArrayList<NewItem>();
+	   tankIniNodeSituation = new ArrayList<NewItem>();
+	   
 	   enemiesMINESituation = new ArrayList<NewItem>();
 	   enemiesCENTROIDSituation = new ArrayList<NewItem>();
 	   
@@ -655,7 +662,7 @@ public class SimpleMapGeneration {
 			NewItem player = new NewItem(playerId, 
 					                     DynamicElementPositionEnum.IDLE, 
 					                     128+64, 
-					                     (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL);
+					                     (SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL);
 			playersSituation.add(player);
 		}
 		
@@ -833,7 +840,7 @@ public class SimpleMapGeneration {
 	
 	//TANKS
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	public void setEnemiesTANKPosition(DynamicElementPositionEnum ppE, boolean sameSitAsPlayer) {
+	public void setEnemiesTANKPosition(DynamicElementPositionEnum ppE, int numEnemies, boolean sameSitAsPlayer) {
 		
 		if (!sameSitAsPlayer) {
 			
@@ -851,9 +858,59 @@ public class SimpleMapGeneration {
 						if (!noMinimunDistanceBetweenEnemies(x,y,enemiesTANKSituation)) {
 							//PLAYER
 							if (!noSameSituationAsPlayer(x,y)) {
-								NewItem sE = new NewItem(SpawnType.Enemy_02, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
-								enemiesTANKSituation.add(sE);						
-								DONE = true;
+								
+								if (hasPlayerNoObstacleAround(x-1, y-1)) {
+								
+									if (numEnemies == 1) {
+									
+										NewItem sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_1, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);	
+									
+									}else if (numEnemies == 2) {
+										
+										NewItem sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_1, x*SecondTestGDX.tileWidth_TL, (y-1)*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);
+										
+										sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_2, x*SecondTestGDX.tileWidth_TL, (y+1)*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);
+										
+									}else {
+										
+										NewItem sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_1, x*SecondTestGDX.tileWidth_TL, (y-1)*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);
+
+										sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_2, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);
+										
+										sE = new NewItem(SpawnType.Enemy_02, SpawnType.Tank_Level_3, x*SecondTestGDX.tileWidth_TL, (y+1)*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										enemiesTANKSituation.add(sE);
+
+									}
+									
+									if (ppE.equals(DynamicElementPositionEnum.LEFTDOWN) || ppE.equals(DynamicElementPositionEnum.LEFTHIGH)) {
+										
+										NewItem node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
+												x*SecondTestGDX.tileWidth_TL - SecondTestGDX.tilePlayerWidth_TL, 
+												y*SecondTestGDX.tileHeight_TL, 
+								                SecondTestGDX.tilePlayerWidth_TL, 
+								                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										
+										this.tankIniNodeSituation.add(node_tank);	
+										
+									}else {
+									
+										NewItem node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
+												x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL, 
+												y*SecondTestGDX.tileHeight_TL, 
+								                SecondTestGDX.tilePlayerWidth_TL, 
+								                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+										
+										this.tankIniNodeSituation.add(node_tank);
+									}
+									
+									DONE = true;
+								}
+								
 							}
 						}
 					}
@@ -865,28 +922,73 @@ public class SimpleMapGeneration {
 	
 	
 	
-	public void setEnemiesTANKPosition(NewItem player) {
+	public void setEnemiesTANKPosition(NewItem player, int numTanks) {
 		
-		setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTDOWN, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN)); 
-		setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTHIGH, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH)); 
-		setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTDOWN, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN)); 
-		setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTHIGH, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH)); 
+		setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTDOWN, numTanks/3 + numTanks%3, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN)); 
+		setEnemiesTANKPosition(DynamicElementPositionEnum.LEFTHIGH, numTanks/3, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH)); 
+		setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTDOWN, numTanks/3, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN)); 
+		setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTHIGH, numTanks/3, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH)); 
+		
 		Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_02 + ") GENERATED (" + enemiesTANKSituation.size() + ")");
+		Gdx.app.log("[SINGLEMAPGENERATION]","SPAWN ENEMIES NODES (" + SpawnType.Item_PlatformEnemy + ") GENERATED (" + tankIniNodeSituation.size() + ")");
 		
+		
+		//TEST
 		/*
 		NewItem tank = new NewItem(SpawnType.Enemy_02, 
-                3*(SecondTestGDX.sizeMapTileWidth_TL/4) * SecondTestGDX.tileWidth_TL, 
-                (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL, 
+				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 256, 
+                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
                 SecondTestGDX.tilePlayerWidth_TL, 
                 SecondTestGDX.tilePlayerHeight_TL, 0,0);
 		enemiesTANKSituation.add(tank);
+		
+		
+		NewItem node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
+				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 192, 
+                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		this.tankIniNodeSituation.add(node_tank);
+		
+		tank = new NewItem(SpawnType.Enemy_02, 
+				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 256, 
+                (SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		enemiesTANKSituation.add(tank);
+		
+		node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
+                SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 192, 
+                (SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		this.tankIniNodeSituation.add(node_tank);
+		
+		
+		tank = new NewItem(SpawnType.Enemy_02, 
+                128+64, 
+                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		enemiesTANKSituation.add(tank);
+		
+		node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
+                128, 
+                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
+                SecondTestGDX.tilePlayerWidth_TL, 
+                SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		this.tankIniNodeSituation.add(node_tank);
 		*/
+		
+		
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	//GRAPH GENERATOR
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	public boolean checkNode(NewItem fromItem, int i, int j, int width, int heigh) {
 		boolean res = false;
@@ -930,7 +1032,6 @@ public class SimpleMapGeneration {
 					if ((forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY) ||
 					   ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (this.typeMap != TYPE_WINTER) && (this.typeMap != TYPE_VOLCANO))) {
 						graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, index));
-						//graph.addNode(new NewItem(SpawnType.Path_Node, y*SecondTestGDX.tileWidth_TL, x*SecondTestGDX.tileHeight_TL, y, x, index));
 						index++;
 						
 					}
@@ -944,6 +1045,7 @@ public class SimpleMapGeneration {
 		for(int i=0; i<nodes.size(); i++) {
 			NewItem fromItem = nodes.get(i);
 			
+			/*
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
 				
 				
@@ -956,11 +1058,12 @@ public class SimpleMapGeneration {
 				index = nodes.indexOf(toItem);
 				
 				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),1);
-					graph.addEdge(nodes.get(index),fromItem,1);
+					graph.addEdge(fromItem, nodes.get(index),2);
+					graph.addEdge(nodes.get(index),fromItem,2);
 				}
 			
 			} 
+			*/
 			
 			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
 				
@@ -978,6 +1081,7 @@ public class SimpleMapGeneration {
 			
 			}
 			
+			/*
 			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
 				
 				
@@ -989,11 +1093,13 @@ public class SimpleMapGeneration {
 				
 				index = nodes.indexOf(toItem);
 				if (index != -1) {
-					graph.addEdge(fromItem,  nodes.get(index),1);
-					graph.addEdge(nodes.get(index),fromItem,1);
+					graph.addEdge(fromItem,  nodes.get(index),2);
+					graph.addEdge(nodes.get(index),fromItem,2);
 				}
 			
 			}
+			*/
+			
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
 				
@@ -1011,6 +1117,7 @@ public class SimpleMapGeneration {
 				}
 			}
 			
+			
 			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
 				
 				NewItem toItem = new NewItem(SpawnType.Path_Node, 
@@ -1027,6 +1134,8 @@ public class SimpleMapGeneration {
 				}
 			}
 			
+			
+			/*
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
 				
 				NewItem toItem = new NewItem(SpawnType.Path_Node,
@@ -1037,11 +1146,12 @@ public class SimpleMapGeneration {
 				index = nodes.indexOf(toItem);
 				
 				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),1);
-					graph.addEdge(nodes.get(index),fromItem,1);
+					graph.addEdge(fromItem, nodes.get(index),2);
+					graph.addEdge(nodes.get(index),fromItem,2);
 				}
 			
 			}
+			*/
 			
 			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
 				
@@ -1059,6 +1169,7 @@ public class SimpleMapGeneration {
 				
 			}
 			
+			/*
 			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
 				
 				NewItem toItem = new NewItem(SpawnType.Path_Node, 
@@ -1070,13 +1181,12 @@ public class SimpleMapGeneration {
 				index = nodes.indexOf(toItem);
 				
 				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),1);
-					graph.addEdge(nodes.get(index),fromItem,1);
+					graph.addEdge(fromItem, nodes.get(index),2);
+					graph.addEdge(nodes.get(index),fromItem,2);
 				}
 			}
+			*/
 		}
-		
-		
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* MAP GENERATION DONE");
 	}
@@ -1112,19 +1222,32 @@ public class SimpleMapGeneration {
 	
 	
 	public NewItem setExit() {
+		
+		
 		this.exit = setExitInMap(DynamicElementPositionEnum.CENTER);
 		if(this.exit != null) {Gdx.app.log("[SINGLEMAPGENERATION]", "EXIT NODE CREATED!");}
 		
-		
-		/*
 		if (this.exit == null) {
+			
+			//test position
+			
+			/*
+			this.exit = new NewItem(SpawnType.Item,
+					 SecondTestGDX.sizeMapTileWidth_TL* SecondTestGDX.tileWidth_TL-192, 
+					 SecondTestGDX.sizeMapTileHeight_TL/2 * SecondTestGDX.tileHeight_TL, 
+					 SecondTestGDX.tilePlayerWidth_TL, 
+					 SecondTestGDX.tilePlayerHeight_TL, 0,0);
+					 
+			*/		 
+			/*
 			this.exit = new NewItem(SpawnType.Item,
 					 (SecondTestGDX.sizeMapTileWidth_TL/2) * SecondTestGDX.tileWidth_TL, 
 					 (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL, 
 					 SecondTestGDX.tilePlayerWidth_TL, 
 					 SecondTestGDX.tilePlayerHeight_TL, 0,0);
+		   */
 		}
-		*/
+		
 		
 		return this.exit;
 	}
@@ -1152,7 +1275,8 @@ public class SimpleMapGeneration {
 		}
 		//else if (connections.contains(revConn)) {
 		//	return false;
-		}else {
+		//}
+		else {
 			return true;
 		}	
 	
@@ -1298,9 +1422,9 @@ public class SimpleMapGeneration {
 		
 		
 		
-		//Gdx.app.log("[SINGLEMAPGENERATION]"," NODES " +  graph.getNodes());
-		//Gdx.app.log("[SINGLEMAPGENERATION]"," EDGES " +  graph.getEdges());
-		//Gdx.app.log("[SINGLEMAPGENERATION]"," CONNECTIONS " + graph.getConnectionsMap());
+		Gdx.app.log("[SINGLEMAPGENERATION]"," NODES " +  graph.getNodes());
+		Gdx.app.log("[SINGLEMAPGENERATION]"," EDGES " +  graph.getEdges());
+		Gdx.app.log("[SINGLEMAPGENERATION]"," CONNECTIONS " + graph.getConnectionsMap());
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* TEST MAP GENERATION DONE");
 	}
@@ -1313,11 +1437,44 @@ public class SimpleMapGeneration {
 	public ArrayList<NewItem> getEnemiesTANK(){return enemiesTANKSituation;}
 	public ArrayList<NewItem> getEnemiesMINE(){return enemiesMINESituation;}
 	public ArrayList<NewItem> getEnemiesWATCHTOWER(){return this.enemiesCENTROIDSituation;}
+	public ArrayList<NewItem> getTankIniNodes(){return this.tankIniNodeSituation;}
+	
 
 	public int getTypeMap() {return typeMap;}
 	public MapGraph getGraph() {return graph;}
 	public void setGraph(MapGraph graph) {this.graph = graph;}
 	
+	
+	//TEST GRAPH MAP
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public TiledMapTileLayer createGraphLayerMap(int width, int height, int width_tile, int heigh_tile) {
+		
+		this.graphLayer = new TiledMapTileLayer(width, height, width_tile, heigh_tile);
+		
+		ArrayList<NewItem> nodes = this.graph.getNodes();
+		
+
+		Texture text = null;
+		text = SecondTestGDX.resources.get(SecondTestGDX.resources.testSquare);
+		text = DrawUtils.resizeTexture(text, 128, 128, 128, 128);
+		TextureRegion tRegion = new TextureRegion(text);
+		
+		
+		for(NewItem node: nodes) {
+		
+			Cell cell = new Cell();
+			StaticTiledMapTile ligthmap = new StaticTiledMapTile(tRegion);
+			cell.setTile(ligthmap);
+			this.graphLayer.setCell(node.getIndex_X(), node.getIndex_Y(), cell);
+		}
+		
+	
+	
+		return graphLayer;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
 		
 	//MOST IMPORTANT FUNCTION. WORLD GENERATION
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1345,14 +1502,14 @@ public class SimpleMapGeneration {
 	    generateForest(width_tl-2, height_tl-2);
 		
 		
-		layers.add(createBackground(width_bg, height_bg, tileBack));   //INDEX_0 => Background
-		layers.add(createBorder(width_tl, height_tl, tileBorder));	   //INDEX_1 => Border
-		layers.add(createLightWallMap(width_tl, height_tl, 128, 128));	   //INDEX_2 => LightMap	
+		/*0-BACKGROUND*/layers.add(createBackground(width_bg, height_bg, tileBack));
+		/*1-BORDER*/layers.add(createBorder(width_tl, height_tl, tileBorder));
+		/*2-LIGHTWALL*/layers.add(createLightWallMap(width_tl, height_tl, 128, 128));	
+		/*3-WALL*/layers.add(createCave(width_tl, height_tl, tileMap));
+		/*4-FOREST*/layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    
+		/*5-ALT_WALL*/layers.add(createAlternativeCave(width_tl, height_tl)); //alternative
+		/*6-LIGHT_FOREST*/layers.add(createLightForestMap(width_tl, height_tl, 128, 128));
 		
-		layers.add(createCave(width_tl, height_tl, tileMap));		   //INDEX_3 => Wall
-		layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    //INDEX_4 => Forests
-		layers.add(createAlternativeCave(width_tl, height_tl)); //alternative
-		layers.add(createLightForestMap(width_tl, height_tl, 128, 128));
 		
 		
 		if (numPlayers > SINGLE_PLAYER) {
@@ -1363,18 +1520,19 @@ public class SimpleMapGeneration {
 		
 		//generateTestGraph(width_tl, height_tl);
 		generateGraph(width_tl, height_tl);
+		/*7-GRAPH*/layers.add(createGraphLayerMap(width_tl, height_tl, 128, 128));
 		
 		
 		
 		if (numPlayers == SINGLE_PLAYER) {
 			NewItem player = playersSituation.get(0);
-			setEnemiesTANKPosition(player);
+			setEnemiesTANKPosition(player,numEnemiesTANK);
 		}
 		
 		
-		//setEnemiesMINEPosition(numEnemiesMINE);
-		//setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
-		//setEnemiesDRONPosition(numEnemiesDRON);
+		setEnemiesMINEPosition(numEnemiesMINE);
+		setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
+		setEnemiesDRONPosition(numEnemiesDRON);
 		
 		return map;
 	}

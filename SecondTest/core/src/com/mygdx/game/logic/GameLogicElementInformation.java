@@ -26,6 +26,46 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_ENEMY2.getHeightShow())		
 	};
 	
+	public static final Texture[] hullEnemy02_1Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.HULL_ENEMY3.getElementStr(),Texture.class),
+					ElementEnum.HULL_ENEMY3.getWidthBef(),
+					ElementEnum.HULL_ENEMY3.getHeightBef(),
+					ElementEnum.HULL_ENEMY3.getWidthShow(),
+					ElementEnum.HULL_ENEMY3.getHeightShow())
+	};
+	
+	public static final Texture[] cannonEnemy02_1Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY3.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY3.getWidthBef(), 
+					ElementEnum.GUN_ENEMY3.getHeightBef(), 
+					ElementEnum.GUN_ENEMY3.getWidthShow(), 
+					ElementEnum.GUN_ENEMY3.getHeightShow())		
+	};
+	
+	
+	public static final Texture[] hullEnemy02_2Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.HULL_ENEMY4.getElementStr(),Texture.class),
+					ElementEnum.HULL_ENEMY4.getWidthBef(),
+					ElementEnum.HULL_ENEMY4.getHeightBef(),
+					ElementEnum.HULL_ENEMY4.getWidthShow(),
+					ElementEnum.HULL_ENEMY4.getHeightShow())
+	};
+	
+	public static final Texture[] cannonEnemy02_2Text = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY4.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY4.getWidthBef(), 
+					ElementEnum.GUN_ENEMY4.getHeightBef(), 
+					ElementEnum.GUN_ENEMY4.getWidthShow(), 
+					ElementEnum.GUN_ENEMY4.getHeightShow())		
+	};
+	
+	
+	
+	
 	public static final Texture[] trackEnemyText = {
 		DrawUtils.resizeTexture(
 				SecondTestGDX.resources.get(ElementEnum.TRACK_03.getElementStr(),Texture.class),
@@ -43,7 +83,21 @@ public class GameLogicElementInformation {
 		};
 	
 	
-	
+	public static final Texture[] trackEnemyText_1 = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.TRACK_05.getElementStr(),Texture.class),
+					ElementEnum.TRACK_05.getWidthBef(),
+					ElementEnum.TRACK_05.getHeightBef(),
+					ElementEnum.TRACK_05.getWidthShow(),
+					ElementEnum.TRACK_05.getHeightShow()),
+			
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.TRACK_06.getElementStr(),Texture.class),
+					ElementEnum.TRACK_06.getWidthBef(),
+					ElementEnum.TRACK_06.getHeightBef(),
+					ElementEnum.TRACK_06.getWidthShow(),
+					ElementEnum.TRACK_06.getHeightShow())			
+			};
 	
 	
 	public static final Texture[] hullPlayer01Text = {
@@ -391,6 +445,16 @@ public class GameLogicElementInformation {
 					ElementEnum.PULSE.getHeightBef(),
 					ElementEnum.PULSE.getWidthShow(),
 					ElementEnum.PULSE.getHeightShow())
+	};
+	
+	public static final Texture[] missile = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.MISSILE.getElementStr(),Texture.class),
+					ElementEnum.MISSILE.getWidthBef(),
+					ElementEnum.MISSILE.getHeightBef(),
+					ElementEnum.MISSILE.getWidthShow(),
+					ElementEnum.MISSILE.getHeightShow())
+			
 	};
 
 }

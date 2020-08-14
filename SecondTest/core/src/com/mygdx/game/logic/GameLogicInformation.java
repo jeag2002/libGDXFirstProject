@@ -46,7 +46,7 @@ public class GameLogicInformation {
 	public static final int VOLCANO_LEVEL = 5;
 	public static final int CITY_LEVEL = 6;
 	public static final int SPACE_LEVEL = 7;
-	//public static final int ISLAND_LEVEL = 8;
+	public static final int ISLAND_LEVEL = 8;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
@@ -56,7 +56,7 @@ public class GameLogicInformation {
 	public static final int FOREST_VOLCANO = 1;
 	public static final int FOREST_CITY = 1;
 	public static final int FOREST_SPACE = 2;
-	//public static final int FOREST_ISLAND = 3;
+	public static final int FOREST_ISLAND = 3;
 	
 	public static final int FOREST_DEFAULT = 1;
 	
@@ -267,14 +267,14 @@ public class GameLogicInformation {
 			levelMap[7] = TileMapEnum.SPACE_FAN_4;
 			
 		}
-		/*
+		
 		else if (index == ISLAND_LEVEL) {
 			
 			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING ISLAND_LEVEL");
 			
-			levelMap[0] = TileMapEnum.GROUND_TILE_01_D;
+			levelMap[0] = TileMapEnum.BLOCK_D_02_1;
 			
-			levelMap[1] = TileMapEnum.BLOCK_B_02;
+			levelMap[1] = TileMapEnum.WATER_1;
 			levelMap[2] = TileMapEnum.WATER_1;
 			
 			levelMap[3] = TileMapEnum.PALM_01;
@@ -284,9 +284,7 @@ public class GameLogicInformation {
 			levelMap[6] = null;
 			levelMap[7] = null;
 			
-			
-			
-		}*/else {
+		}else {
 			
 			levelMap[0] = TileMapEnum.GROUND_TILE_02_C;
 			levelMap[1] = TileMapEnum.BLOCK_B_02;
