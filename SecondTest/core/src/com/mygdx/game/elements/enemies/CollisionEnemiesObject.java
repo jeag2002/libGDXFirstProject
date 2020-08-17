@@ -65,7 +65,7 @@ public class CollisionEnemiesObject extends IASteeringBehaviourEnemiesObject{
     	
     	body.createFixture(fixtureDef);
     	
-    	body.setUserData(new NewItem(spawnType, idCode));
+    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
     	
     	super.iniBehaviour(body,10.0f);
     	

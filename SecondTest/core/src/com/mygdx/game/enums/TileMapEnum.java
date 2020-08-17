@@ -97,7 +97,10 @@ public enum TileMapEnum {
 	
 	SQUARE(SecondTestGDX.resources.testSquare, 65,128,128,128,128),
 	
-	BLOCK_D_02_1(SecondTestGDX.resources.block_D_02,65,128,128,256,256);
+	BACKGROUND_ISLAND(SecondTestGDX.resources.island_background,66,256,256,256,256),
+	
+	WATER_2(SecondTestGDX.resources.water_2,67,64,64,128,128),
+	WATER_3(SecondTestGDX.resources.water_3,68,64,64,128,128);
 	
 	
 	private String tileMapStr;

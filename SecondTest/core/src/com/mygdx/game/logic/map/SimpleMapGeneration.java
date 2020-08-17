@@ -294,10 +294,18 @@ public class SimpleMapGeneration {
 	
 	
 	
-	public TiledMapTileLayer createAlternativeCave(int width, int height) {
-		alternativeCaveLayer = new TiledMapTileLayer(width, height, TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
-		Texture text = SecondTestGDX.resources.get(TileMapEnum.VOLCANO_FOREST_2.getTileMapStr());
-		text = DrawUtils.resizeTexture(text, TileMapEnum.VOLCANO_FOREST_2.getWidthBef(), TileMapEnum.VOLCANO_FOREST_2.getHeightBef(), TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
+	public TiledMapTileLayer createAlternativeCave(int width, int height, int width_tile, int height_tile) {
+		alternativeCaveLayer = new TiledMapTileLayer(width, height, width_tile, height_tile);
+		Texture text = null;
+		
+		/*
+		if (typeMap == this.TYPE_ISLAND) {
+			text = SecondTestGDX.resources.get(TileMapEnum.WATER_3.getTileMapStr());
+			text = DrawUtils.resizeTexture(text, TileMapEnum.WATER_3.getWidthBef(), TileMapEnum.WATER_3.getHeightBef(), TileMapEnum.WATER_3.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
+		}else {*/
+			text = SecondTestGDX.resources.get(TileMapEnum.VOLCANO_FOREST_2.getTileMapStr());
+			text = DrawUtils.resizeTexture(text, TileMapEnum.VOLCANO_FOREST_2.getWidthBef(), TileMapEnum.VOLCANO_FOREST_2.getHeightBef(), TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
+		//}
 
 		TextureRegion tRegion = new TextureRegion(text);
 		
@@ -312,10 +320,10 @@ public class SimpleMapGeneration {
 					StaticTiledMapColl wall = new StaticTiledMapColl(
 							SpawnType.getByIndex(typeMap+13), 
 							tRegion, 
-							(float)x*TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), 
-							(float)y*TileMapEnum.VOLCANO_FOREST_2.getHeightShow(), 
-							(float)TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), 
-							(float)TileMapEnum.VOLCANO_FOREST_2.getHeightShow(), 
+							(float)x*width_tile, 
+							(float)y*height_tile, 
+							(float)width_tile, 
+							(float)height_tile, 
 							x,y,
 							world, 
 							true); 
@@ -1253,183 +1261,7 @@ public class SimpleMapGeneration {
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	//CHECK GRAPH GENERATION TEST
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/*
-	public boolean checkTestNode(NewItem fromItem, int i, int j, int width, int heigh) {
-		boolean res = false;
-		
-		List<MapConnection> connections = graph.getEdges();
-		
-		MapConnection conn = new MapConnection(fromItem, new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0),1);
-		//MapConnection revConn = new MapConnection(new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0), fromItem);
-		
-		if (i < 1 || i >= (width-1)) {
-			return false;
-		}else if (j < 1 || j >= (heigh-1)) {
-			return false;
-		}else if (connections.contains(conn)) {
-			return false;
-		}
-		//else if (connections.contains(revConn)) {
-		//	return false;
-		//}
-		else {
-			return true;
-		}	
-	
-	}
-	
-	
-	
-	public void generateTestGraph(int width, int height) {
-		
-		int index = 0;
-		
-		
-		//NODES
-		for(int x=1; x<width-1; x++) {
-			for(int y=1; y<height-1; y++) {
-				graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, index ));
-				index++;
-			}	
-		}
-		
-		
-		
-		//EDGES
-		ArrayList<NewItem> nodes = graph.getNodes();
-		
-		
-		for(int i=0; i<nodes.size(); i++) {
-			NewItem fromItem = nodes.get(i);
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()-1,
-						fromItem.getIndex_Y()+1, 0 );
-				
-			    index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X(), 
-						fromItem.getIndex_Y()+1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
-				
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL,
-						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()+1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem,  nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()-1, 
-						fromItem.getIndex_Y(), 0 );
-				
-				index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
-						(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL,
-						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y(), 0 );
-				
-				index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node,
-						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL,
-						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()-1, 
-						fromItem.getIndex_Y()-1, 0 );
-				index = nodes.indexOf(toItem);
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X(), 
-						fromItem.getIndex_Y()-1, 0 );
-				index = nodes.indexOf(toItem);
-				
-				
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-				
-			}
-			
-			if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
-						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()-1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				
-				graph.addEdge(fromItem, nodes.get(index),1);
-				graph.addEdge(nodes.get(index),fromItem,1);
-			}
-		}
-		
-		
-		
-		Gdx.app.log("[SINGLEMAPGENERATION]"," NODES " +  graph.getNodes());
-		Gdx.app.log("[SINGLEMAPGENERATION]"," EDGES " +  graph.getEdges());
-		Gdx.app.log("[SINGLEMAPGENERATION]"," CONNECTIONS " + graph.getConnectionsMap());
-		
-		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* TEST MAP GENERATION DONE");
-	}
-	*/
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	public ArrayList<NewItem> getPlayers(){return playersSituation;}
@@ -1507,7 +1339,7 @@ public class SimpleMapGeneration {
 		/*2-LIGHTWALL*/layers.add(createLightWallMap(width_tl, height_tl, 128, 128));	
 		/*3-WALL*/layers.add(createCave(width_tl, height_tl, tileMap));
 		/*4-FOREST*/layers.add(createForest(typeMap, width_tl, height_tl, tileMapElem_1, numRandomForest));    
-		/*5-ALT_WALL*/layers.add(createAlternativeCave(width_tl, height_tl)); //alternative
+		/*5-ALT_WALL*/layers.add(createAlternativeCave(width_tl, height_tl, 128, 128)); //alternative
 		/*6-LIGHT_FOREST*/layers.add(createLightForestMap(width_tl, height_tl, 128, 128));
 		
 		
@@ -1540,3 +1372,181 @@ public class SimpleMapGeneration {
 	
 	
 }
+
+
+//CHECK GRAPH GENERATION TEST
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+public boolean checkTestNode(NewItem fromItem, int i, int j, int width, int heigh) {
+	boolean res = false;
+	
+	List<MapConnection> connections = graph.getEdges();
+	
+	MapConnection conn = new MapConnection(fromItem, new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0),1);
+	//MapConnection revConn = new MapConnection(new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0), fromItem);
+	
+	if (i < 1 || i >= (width-1)) {
+		return false;
+	}else if (j < 1 || j >= (heigh-1)) {
+		return false;
+	}else if (connections.contains(conn)) {
+		return false;
+	}
+	//else if (connections.contains(revConn)) {
+	//	return false;
+	//}
+	else {
+		return true;
+	}	
+
+}
+
+
+
+public void generateTestGraph(int width, int height) {
+	
+	int index = 0;
+	
+	
+	//NODES
+	for(int x=1; x<width-1; x++) {
+		for(int y=1; y<height-1; y++) {
+			graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, index ));
+			index++;
+		}	
+	}
+	
+	
+	
+	//EDGES
+	ArrayList<NewItem> nodes = graph.getNodes();
+	
+	
+	for(int i=0; i<nodes.size(); i++) {
+		NewItem fromItem = nodes.get(i);
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
+					(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X()-1,
+					fromItem.getIndex_Y()+1, 0 );
+			
+		    index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
+					(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X(), 
+					fromItem.getIndex_Y()+1, 0 );
+			
+			index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
+			
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL, 
+					(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL,
+					fromItem.getIndex_X()+1, 
+					fromItem.getIndex_Y()+1, 0 );
+			
+			index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem,  nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
+					(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X()-1, 
+					fromItem.getIndex_Y(), 0 );
+			
+			index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y(), width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
+					(fromItem.getIndex_Y())*SecondTestGDX.tileHeight_TL,
+					fromItem.getIndex_X()+1, 
+					fromItem.getIndex_Y(), 0 );
+			
+			index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node,
+					(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL,
+					(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X()-1, 
+					fromItem.getIndex_Y()-1, 0 );
+			index = nodes.indexOf(toItem);
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X())*SecondTestGDX.tileWidth_TL, 
+					(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X(), 
+					fromItem.getIndex_Y()-1, 0 );
+			index = nodes.indexOf(toItem);
+			
+			
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+			
+		}
+		
+		if (checkTestNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
+			
+			NewItem toItem = new NewItem(SpawnType.Path_Node, 
+					(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
+					(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
+					fromItem.getIndex_X()+1, 
+					fromItem.getIndex_Y()-1, 0 );
+			
+			index = nodes.indexOf(toItem);
+			
+			graph.addEdge(fromItem, nodes.get(index),1);
+			graph.addEdge(nodes.get(index),fromItem,1);
+		}
+	}
+	
+	
+	
+	Gdx.app.log("[SINGLEMAPGENERATION]"," NODES " +  graph.getNodes());
+	Gdx.app.log("[SINGLEMAPGENERATION]"," EDGES " +  graph.getEdges());
+	Gdx.app.log("[SINGLEMAPGENERATION]"," CONNECTIONS " + graph.getConnectionsMap());
+	
+	Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* TEST MAP GENERATION DONE");
+}
+*/
+///////////////////////////////////////////////////////////////////////////////////////////////

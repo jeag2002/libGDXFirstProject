@@ -103,3 +103,8 @@ https://jvm-gaming.org/t/slick2d-how-to-create-a-rain-and-snow/38860/2
 
 RAIN/SNOW: (shaders)
 http://www.glslsandbox.com/e#36547.0
+
+WATER:
+https://opengameart.org/content/water-texture-pack
+https://www.shutterstock.com/es/video/clip-1018289410-cartoon-water-loop-animation-background-texture
+https://marketplace.secondlife.com/p/Animated-Water-Blue-soft-Full-Permission/5756092

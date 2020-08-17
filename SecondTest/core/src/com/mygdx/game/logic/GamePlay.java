@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.BADLAND_LEVEL;
+		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -371,6 +371,13 @@ public class GamePlay {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
+				
+				}else if ((this.levelIndex  == GameLogicInformation.ISLAND_LEVEL)) {
+					
+					//int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(data);
+				
 				}else if ((this.levelIndex  == GameLogicInformation.WINTER_LEVEL)){
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
@@ -460,7 +467,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)) {
+				if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)/* || this.levelIndex == GameLogicInformation.ISLAND_LEVEL*/) {
 					
 					
 					this.time += delta;
@@ -479,7 +486,7 @@ public class GamePlay {
 					}
 					
 					
-					if (pulse) {
+					if ((pulse) /* && (this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL) */){
 						tiledMapRenderer.getBatch().begin();
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
 						tiledMapRenderer.renderTileLayer(sMG.getLightWallLayer());

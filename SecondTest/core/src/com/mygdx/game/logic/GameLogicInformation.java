@@ -27,7 +27,7 @@ public class GameLogicInformation {
 	public static final int PLAYERS = 1;
 	
 	public static final int ENEMIESDRON = 100;
-	public static final int ENEMIESTANK = 4;
+	public static final int ENEMIESTANK = 3;
 	public static final int ENEMIESMINE = 20;
 	public static final int ENEMIESWATCHTOWER = 20;
 	
@@ -36,6 +36,11 @@ public class GameLogicInformation {
 	public static final double SEEK_DISTANCE = 750;
 	public static final double ATTACK_DISTANCE = 128;
 	public static final double ATTACK_DISTANCE_WATCHTOWER = 300;
+	
+	
+	public static final double DST_TANK_EXIT = 120;
+	public static final double DST_TANK_PLAYER = 300;
+	public static final double DST_TANK_COLL_OTHER = 200;
 	
 	
 	public static final int DESERT_LEVEL = 0;
@@ -272,7 +277,10 @@ public class GameLogicInformation {
 			
 			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING ISLAND_LEVEL");
 			
-			levelMap[0] = TileMapEnum.BLOCK_D_02_1;
+			levelMap[0] = TileMapEnum.BACKGROUND_ISLAND;
+			
+			//levelMap[1] = TileMapEnum.WATER_2;
+			//levelMap[2] = TileMapEnum.WATER_2;
 			
 			levelMap[1] = TileMapEnum.WATER_1;
 			levelMap[2] = TileMapEnum.WATER_1;

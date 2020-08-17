@@ -71,7 +71,7 @@ public class CollisionPlayerObject{
     	
     	
     	
-    	body.setUserData(new NewItem(spawnType, idCode));
+    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
     	shape.dispose();
     
     }

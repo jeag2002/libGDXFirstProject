@@ -323,21 +323,18 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 		if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.MOVE)) {
 			movementTANKState(delta);	
-			//System.out.println("TANK ID " + this.getIdCode() + " MOVE");
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.ATTACK)) {
 			attackTANKState(delta);
-			//System.out.println("TANK ID " + this.getIdCode() + " ATTACK");
 		}else if (stateMachine.getCurrentState().equals(TankEnemyStateEnum.STOP)) {
 			stopTANKState(delta);
-			//System.out.println("TANK ID " + this.getIdCode() + " STOP");
-		}
+		}	
 		
 		setCollisionRef(getX(),getY());	
 		
 	}
 	
 	private void movementTANKState(float delta) {
-		
+		angleTurret = 0.0f;
 		setShootingActive(false);
 		movement(delta,-1);
 		checkTANKFindNode();

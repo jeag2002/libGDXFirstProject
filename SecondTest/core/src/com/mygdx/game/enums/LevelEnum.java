@@ -13,7 +13,8 @@ public enum LevelEnum {
 	DESERT_LIGHTS(6,"LEVEL 7",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS,100,100,100,4),
 	FABRIC(7,"LEVEL 8",GameLogicInformation.FABRIC_LEVEL,GameLogicInformation.NO_LIGHTS,100, 100,100,4),
 	VOLCANO_LIGHTS(8,"LEVEL 9",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.LIGHTS,100, 100,100,4),
-	FABRIC_LIGHTS(9,"LEVEL 10",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.LIGHTS,100, 100,100,4);
+	FABRIC_LIGHTS(9,"LEVEL 10",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.LIGHTS,100, 100,100,4),
+	ISLAND(10,"LEVEL 11", GameLogicInformation.ISLAND_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 4);
 	
 	private int index;
 	private String LevelStr;

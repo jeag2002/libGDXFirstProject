@@ -3,6 +3,7 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -63,25 +64,26 @@ public class CollisionEngine implements ContactListener{
 		
 		//System.out.println("Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
 		
+		//-->MISSILE ENEMY
 	    if (objectStrA.getType().equals(SpawnType.MissileEnemy)) {
 	    	processEnemyMissile(objectStrA, objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.MissileEnemy)) {
 	    	processEnemyMissile(objectStrB, objectStrA);
 	    }
 	    
+	    //-->MISSILE PLAYER
 	    if (objectStrA.getType().equals(SpawnType.MissilePlayer)) {
 	    	processPlayerMissile(objectStrA, objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.MissilePlayer)) {
 	    	processPlayerMissile(objectStrB, objectStrA);
 	    }
 	    
-	    
+	    //-->ENEMY2
 	    if (objectStrA.getType().equals(SpawnType.Enemy_02)) {
 	    	processEnemy2(objectStrA, objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.Enemy_02)) {
 	    	processEnemy2(objectStrB, objectStrA);
 	    }
-	    
 	    
 	}
 	
@@ -124,11 +126,85 @@ public class CollisionEngine implements ContactListener{
 				
 				SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
 				
-				if (object != null) {		
-					object.getBox2DBody().setLinearVelocity(0, 0);
-					object.getBox2DBody().setAngularVelocity(0.0f);	
-					((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.STOP);
+				if 
+				(other.getType().equals(SpawnType.Enemy_01) ||
+				 other.getType().equals(SpawnType.Enemy_03) ||
+				 other.getType().equals(SpawnType.Enemy_02) ||
+				 (other.getType().equals(SpawnType.Item) && !isIniEnemy)) {
+					
+					if (object != null) {
+						
+						object.getBox2DBody().setLinearVelocity(0, 0);
+						object.getBox2DBody().setAngularVelocity(0.0f);	
+						
+						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);
+						
+						Telegram msg = new Telegram();
+						msg.extraInfo = new NewItem(other);
+						((TankEnemy)object).handleMessage(msg);
+						
+					}
+				
+				}else if (other.getType().equals(SpawnType.Border)) {	
+					
+					if (object != null) {
+						object.getBox2DBody().setLinearVelocity(0, 0);
+						object.getBox2DBody().setAngularVelocity(0.0f);		
+						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.STOP);
+					}
+					
+				}else if (other.getType().equals(SpawnType.Wall_City) ||
+						other.getType().equals(SpawnType.Wall_Badlands) || 
+						other.getType().equals(SpawnType.Wall_Desert) ||
+						other.getType().equals(SpawnType.Wall_Fabric) ||
+						other.getType().equals(SpawnType.Wall_Jungle) ||
+						other.getType().equals(SpawnType.Wall_Winter)
+						){
+					
+						Cell cell = walls.getCell(other.getIndex_X(), other.getIndex_Y());
+						if (cell != null) {
+							StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().contains(tile)) {
+									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().add(tile);
+							}
+						}
+						
+						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);		
+						
+						
+				}else if (other.getType().equals(SpawnType.Forest_Volcano) ||
+						other.getType().equals(SpawnType.Forest_Winter) ||
+						other.getType().equals(SpawnType.Forest_Space)) {
+						
+						Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
+					
+						if (cell != null) {
+						
+							if (other.getType().equals(SpawnType.Forest_Space)) {
+								
+								if (cell.getTile() instanceof AnimatedTiledMapTile) {
+									AnimatedTiledMapTile tile = (AnimatedTiledMapTile)cell.getTile();						
+									if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().contains(tile)) {
+										gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedAnimForestWithCollision().add(tile);
+									}
+								}else {
+									StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+									if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+										gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+									}
+								}
+							
+							}else {
+								StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+								if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+								}
+							}
+						}
+						
+						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);	
 				}
+				
 			}
 		
 	}

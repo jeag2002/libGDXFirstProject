@@ -6,21 +6,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.*;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.utils.NewItem;
+import com.mygdx.game.logic.GameLogicInformation;
+import com.mygdx.game.logic.elements.*;
+import com.badlogic.gdx.Gdx;
 
 //MOVE --> MOVE TANK
 //ATTACK --> STOP & ATTACK PLAYER
-//STOP
+//BLOCK --> STOP WITH OTHER ELEMENTS
+//STOP --> END OF MOVEMENT
 
 
 public enum TankEnemyStateEnum implements State<TankEnemy>{
-	
-	
-
-	
-	MOVE(){
 		
-		private static final float DST_EXIT = 150.0f;
-		private static final float DST_PLAYER = 300.0f;
+	ATTACK(){
+		
+		//private static final float DST_EXIT = 100.0f;
+		//private static final float DST_PLAYER = 50.0f;
+		
+		private String data = null;
 		
 		@Override
 		public void enter(TankEnemy enemy) {
@@ -39,24 +42,28 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			float posPlayerX = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getX() + SecondTestGDX.tilePlayerWidth_TL/2;
 			float posPlayerY = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getY() + SecondTestGDX.tilePlayerHeight_TL/2;
 			
-			
-			if (enemy.getPath().size == 0) {
-				enemy.getStateMachine().changeState(STOP);
-			}else {
-				float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
-				if (dst <= DST_EXIT) {
-					System.out.println("TANK " + enemy.getIdCode() + " ARRIVE TO DESTINATION. CHANGE TO STOP");
-					enemy.getStateMachine().changeState(STOP);
-				}
-			}	
-			
-			
 			float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 			
-			if (dstPlayer <= DST_PLAYER) {
-				enemy.getStateMachine().changeState(ATTACK);
-			}
+			if (dstPlayer > GameLogicInformation.DST_TANK_PLAYER) {
+				
+				if (data == null) {
+				
+					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
+					if (dst < GameLogicInformation.DST_TANK_EXIT) {
+						enemy.getStateMachine().changeState(STOP);
+					}else {
+						enemy.getStateMachine().changeState(MOVE);
+					}
+				
+				}else {
 					
+					if (data.equals("STOP")) {enemy.getStateMachine().changeState(STOP);}
+					else {enemy.getStateMachine().changeState(MOVE);}
+					
+					//data = null;
+				}
+				
+			}
 		}
 		
 		@Override
@@ -65,16 +72,20 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 
 		@Override
 		public boolean onMessage(TankEnemy entity, Telegram telegram) {
-			// TODO Auto-generated method stub
+			data = (String)telegram.extraInfo;
 			return false;
 		}
 		
 	},
 	
-	ATTACK(){
+	
+	MOVE(){
 		
-		private static final float DST_EXIT = 100.0f;
-		private static final float DST_PLAYER = 500.0f;
+		private NewItem data = null;
+		//private static final float DST_DISTANCE = 150.0f;
+		//private static final float DST_EXIT = 100.0f;
+		
+		
 		
 		@Override
 		public void enter(TankEnemy enemy) {
@@ -82,33 +93,80 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 		
 		@Override
 		public void update(TankEnemy enemy) {
-			
-			NewItem objective = enemy.getObjective();
+		
 			float centerEnemyX = enemy.getX()+SecondTestGDX.tilePlayerWidth_TL/2;
 			float centerEnemyY = enemy.getY()+SecondTestGDX.tilePlayerHeight_TL/2;
 			
-			float centerObjetiveX = objective.getX()+SecondTestGDX.tilePlayerWidth_TL/2;
-			float centerObjetiveY = objective.getY()+SecondTestGDX.tilePlayerHeight_TL/2;
+			float centerObjetiveX = enemy.getObjective().getX()+SecondTestGDX.tilePlayerWidth_TL/2;
+			float centerObjetiveY = enemy.getObjective().getY()+SecondTestGDX.tilePlayerHeight_TL/2;
 			
 			float posPlayerX = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getX() + SecondTestGDX.tilePlayerWidth_TL/2;
 			float posPlayerY = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getY() + SecondTestGDX.tilePlayerHeight_TL/2;
 			
-			float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 			
-			if (dstPlayer > DST_PLAYER) {
+			if (data != null) {
 				
-				float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
-				if (dst < DST_EXIT) {
+				
+				String idCode = data.getIdCode();
+				
+				SpawnObject object = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(idCode);
+				
+				if (object == null) {
+					
+
+					
+					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
+					
+					if (dst < GameLogicInformation.DST_TANK_EXIT) {
+						enemy.getStateMachine().changeState(STOP);
+					}
+					
+					float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
+					
+					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+						enemy.getStateMachine().changeState(ATTACK);
+					}
+					
+					
+				}else {
+					
+				
+	
+					enemy.getStateMachine().changeState(STOP);
+					
+					
+					float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
+					
+					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+						enemy.getStateMachine().changeState(ATTACK);
+					}
+				}	
+				
+				//data = null;
+				
+			}else {
+				
+				if (enemy.getPath().size == 0) {
 					enemy.getStateMachine().changeState(STOP);
 				}else {
-					enemy.getStateMachine().changeState(MOVE);
+					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
+					if (dst <= GameLogicInformation.DST_TANK_EXIT) {
+						enemy.getStateMachine().changeState(STOP);
+					}
+				}	
+				
+				
+				float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
+				
+				if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+					enemy.getStateMachine().changeState(ATTACK);
 				}
+							
 			}
-			
-			
-			
-			
 		}
+		
+		
+		
 		
 		@Override
 		public void exit(TankEnemy enemy) {
@@ -116,16 +174,14 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 
 		@Override
 		public boolean onMessage(TankEnemy entity, Telegram telegram) {
-			// TODO Auto-generated method stub
+			data = (NewItem)telegram.extraInfo;
 			return false;
 		}
-		
 	},
 	
 	STOP(){
 		
-		private static final float DST_EXIT = 100.0f;
-		private static final float DST_PLAYER = 500.0f;
+		
 		
 		
 		@Override
@@ -143,8 +199,14 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			
 			float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 			
-			if (dstPlayer <= DST_PLAYER) {
+			if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+				
+		
+				Telegram msg = new Telegram();
+				msg.extraInfo = "STOP";
+				enemy.handleMessage(msg);
 				enemy.getStateMachine().changeState(ATTACK);
+				
 			}
 		}
 		

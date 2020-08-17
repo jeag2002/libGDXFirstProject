@@ -68,7 +68,7 @@ public class CollisionTankObject extends IAPathFindingObject{
     	
     	body.createFixture(fixtureDef);
     	
-    	body.setUserData(new NewItem(spawnType, idCode));
+    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
     	
     	
     	shape.dispose();	

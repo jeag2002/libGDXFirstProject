@@ -233,6 +233,10 @@ public class Resources extends AssetManager{
 	
 	//water-1
 	public String water_1 = "maps/terrain/water-2.jpg";
+	public String water_2 = "maps/terrain/water-3.jpg";
+	public String water_3 = "maps/terrain/water-4.jpg";
+	
+	public String island_background = "maps/terrain/island_background.png";
 	
 	
 	
@@ -448,6 +452,11 @@ public class Resources extends AssetManager{
 		load(space_fan_4, Texture.class);
 		
 		load(water_1, Texture.class);
+		load(water_2, Texture.class);
+		load(water_3, Texture.class);
+		
+		
+		load(island_background, Texture.class);
 		
 		
 		
