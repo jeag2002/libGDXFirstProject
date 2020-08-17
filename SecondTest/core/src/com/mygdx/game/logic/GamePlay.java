@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
+		this.levelIndex = GameLogicInformation.JUNGLE_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();

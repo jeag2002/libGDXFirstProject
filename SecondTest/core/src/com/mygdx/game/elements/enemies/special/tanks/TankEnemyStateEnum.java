@@ -130,9 +130,17 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 				}else {
 					
-				
-	
-					enemy.getStateMachine().changeState(STOP);
+					
+					float centerBlockX = data.getX() + data.getWidth()/2;
+					float centerBlockY = data.getY() + data.getHeight()/2;
+					
+					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerBlockX, centerBlockY);
+					
+					
+					if (dst <= GameLogicInformation.DST_TANK_COLL_OTHER) {
+						enemy.getStateMachine().changeState(STOP);
+					}
+
 					
 					
 					float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);

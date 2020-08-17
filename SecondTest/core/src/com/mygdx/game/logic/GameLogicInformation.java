@@ -27,7 +27,7 @@ public class GameLogicInformation {
 	public static final int PLAYERS = 1;
 	
 	public static final int ENEMIESDRON = 100;
-	public static final int ENEMIESTANK = 3;
+	public static final int ENEMIESTANK = 6;
 	public static final int ENEMIESMINE = 20;
 	public static final int ENEMIESWATCHTOWER = 20;
 	
@@ -40,7 +40,7 @@ public class GameLogicInformation {
 	
 	public static final double DST_TANK_EXIT = 120;
 	public static final double DST_TANK_PLAYER = 300;
-	public static final double DST_TANK_COLL_OTHER = 200;
+	public static final double DST_TANK_COLL_OTHER = 300;
 	
 	
 	public static final int DESERT_LEVEL = 0;
