@@ -63,6 +63,8 @@ public class CollisionEnemiesObject extends IASteeringBehaviourEnemiesObject{
     	fixtureDef = new FixtureDef();
     	fixtureDef.shape = shape;
     	
+    	//fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_MONSTER;
+    	
     	body.createFixture(fixtureDef);
     	
     	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));

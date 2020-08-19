@@ -85,6 +85,7 @@ public class GUIStage {
 				intermission.draw(delta);
 				break;
 			case GAMEPLAY:
+				gamePlay.draw(delta);
 				break;
 		}
 			

@@ -131,6 +131,9 @@ public class GameElementLogic {
 		return rayHandler;
 	}
 	
+	public ArrayList<SpawnObject> getTanks(){
+		return this.enemiesTank;
+	}
 
 	
 	public void restart() {

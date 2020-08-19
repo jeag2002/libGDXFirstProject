@@ -27,7 +27,7 @@ public class GameLogicInformation {
 	public static final int PLAYERS = 1;
 	
 	public static final int ENEMIESDRON = 100;
-	public static final int ENEMIESTANK = 6;
+	public static final int ENEMIESTANK = 4;
 	public static final int ENEMIESMINE = 20;
 	public static final int ENEMIESWATCHTOWER = 20;
 	
@@ -72,6 +72,13 @@ public class GameLogicInformation {
 	public static final float speedUpFactor = 1.0f;
 	public static final float bgSpeed = 50.0f;
 	public static final float bgSpeedPos = 20.0f;
+	
+	
+	public static final short GROUP_SCENERY = 1;
+	public static final short GROUP_PLAYER = -1;
+	public static final short GROUP_MONSTER = -2;
+	public static final short MISSILE_MONSTER = -3;
+	public static final short MISSILE_PLAYER = -4;
 	
 	private static int level;
 	private static int levelGameplay;

@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.JUNGLE_LEVEL;
+		this.levelIndex = GameLogicInformation.WINTER_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -101,6 +101,11 @@ public class GamePlay {
 		
 		
 	}
+	
+	public NewItem getExit() {
+		return exit;
+	}
+	
 	
 	public void start() {
 		started = true;
@@ -451,7 +456,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if (SecondTestGDX.graphGridEnabled) {
+				if (SecondTestGDX.debugEngineEnabled) {
 					int[] index_graph = {SimpleMapGeneration.INDEX_GRAPHPATH};
 					tiledMapRenderer.render(index_graph);
 				}

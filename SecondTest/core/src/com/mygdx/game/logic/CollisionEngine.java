@@ -119,12 +119,16 @@ public class CollisionEngine implements ContactListener{
 			other.getType().equals(SpawnType.Wall_Jungle) ||
 			other.getType().equals(SpawnType.Wall_Volcano) ||
 			other.getType().equals(SpawnType.Wall_Winter) ||
+			other.getType().equals(SpawnType.Wall_Space) ||
+			other.getType().equals(SpawnType.Wall_Island) ||
 			other.getType().equals(SpawnType.Forest_Volcano) ||
 			other.getType().equals(SpawnType.Forest_Winter) ||
 			other.getType().equals(SpawnType.Forest_Space) ||
 			other.getType().equals(SpawnType.Border)) {
 				
 				SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
+				
+				
 				
 				if 
 				(other.getType().equals(SpawnType.Enemy_01) ||
@@ -137,20 +141,36 @@ public class CollisionEngine implements ContactListener{
 						object.getBox2DBody().setLinearVelocity(0, 0);
 						object.getBox2DBody().setAngularVelocity(0.0f);	
 						
-						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);
+						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.STOP);
+						((TankEnemy)object).stopTANKState(0);
 						
-						Telegram msg = new Telegram();
-						msg.extraInfo = new NewItem(other);
-						((TankEnemy)object).handleMessage(msg);
+						if (other.getType().equals(SpawnType.Enemy_02)) {
+							
+							SpawnObject otherO = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
+							((TankEnemy)otherO).getStateMachine().changeState(TankEnemyStateEnum.STOP);
+							((TankEnemy)otherO).stopTANKState(0);
+							
+						}
+						
+						//Telegram msg = new Telegram();
+						//msg.extraInfo = new NewItem(other);
+						//((TankEnemy)object).handleMessage(msg);
+						
+						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH ENEMY_1/ENEMY_3/ENEMY_2/ITEM (" + other.getIdCode() + ") MOVE STOP");
 						
 					}
 				
-				}else if (other.getType().equals(SpawnType.Border)) {	
+				}else if (other.getType().equals(SpawnType.Border) || 
+						other.getType().equals(SpawnType.Wall_Volcano) || 
+						other.getType().equals(SpawnType.Wall_Island) || 
+						other.getType().equals(SpawnType.Wall_Space)) {	
 					
 					if (object != null) {
 						object.getBox2DBody().setLinearVelocity(0, 0);
 						object.getBox2DBody().setAngularVelocity(0.0f);		
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.STOP);
+						
+						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH BORDER (" + other.getIdCode() + ") STOP MSG");
 					}
 					
 				}else if (other.getType().equals(SpawnType.Wall_City) ||
@@ -158,7 +178,7 @@ public class CollisionEngine implements ContactListener{
 						other.getType().equals(SpawnType.Wall_Desert) ||
 						other.getType().equals(SpawnType.Wall_Fabric) ||
 						other.getType().equals(SpawnType.Wall_Jungle) ||
-						other.getType().equals(SpawnType.Wall_Winter)
+						other.getType().equals(SpawnType.Wall_Winter) 
 						){
 					
 						Cell cell = walls.getCell(other.getIndex_X(), other.getIndex_Y());
@@ -170,6 +190,11 @@ public class CollisionEngine implements ContactListener{
 						}
 						
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);		
+						Telegram msg = new Telegram();
+						msg.extraInfo = new NewItem(other);
+						((TankEnemy)object).handleMessage(msg);
+							
+						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH WALL_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
 						
 						
 				}else if (other.getType().equals(SpawnType.Forest_Volcano) ||
@@ -202,7 +227,13 @@ public class CollisionEngine implements ContactListener{
 							}
 						}
 						
+						
+						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH FOREST_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
+						
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);	
+						Telegram msg = new Telegram();
+						msg.extraInfo = new NewItem(other);
+						((TankEnemy)object).handleMessage(msg);
 				}
 				
 			}

@@ -68,6 +68,7 @@ public class StaticTiledMapColl extends StaticTiledMapTile{
     	FixtureDef fixtureDef = new FixtureDef();
     	
     	fixtureDef.shape = shape;
+    	//fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_SCENERY;
     	fixtureDef.isSensor = !isCollided;
     	
     	body.createFixture(fixtureDef);

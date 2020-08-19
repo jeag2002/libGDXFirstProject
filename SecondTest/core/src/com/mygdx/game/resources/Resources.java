@@ -17,6 +17,7 @@ public class Resources extends AssetManager{
 	
 	private String fnt = "fonts/Bangers_bitmap.fnt";
 	public BitmapFont font1;
+	public BitmapFont font2;
 	
 	public String musicSplash = "music/start.mp3";
 	public String musicIntermission = "music/intermission.mp3";
@@ -470,5 +471,8 @@ public class Resources extends AssetManager{
 		font1.setColor(Color.WHITE);
 		font1.getData().setScale(0.75f,0.75f);
 		
+		font2 = get(fnt, BitmapFont.class);
+		font2.setColor(Color.WHITE);
+		font2.getData().setScale(0.5f,0.5f);
 	}
 }

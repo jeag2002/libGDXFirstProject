@@ -88,7 +88,7 @@ public class IAPathFindingObject {
 		
 		this.nodePath.addLast(this.finpos);
 		
-		Gdx.app.log("[TANK-IA]","PATH FOUND " + this.nodePath.toString());
+		//Gdx.app.log("[TANK-IA]","PATH FOUND " + this.nodePath.toString());
 	}
 	
 	

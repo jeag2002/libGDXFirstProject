@@ -67,6 +67,18 @@ public class CollisionPlayerObject{
     	fixtureDef.shape = shape;
     	fixtureDef.isSensor = isSensor;
     	
+    	/*
+    	if (spawnType.equals(SpawnType.Player_01)) {
+    		fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_PLAYER;
+    	}else if (spawnType.equals(SpawnType.MissileEnemy)){
+    		fixtureDef.filter.groupIndex = GameLogicInformation.MISSILE_MONSTER;
+    	}else if (spawnType.equals(SpawnType.MissilePlayer)) {
+    		fixtureDef.filter.groupIndex = GameLogicInformation.MISSILE_PLAYER;
+    	}else {
+    		fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_MONSTER;
+    	}
+    	*/
+    		
     	body.createFixture(fixtureDef);
     	
     	

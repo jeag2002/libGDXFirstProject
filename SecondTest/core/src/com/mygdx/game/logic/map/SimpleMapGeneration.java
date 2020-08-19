@@ -467,7 +467,7 @@ public class SimpleMapGeneration {
 							TextureRegion tRegion = bufferForest[index];
 							
 							StaticTiledMapColl forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+21), 
+									SpawnType.getByIndex(typeMap+22), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -490,7 +490,7 @@ public class SimpleMapGeneration {
 							TextureRegion tRegion = bufferForest[index];
 							
 							StaticTiledMapColl forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+21), 
+									SpawnType.getByIndex(typeMap+22), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -507,7 +507,7 @@ public class SimpleMapGeneration {
 							//tile-2
 							tRegion = bufferForest[index+1];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+21), 
+									SpawnType.getByIndex(typeMap+22), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -522,7 +522,7 @@ public class SimpleMapGeneration {
 							//tile-3
 							tRegion = bufferForest[index+2];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+21), 
+									SpawnType.getByIndex(typeMap+22), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -537,7 +537,7 @@ public class SimpleMapGeneration {
 							//tile-4
 							tRegion = bufferForest[index+3];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+21), 
+									SpawnType.getByIndex(typeMap+22), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -559,7 +559,7 @@ public class SimpleMapGeneration {
 						TextureRegion tRegion = bufferForest[index];
 						
 						StaticTiledMapColl forest = new StaticTiledMapColl(
-								SpawnType.getByIndex(typeMap+21), 
+								SpawnType.getByIndex(typeMap+22), 
 								tRegion, 
 								(float)x*tileMapElem_1.getWidthShow(), 
 								(float)y*tileMapElem_1.getHeightShow(), 

@@ -51,11 +51,15 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					if (dst < GameLogicInformation.DST_TANK_EXIT) {
 						enemy.getStateMachine().changeState(STOP);
+						Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA DETECT EXIT_ITEM STOP FLAG");
 					}else {
 						enemy.getStateMachine().changeState(MOVE);
+						Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA EXIT_ITEM TOO FAR MOVE FLAG");
 					}
 				
 				}else {
+					
+					Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") DATA FLAG (" + (data==null?"MOVE":data) + ")");
 					
 					if (data.equals("STOP")) {enemy.getStateMachine().changeState(STOP);}
 					else {enemy.getStateMachine().changeState(MOVE);}
@@ -104,6 +108,8 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			float posPlayerY = enemy.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getY() + SecondTestGDX.tilePlayerHeight_TL/2;
 			
 			
+			String stopFlag = "";
+			
 			if (data != null) {
 				
 				
@@ -113,18 +119,43 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 				
 				if (object == null) {
 					
-
+					float centerBlockX = data.getX() + data.getWidth()/2;
+					float centerBlockY = data.getY() + data.getHeight()/2;
 					
-					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
+					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerBlockX, centerBlockY);
+					
+					
+					if (dst <= GameLogicInformation.DST_TANK_COLL_OTHER) {
+						
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH COLL FLAG [STOP]");
+						
+						enemy.getStateMachine().changeState(STOP);
+						stopFlag = "STOP";
+					}
+					
+					
+					
+					dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					
 					if (dst < GameLogicInformation.DST_TANK_EXIT) {
+						
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH EXIT FLAG [STOP]");
+						
 						enemy.getStateMachine().changeState(STOP);
+						stopFlag = "STOP";
 					}
 					
 					float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 					
 					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+						
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
+						
 						enemy.getStateMachine().changeState(ATTACK);
+						
+						Telegram msg = new Telegram();
+						msg.extraInfo = stopFlag;
+						enemy.handleMessage(msg);
 					}
 					
 					
@@ -138,15 +169,33 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					
 					if (dst <= GameLogicInformation.DST_TANK_COLL_OTHER) {
+						
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH COLL FLAG [STOP]");
+						
 						enemy.getStateMachine().changeState(STOP);
+						stopFlag = "STOP";
 					}
 
+					dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					
+					if (dst < GameLogicInformation.DST_TANK_EXIT) {
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH EXIT FLAG [STOP]");
+						enemy.getStateMachine().changeState(STOP);
+						stopFlag = "STOP";
+					}
 					
 					float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 					
 					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+						
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
+						
 						enemy.getStateMachine().changeState(ATTACK);
+						
+						Telegram msg = new Telegram();
+						msg.extraInfo = stopFlag;
+						enemy.handleMessage(msg);
+						
 					}
 				}	
 				
@@ -155,11 +204,17 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			}else {
 				
 				if (enemy.getPath().size == 0) {
+					
+					Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT END PATH FLAG [STOP]");
+					
 					enemy.getStateMachine().changeState(STOP);
+					stopFlag = "STOP";
 				}else {
 					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					if (dst <= GameLogicInformation.DST_TANK_EXIT) {
+						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH EXIT FLAG [STOP]");
 						enemy.getStateMachine().changeState(STOP);
+						stopFlag = "STOP";
 					}
 				}	
 				
@@ -167,7 +222,14 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 				float dstPlayer = Vector2.dst(centerEnemyX, centerEnemyY, posPlayerX, posPlayerY);
 				
 				if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
+					
+					Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG " + stopFlag);
+					
 					enemy.getStateMachine().changeState(ATTACK);
+					
+					Telegram msg = new Telegram();
+					msg.extraInfo = stopFlag;
+					enemy.handleMessage(msg);
 				}
 							
 			}
@@ -209,12 +271,13 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			
 			if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
 				
+				
+				Gdx.app.log("[IA-STOP]","ENEMY COLL (" + enemy.getIdCode() + ") WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (STOP)");
 		
+				enemy.getStateMachine().changeState(ATTACK);
 				Telegram msg = new Telegram();
 				msg.extraInfo = "STOP";
 				enemy.handleMessage(msg);
-				enemy.getStateMachine().changeState(ATTACK);
-				
 			}
 		}
 		

@@ -333,7 +333,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 	}
 	
-	private void movementTANKState(float delta) {
+	public void movementTANKState(float delta) {
 		angleTurret = 0.0f;
 		setShootingActive(false);
 		movement(delta,-1);
@@ -343,7 +343,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	}
 	
 	
-	private void stopTANKState(float delta) {
+	public void stopTANKState(float delta) {
 		stop();
 		setShootingActive(false);
 		animatedTracks(delta, false, false);
@@ -352,7 +352,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	
 	
-	private void attackTANKState(float delta) {
+	public void attackTANKState(float delta) {
 		
 		stop();
 		setShootingActive(true);

@@ -66,6 +66,8 @@ public class CollisionTankObject extends IAPathFindingObject{
     	fixtureDef = new FixtureDef();
     	fixtureDef.shape = shape;
     	
+    	//fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_MONSTER;
+    	
     	body.createFixture(fixtureDef);
     	
     	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
