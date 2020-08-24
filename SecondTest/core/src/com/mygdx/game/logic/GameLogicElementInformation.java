@@ -449,12 +449,70 @@ public class GameLogicElementInformation {
 	
 	public static final Texture[] missile = {
 			DrawUtils.resizeTexture(
-					SecondTestGDX.resources.get(ElementEnum.MISSILE.getElementStr(),Texture.class),
+					SecondTestGDX.resources.get(
+					ElementEnum.MISSILE.getElementStr(),Texture.class),
 					ElementEnum.MISSILE.getWidthBef(),
 					ElementEnum.MISSILE.getHeightBef(),
 					ElementEnum.MISSILE.getWidthShow(),
 					ElementEnum.MISSILE.getHeightShow())
 			
 	};
+	
+	public static final Texture[] missile_1 = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.MISSILE_1.getElementStr(),Texture.class),
+					ElementEnum.MISSILE_1.getWidthBef(),
+					ElementEnum.MISSILE_1.getHeightBef(),
+					ElementEnum.MISSILE_1.getWidthShow(),
+					ElementEnum.MISSILE_1.getHeightShow())
+			
+	};
+	
+	
+	
+	
+	public static final Texture[] bonus_gun = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_GUN.getElementStr(),Texture.class),
+					ElementEnum.BONUS_GUN.getWidthBef(),
+					ElementEnum.BONUS_GUN.getHeightBef(),
+					ElementEnum.BONUS_GUN.getWidthShow(),
+					ElementEnum.BONUS_GUN.getHeightShow())
+	};
+	
+	
+	public static final Texture[] bonus_ammo = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_AMMO.getElementStr(),Texture.class),
+					ElementEnum.BONUS_AMMO.getWidthBef(),
+					ElementEnum.BONUS_AMMO.getHeightBef(),
+					ElementEnum.BONUS_AMMO.getWidthShow(),
+					ElementEnum.BONUS_AMMO.getHeightShow())
+	};
+	
+	public static final Texture[] bonus_shield = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_SHIELD.getElementStr(),Texture.class),
+					ElementEnum.BONUS_SHIELD.getWidthBef(),
+					ElementEnum.BONUS_SHIELD.getHeightBef(),
+					ElementEnum.BONUS_SHIELD.getWidthShow(),
+					ElementEnum.BONUS_SHIELD.getHeightShow())
+	};
+	
+	public static final Texture[] bonus_life = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_LIFE.getElementStr(),Texture.class),
+					ElementEnum.BONUS_LIFE.getWidthBef(),
+					ElementEnum.BONUS_LIFE.getHeightBef(),
+					ElementEnum.BONUS_LIFE.getWidthShow(),
+					ElementEnum.BONUS_LIFE.getHeightShow())
+	};
+	
+	
 
 }

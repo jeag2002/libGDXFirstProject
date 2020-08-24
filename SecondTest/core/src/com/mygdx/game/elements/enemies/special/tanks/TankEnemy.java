@@ -16,11 +16,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemyStateEnum;
 import com.mygdx.game.elements.enemies.special.ShootTankObject;
 import com.mygdx.game.enums.DynamicElementPartType;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
@@ -73,7 +76,9 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	private NewItem previousNode;
 	private NewItem objective;
 	
+	private SpawnPool pool;
 	
+	 private ElementDefinitionObject eDO;
 	
 
 
@@ -82,6 +87,11 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	public TankEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
+		
+		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
+		
+		
 		this.gPS = gPS;
 		this.typeEnemy = type;	
 		this.timer = 0.0f;
@@ -256,18 +266,15 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 
 	@Override
 	public void setPool(SpawnPool pool) {
-		// TODO Auto-generated method stub
-		
+		this.pool = pool;
 	}
 
 	@Override
 	public void kill(SpawnPool pool) {
-		// TODO Auto-generated method stub
-		
+		dispose();
+		super.setPosition(SecondTestGDX.screenWidth, 0);
 	}
 
-	
-	
 	
 	
 	@Override
@@ -302,8 +309,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	public void dispose() {
 		enemy_parts.clear();
-		this.light.dispose();
-		this.cone.dispose();
+		this.light.remove();
+		this.cone.remove();
 	}
 
 
@@ -393,21 +400,31 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     public void shootGeneration(float delta) {
 	    	
 	    	timer += delta;
-			float speedGun = 800.0f;
+			float speedGun = 500.0f;
 			
 			if (timer  >= INTERVAL_BETWEEN_SHOOT) {
 				float shootAngle = angleTurret+90;
-				float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
-				float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad)); 
+				float x = 0.0f;
+				float y = 0.0f;
+				
+				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_3)) {
+					x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+					y = (float) (getY()  + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
+				}else {
+					x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+					y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
+				}
+				
+
 				timer = 0.0f;
 				
 				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
-					this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
+					this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 				}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 				}else {
-					this.addGun(SpawnType.Missile_Missile, shootAngle, speedGun, x , y, 0, 0, ElementEnum.MISSILE.getWidthShow(), ElementEnum.MISSILE.getHeightShow());
+					this.addGun(SpawnType.Missile_Missile, angleTurret-90, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
 				}
 				
 				this.setShootEvent(true);
@@ -514,6 +531,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	@Override
 	public Body getBox2DBody() {
 		return this.getBody();
+	}
+	
+	public ElementDefinitionObject getStatsDynElement() {
+		return this.eDO;
 	}
 	
 	

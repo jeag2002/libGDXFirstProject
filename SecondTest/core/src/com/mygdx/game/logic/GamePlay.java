@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.WINTER_LEVEL;
+		this.levelIndex = GameLogicInformation.JUNGLE_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -241,18 +241,18 @@ public class GamePlay {
 			    for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
 			    
 			    //-->ENEMY MINE
-			    //ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
-			    //for(NewItem sE: enemyMINELst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
+			    ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
+			    for(NewItem sE: enemyMINELst) {this.gameLogic.generateItem(SpawnType.Item_Mine, sE);}
 			    
 			   
 			    //-->ENEMY WATCHTOWER
-			    //ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
-			    //for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
+			    ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
+			    for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
 			    
 			    
 			    //-->ENEMY DRON
-			    //ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
-			    //for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
+			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
+			    for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
 			    
 			    
 			    
@@ -303,6 +303,7 @@ public class GamePlay {
 			gameLogic.updatePlayer(delta);
 			gameLogic.updateSpawns(delta);
 			gameLogic.removeSpawn();
+			gameLogic.createSpawn();
 		}
 	}
 	
@@ -456,7 +457,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if (SecondTestGDX.debugEngineEnabled) {
+				if (SecondTestGDX.debugEngineGridEnabled) {
 					int[] index_graph = {SimpleMapGeneration.INDEX_GRAPHPATH};
 					tiledMapRenderer.render(index_graph);
 				}

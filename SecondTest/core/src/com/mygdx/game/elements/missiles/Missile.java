@@ -79,7 +79,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	     }else if (subType.equals(SpawnType.Missile_Pulse)) {
 	    	 text_laser_1 = GameLogicElementInformation.pulse;
 	     }else if (subType.equals(SpawnType.Missile_Missile)) {
-	    	 text_laser_1 = GameLogicElementInformation.missile;
+	    	 text_laser_1 = GameLogicElementInformation.missile_1;
 	     }
 	     
 		 
@@ -90,7 +90,12 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		 super.setSpeed(this.speed, this.speed);
 		 
 		 super.getSprite().setOriginCenter();
-		 super.rotate(angle-90);
+		 
+		 if (subType.equals(SpawnType.Missile_Missile)) {
+			 super.rotate(angle+180);
+		 }else {
+			 super.rotate(angle-90);
+		 }
 		 
 		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody,true);
 		 

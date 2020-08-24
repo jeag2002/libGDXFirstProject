@@ -21,9 +21,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.enemies.IASteeringBehaviourEnemiesObject;
 import com.mygdx.game.elements.enemies.ShootEnemiesObject;
 import com.mygdx.game.enums.DynamicElementPartType;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
@@ -62,9 +64,14 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private SpawnPool pool;
 	
+	private ElementDefinitionObject eDO;
+	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
+		
+		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
 		
 		this.gPS = gPS;
 		this.typeEnemy = type;
@@ -314,6 +321,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	 }
 	
 	
+	public ElementDefinitionObject getStatsDynElement() {
+		return this.eDO;
+	}
 	
 	
 	@Override

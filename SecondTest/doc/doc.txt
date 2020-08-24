@@ -31,6 +31,10 @@ workGDX_d/dungen ==> generación procedural Dungen (portal generación de dungeons
 workGDX_e/level-generator ==> generación procedural terrenos.
 workGDX_f/thelegendofericc ==> generación dungeon 
 
+Water Reflection:
+
+https://buoyantotter.itch.io/2d-water-distortion-shader/devlog/56837/my-shader-made-its-way-to-itchio
+http://cs.uns.edu.ar/cg/clasespdf/GraphicShaders.pdf
 
 //IA (steering behaviors)
 https://www.gamedevelopment.blog/full-libgdx-game-tutorial-ashley-steering-behaviors/

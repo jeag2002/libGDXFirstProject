@@ -13,6 +13,7 @@ import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.enums.*;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
+import com.mygdx.game.utils.NewItem;
 
 public class SpawnPool {
 
@@ -26,8 +27,8 @@ public class SpawnPool {
     
     private ArrayList<AnimatedTiledMapTile> deletedAnimForestWithCollision;
     
-	private ArrayList<SpawnObject> createdBodiesWithCollision;
-    private ArrayList<SpawnObject> createdBodiesWithOutCollision;
+	private ArrayList<NewItem> createdBodiesWithCollision;
+    private ArrayList<NewItem> createdBodiesWithOutCollision;
     
     private String nameOfPackage = "com.mygdx.game.logic.elements.*";
 
@@ -43,8 +44,8 @@ public class SpawnPool {
         this.deletedWallsWithCollision = new ArrayList<StaticTiledMapColl>();
         this.deletedForestWithCollision = new ArrayList<StaticTiledMapColl>();
         this.deletedAnimForestWithCollision = new ArrayList<AnimatedTiledMapTile>();
-        this.createdBodiesWithCollision  = new ArrayList<SpawnObject>();
-        this.createdBodiesWithOutCollision  = new ArrayList<SpawnObject>();
+        this.createdBodiesWithCollision  = new ArrayList<NewItem>();
+        this.createdBodiesWithOutCollision  = new ArrayList<NewItem>();
     	
     }
     
@@ -269,12 +270,12 @@ public class SpawnPool {
 	}
 
 
-	public ArrayList<SpawnObject> getCreatedBodiesWithCollision() {
+	public ArrayList<NewItem> getCreatedBodiesWithCollision() {
 		return createdBodiesWithCollision;
 	}
 
 
-	public ArrayList<SpawnObject> getCreatedBodiesWithOutCollision() {
+	public ArrayList<NewItem> getCreatedBodiesWithOutCollision() {
 		return createdBodiesWithOutCollision;
 	}
 

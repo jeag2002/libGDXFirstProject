@@ -1,6 +1,7 @@
 package com.mygdx.game.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.Telegram;
@@ -12,6 +13,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.enemies.centroid.WatchTowerEnemy;
+import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemyStateEnum;
 import com.mygdx.game.elements.items.Item;
@@ -35,6 +39,8 @@ public class CollisionEngine implements ContactListener{
 	private SpawnPool pool;
 	private Player player;
 	
+	private Random rand;
+	
 	
 	private ArrayList<StaticTiledMapColl> wallElements;
 	private ArrayList<StaticTiledMapColl> forestElements;
@@ -51,6 +57,8 @@ public class CollisionEngine implements ContactListener{
 		this.forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
 		this.pool = gPS.getGamePlay().getGameLogic().getSpawnPool();
 		this.player = gPS.getGamePlay().getGameLogic().getPlayer();
+		
+		rand = new Random();
 	}
 	
 	
@@ -85,8 +93,45 @@ public class CollisionEngine implements ContactListener{
 	    	processEnemy2(objectStrB, objectStrA);
 	    }
 	    
+	    //-->PLAYER
+	    if (objectStrA.getType().equals(SpawnType.Player_01)) {
+	    	processPlayer(objectStrA, objectStrB);
+	    }else if (objectStrB.getType().equals(SpawnType.Player_01)) {
+	    	processPlayer(objectStrB, objectStrA);
+	    }
+	    
 	}
 	
+	private void processPlayer(NewItem objectStr, NewItem other) {
+		
+	}
+	
+	
+	private void createExplosionDynamic(NewItem objectStr) {
+		
+		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Simple_Explosion, objectStr.getX(), objectStr.getY(), objectStr.getWidth(), objectStr.getHeight());
+		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
+		
+	}
+	
+	
+	private void createExplosionStatic(NewItem objectStr) {		
+		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Simple_Explosion, objectStr.getIndex_X()*SecondTestGDX.tileWidth_TL, objectStr.getIndex_Y()*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
+		
+	}
+	
+	private void createBonus(NewItem objectStr) {
+	
+		int index = rand.nextInt(2);
+		
+		if (index == 1) {
+			NewItem Bonus = new NewItem(SpawnType.Item,SpawnType.Item_Bonus, objectStr.getIndex_X()*SecondTestGDX.tileWidth_TL, objectStr.getIndex_Y()*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+			gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(Bonus);
+		}
+		
+		
+	}
 	
 	
 	public void processEnemy2(NewItem objectStr, NewItem other) {
@@ -156,7 +201,7 @@ public class CollisionEngine implements ContactListener{
 						//msg.extraInfo = new NewItem(other);
 						//((TankEnemy)object).handleMessage(msg);
 						
-						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH ENEMY_1/ENEMY_3/ENEMY_2/ITEM (" + other.getIdCode() + ") MOVE STOP");
+						//Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH ENEMY_1/ENEMY_3/ENEMY_2/ITEM (" + other.getIdCode() + ") MOVE STOP");
 						
 					}
 				
@@ -170,7 +215,7 @@ public class CollisionEngine implements ContactListener{
 						object.getBox2DBody().setAngularVelocity(0.0f);		
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.STOP);
 						
-						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH BORDER (" + other.getIdCode() + ") STOP MSG");
+						//Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH BORDER (" + other.getIdCode() + ") STOP MSG");
 					}
 					
 				}else if (other.getType().equals(SpawnType.Wall_City) ||
@@ -187,14 +232,20 @@ public class CollisionEngine implements ContactListener{
 							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().contains(tile)) {
 									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().add(tile);
 							}
+							
+							createExplosionStatic(other);
+							createBonus(other); 
+							
 						}
+						
+						
 						
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);		
 						Telegram msg = new Telegram();
 						msg.extraInfo = new NewItem(other);
 						((TankEnemy)object).handleMessage(msg);
 							
-						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH WALL_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
+						//Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH WALL_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
 						
 						
 				}else if (other.getType().equals(SpawnType.Forest_Volcano) ||
@@ -225,10 +276,15 @@ public class CollisionEngine implements ContactListener{
 									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
 								}
 							}
+							
+							createExplosionStatic(other);
+							createBonus(other);
+							
 						}
 						
 						
-						Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH FOREST_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
+						
+						//Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH FOREST_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
 						
 						((TankEnemy)object).getStateMachine().changeState(TankEnemyStateEnum.MOVE);	
 						Telegram msg = new Telegram();
@@ -283,6 +339,44 @@ public class CollisionEngine implements ContactListener{
 							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
 								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
 							}
+							
+							if (!other.getType().equals(SpawnType.MissileEnemy)) {
+								
+								
+								if (other.getType().equals(SpawnType.Enemy_01)) {
+									
+									SimpleEnemy dron = (SimpleEnemy)object;
+									other.setX(dron.getX());
+									other.setY(dron.getY());
+									other.setWidth(dron.getWidth());
+									other.setHeight(dron.getHColl());
+									createExplosionDynamic(other);
+									
+								}else if (other.getType().equals(SpawnType.Enemy_02)) {
+									
+									TankEnemy tank = (TankEnemy)object;
+									
+									other.setX(tank.getX());
+									other.setY(tank.getY());
+									other.setWidth(tank.getWidth());
+									other.setHeight(tank.getHColl());
+									createExplosionDynamic(other);
+									
+								}else if (other.getType().equals(SpawnType.Enemy_03)) {
+									
+									WatchTowerEnemy watch = (WatchTowerEnemy)object;
+									
+									other.setX(watch.getX());
+									other.setY(watch.getY());
+									other.setWidth(watch.getWidth());
+									other.setHeight(watch.getHColl());
+									createExplosionDynamic(other);
+									
+								}
+								
+								
+							}
+							
 						}
 					}
 					
@@ -313,7 +407,13 @@ public class CollisionEngine implements ContactListener{
 							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().contains(tile)) {
 									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().add(tile);
 							}
+							
+							createExplosionStatic(other);
+							createBonus(other);
 						}
+						
+						
+						
 					}
 				
 					if (other.getType().equals(SpawnType.Forest_Volcano) ||
@@ -344,6 +444,10 @@ public class CollisionEngine implements ContactListener{
 								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
 							}
 						}
+						
+						createExplosionStatic(other);
+						createBonus(other);
+						
 					}
 				}
 			}
@@ -399,6 +503,9 @@ public class CollisionEngine implements ContactListener{
 						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().contains(tile)) {
 							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().add(tile);
 						}
+						
+						createExplosionStatic(other);
+						createBonus(other);
 					}
 					
 	 
@@ -433,6 +540,10 @@ public class CollisionEngine implements ContactListener{
 								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
 							}
 						}
+						
+						createExplosionStatic(other);
+						createBonus(other);
+						
 					}
 				}
 			}

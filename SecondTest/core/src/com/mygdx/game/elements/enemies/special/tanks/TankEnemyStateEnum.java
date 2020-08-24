@@ -51,15 +51,15 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					if (dst < GameLogicInformation.DST_TANK_EXIT) {
 						enemy.getStateMachine().changeState(STOP);
-						Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA DETECT EXIT_ITEM STOP FLAG");
+						//Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA DETECT EXIT_ITEM STOP FLAG");
 					}else {
 						enemy.getStateMachine().changeState(MOVE);
-						Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA EXIT_ITEM TOO FAR MOVE FLAG");
+						//Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") NO DATA EXIT_ITEM TOO FAR MOVE FLAG");
 					}
 				
 				}else {
 					
-					Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") DATA FLAG (" + (data==null?"MOVE":data) + ")");
+					//Gdx.app.log("[IA-ATTACK]","ENEMY COLL (" + enemy.getIdCode() + ") DATA FLAG (" + (data==null?"MOVE":data) + ")");
 					
 					if (data.equals("STOP")) {enemy.getStateMachine().changeState(STOP);}
 					else {enemy.getStateMachine().changeState(MOVE);}
@@ -127,7 +127,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					if (dst <= GameLogicInformation.DST_TANK_COLL_OTHER) {
 						
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH COLL FLAG [STOP]");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH COLL FLAG [STOP]");
 						
 						enemy.getStateMachine().changeState(STOP);
 						stopFlag = "STOP";
@@ -139,7 +139,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					if (dst < GameLogicInformation.DST_TANK_EXIT) {
 						
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH EXIT FLAG [STOP]");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH EXIT FLAG [STOP]");
 						
 						enemy.getStateMachine().changeState(STOP);
 						stopFlag = "STOP";
@@ -149,7 +149,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
 						
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA NO OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
 						
 						enemy.getStateMachine().changeState(ATTACK);
 						
@@ -170,7 +170,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					if (dst <= GameLogicInformation.DST_TANK_COLL_OTHER) {
 						
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH COLL FLAG [STOP]");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH COLL FLAG [STOP]");
 						
 						enemy.getStateMachine().changeState(STOP);
 						stopFlag = "STOP";
@@ -179,7 +179,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					
 					if (dst < GameLogicInformation.DST_TANK_EXIT) {
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH EXIT FLAG [STOP]");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH EXIT FLAG [STOP]");
 						enemy.getStateMachine().changeState(STOP);
 						stopFlag = "STOP";
 					}
@@ -188,7 +188,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 					
 					if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
 						
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") DATA+OBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (" + stopFlag + ")");
 						
 						enemy.getStateMachine().changeState(ATTACK);
 						
@@ -205,14 +205,14 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 				
 				if (enemy.getPath().size == 0) {
 					
-					Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT END PATH FLAG [STOP]");
+					//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT END PATH FLAG [STOP]");
 					
 					enemy.getStateMachine().changeState(STOP);
 					stopFlag = "STOP";
 				}else {
 					float dst = Vector2.dst(centerEnemyX, centerEnemyY, centerObjetiveX, centerObjetiveY);
 					if (dst <= GameLogicInformation.DST_TANK_EXIT) {
-						Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH EXIT FLAG [STOP]");
+						//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH EXIT FLAG [STOP]");
 						enemy.getStateMachine().changeState(STOP);
 						stopFlag = "STOP";
 					}
@@ -223,7 +223,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 				
 				if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
 					
-					Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG " + stopFlag);
+					//Gdx.app.log("[IA-MOVE]","ENEMY COLL (" + enemy.getIdCode() + ") NODATA+NOOBJECT WITH PLAYER FLAG [ATTACK] WITH STOPFLAG " + stopFlag);
 					
 					enemy.getStateMachine().changeState(ATTACK);
 					
@@ -272,7 +272,7 @@ public enum TankEnemyStateEnum implements State<TankEnemy>{
 			if (dstPlayer <= GameLogicInformation.DST_TANK_PLAYER) {
 				
 				
-				Gdx.app.log("[IA-STOP]","ENEMY COLL (" + enemy.getIdCode() + ") WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (STOP)");
+				//Gdx.app.log("[IA-STOP]","ENEMY COLL (" + enemy.getIdCode() + ") WITH PLAYER FLAG [ATTACK] WITH STOPFLAG (STOP)");
 		
 				enemy.getStateMachine().changeState(ATTACK);
 				Telegram msg = new Telegram();

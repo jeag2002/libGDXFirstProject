@@ -234,6 +234,27 @@ public class NewItem {
 		this.idCode = "";
 	}
 	
+	
+	public NewItem(SpawnType type, SpawnType subType, float x, float y, float width, float height) {
+		
+		super();
+		this.type = type;
+		this.subType = subType;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = x;
+		this.Y = y;
+		this.index_X = 0;
+		this.index_Y = 0;
+		this.width = width;
+		this.height = height;
+		this.angle = 0;
+		this.speed = 0;
+		this.index = 0;
+		this.idCode = "";
+		
+	}
+	
+	
 	public NewItem(SpawnType type, SpawnType subType, float x, float y, float width, float height, float angle, float speed) {
 		
 		super();

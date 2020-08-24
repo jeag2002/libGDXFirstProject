@@ -27,7 +27,7 @@ public class GameLogicInformation {
 	public static final int PLAYERS = 1;
 	
 	public static final int ENEMIESDRON = 100;
-	public static final int ENEMIESTANK = 4;
+	public static final int ENEMIESTANK = 9;
 	public static final int ENEMIESMINE = 20;
 	public static final int ENEMIESWATCHTOWER = 20;
 	
@@ -151,7 +151,7 @@ public class GameLogicInformation {
 		else if (index == VOLCANO_LEVEL) {return FOREST_VOLCANO;}
 		else if (index == CITY_LEVEL) {return FOREST_CITY;}
 		else if (index == SPACE_LEVEL) {return FOREST_SPACE;}
-		//else if (index == ISLAND_LEVEL) {return FOREST_ISLAND;}
+		else if (index == ISLAND_LEVEL) {return FOREST_ISLAND;}
 		else {return FOREST_DEFAULT;}
 	}
 	

@@ -197,6 +197,7 @@ public class Resources extends AssetManager{
 	public String plasma = "elements/shots/laser/Plasma.png";
 	public String pulse = "elements/shots/laser/Proton.png";
 	public String missile = "elements/shots/missile/Heavy_Shell.png";
+	public String missile_1 = "elements/shots/missile/rocket.png";
 	
 	
 	//lightmaps
@@ -213,8 +214,10 @@ public class Resources extends AssetManager{
 	
 	//bonus
 	public String hp_bonus = "elements/bonus/HP_Bonus.png";
+	public String shield_bonus = "elements/bonus/Shield_Bonus.png";
 	public String armor_bonus = "elements/bonus/Armor_Bonus.png";
 	public String ammunition_bonus = "elements/bonus/Ammunition_Bonus.png";
+	public String border_bonus = "elements/bonus/item_border.png";
 	
 	//holes
 	public String hole_1 = "maps/terrain/hole_1.png";
@@ -238,6 +241,19 @@ public class Resources extends AssetManager{
 	public String water_3 = "maps/terrain/water-4.jpg";
 	
 	public String island_background = "maps/terrain/island_background.png";
+	
+	//GUI-1
+	public String Health_Bar = "gui/gameplay/gameplay_ui/Health_Bar_Table.png";
+	public String Shield_Bar = "gui/gameplay/gameplay_ui/Shield_Bar_Table.png";
+	public String Weapon_Bar = "gui/gameplay/gameplay_ui/Weapon_Bar_Table.png";
+	public String Red_Dot = "gui/gameplay/gameplay_ui/Red_Dot.png";
+	public String Blue_Dot = "gui/gameplay/gameplay_ui/Blue_Dot.png";
+	public String Yellow_Dot = "gui/gameplay/gameplay_ui/Yellow_Dot_1.png";
+	
+	public String Clock = "gui/gameplay/gameplay_ui/Clock_Icon.png";
+	public String Radar = "gui/gameplay/gameplay_ui/Radar.png";
+	public String Icon = "gui/gameplay/gameplay_ui/Armor_Table.png";
+	
 	
 	
 	
@@ -423,6 +439,8 @@ public class Resources extends AssetManager{
 		load(plasma ,Texture.class);
 		load(pulse ,Texture.class);
 		load(missile,Texture.class);
+		load(missile_1,Texture.class);
+		
 		
 		load(lightmap, Texture.class);
 		load(cursor, Texture.class);
@@ -433,8 +451,10 @@ public class Resources extends AssetManager{
 		load(parterre,Texture.class);
 		
 		load(hp_bonus, Texture.class);
+		load(shield_bonus, Texture.class);
 		load(armor_bonus, Texture.class);
 		load(ammunition_bonus, Texture.class);
+		load(border_bonus, Texture.class);
 		
 		//elements destroyed
 		load(hole_1, Texture.class);
@@ -459,6 +479,19 @@ public class Resources extends AssetManager{
 		
 		load(island_background, Texture.class);
 		
+		
+		//GUI
+		//////////////////////////////////////////
+		load(Health_Bar, Texture.class);
+		load(Shield_Bar, Texture.class);
+		load(Weapon_Bar, Texture.class);
+		load(Red_Dot, Texture.class);
+		load(Blue_Dot, Texture.class);
+		load(Yellow_Dot, Texture.class);
+		load(Clock, Texture.class);
+		load(Radar, Texture.class);
+		load(Icon,Texture.class);
+		//////////////////////////////////////////
 		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");

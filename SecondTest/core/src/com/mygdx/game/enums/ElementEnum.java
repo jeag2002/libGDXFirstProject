@@ -51,7 +51,7 @@ public enum ElementEnum {
 	PLATFORM_DOT_E(SecondTestGDX.resources.dot_c, 38, 256,256,64,64),
 	
 	LASER(SecondTestGDX.resources.laser, 39,128,128,32,64),
-	PLASMA(SecondTestGDX.resources.plasma, 40,128,128,32,64),
+	PLASMA(SecondTestGDX.resources.plasma, 40,128,128,32,32),
 	PULSE(SecondTestGDX.resources.pulse, 41,14,13,16,16),
 	
 	ENEMY_4_01(SecondTestGDX.resources.enemy_4_01,42,256,256,64,64),
@@ -65,7 +65,7 @@ public enum ElementEnum {
 	ENEMY_4_09(SecondTestGDX.resources.enemy_4_09,50,256,256,64,64),
 	ENEMY_4_0A(SecondTestGDX.resources.enemy_4_0A,51,256,256,64,64),
 	
-	MISSILE(SecondTestGDX.resources.missile,52,128,128,32,64),
+	MISSILE(SecondTestGDX.resources.missile,52,128,128,64,64),
 	
 	HULL_ENEMY3(SecondTestGDX.resources.hullEnemy_2_B, 53, 256, 256, 64, 64),
 	GUN_ENEMY3(SecondTestGDX.resources.gunEnemy_2_B, 54, 94, 212, 32, 64),
@@ -73,7 +73,18 @@ public enum ElementEnum {
 	TRACK_06(SecondTestGDX.resources.tire_06,56,42,246,16,64),
 	
 	HULL_ENEMY4(SecondTestGDX.resources.hullEnemy_2_C, 57, 256, 256, 64, 64),
-	GUN_ENEMY4(SecondTestGDX.resources.gunEnemy_2_C, 58, 94, 212, 32, 64);
+	GUN_ENEMY4(SecondTestGDX.resources.gunEnemy_2_C, 58, 94, 212, 32, 64),
+	
+	MISSILE_1(SecondTestGDX.resources.missile_1,59,16,16,8,16),
+	
+	
+	BONUS_LIFE(SecondTestGDX.resources.hp_bonus,60,128,128,32,32),
+	BONUS_SHIELD(SecondTestGDX.resources.shield_bonus,61,128,128,32,32),
+	BONUS_AMMO(SecondTestGDX.resources.armor_bonus,62,128,128,32,32),
+	BONUS_GUN(SecondTestGDX.resources.ammunition_bonus, 63, 128,128,32,32);
+	
+	
+	
 	
 	private String elementStr;
 	private int index;

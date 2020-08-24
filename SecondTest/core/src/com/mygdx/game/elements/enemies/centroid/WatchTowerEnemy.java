@@ -13,7 +13,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.ShootPlayerObject;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
@@ -49,12 +51,17 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 	
 	private SpawnPool pool;
 	
+	private ElementDefinitionObject eDO;
+	
 		
 	public WatchTowerEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
 		
 		this.gPS = gPS;
 		this.typeEnemy = type;
+		
+		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
 		
 		this.pool = spawnPool;
 		
@@ -248,10 +255,11 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 					this.setShootEvent(true);
 				}
 		 	}
-	 }
+	}
 	
-	
-	
+	public ElementDefinitionObject getStatsDynElement() {
+		return this.eDO;
+	}
 	
 	@Override
 	public void draw(SpriteBatch sb) {

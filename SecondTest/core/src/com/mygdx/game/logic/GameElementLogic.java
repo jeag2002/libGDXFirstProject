@@ -1,6 +1,7 @@
 package com.mygdx.game.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -19,7 +20,8 @@ import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.NewItem;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -28,8 +30,6 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
-import box2dLight.ConeLight;
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 public class GameElementLogic {
@@ -39,7 +39,12 @@ public class GameElementLogic {
 	private GamePlayScreen gPS;
 	private SpawnPool spawnPool;
 	
+	private Random rand;
+	
 	private RayHandler rayHandler;
+	
+    private Sound sfxExplosion;
+    private float sfxExplosionVolume; 
 	
 	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
@@ -56,11 +61,15 @@ public class GameElementLogic {
 		this.world = new World(new Vector2(0,0),true);
 		this.rayHandler = new RayHandler(world);
 		
+		this.rand = new Random();
+		
 		rayHandler.setCulling(true);
         rayHandler.useDiffuseLight(true);
         rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f,1.0f);
         
 		this.rayHandler.setShadows(true);
+		setExplosionSound("sounds/explosion.ogg", 0.97f);
+		
 	}
 	
 	public void initWorld () {
@@ -99,8 +108,6 @@ public class GameElementLogic {
 		TankEnemy tank = (TankEnemy)spawnPool.getFromPool(SpawnType.Enemy_02);
 		tank.init(map, itemEnemy.getSubType(), itemEnemy, Objective, rayHandler, itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight(), 0, 0, false);
 		tank.setSpawned(true);
-		//itemEnemy.setX(itemEnemy.getX() + itemEnemy.getWidth());
-		//generateItem(SpawnType.Item_PlatformEnemy, itemEnemy);
 	}
 	
 	public void generateItem(SpawnType subItem, NewItem itemEnemy) {
@@ -109,9 +116,33 @@ public class GameElementLogic {
 		item.setSpawned(true);
 	}
 	
-	public void generateExplosion(SpawnType subItem, NewItem itemEnemy) {
+	
+	public void setExplosionSound(String path, float volume) {
+	     sfxExplosion = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxExplosionVolume = volume;
+	}
+	
+	
+	public void generateBonus(float x, float y, float width, float height) {
+		
+		Item item = (Item)spawnPool.getFromPool(SpawnType.Item);
+		
+		SpawnType subType = SpawnType.Item_Bonus_Life;
+		int i = rand.nextInt(4);
+		
+		if (i == 0) {subType = SpawnType.Item_Bonus_Life;}
+		else if (i == 1) {subType = SpawnType.Item_Bonus_Shield;}
+		else if (i == 2) {subType = SpawnType.Item_Bonus_Gun;}
+		else {subType = SpawnType.Item_Bonus_Bullet;}
+		
+		item.init(rayHandler, subType , x+width/2-16, y+height/2-16, 32, 32);
+		item.setSpawned(true);
+	}
+	
+	
+	public void generateExplosion(NewItem itemEnemy) {
 		SimpleExplosion explosion = (SimpleExplosion)spawnPool.getFromPool(SpawnType.Explosion);
-		explosion.init(rayHandler, subItem, itemEnemy.getX(), itemEnemy.getY());
+		explosion.init(rayHandler, itemEnemy.getSubType(), itemEnemy.getX(), itemEnemy.getY(), itemEnemy.getWidth(), itemEnemy.getHeight());
 		explosion.setSpawned(true);
 	}
 	
@@ -207,6 +238,27 @@ public class GameElementLogic {
     }
 	
 	
+	public void createSpawn() {
+		
+		for(NewItem item: spawnPool.getCreatedBodiesWithCollision()) {
+			
+			if (item.getType().equals(SpawnType.Explosion)) {
+				this.generateExplosion(item);
+				//sfxExplosion.play();
+			}else if (item.getType().equals(SpawnType.Item) && item.getSubType().equals(SpawnType.Item_Bonus)) {
+				this.generateBonus(item.getX(), item.getY(), item.getWidth(), item.getHeight());
+			}
+			
+		}
+		
+		spawnPool.getCreatedBodiesWithCollision().clear();
+		
+	}
+	
+	
+	
+	
+	
 	public void removeSpawn() {
 			
 		    for (StaticTiledMapColl cell: spawnPool.getDeletedWallsWithCollision()) {
@@ -253,7 +305,9 @@ public class GameElementLogic {
 			for(SpawnObject sO: spawnPool.getDeletedBodiesWithCollision()) {
 				sO.kill(spawnPool);
 				spawnPool.returnToPool(sO);
-				world.destroyBody(sO.getBox2DBody());
+				if (sO.getBox2DBody() != null) {
+					world.destroyBody(sO.getBox2DBody());
+				}
 			}
 			spawnPool.getDeletedBodiesWithCollision().clear();
 			

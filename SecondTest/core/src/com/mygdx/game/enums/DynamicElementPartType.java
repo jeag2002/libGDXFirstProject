@@ -20,5 +20,6 @@ public enum DynamicElementPartType {
 	HULL_ENEMY_2,
 	GUN_ENEMY_2,
 	
-	BADGE;
+	BADGE,
+	BONUS;
 }

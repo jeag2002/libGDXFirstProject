@@ -26,6 +26,8 @@ public class CollisionPlayerObject{
     
     private String idCode;
     private SpawnType spawnType;
+    private SpawnType spawnSubType;
+    
     
     public CollisionPlayerObject(World world, SpawnType type, String idCode) {
     	
@@ -38,8 +40,27 @@ public class CollisionPlayerObject{
     	this.idCode = idCode;
     	this.world = world;
     	this.spawnType = type;
+    	this.spawnSubType = SpawnType.Item;
     	  	
     }
+    
+    
+    public CollisionPlayerObject(World world, SpawnType type, SpawnType subType, String idCode) {
+    	
+    	super();
+    	
+    	this.X = 0;
+    	this.Y = 0;
+    	this.W = 0;
+    	this.H = 0;
+    	this.idCode = idCode;
+    	this.world = world;
+    	this.spawnType = type;
+    	this.spawnSubType = subType;
+    	  	
+    }
+    
+    
     
     
     public void createCollisionObject(float X, float Y, float W, float H, BodyType type, boolean isSensor) {
@@ -67,21 +88,8 @@ public class CollisionPlayerObject{
     	fixtureDef.shape = shape;
     	fixtureDef.isSensor = isSensor;
     	
-    	/*
-    	if (spawnType.equals(SpawnType.Player_01)) {
-    		fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_PLAYER;
-    	}else if (spawnType.equals(SpawnType.MissileEnemy)){
-    		fixtureDef.filter.groupIndex = GameLogicInformation.MISSILE_MONSTER;
-    	}else if (spawnType.equals(SpawnType.MissilePlayer)) {
-    		fixtureDef.filter.groupIndex = GameLogicInformation.MISSILE_PLAYER;
-    	}else {
-    		fixtureDef.filter.groupIndex = GameLogicInformation.GROUP_MONSTER;
-    	}
-    	*/
-    		
+    	
     	body.createFixture(fixtureDef);
-    	
-    	
     	
     	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
     	shape.dispose();

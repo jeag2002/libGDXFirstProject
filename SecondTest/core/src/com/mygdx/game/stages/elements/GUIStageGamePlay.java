@@ -5,13 +5,18 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.enums.ElementEnum;
+import com.mygdx.game.enums.ElementsGUI;
 import com.mygdx.game.screens.GamePlayScreen;
+import com.mygdx.game.stages.components.LogoItem;
+import com.mygdx.game.stages.components.ProgressBar;
 import com.mygdx.game.utils.DrawUtils;
 
 public class GUIStageGamePlay {
@@ -37,7 +42,16 @@ public class GUIStageGamePlay {
 	private Label Enemy_9;
 	
 	
+	public ProgressBar pBarHealth;
+	public ProgressBar pBarShield;
+	public ProgressBar pBarAmmo;
 	
+	public LogoItem radar;
+	public LogoItem icon;
+	
+	public Image clock;
+	private Label time;
+	private Label score;
 	
 	
 	public GUIStageGamePlay(Stage stage, GamePlayScreen gPS) {
@@ -120,6 +134,76 @@ public class GUIStageGamePlay {
 		
 	}
 	
+	private void tagsProd() {
+		
+		
+		Texture textBarHealth = SecondTestGDX.resources.get(SecondTestGDX.resources.Health_Bar, Texture.class);
+		Texture textBarHealthDot = SecondTestGDX.resources.get(SecondTestGDX.resources.Red_Dot, Texture.class);
+		Texture textBarShield = SecondTestGDX.resources.get(SecondTestGDX.resources.Shield_Bar, Texture.class);		
+		Texture textBarShieldDot = SecondTestGDX.resources.get(SecondTestGDX.resources.Blue_Dot, Texture.class);
+		Texture textBarAmmo = SecondTestGDX.resources.get(SecondTestGDX.resources.Weapon_Bar, Texture.class);		
+		Texture textBarAmmoDot = SecondTestGDX.resources.get(SecondTestGDX.resources.Yellow_Dot, Texture.class);
+		
+		
+		Texture textradar = SecondTestGDX.resources.get(SecondTestGDX.resources.Radar, Texture.class);
+		Texture texticon = SecondTestGDX.resources.get(SecondTestGDX.resources.Icon, Texture.class);
+		
+		Texture textclock = SecondTestGDX.resources.get(SecondTestGDX.resources.Clock, Texture.class);
+		
+		
+		clock = new Image(textclock);
+		clock.setPosition(SecondTestGDX.screenWidth/2 -16, SecondTestGDX.screenHeight-50);
+		clock.setSize(32,32);
+		clock.setVisible(false);
+		stage.addActor(clock);
+		
+		time = new Label("00:00:00", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
+		time.setPosition(SecondTestGDX.screenWidth/2 + 20, SecondTestGDX.screenHeight-35, Align.left);
+		time.setVisible(false);
+		stage.addActor(time);
+		
+		score = new Label("SCORE: 000000000000", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
+		score.setPosition(SecondTestGDX.screenWidth/2 - 40, 30, Align.left);
+		score.setVisible(false);
+		stage.addActor(score);
+		
+		radar = new LogoItem(ElementsGUI.RADAR,textradar,gPS);
+		radar.setPosition(SecondTestGDX.screenWidth-266, SecondTestGDX.screenHeight-146);
+		radar.setSize(256, 128);
+		radar.setVisible(false);
+		stage.addActor(radar);
+		
+		icon = new LogoItem(ElementsGUI.ICON,texticon,gPS);
+		icon.setPosition(10, SecondTestGDX.screenHeight-185);
+		icon.setSize(64, 64);
+		icon.setVisible(false);
+		stage.addActor(icon);
+		
+		
+		
+		pBarHealth = new ProgressBar(ElementsGUI.PROGRESSBARLIFE, textBarHealth, textBarHealthDot, gPS);
+		pBarHealth.setPosition(10, SecondTestGDX.screenHeight-50);
+		pBarHealth.setSize(200, 32);
+		pBarHealth.setVisible(false);
+		stage.addActor(pBarHealth);
+		
+		pBarShield = new ProgressBar(ElementsGUI.PROGRESSBARSHIELD, textBarShield, textBarShieldDot, gPS);
+		pBarShield.setPosition(10, SecondTestGDX.screenHeight-84);
+		pBarShield.setSize(200, 32);
+		pBarShield.setVisible(false);
+		stage.addActor(pBarShield);
+		
+		pBarAmmo = new ProgressBar(ElementsGUI.PROGRESSBARAMMO, textBarAmmo, textBarAmmoDot, gPS);
+		pBarAmmo.setPosition(10, SecondTestGDX.screenHeight-118);
+		pBarAmmo.setSize(200, 32);
+		pBarAmmo.setVisible(false);
+		stage.addActor(pBarAmmo);
+		
+		
+		
+	}
+	
+	
 	private void enableTagsDebug(boolean show) {
 		
 		frameRate.setVisible(show);
@@ -140,6 +224,18 @@ public class GUIStageGamePlay {
 
 		
 	}
+		
+	private void enableTagsProd(boolean show) {
+		pBarHealth.setVisible(show);
+		pBarShield.setVisible(show);
+		pBarAmmo.setVisible(show);
+		radar.setVisible(show);
+		icon.setVisible(show);
+		clock.setVisible(show);
+		time.setVisible(show);
+		score.setVisible(show);
+	}
+	
 	
 	
 	private void initGamePlayGUI() {
@@ -151,6 +247,8 @@ public class GUIStageGamePlay {
 		
 		if (SecondTestGDX.debugEngineEnabled){
 			tagsDebug(); 
+		}else {
+			tagsProd();
 		}
 		
 	}
@@ -159,6 +257,8 @@ public class GUIStageGamePlay {
 		
 		if (SecondTestGDX.debugEngineEnabled) {
 			enableTagsDebug(show);
+		}else {
+			enableTagsProd(show); 
 		}
 		
 	}
@@ -257,14 +357,22 @@ public class GUIStageGamePlay {
 		}else {
 			this.Enemy_9.setText("<EMPTY>");
 		}
-	
 	}
+		
+	
+	private void printGamePlayProdData(float delta) {
+		
+	}
+	
+	
 	
 	public void draw(float delta) {
 		if (stage != null) {
 			
 			if (SecondTestGDX.debugEngineEnabled) {
 				printGamePlayDebugData();
+			}else {
+				printGamePlayProdData(delta);
 			}
 			
 			stage.act(delta);

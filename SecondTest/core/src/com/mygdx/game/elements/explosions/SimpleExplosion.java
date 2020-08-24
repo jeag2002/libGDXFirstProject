@@ -50,13 +50,13 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 		this.spawned = spawned;
 	}
 	
-	public void init(RayHandler rayHandler, SpawnType subType, float xStart, float yStart) {
+	public void init(RayHandler rayHandler, SpawnType subType, float xStart, float yStart, float width, float height) {
 		
 		this.subType = subType;
 		
 		if (subType.equals(SpawnType.Simple_Explosion)) {
 		   pe.load(Gdx.files.internal("elements/explosions/particles/SimpleExplosion.p"),Gdx.files.internal("elements/explosions/particles"));
-		   pe.getEmitters().first().setPosition(xStart+xStart*0.05f,yStart+yStart*0.15f);
+		   pe.getEmitters().first().setPosition(xStart + width/2,yStart + height/2);
 		   pe.scaleEffect(0.40f, 0.40f);
 		   pe.start();
 		}
@@ -87,8 +87,7 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 	public void update(float delta, float boostFactor) {
 		pe.update(delta);
 		if (pe.isComplete()) {
-			pe.reset();
-			pe.scaleEffect(0.40f, 0.40f);
+			gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(this);
 		}
 	}
 
@@ -107,7 +106,6 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 	
 	public void dispose() {
 		this.light.remove();
-		this.light.dispose();
 		this.pe.dispose();
 	}
 	

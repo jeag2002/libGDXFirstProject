@@ -16,10 +16,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.ShootPlayerObject;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.DynamicElementPartType;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicElementInformation;
 import com.mygdx.game.logic.GameLogicInformation;
@@ -80,10 +82,15 @@ public class Player extends ShootPlayerObject{
     
     private boolean collDetection;
     
+    private ElementDefinitionObject eDO;
+    
    
     
     public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
     	super(spawnPool, type, world);
+    	
+    	ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).setScore(0).build();
     	
     	this.gPS = gPS;
     	
@@ -338,7 +345,10 @@ public class Player extends ShootPlayerObject{
     	super.setCollisionAngleRef(getX(), getY(), angle*MathUtils.degRad);
     	
     	//DISABLED ROTATION OF CAMERA.
-    	//testingCameraRotation();
+    	
+    	if (SecondTestGDX.rotateCameraWithPlayer) {
+    		testingCameraRotation();
+    	}
     	
     	player_parts.get(INDEX_TRACK_LEFT).rotate(angle,24,getHeight()/2);
     	player_parts.get(INDEX_TRACK_RIGHT).rotate(angle,-8,getHeight()/2); 	
@@ -471,6 +481,11 @@ public class Player extends ShootPlayerObject{
 	     sfxShotVolume = volume;
 	}
 
+	
+	public ElementDefinitionObject getStatsDynElement() {
+		return this.eDO;
+	}
+	
 	//ROTATION CAMERA
 	public void testingCameraRotation() {
     	
