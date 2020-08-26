@@ -94,7 +94,7 @@ public class GamePlayScreen implements Screen{
 		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
 		
 		stopMusic();
-	    //initMusic();
+	    initMusic();
 	}
 	
 	

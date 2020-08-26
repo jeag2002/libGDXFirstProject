@@ -1,9 +1,11 @@
 package com.mygdx.game.elements.enemies.centroid;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -53,6 +55,9 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 	
 	private ElementDefinitionObject eDO;
 	
+    private Sound sfxShot;
+    private float sfxShotVolume; 
+	
 		
 	public WatchTowerEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
@@ -71,6 +76,8 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		this.angle = 0.0f;
 		
 		this.isSpawned = false;
+		
+		setShotSound("sounds/laser4.mp3", sfxShotVolume);
 		
 	}
 	
@@ -95,6 +102,11 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		super.setShootingActive(false);
 		
 		stateMachine = new DefaultStateMachine<WatchTowerEnemy, WatchTowerEnemyStateEnum>(this, WatchTowerEnemyStateEnum.SLEEP);	
+	}
+	
+	public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
 	}
 	
 	
@@ -253,6 +265,8 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 					timer_shoot = 0.0f;
 					this.addGun(SpawnType.Missile_Pulse, this.angle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
 					this.setShootEvent(true);
+					
+					sfxShot.play();
 				}
 		 	}
 	}
@@ -274,6 +288,17 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 	
 	public void dispose() {
 		light.remove();
+	}
+
+	@Override
+	public SpawnType getType() {
+		return this.typeEnemy;
+	}
+
+	@Override
+	public SpawnType getSubType() {
+		// TODO Auto-generated method stub
+		return this.typeEnemy;
 	}
 	
 }

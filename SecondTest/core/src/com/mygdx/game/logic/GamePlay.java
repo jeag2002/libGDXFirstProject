@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.JUNGLE_LEVEL;
+		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -170,6 +170,10 @@ public class GamePlay {
 		situationPlayer();
 	}
 	
+	public SimpleMapGeneration getMapGenerationEngine() {
+		return sMG;
+	}
+	
 	
 	public void situationPlayer() {
 		
@@ -225,12 +229,7 @@ public class GamePlay {
 			    
 			    //-->EXIT
 			    exit = sMG.setExit();
-			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, exit);
-			    
-			    //-->EXPLOSION
-			    //NewItem explosion = new NewItem(SpawnType.Explosion,SecondTestGDX.screenWidth/2, SecondTestGDX.screenHeight/4 );
-			    //this.gameLogic.generateExplosion(SpawnType.Simple_Explosion, explosion);
-			    
+			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, exit);			    
 			   
 			    //-->ENEMY TANK
 			    ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();

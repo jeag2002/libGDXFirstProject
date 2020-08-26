@@ -2,11 +2,13 @@ package com.mygdx.game.elements.enemies.drons;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -66,6 +68,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private ElementDefinitionObject eDO;
 	
+    private Sound sfxShot;
+    private float sfxShotVolume; 
+	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
@@ -86,6 +91,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		this.isSpawned = false;
 		
 		enemy_parts = new ArrayList<DynElementPart>();
+		
+		setShotSound("sounds/laser4.mp3", sfxShotVolume);
 		
 	}
 	
@@ -113,6 +120,10 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		
 	}
 	
+	public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
+	}
 	
 
 	
@@ -315,6 +326,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 					timer_shoot = 0.0f;
 					this.addGun(SpawnType.Missile_Plasma, this.angle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
 					this.setShootEvent(true);
+					
+					sfxShot.play();
 				}
 			
 		 	}
@@ -344,6 +357,16 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		light.remove();
 		//light.dispose();
 		enemy_parts.clear();
+	}
+
+	@Override
+	public SpawnType getType() {
+		return this.typeEnemy;
+	}
+
+	@Override
+	public SpawnType getSubType() {
+		return this.typeEnemy;
 	}
 	
 }

@@ -1,6 +1,7 @@
-package com.mygdx.game.elements.missiles;
+ package com.mygdx.game.elements.missiles;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,7 @@ import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicElementInformation;
 import com.mygdx.game.logic.elements.SpawnObject;
 import com.mygdx.game.logic.elements.SpawnPool;
+import com.mygdx.game.screens.GamePlayScreen;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -43,11 +45,16 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
     private SpawnType subType;
     
     private PointLight light;
+    
+    private GamePlayScreen gPS;
+    
+    private RayHandler rayHandler;
 
-	public Missile(SpawnType type, World world) {
+	public Missile(SpawnType type, World world, GamePlayScreen gPS) {
 		super(world, type);
 		pool = null;
 		this.type = type;
+		this.gPS = gPS;
 	}
 	
 	
@@ -98,6 +105,8 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		 }
 		 
 		 super.createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody,true);
+		 
+		 this.rayHandler = rayHandler;
 		 
 		 this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
 		 this.light.setSoftnessLength(0f);
@@ -152,20 +161,27 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		if (isSpawned()) {	 
 			 
 			 movement.set(direction).scl(speed * delta * boostFactor);
-			 //position.add(movement);
-	         //super.setPosition(position.x, position.y);
-	         //super.setCollisionRef(position.x, position.y);
 			  
 	        super.setCollisionVel(movement.x, movement.y);
 	        Vector2 posRelative = super.getPositionFromBodyToPixel();
 	        super.setPosition(posRelative.x, posRelative.y);
-			  
-	         if (getX() > SecondTestGDX.screenWidth || 
-	             getX() < 0 || 
-	             getY() > SecondTestGDX.screenHeight || 
-	             getY() < 0) {
-        			
-	         }
+	        
+	        
+	        /*
+	        float x = posRelative.x;
+	        float y = posRelative.y;
+	        
+	    	float originX = this.gPS.getGamePlay().getCamera().position.x - SecondTestGDX.screenWidth/2;
+	    	float originY = this.gPS.getGamePlay().getCamera().position.y - SecondTestGDX.screenHeight/2; 
+	        
+	        x-=originX;
+	        y-=originY;
+	    	
+	        if (x > SecondTestGDX.screenWidth || x < 0 || y > SecondTestGDX.screenHeight ||  y < 0) {
+	        	 this.gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(this);
+	        }
+	    	*/
+
 		}
 	}
 
@@ -204,7 +220,12 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	}
 	
 	public void dispose() {
-		light.remove();
+		light.remove();	
+	}
+
+	@Override
+	public SpawnType getSubType() {
+		return this.subType;
 	}
 	
 	

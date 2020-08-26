@@ -27,7 +27,13 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 
 	private static final int INDEX_SUBITEM = 0;
 	private static final float TRANSITION_BETWEEN_ANIM = 0.05f;
-	private static final float TRANSITION_PULSE_BONUS = 0.1f;
+	private static final float TRANSITION_PULSE_BONUS = 0.05f;
+	
+	private static final int POSITION_1 = 0;
+	private static final int POSITION_2 = 1;
+	private static final int POSITION_3 = 2;
+	private static final int POSITION_4 = 4;
+	
 		
 	private GamePlayScreen gPS;
 	
@@ -46,6 +52,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	private boolean latchBackground;
 	
+	private float posXBonus = 0;
+	private float posYBonus = 0;
+	private int positionBonus = 0;
 	
 	
 	public Item(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
@@ -74,7 +83,18 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		setAnimation();
 		setAnimationPart();
 		
-		setSize(width, height);
+
+		if ( 
+			subType.equals(SpawnType.Item_Bonus_Shield) || 
+			subType.equals(SpawnType.Item_Bonus_Bullet) || 
+			subType.equals(SpawnType.Item_Bonus_Gun) ||
+			subType.equals(SpawnType.Item_Bonus_Life)) {
+			setSize(width, height);
+			setPosition(iniPositionX, iniPositionY);
+		}else{
+			setPosition(iniPositionX, iniPositionY);
+			setSize(width, height);
+		}
 		setPosition(iniPositionX, iniPositionY);
 	
 		
@@ -83,7 +103,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		
 		setSpeed(0,0);
 		
-		if (subType.equals(SpawnType.Item_PlatformPlayer) || subType.equals(SpawnType.Item_PlatformEnemy)){ 
+		this.setSpawnSubTypeColl(subType);
+		
+		if (subType.equals(SpawnType.Item_PlatformPlayer) || subType.equals(SpawnType.Item_PlatformEnemy) || subType.equals(SpawnType.Item_Bonus_Shield) || subType.equals(SpawnType.Item_Bonus_Bullet) ||  subType.equals(SpawnType.Item_Bonus_Gun) || subType.equals(SpawnType.Item_Bonus_Life)){ 
 			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody, true);
 		}else {
 			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody, false);
@@ -101,6 +123,11 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 				subType.equals(SpawnType.Item_Bonus_Life)) {
 				
 				distance = 3;
+				
+				posXBonus = getX();
+				posYBonus = getY();
+				positionBonus = this.POSITION_1;
+				
 			}
 			
 			
@@ -216,16 +243,45 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	@Override
 	public void AnimationLoop(float delta, boolean loop) {
 		
-		this.timer += delta;
+		
 		
 		if (subType.equals(SpawnType.Item_Mine)) {
+			this.timer += delta;
 			if (timer > TRANSITION_BETWEEN_ANIM) {
 				timer = 0;
 				index++;
 				if (index >= GameLogicElementInformation.Enemy_03.length) {index = 0;}
 				setTextureToSpriteByIndex(index); 	
 			}	
-		}		
+		}else if (subType.equals(SpawnType.Item_Bonus_Life) || 
+				subType.equals(SpawnType.Item_Bonus_Shield) || 
+				subType.equals(SpawnType.Item_Bonus_Bullet) || 
+				subType.equals(SpawnType.Item_Bonus_Gun)) {
+			
+			this.timer += delta;
+			if (timer > TRANSITION_PULSE_BONUS) {
+				
+				timer = 0;
+				
+				if (this.positionBonus == this.POSITION_1) {
+					this.setPosition(this.posXBonus-2, this.posYBonus-2);
+					this.positionBonus = this.POSITION_2;
+				}else if (this.positionBonus == this.POSITION_2) {
+					this.setPosition(this.posXBonus-2, this.posYBonus+2);
+					this.positionBonus = this.POSITION_3;
+				}else if (this.positionBonus == this.POSITION_3) {
+					this.setPosition(this.posXBonus+2, this.posYBonus+2);
+					this.positionBonus = this.POSITION_4;
+				}else {
+					this.setPosition(this.posXBonus+2, this.posYBonus-2);
+					this.positionBonus = this.POSITION_1;
+				}
+				
+				
+				
+			
+			}
+		}
 	}
 
 
@@ -291,6 +347,11 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	public void dispose() {
 		if (this.light != null) {this.light.remove();}
+	}
+
+	@Override
+	public SpawnType getType() {
+		return this.type;
 	}
 	
 	

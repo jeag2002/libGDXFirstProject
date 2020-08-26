@@ -7,6 +7,7 @@ import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -78,8 +79,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	private SpawnPool pool;
 	
-	 private ElementDefinitionObject eDO;
+	private ElementDefinitionObject eDO;
 	
+    private Sound sfxShot;
+    private float sfxShotVolume; 
 
 
 	private StateMachine<TankEnemy, TankEnemyStateEnum> stateMachine;
@@ -98,6 +101,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		this.isSpawned = false;
 		this.previousNode = new NewItem();
 		enemy_parts = new ArrayList<DynElementPart>();
+		
+		setShotSound("sounds/laser4.mp3", sfxShotVolume);
 		
 	}
 	
@@ -144,6 +149,12 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     	setShootingActive(false);
     	
 	}
+	
+	public void setShotSound(String path, float volume) {
+	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxShotVolume = volume;
+	}
+
 	
 	
 	public StateMachine<TankEnemy, TankEnemyStateEnum> getStateMachine(){
@@ -427,6 +438,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 					this.addGun(SpawnType.Missile_Missile, angleTurret-90, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
 				}
 				
+				sfxShot.play();
+				
 				this.setShootEvent(true);
 			}
 	 }
@@ -535,6 +548,19 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	public ElementDefinitionObject getStatsDynElement() {
 		return this.eDO;
+	}
+
+
+	@Override
+	public SpawnType getType() {
+		return this.typeEnemy;
+	}
+
+
+	@Override
+	public SpawnType getSubType() {
+		// TODO Auto-generated method stub
+		return this.subTypeEnemy;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.enemies.centroid.WatchTowerEnemy;
 import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
@@ -19,10 +20,13 @@ import com.mygdx.game.logic.elements.SpawnPool;
 import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.logic.map.elements.StaticTiledMapColl;
 import com.mygdx.game.screens.GamePlayScreen;
+import com.mygdx.game.utils.DrawUtils;
 import com.mygdx.game.utils.NewItem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -135,7 +139,7 @@ public class GameElementLogic {
 		else if (i == 2) {subType = SpawnType.Item_Bonus_Gun;}
 		else {subType = SpawnType.Item_Bonus_Bullet;}
 		
-		item.init(rayHandler, subType , x+width/2-16, y+height/2-16, 32, 32);
+		item.init(rayHandler, subType , x+width/2-32, y+height/2-32, 64, 64);
 		item.setSpawned(true);
 	}
 	
@@ -244,7 +248,7 @@ public class GameElementLogic {
 			
 			if (item.getType().equals(SpawnType.Explosion)) {
 				this.generateExplosion(item);
-				//sfxExplosion.play();
+				//
 			}else if (item.getType().equals(SpawnType.Item) && item.getSubType().equals(SpawnType.Item_Bonus)) {
 				this.generateBonus(item.getX(), item.getY(), item.getWidth(), item.getHeight());
 			}
@@ -255,7 +259,49 @@ public class GameElementLogic {
 		
 	}
 	
-	
+	private Cell generateTile(int typemap) {
+		
+		StaticTiledMapTile tile = null;
+		Texture text = null;
+		
+		/*if (typemap == SimpleMapGeneration.TYPE_BADLANDS) {
+			
+			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_1,Texture.class);
+			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
+			TextureRegion tRegion = new TextureRegion(text);
+			tile = new StaticTiledMapTile(tRegion);
+			
+		}else if (typemap == SimpleMapGeneration.TYPE_JUNGLE) {
+			
+			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_2,Texture.class);
+			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
+			TextureRegion tRegion = new TextureRegion(text);
+			tile = new StaticTiledMapTile(tRegion);
+			
+		}else*/ if (typemap == SimpleMapGeneration.TYPE_FABRIC) {
+			
+			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_4,Texture.class);
+			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
+			TextureRegion tRegion = new TextureRegion(text);
+			tile = new StaticTiledMapTile(tRegion);
+			
+		}/*else if (typemap == SimpleMapGeneration.TYPE_DESERT) {
+			
+			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_6,Texture.class);
+			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
+			TextureRegion tRegion = new TextureRegion(text);
+			tile = new StaticTiledMapTile(tRegion);
+
+		
+		}*/else {
+			tile = null;
+		}
+		
+
+		Cell cell = new Cell();
+		cell.setTile(tile);
+		return cell;
+	}
 	
 	
 	
@@ -271,7 +317,7 @@ public class GameElementLogic {
 		    	}
 		    	
 		        world.destroyBody(cell.getBody());
-		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_WALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_WALLS)).setCell(cell.getIndexX(),cell.getIndexY(), generateTile(gPS.getGamePlay().getMapGenerationEngine().getTypeMap()));
 		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 			    ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSWALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 			   
@@ -303,6 +349,11 @@ public class GameElementLogic {
 		    spawnPool.getDeletedForestsWithCollision().clear();
 		    
 			for(SpawnObject sO: spawnPool.getDeletedBodiesWithCollision()) {
+				
+				if (sO.getType().equals(SpawnType.Enemy_01) || sO.getType().equals(SpawnType.Enemy_02) || sO.getType().equals(SpawnType.Enemy_03) || (sO.getType().equals(SpawnType.Item) && sO.getSubType().equals(SpawnType.Item_Mine))) {
+					sfxExplosion.play();
+				}
+				
 				sO.kill(spawnPool);
 				spawnPool.returnToPool(sO);
 				if (sO.getBox2DBody() != null) {

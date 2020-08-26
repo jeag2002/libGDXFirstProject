@@ -28,6 +28,13 @@ public abstract class DynamicCollPlayerObject extends CollisionPlayerObject impl
 		sO = new SpriteObject();
 	}
 	
+	
+	public DynamicCollPlayerObject(World world, SpawnType spawnType, SpawnType subType) {
+		super(world,spawnType,subType,GUID.get());
+		sO = new SpriteObject();
+	}
+	
+	
 	public void init(Texture[] textures, int index) {
 		sO.init(textures, index);
 	}

@@ -59,7 +59,7 @@ public class GUIStageIntermission{
 		bar.setVisible(show);
 		
 		if (show) {
-			lblLevel.addAction(sequence(hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show() ));
+			lblLevel.addAction(sequence(hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show(), delay(1.0f), hide()));
 		}
 		
 	}

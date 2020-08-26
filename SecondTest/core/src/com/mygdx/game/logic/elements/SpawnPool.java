@@ -223,9 +223,9 @@ public class SpawnPool {
 	    try {
 	        SpawnObject created = null;
 	        if (type.name() == "MissilePlayer") {
-	        	created = new Missile(SpawnType.MissilePlayer, world);
+	        	created = new Missile(SpawnType.MissilePlayer, world, gPS);
 	        }else if (type.name() == "MissileEnemy") {
-	        	created = new Missile(SpawnType.MissileEnemy, world);
+	        	created = new Missile(SpawnType.MissileEnemy, world, gPS);
 	        }else if (type.name() == "Enemy_01") { //DRONS
 	            created = new SimpleEnemy(this,SpawnType.Enemy_01,world,gPS);
 	        }else if (type.name() == "Enemy_02") { //TANKS	

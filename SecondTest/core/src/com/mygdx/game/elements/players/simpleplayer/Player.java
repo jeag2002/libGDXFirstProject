@@ -471,8 +471,8 @@ public class Player extends ShootPlayerObject{
 	
 	public void dispose() {
 		player_parts.clear();
-		myLight_point.dispose();
-		myLight_cone.dispose();
+		myLight_point.remove();
+		myLight_cone.remove();
 	}
 	
 	

@@ -95,14 +95,45 @@ public class CollisionEngine implements ContactListener{
 	    
 	    //-->PLAYER
 	    if (objectStrA.getType().equals(SpawnType.Player_01)) {
-	    	processPlayer(objectStrA, objectStrB);
+	    	processPlayer(objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.Player_01)) {
-	    	processPlayer(objectStrB, objectStrA);
+	    	processPlayer(objectStrA);
 	    }
 	    
 	}
 	
-	private void processPlayer(NewItem objectStr, NewItem other) {
+	private void processPlayer(NewItem other) {
+		
+		Player player = gPS.getGamePlay().getGameLogic().getPlayer();
+		
+		if (other.getType().equals(SpawnType.Item)) {
+			if (other.getSubType().equals(SpawnType.Item_Mine)) {
+				//System.out.println("Collision Detected Player vs Mine");
+			}else if (other.getSubType().equals(SpawnType.Item_Bonus_Shield) || 
+					other.getSubType().equals(SpawnType.Item_Bonus_Bullet) || 
+					other.getSubType().equals(SpawnType.Item_Bonus_Gun) ||
+					other.getSubType().equals(SpawnType.Item_Bonus_Life)) {
+				//System.out.println("Collision Detected Player vs Bonus");
+			}
+		}
+		
+		else if (other.getType().equals(SpawnType.Enemy_03)) {
+			//System.out.println("Collision Detected Player vs WatchTower");
+		}
+		
+		else if (other.getType().equals(SpawnType.MissileEnemy)){
+			//System.out.println("Collision Detected Player vs Missile Enemy");
+		}
+		
+		else if (other.getType().equals(SpawnType.Wall_Space)) {
+			//System.out.println("Collision Detected Player vs Wall Space");
+		}
+		
+		else if (other.getType().equals(SpawnType.Wall_Volcano)) {
+			//System.out.println("Collision Detected Player vs Wall Volcano");
+		}
+		
+		
 		
 	}
 	
@@ -389,8 +420,16 @@ public class CollisionEngine implements ContactListener{
 								if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
 									gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
 								}
+								
+								other.setX(item.getX());
+								other.setY(item.getY());
+								other.setWidth(item.getWidth());
+								other.setHeight(item.getHColl());
+								
+								createExplosionDynamic(other);
 							}
 						}
+						
 					} 
 					
 					

@@ -6,6 +6,9 @@ import com.mygdx.game.enums.SpawnType;
 
 public interface SpawnObject {
 	
+	SpawnType getType();
+	SpawnType getSubType();
+	
 	void setSpawned(boolean spawned);
 	Body getBox2DBody();
 	boolean isSpawned();

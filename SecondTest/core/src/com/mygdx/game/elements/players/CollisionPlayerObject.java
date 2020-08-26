@@ -62,6 +62,11 @@ public class CollisionPlayerObject{
     
     
     
+    public void setSpawnSubTypeColl(SpawnType subType) {
+    	this.spawnSubType = subType;
+    }
+    
+    
     
     public void createCollisionObject(float X, float Y, float W, float H, BodyType type, boolean isSensor) {
     	
@@ -91,7 +96,7 @@ public class CollisionPlayerObject{
     	
     	body.createFixture(fixtureDef);
     	
-    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
+    	body.setUserData(new NewItem(spawnType, spawnSubType, idCode, X, Y, W, H));
     	shape.dispose();
     
     }

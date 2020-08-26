@@ -108,6 +108,19 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 		this.light.remove();
 		this.pe.dispose();
 	}
+
+
+
+	@Override
+	public SpawnType getType() {
+		return this.type;
+	}
+
+
+	@Override
+	public SpawnType getSubType() {
+		return this.subType;
+	}
 	
 }
 
