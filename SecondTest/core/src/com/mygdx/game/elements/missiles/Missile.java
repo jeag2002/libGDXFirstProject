@@ -38,6 +38,9 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
     private boolean spawned;
     private SpawnPool pool;
     
+    private static final float LIMIT_FLAME = 0.05f;
+    private static final float LIMIT_MISSILE = 0.01f;
+    
     
     private Texture[] text_laser_1;
 
@@ -86,7 +89,9 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	     }else if (subType.equals(SpawnType.Missile_Pulse)) {
 	    	 text_laser_1 = GameLogicElementInformation.pulse;
 	     }else if (subType.equals(SpawnType.Missile_Missile)) {
-	    	 text_laser_1 = GameLogicElementInformation.missile_1;
+	    	 text_laser_1 = GameLogicElementInformation.missile_2;
+	     }else if (subType.equals(SpawnType.Missile_Flame)) {
+	    	 text_laser_1 = GameLogicElementInformation.flame;
 	     }
 	     
 		 
@@ -128,11 +133,24 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	
 	private void AnimationByTimeLASER_1(float delta) {
 		timer += delta;
-	    if (timer >= 0.05f) {
-	    	timer = 0.0f;
-			index++;
-			if (index < text_laser_1.length) {getSprite().setTexture(text_laser_1[index]);}
-			else {index = 0;}
+		
+		if (subType.equals(SpawnType.Missile_Flame)) {
+		    if (timer >= this.LIMIT_FLAME) {
+		    	timer = 0.0f;
+		    	index++;
+				if (index < text_laser_1.length) { getSprite().setTexture(text_laser_1[index]); }
+				else if (index >= text_laser_1.length){index = text_laser_1.length-1;}
+			}
+		}else if (subType.equals(SpawnType.Missile_Missile)) {
+			
+			if (timer >= this.LIMIT_MISSILE) {
+		    	timer = 0.0f;
+		    	index++;
+				if (index < text_laser_1.length) {getSprite().setTexture(text_laser_1[index]); }
+				else if (index >= text_laser_1.length){index = 0;}
+			}
+			
+			
 		}
 	}
 	
@@ -166,6 +184,8 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	        Vector2 posRelative = super.getPositionFromBodyToPixel();
 	        super.setPosition(posRelative.x, posRelative.y);
 	        
+	        
+	        //CRASH BECAUSE RAYHANDLER IT'S NOT THREAD SAVE (?)
 	        
 	        /*
 	        float x = posRelative.x;

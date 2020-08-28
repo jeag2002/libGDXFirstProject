@@ -64,6 +64,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
 	private float angle;
 	
+	private float angleShooting;
+	
+	
 	private SpawnPool pool;
 	
 	private ElementDefinitionObject eDO;
@@ -87,6 +90,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		this.timer_shoot = 0.0f;
 		
 		this.angle = 0.0f;
+		this.angleShooting = 0.0f;
 		
 		this.isSpawned = false;
 		
@@ -321,10 +325,11 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 				
 				if (timer_shoot  >= INTERVAL_BETWEEN_SHOOT) {
 					
-					float x = (float) ((getX()+16) + 8.0 * Math.cos(this.angle*MathUtils.degRad)); 
-					float y = (float) ((getY()) + 8.0 * Math.sin(this.angle*MathUtils.degRad)); 
+			    	angleShootingDefinition();
+					float x = (float) ((getX()+16) + 8.0 * Math.cos(this.angleShooting*MathUtils.degRad)); 
+					float y = (float) ((getY()+16) + 8.0 * Math.sin(this.angleShooting*MathUtils.degRad)); 
 					timer_shoot = 0.0f;
-					this.addGun(SpawnType.Missile_Plasma, this.angle, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
+					this.addGun(SpawnType.Missile_Plasma, this.angleShooting, speedGun, x , y, 0, 0, ElementEnum.PLASMA.getWidthShow(), ElementEnum.PLASMA.getHeightShow());
 					this.setShootEvent(true);
 					
 					sfxShot.play();
@@ -332,6 +337,21 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 			
 		 	}
 	 }
+
+	private void angleShootingDefinition() {
+		Vector2 dron = new Vector2();
+		Vector2 player = new Vector2();
+		
+		dron.x = getX();
+		dron.y = getY();
+		
+		player.x = this.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getX();
+		player.y = this.getGamePlayScreen().getGamePlay().getGameLogic().getPlayer().getY();
+		
+		this.angleShooting = (float) Math.atan2((dron.y-player.y),(dron.x-player.x));
+		this.angleShooting = (this.angleShooting*MathUtils.radDeg);
+		this.angleShooting = this.angleShooting+180;
+	}
 	
 	
 	public ElementDefinitionObject getStatsDynElement() {

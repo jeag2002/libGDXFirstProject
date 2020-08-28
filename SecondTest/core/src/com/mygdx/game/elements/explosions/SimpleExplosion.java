@@ -59,6 +59,11 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 		   pe.getEmitters().first().setPosition(xStart + width/2,yStart + height/2);
 		   pe.scaleEffect(0.40f, 0.40f);
 		   pe.start();
+		}else if (subType.equals(SpawnType.Fire)) {
+		   pe.load(Gdx.files.internal("elements/explosions/particles/Fire.p"),Gdx.files.internal("elements/explosions/particles"));
+		   pe.getEmitters().first().setPosition(xStart + width/2,yStart + height/2);
+		   pe.scaleEffect(0.40f, 0.40f);
+		   pe.start();
 		}
 		
 		createCollisionObject(xStart,yStart,64,64,BodyType.StaticBody,true);

@@ -118,6 +118,34 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_PLAYER_1_A.getHeightShow())		
 	};
 	
+	public static final Texture[] cannonPlayer01BText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_PLAYER_1_B.getElementStr(),Texture.class), 
+					ElementEnum.GUN_PLAYER_1_B.getWidthBef(), 
+					ElementEnum.GUN_PLAYER_1_B.getHeightBef(), 
+					ElementEnum.GUN_PLAYER_1_B.getWidthShow(), 
+					ElementEnum.GUN_PLAYER_1_B.getHeightShow())		
+	};
+	
+	public static final Texture[] cannonPlayer01CText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_PLAYER_1_C.getElementStr(),Texture.class), 
+					ElementEnum.GUN_PLAYER_1_C.getWidthBef(), 
+					ElementEnum.GUN_PLAYER_1_C.getHeightBef(), 
+					ElementEnum.GUN_PLAYER_1_C.getWidthShow(), 
+					ElementEnum.GUN_PLAYER_1_C.getHeightShow())		
+	};
+	
+	public static final Texture[] cannonPlayer01DText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_PLAYER_1_D.getElementStr(),Texture.class), 
+					ElementEnum.GUN_PLAYER_1_D.getWidthBef(), 
+					ElementEnum.GUN_PLAYER_1_D.getHeightBef(), 
+					ElementEnum.GUN_PLAYER_1_D.getWidthShow(), 
+					ElementEnum.GUN_PLAYER_1_D.getHeightShow())		
+	};
+	
+	
 	public static final Texture[] trackPlayerText = {
 		DrawUtils.resizeTexture(
 				SecondTestGDX.resources.get(ElementEnum.TRACK_01.getElementStr(),Texture.class),
@@ -469,6 +497,64 @@ public class GameLogicElementInformation {
 			
 	};
 	
+	public static final Texture[] missile_2 = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.MISSILE_A.getElementStr(),Texture.class),
+					ElementEnum.MISSILE_A.getWidthBef(),
+					ElementEnum.MISSILE_A.getHeightBef(),
+					ElementEnum.MISSILE_A.getWidthShow(),
+					ElementEnum.MISSILE_A.getHeightShow()),
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.MISSILE_B.getElementStr(),Texture.class),
+					ElementEnum.MISSILE_B.getWidthBef(),
+					ElementEnum.MISSILE_B.getHeightBef(),
+					ElementEnum.MISSILE_B.getWidthShow(),
+					ElementEnum.MISSILE_B.getHeightShow()),
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.MISSILE_C.getElementStr(),Texture.class),
+					ElementEnum.MISSILE_C.getWidthBef(),
+					ElementEnum.MISSILE_C.getHeightBef(),
+					ElementEnum.MISSILE_C.getWidthShow(),
+					ElementEnum.MISSILE_C.getHeightShow())
+			
+	};
+	
+	
+	
+	public static final Texture[] flame = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.FLAME_1.getElementStr(),Texture.class),
+					ElementEnum.FLAME_1.getWidthBef(),
+					ElementEnum.FLAME_1.getHeightBef(),
+					ElementEnum.FLAME_1.getWidthShow(),
+					ElementEnum.FLAME_1.getHeightShow()),
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.FLAME_2.getElementStr(),Texture.class),
+					ElementEnum.FLAME_2.getWidthBef(),
+					ElementEnum.FLAME_2.getHeightBef(),
+					ElementEnum.FLAME_2.getWidthShow(),
+					ElementEnum.FLAME_2.getHeightShow()),
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.FLAME_3.getElementStr(),Texture.class),
+					ElementEnum.FLAME_3.getWidthBef(),
+					ElementEnum.FLAME_3.getHeightBef(),
+					ElementEnum.FLAME_3.getWidthShow(),
+					ElementEnum.FLAME_3.getHeightShow()),
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.FLAME_4.getElementStr(),Texture.class),
+					ElementEnum.FLAME_4.getWidthBef(),
+					ElementEnum.FLAME_4.getHeightBef(),
+					ElementEnum.FLAME_4.getWidthShow(),
+					ElementEnum.FLAME_4.getHeightShow())
+			
+	};
 	
 	
 	

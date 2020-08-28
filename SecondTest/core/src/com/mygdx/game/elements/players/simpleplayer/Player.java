@@ -26,6 +26,7 @@ import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicElementInformation;
 import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.logic.elements.SpawnPool;
+import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.DrawUtils;
 
@@ -65,6 +66,12 @@ public class Player extends ShootPlayerObject{
     
     private Sound sfxShot;
     private float sfxShotVolume; 
+    
+    private Sound sfxFlame;
+    private float sfxFlameVolume; 
+    
+    private Sound sfxMissile;
+    private float sfxMissileVolume;
     
 	private PointLight myLight_point;
 	private ConeLight myLight_cone;
@@ -117,8 +124,13 @@ public class Player extends ShootPlayerObject{
     	
     	this.collDetection = false;
     	this.sfxShotVolume = 0.97f;
+    	this.sfxFlameVolume = 0.25f;
+    	this.sfxMissileVolume = 0.25f;
     	
 	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
+	    setFlameSound("sounds/flamethrow.mp3", sfxFlameVolume); 
+	    setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
+	    
 	    super.resetGuns();
 		
     	
@@ -195,12 +207,30 @@ public class Player extends ShootPlayerObject{
     	
     	DynElementPart gun = new DynElementPart(DynamicElementPartType.GUN_PLAYER);
     	Texture gunTXT[] = null;
-    	if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {
+    	if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {				//-->single shoot
     		gunTXT = GameLogicElementInformation.cannonPlayer01AText;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_PLAYER_1_A.getWidthShow(), ElementEnum.GUN_PLAYER_1_A.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2), iniPositionY+8);
+    	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {		 	//-->double shoot
+    		gunTXT = GameLogicElementInformation.cannonPlayer01BText;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_PLAYER_1_B.getWidthShow(), ElementEnum.GUN_PLAYER_1_B.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_B.getWidthShow()/2), iniPositionY+8);
+    	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)) {		   //--> missile
+    		gunTXT = GameLogicElementInformation.cannonPlayer01CText;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_PLAYER_1_C.getWidthShow(), ElementEnum.GUN_PLAYER_1_C.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_C.getWidthShow()/2), iniPositionY+8);
+    	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)) {			//--> flame	
+    		
+    		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_PLAYER_1_D.getWidthShow(), ElementEnum.GUN_PLAYER_1_D.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_D.getWidthShow()/2), iniPositionY+8);
+        	
     	}
+    	
     	player_parts.add(gun);
     	
     	
@@ -228,7 +258,7 @@ public class Player extends ShootPlayerObject{
     	
     	   	
 		    if (orientationUP.equals(PlayerMovementsEnum.UP)) {
-		    		if (Gdx.input.isKeyPressed(Keys.UP)) {
+		    		if (Gdx.input.isKeyPressed(Keys.UP) || (Gdx.input.isKeyPressed(Keys.W))) {
 		    			movement(delta, -1);
 		    			gPS.getGamePlay().update(getX(),getY());
 		    			animatedTracks(delta,true,true); 
@@ -237,7 +267,7 @@ public class Player extends ShootPlayerObject{
 		    }
 		    	
 		    if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
-		    		if (Gdx.input.isKeyPressed(Keys.DOWN)) {	
+		    		if (Gdx.input.isKeyPressed(Keys.DOWN) || (Gdx.input.isKeyPressed(Keys.S))) {	
 		    			movement(delta, 1);		    			
 		    			gPS.getGamePlay().update(getX(),getY());
 		    			animatedTracks(delta, true, true);
@@ -247,7 +277,7 @@ public class Player extends ShootPlayerObject{
 		    }
 	    	
 	    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
-	    		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+	    		if (Gdx.input.isKeyPressed(Keys.LEFT) || (Gdx.input.isKeyPressed(Keys.A))) {
 	    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotate();
 	    			animatedTracks(delta, true, false);
@@ -257,7 +287,7 @@ public class Player extends ShootPlayerObject{
 	    	}
 	    	
 	    	if (orientationRIGHT.equals(PlayerMovementsEnum.RIGHT)) {
-	    		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+	    		if (Gdx.input.isKeyPressed(Keys.RIGHT) || (Gdx.input.isKeyPressed(Keys.D))) {
 	    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotate();
 	    			animatedTracks(delta, false, true);
@@ -267,16 +297,14 @@ public class Player extends ShootPlayerObject{
 	    	}
 	    	
 	    	if (orientationS.equals(PlayerMovementsEnum.TURRETCLOCKWISE)) {
-	    		if (Gdx.input.isKeyPressed(Keys.S)) {
+	    		if (Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Keys.ALT_LEFT)) {
 	    			this.angleTurret -= GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotateTurret();
 	    		}
-
 	    	}
 	    	
 	    	if (orientationA.equals(PlayerMovementsEnum.TURRETANTICLOCKWISE)) {
-	    		
-	    		if (Gdx.input.isKeyPressed(Keys.A)) {
+	    		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) {
 	    			this.angleTurret += GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
 	    			rotateTurret();
 	    		}
@@ -300,6 +328,11 @@ public class Player extends ShootPlayerObject{
 	    		
 	    		super.setCollisionVel(0.0f, 0.0f);
 	    		animatedExhaust(delta, false, false);
+	    		
+	    		if (gPS.getGamePlay().getMapGenerationEngine().getTypeMap() == SimpleMapGeneration.TYPE_WINTER) {
+	    			movementIce();
+	     		 }
+	    		
 	    	}
 	    	
     }
@@ -313,16 +346,49 @@ public class Player extends ShootPlayerObject{
 		if (time  >= INTERVAL_BETWEEN_SHOOT) {
 			
 			float shootAngle = 0.0f;
+			time = 0.0f;
 			
 			if (SecondTestGDX.isMouseEnabled) {shootAngle = angleTurret + 90;} else {shootAngle = angle+angleTurret+90;}
 			
-			float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
-			float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad)); 
+			//float x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+			//float y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
 			
-			time = 0.0f;
-			this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+			float x = 0.0f;
+			float y = 0.0f;
+			
+			if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)) {
+				x = (float) ((getX() + 16 + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+				y = (float) (getY() + 16 + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)) {
+				
+				x = (float) ((getX() + 8 + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 60.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+				y = (float) (getY() + 8 + 60.0 * Math.sin(shootAngle*MathUtils.degRad));
+				
+			}else {
+				x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+				y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
+			}
+			
+			if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {
+				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				sfxShot.play();
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {
+				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				sfxShot.play();
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)){
+				this.addGun(SpawnType.Missile_Missile, shootAngle+180, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
+				sfxMissile.play(sfxMissileVolume);
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)){
+				this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
+				sfxFlame.play(sfxFlameVolume);
+			}
+			
+			//this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+			
+			
 			this.setShootEvent(true);
-			sfxShot.play();
+			
 		
 		}
     }
@@ -399,7 +465,6 @@ public class Player extends ShootPlayerObject{
     
     
     public void rotateTurret() {
-    	
     	if (!SecondTestGDX.isMouseEnabled) {
     		player_parts.get(INDEX_GUN).rotate(angle+angleTurret, ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2, ElementEnum.GUN_PLAYER_1_A.getHeightShow()/2-8 );
     	}else {
@@ -408,10 +473,32 @@ public class Player extends ShootPlayerObject{
     }
     
     
+    public void changeTurret(ElementEnum newGun) {
+    	
+    	this.eDO.setAmmo(GameLogicInformation.MAX_AMMO_PLAYER);
+    	
+    	Texture gunTXT[] = null;
+    	
+    	this.cannonType = newGun;
+    	
+    	if (newGun.equals(ElementEnum.GUN_PLAYER_1_A)) {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01AText;
+    	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_B)) {
+    		gunTXT =  GameLogicElementInformation.cannonPlayer01BText;
+    	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_C)) {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01CText;
+    	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_D)) {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
+    	}
+    	player_parts.get(INDEX_GUN).init(gunTXT, 0);
+    }
+    
     public void movement(float delta, float index) {
     	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*2);
          position.add(movement);
          
+         
+     
          super.setCollisionVel(movement.x, movement.y);
          Vector2 posRelative = super.getPositionFromBodyToPixel();
          super.setPosition(posRelative.x, posRelative.y);
@@ -424,6 +511,22 @@ public class Player extends ShootPlayerObject{
          player_parts.get(INDEX_EXHAUST_LEFT).setPosition(getX()+(getWidth()/2)-16, getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
          player_parts.get(INDEX_EXHAUST_RIGHT).setPosition(getX()+(getWidth()/2), getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
     }
+    
+    public void movementIce() {
+    	
+    	this.skiddingInIce();
+    	Vector2 posRelative = super.getPositionFromBodyToPixel();
+        super.setPosition(posRelative.x, posRelative.y);
+        
+        player_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());
+        player_parts.get(INDEX_TRACK_RIGHT).setPosition(getX()+40, getY());
+        player_parts.get(INDEX_GUN).setPosition(getX()+(getWidth()/2)-(ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2), getY()+8);
+        player_parts.get(INDEX_EXHAUST_LEFT).setPosition(getX()+(getWidth()/2)-16, getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
+        player_parts.get(INDEX_EXHAUST_RIGHT).setPosition(getX()+(getWidth()/2), getY()-ElementEnum.EXHAUST_01.getHeightShow()+8);
+
+    	
+    }
+    
     
     
     public void collision() {
@@ -479,6 +582,16 @@ public class Player extends ShootPlayerObject{
 	public void setShotSound(String path, float volume) {
 	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
 	     sfxShotVolume = volume;
+	}
+	
+	public void setFlameSound(String path, float volume) {
+	     sfxFlame = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxFlameVolume = volume;
+	}
+	
+	public void setMissileSound(String path, float volume) {
+		sfxMissile = Gdx.audio.newSound(Gdx.files.internal(path));
+		sfxMissileVolume = volume;
 	}
 
 	

@@ -80,6 +80,24 @@ public class GameLogicInformation {
 	public static final short MISSILE_MONSTER = -3;
 	public static final short MISSILE_PLAYER = -4;
 	
+	
+	public static final int MAX_LIFE_PLAYER = 100;
+	public static final int MAX_SHIELD_PLAYER = 100;
+	public static final int MAX_AMMO_PLAYER = 100;
+	
+	public static final int MAX_LIFE_DRON = 0;
+	public static final int MAX_SHIELD_DRON = 0;
+	public static final int MAX_AMMO_DRON = 0;
+	
+	public static final int MAX_LIFE_TANK = 0;
+	public static final int MAX_SHIELD_TANK = 0;
+	public static final int MAX_AMMO_TANK = 0;
+	
+	public static final int MAX_LIFE_WATCHTOWER = 0;
+	public static final int MAX_SHIELD_WATCHTOWER = 0;
+	public static final int MAX_AMMO_WATCHTOWER = 0;
+	
+	
 	private static int level;
 	private static int levelGameplay;
 	

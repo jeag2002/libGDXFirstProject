@@ -75,13 +75,26 @@ public enum ElementEnum {
 	HULL_ENEMY4(SecondTestGDX.resources.hullEnemy_2_C, 57, 256, 256, 64, 64),
 	GUN_ENEMY4(SecondTestGDX.resources.gunEnemy_2_C, 58, 94, 212, 32, 64),
 	
-	MISSILE_1(SecondTestGDX.resources.missile_1,59,16,16,8,16),
-	
+	MISSILE_1(SecondTestGDX.resources.missile_1,59,16,16,16,32),
 	
 	BONUS_LIFE(SecondTestGDX.resources.hp_bonus,60,128,128,32,32),
 	BONUS_SHIELD(SecondTestGDX.resources.shield_bonus,61,128,128,32,32),
 	BONUS_AMMO(SecondTestGDX.resources.armor_bonus,62,128,128,32,32),
-	BONUS_GUN(SecondTestGDX.resources.ammunition_bonus, 63, 128,128,32,32);
+	BONUS_GUN(SecondTestGDX.resources.ammunition_bonus, 63, 128,128,32,32),
+	
+	GUN_PLAYER_1_B(SecondTestGDX.resources.gunPlayer_01_B, 64, 94, 212, 32, 64),
+	GUN_PLAYER_1_C(SecondTestGDX.resources.gunPlayer_01_C, 65, 94, 212, 32, 64),
+	GUN_PLAYER_1_D(SecondTestGDX.resources.gunPlayer_01_D, 66, 94, 212, 32, 64),
+	
+	FLAME_1(SecondTestGDX.resources.flame_1, 67, 128, 128, 32, 32),
+	FLAME_2(SecondTestGDX.resources.flame_2, 68, 128, 128, 64, 64),
+	FLAME_3(SecondTestGDX.resources.flame_3, 69, 128, 128, 128, 128),
+	FLAME_4(SecondTestGDX.resources.flame_4, 70, 128, 128, 256, 256),
+	
+	MISSILE_A(SecondTestGDX.resources.rocket_01, 71, 20,16,64,32),
+	MISSILE_B(SecondTestGDX.resources.rocket_02, 72, 20,16,64,32),
+	MISSILE_C(SecondTestGDX.resources.rocket_03, 73, 20,16,64,32);
+	
 	
 	
 	

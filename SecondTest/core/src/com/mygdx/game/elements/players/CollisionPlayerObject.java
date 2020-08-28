@@ -145,9 +145,25 @@ public class CollisionPlayerObject{
     	bodyPos.x = (bodyPos.x * GameLogicInformation.PIXELS_TO_METERS) - this.W/2; 
     	bodyPos.y = (bodyPos.y * GameLogicInformation.PIXELS_TO_METERS) - this.H/2;
     	
-    	return bodyPos;
+    	return bodyPos;	
     	
+    }
+    
+    public Vector2 getLateralVelocity() {
+        Vector2 currentRightNormal = body.getWorldVector(new Vector2(1,0));
+        return currentRightNormal.mulAdd(currentRightNormal,(-1)*currentRightNormal.dot(body.getLinearVelocity()));
+    }
+    
+    //http://www.iforce2d.net/b2dtut/top-down-car/
+    public void skiddingInIce() {
     	
+    	float maxLateralImpulse = 3f;
+    	Vector2 impulse = getLateralVelocity().scl(body.getMass());
+    	if ( impulse.len2() > maxLateralImpulse ) {
+    	     impulse = impulse.scl(maxLateralImpulse / impulse.len2());
+    	}
+    	body.applyLinearImpulse(impulse, body.getWorldCenter(),true); 	
+    	body.applyAngularImpulse(body.getInertia()*0.1f*body.getAngularVelocity()*(-1), true);
     }
     
     

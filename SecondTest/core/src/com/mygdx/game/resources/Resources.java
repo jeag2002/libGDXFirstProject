@@ -122,6 +122,10 @@ public class Resources extends AssetManager{
 	
 	//player 
 	public String gunPlayer_01_A = "elements/player_1/Gun_01.png";
+	public String gunPlayer_01_B = "elements/player_1/Gun_02.png";
+	public String gunPlayer_01_C = "elements/player_1/Gun_03.png";
+	public String gunPlayer_01_D = "elements/player_1/Gun_04.png";
+	
 	public String bodyPlayer_01 = "elements/player_1/Hull_01_a.png";
 	public String track_01 = "elements/player/Track_1_A.png";
 	public String track_02 = "elements/player/Track_1_B.png";
@@ -253,9 +257,16 @@ public class Resources extends AssetManager{
 	public String Clock = "gui/gameplay/gameplay_ui/Clock_Icon.png";
 	public String Radar = "gui/gameplay/gameplay_ui/Radar.png";
 	public String Icon = "gui/gameplay/gameplay_ui/Armor_Table.png";
+
 	
+	public String flame_1 = "elements/shots/flame/flame_01_A.png";
+	public String flame_2 = "elements/shots/flame/flame_02_A.png";
+	public String flame_3 = "elements/shots/flame/flame_03_A.png";
+	public String flame_4 = "elements/shots/flame/flame_04_A.png";
 	
-	
+	public String rocket_01 = "elements/shots/missile/rocket_A.png";
+	public String rocket_02 = "elements/shots/missile/rocket_B.png";
+	public String rocket_03 = "elements/shots/missile/rocket_C.png";
 	
 	public void loadAssets() {
 		
@@ -341,6 +352,11 @@ public class Resources extends AssetManager{
 		load(dot_c,Texture.class);
 		
 		load(gunPlayer_01_A,Texture.class);
+		load(gunPlayer_01_B,Texture.class);
+		load(gunPlayer_01_C,Texture.class);
+		load(gunPlayer_01_D,Texture.class);
+		
+		
 		load(bodyPlayer_01,Texture.class);
 		load(track_01,Texture.class);
 		load(track_02,Texture.class);
@@ -441,6 +457,10 @@ public class Resources extends AssetManager{
 		load(missile,Texture.class);
 		load(missile_1,Texture.class);
 		
+		load(flame_1,Texture.class);
+		load(flame_2,Texture.class);
+		load(flame_3,Texture.class);
+		load(flame_4,Texture.class);
 		
 		load(lightmap, Texture.class);
 		load(cursor, Texture.class);
@@ -475,6 +495,10 @@ public class Resources extends AssetManager{
 		load(water_1, Texture.class);
 		load(water_2, Texture.class);
 		load(water_3, Texture.class);
+		
+		load(rocket_01, Texture.class);
+		load(rocket_02, Texture.class);
+		load(rocket_03, Texture.class); 
 		
 		
 		load(island_background, Texture.class);

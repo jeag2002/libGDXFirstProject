@@ -72,7 +72,7 @@ public class GameElementLogic {
         rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f,1.0f);
         
 		this.rayHandler.setShadows(true);
-		setExplosionSound("sounds/explosion.ogg", 0.97f);
+		setExplosionSound("sounds/explosion.ogg", 0.25f);
 		
 	}
 	
@@ -264,36 +264,12 @@ public class GameElementLogic {
 		StaticTiledMapTile tile = null;
 		Texture text = null;
 		
-		/*if (typemap == SimpleMapGeneration.TYPE_BADLANDS) {
-			
-			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_1,Texture.class);
-			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
-			TextureRegion tRegion = new TextureRegion(text);
-			tile = new StaticTiledMapTile(tRegion);
-			
-		}else if (typemap == SimpleMapGeneration.TYPE_JUNGLE) {
-			
-			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_2,Texture.class);
-			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
-			TextureRegion tRegion = new TextureRegion(text);
-			tile = new StaticTiledMapTile(tRegion);
-			
-		}else*/ if (typemap == SimpleMapGeneration.TYPE_FABRIC) {
-			
+		if (typemap == SimpleMapGeneration.TYPE_FABRIC) {	
 			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_4,Texture.class);
 			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
 			TextureRegion tRegion = new TextureRegion(text);
 			tile = new StaticTiledMapTile(tRegion);
-			
-		}/*else if (typemap == SimpleMapGeneration.TYPE_DESERT) {
-			
-			text = SecondTestGDX.resources.get(SecondTestGDX.resources.hole_6,Texture.class);
-			text = DrawUtils.resizeTexture(text, 459, 459, 128, 128);
-			TextureRegion tRegion = new TextureRegion(text);
-			tile = new StaticTiledMapTile(tRegion);
-
-		
-		}*/else {
+		}else {
 			tile = null;
 		}
 		
@@ -351,14 +327,14 @@ public class GameElementLogic {
 			for(SpawnObject sO: spawnPool.getDeletedBodiesWithCollision()) {
 				
 				if (sO.getType().equals(SpawnType.Enemy_01) || sO.getType().equals(SpawnType.Enemy_02) || sO.getType().equals(SpawnType.Enemy_03) || (sO.getType().equals(SpawnType.Item) && sO.getSubType().equals(SpawnType.Item_Mine))) {
-					sfxExplosion.play();
+					sfxExplosion.play(this.sfxExplosionVolume);
 				}
-				
-				sO.kill(spawnPool);
-				spawnPool.returnToPool(sO);
+				  
 				if (sO.getBox2DBody() != null) {
+					sO.kill(spawnPool);
 					world.destroyBody(sO.getBox2DBody());
 				}
+				spawnPool.returnToPool(sO);
 			}
 			spawnPool.getDeletedBodiesWithCollision().clear();
 			

@@ -92,7 +92,7 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
+		this.levelIndex = GameLogicInformation.WINTER_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -232,12 +232,12 @@ public class GamePlay {
 			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, exit);			    
 			   
 			    //-->ENEMY TANK
-			    ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
-			    for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
+			    //ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
+			    //for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
 			    
 			    //-->NODE INI TANK
-			    ArrayList<NewItem> nodesTANKLst = sMG.getTankIniNodes();
-			    for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
+			    //ArrayList<NewItem> nodesTANKLst = sMG.getTankIniNodes();
+			    //for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
 			    
 			    //-->ENEMY MINE
 			    ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
@@ -246,7 +246,7 @@ public class GamePlay {
 			   
 			    //-->ENEMY WATCHTOWER
 			    ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
-			    for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
+			    //for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
 			    
 			    
 			    //-->ENEMY DRON

@@ -1,11 +1,15 @@
 package com.mygdx.game.enums;
 
+import com.mygdx.game.logic.GameLogicInformation;
+
 public enum ElementDataEnum {
 	
-	PLAYER(0,"PLAYER",SpawnType.Player_01,100,100,100),
-	DRON(1,"DRON",SpawnType.Enemy_01,100,100,100),
-	TANK(2,"TANK",SpawnType.Enemy_02,100,100,100),
-	CENTROID(3,"CENTROID",SpawnType.Enemy_03,100,100,100),
+	PLAYER(0,"PLAYER",SpawnType.Player_01,GameLogicInformation.MAX_LIFE_PLAYER,GameLogicInformation.MAX_SHIELD_PLAYER, GameLogicInformation.MAX_AMMO_PLAYER),
+	
+	DRON(1,"DRON",SpawnType.Enemy_01,GameLogicInformation.MAX_LIFE_DRON,GameLogicInformation.MAX_SHIELD_DRON, GameLogicInformation.MAX_AMMO_DRON),
+	TANK(2,"TANK",SpawnType.Enemy_02,GameLogicInformation.MAX_LIFE_TANK,GameLogicInformation.MAX_SHIELD_TANK, GameLogicInformation.MAX_AMMO_TANK),
+	CENTROID(3,"CENTROID",SpawnType.Enemy_03,GameLogicInformation.MAX_LIFE_WATCHTOWER,GameLogicInformation.MAX_SHIELD_WATCHTOWER, GameLogicInformation.MAX_AMMO_WATCHTOWER),
+	
 	MINE(4,"MINE",SpawnType.Item_Mine,0,0,0);
 	
 	private int index;

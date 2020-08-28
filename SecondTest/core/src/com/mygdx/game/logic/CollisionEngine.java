@@ -19,6 +19,7 @@ import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemyStateEnum;
 import com.mygdx.game.elements.items.Item;
+import com.mygdx.game.elements.missiles.Missile;
 import com.mygdx.game.elements.players.simpleplayer.Player;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;
@@ -143,6 +144,11 @@ public class CollisionEngine implements ContactListener{
 		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Simple_Explosion, objectStr.getX(), objectStr.getY(), objectStr.getWidth(), objectStr.getHeight());
 		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
 		
+	}
+	
+	private void createFlames(NewItem objectStr) {
+		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Fire, objectStr.getX(), objectStr.getY(), objectStr.getWidth(), objectStr.getHeight());
+		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
 	}
 	
 	
@@ -359,6 +365,8 @@ public class CollisionEngine implements ContactListener{
 						}
 					}
 					
+					Missile miss = (Missile)object;
+					
 				
 					if (other.getType().equals(SpawnType.Enemy_01) ||
 						other.getType().equals(SpawnType.Enemy_02) ||
@@ -381,6 +389,9 @@ public class CollisionEngine implements ContactListener{
 									other.setY(dron.getY());
 									other.setWidth(dron.getWidth());
 									other.setHeight(dron.getHColl());
+									
+									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+									
 									createExplosionDynamic(other);
 									
 								}else if (other.getType().equals(SpawnType.Enemy_02)) {
@@ -391,6 +402,9 @@ public class CollisionEngine implements ContactListener{
 									other.setY(tank.getY());
 									other.setWidth(tank.getWidth());
 									other.setHeight(tank.getHColl());
+									
+									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+									
 									createExplosionDynamic(other);
 									
 								}else if (other.getType().equals(SpawnType.Enemy_03)) {
@@ -401,6 +415,9 @@ public class CollisionEngine implements ContactListener{
 									other.setY(watch.getY());
 									other.setWidth(watch.getWidth());
 									other.setHeight(watch.getHColl());
+									
+									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+									
 									createExplosionDynamic(other);
 									
 								}
@@ -425,12 +442,22 @@ public class CollisionEngine implements ContactListener{
 								other.setY(item.getY());
 								other.setWidth(item.getWidth());
 								other.setHeight(item.getHColl());
+							
+								if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
 								
 								createExplosionDynamic(other);
 							}
 						}
 						
 					} 
+					
+					if (other.getType().equals(SpawnType.Border)) {
+						
+						objectStr.setX(miss.getX());
+						objectStr.setY(miss.getY());
+						
+						createExplosionDynamic(objectStr);
+					}
 					
 					
 					if (other.getType().equals(SpawnType.Wall_City) ||
@@ -450,9 +477,6 @@ public class CollisionEngine implements ContactListener{
 							createExplosionStatic(other);
 							createBonus(other);
 						}
-						
-						
-						
 					}
 				
 					if (other.getType().equals(SpawnType.Forest_Volcano) ||
@@ -546,10 +570,16 @@ public class CollisionEngine implements ContactListener{
 						createExplosionStatic(other);
 						createBonus(other);
 					}
-					
-	 
 				}
 				
+				if (other.getType().equals(SpawnType.Border)) {
+					
+					Missile miss = (Missile)object;
+					objectStr.setX(miss.getX());
+					objectStr.setY(miss.getY());
+					
+					createExplosionDynamic(objectStr);
+				}
 				
 				if (other.getType().equals(SpawnType.Forest_Volcano) ||
 				    other.getType().equals(SpawnType.Forest_Winter) ||

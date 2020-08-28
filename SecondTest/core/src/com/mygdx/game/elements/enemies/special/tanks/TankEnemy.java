@@ -419,8 +419,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 				float y = 0.0f;
 				
 				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_3)) {
-					x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
-					y = (float) (getY()  + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
+					x = (float) ((getX() + 21.5 + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
+					y = (float) (getY() + 21.5 + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
 				}else {
 					x = (float) ((getX() + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
 					y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
@@ -431,14 +431,17 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 				
 				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
 					this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					sfxShot.play();
 				}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					sfxShot.play();
 				}else {
 					this.addGun(SpawnType.Missile_Missile, angleTurret-90, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
+					//this.addGun(SpawnType.Missile_Missile, shootAngle, speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
 				}
 				
-				sfxShot.play();
+				
 				
 				this.setShootEvent(true);
 			}
