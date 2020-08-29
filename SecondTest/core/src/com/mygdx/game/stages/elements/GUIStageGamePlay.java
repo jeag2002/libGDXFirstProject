@@ -14,10 +14,13 @@ import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.ElementsGUI;
+import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.stages.components.LogoItem;
 import com.mygdx.game.stages.components.ProgressBar;
 import com.mygdx.game.utils.DrawUtils;
+import com.mygdx.game.utils.StringUtils;
+import com.mygdx.game.utils.TimeConversion;
 
 public class GUIStageGamePlay {
 	
@@ -52,7 +55,7 @@ public class GUIStageGamePlay {
 	public Image clock;
 	private Label time;
 	private Label score;
-	
+	private Label enemiesLeft;
 	
 	public GUIStageGamePlay(Stage stage, GamePlayScreen gPS) {
 		this.stage = stage;
@@ -163,15 +166,23 @@ public class GUIStageGamePlay {
 		stage.addActor(time);
 		
 		score = new Label("SCORE: 000000000000", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
-		score.setPosition(SecondTestGDX.screenWidth/2 - 40, 30, Align.left);
+		score.setPosition(SecondTestGDX.screenWidth/2 + 40, 30, Align.left);
 		score.setVisible(false);
 		stage.addActor(score);
+		
+		
+		enemiesLeft = new Label("LEFT: 000", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
+		enemiesLeft.setPosition(SecondTestGDX.screenWidth/2 - 80, 30, Align.left);
+		enemiesLeft.setVisible(false);
+		stage.addActor(enemiesLeft);
+		
 		
 		radar = new LogoItem(ElementsGUI.RADAR,textradar,gPS);
 		radar.setPosition(SecondTestGDX.screenWidth-266, SecondTestGDX.screenHeight-146);
 		radar.setSize(256, 128);
 		radar.setVisible(false);
 		stage.addActor(radar);
+		
 		
 		icon = new LogoItem(ElementsGUI.ICON,texticon,gPS);
 		icon.setPosition(10, SecondTestGDX.screenHeight-185);
@@ -234,6 +245,7 @@ public class GUIStageGamePlay {
 		clock.setVisible(show);
 		time.setVisible(show);
 		score.setVisible(show);
+		enemiesLeft.setVisible(show);
 	}
 	
 	
@@ -361,6 +373,15 @@ public class GUIStageGamePlay {
 		
 	
 	private void printGamePlayProdData(float delta) {
+		
+		String timeStr = TimeConversion.getDurationString((int)GameLogicInformation.getTimeLevel());
+		time.setText(timeStr);
+		
+		String scoreStr = StringUtils.leftPaddedString(10, gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore());
+		score.setText("SCORE: " + scoreStr);
+		
+		String leftStr = StringUtils.leftPaddedString(3, (int)GameLogicInformation.getEnemiesLeft());
+		enemiesLeft.setText("LEFT: " + leftStr);
 		
 	}
 	

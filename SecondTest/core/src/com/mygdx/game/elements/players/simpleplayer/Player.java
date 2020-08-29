@@ -335,6 +335,7 @@ public class Player extends ShootPlayerObject{
 	    		
 	    	}
 	    	
+	    	gPS.getGamePlay().update(getX(), getY());
     }
     
     

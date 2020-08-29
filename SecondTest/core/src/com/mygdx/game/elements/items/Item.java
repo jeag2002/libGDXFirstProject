@@ -112,6 +112,25 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		}
 		
 		
+		if (subType.equals(SpawnType.Item_PlatformPlayer) || subType.equals(SpawnType.Item_PlatformEnemy)  || subType.equals(SpawnType.Item_PlatformEndLevel)) {
+			this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
+			this.light.setSoftnessLength(0f);
+			this.light.attachToBody(this.getBody());
+		}else if (subType.equals(SpawnType.Item_Bonus_Shield) || 
+				subType.equals(SpawnType.Item_Bonus_Bullet) || 
+				subType.equals(SpawnType.Item_Bonus_Gun) ||
+				subType.equals(SpawnType.Item_Bonus_Life)) {
+			
+			posXBonus = getX();
+			posYBonus = getY();
+			positionBonus = this.POSITION_1;
+			
+		}
+		
+		
+		
+		
+		/*
 		if (!this.subType.equals(SpawnType.Item_Mine)) {
 			
 			int distance = 1;
@@ -131,10 +150,11 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 			}
 			
 			
-			this.light = new PointLight(rayHandler, 20, Color.WHITE, distance, 0, 0);
-			this.light.setSoftnessLength(0f);
-			this.light.attachToBody(this.getBody());
+			//this.light = new PointLight(rayHandler, 20, Color.WHITE, distance, 0, 0);
+			//this.light.setSoftnessLength(0f);
+			//this.light.attachToBody(this.getBody());
 		}
+		*/
 	}
 	
 	
@@ -346,7 +366,7 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	
 	public void dispose() {
-		if (this.light != null) {this.light.remove();}
+		//if (this.light != null) {this.light.remove();}
 	}
 
 	@Override

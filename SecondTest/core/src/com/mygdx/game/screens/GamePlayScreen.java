@@ -129,6 +129,7 @@ public class GamePlayScreen implements Screen{
 		
 		
 		if (gamePlay != null) {
+			gamePlay.runLevelTime(delta);
 			gamePlay.updateElements(delta);
 		}
 		

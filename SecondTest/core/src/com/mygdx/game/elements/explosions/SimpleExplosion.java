@@ -67,9 +67,9 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 		}
 		
 		createCollisionObject(xStart,yStart,64,64,BodyType.StaticBody,true);
-		this.light = new PointLight(rayHandler, 50, Color.WHITE, 1, 0, 0);
-		this.light.setSoftnessLength(0f);
-		this.light.attachToBody(super.getBody());
+		//this.light = new PointLight(rayHandler, 50, Color.WHITE, 1, 0, 0);
+		//this.light.setSoftnessLength(0f);
+		//this.light.attachToBody(super.getBody());
 	}
 	
 
@@ -110,7 +110,7 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 	
 	
 	public void dispose() {
-		this.light.remove();
+		//this.light.remove();
 		this.pe.dispose();
 	}
 

@@ -63,6 +63,7 @@ public class GamePlay {
 	private Random rand;
 	
 	private float time;
+	private float time_level;
 	private float time_2;
 	
 	private boolean pulse;
@@ -87,12 +88,13 @@ public class GamePlay {
 		this.gameLogic = new GameElementLogic(gPS);
 		
 		this.time = 0;
+		this.time_level = 0;
 		this.time_2 = 0;
 		
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.WINTER_LEVEL;
+		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
 		this.lights = GameLogicInformation.NO_LIGHTS;
 		
 		this.exit = new NewItem();
@@ -141,13 +143,14 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//int index = rand.nextInt(8);
-		//this.levelIndex  = GameLogicInformation.VOLCANO_LEVEL;
+		this.levelIndex = rand.nextInt(10);
+		//this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		//this.lights = sMG.setLights();
+		this.lights = sMG.setLights();
 		//this.lights = LIGHTS;
+		//this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(this.levelIndex,
@@ -227,17 +230,21 @@ public class GamePlay {
 			    	this.camera.update();
 			    }
 			    
+			    
+			    //TIME
+			    GameLogicInformation.setTimeLevel(GameLogicInformation.INI_TIME_LEVEL);
+			    
 			    //-->EXIT
 			    exit = sMG.setExit();
 			    this.gameLogic.generateItem(SpawnType.Item_PlatformEndLevel, exit);			    
 			   
 			    //-->ENEMY TANK
-			    //ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
-			    //for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
+			    ArrayList<NewItem>  enemyTANKLst = sMG.getEnemiesTANK();
+			    for(NewItem sE: enemyTANKLst) {this.gameLogic.generateEnemyTANK(sMG.getGraph(), sE, exit);}
 			    
 			    //-->NODE INI TANK
-			    //ArrayList<NewItem> nodesTANKLst = sMG.getTankIniNodes();
-			    //for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
+			    ArrayList<NewItem> nodesTANKLst = sMG.getTankIniNodes();
+			    for(NewItem sE: nodesTANKLst) {this.gameLogic.generateItem(SpawnType.Item_PlatformEnemy, sE);}
 			    
 			    //-->ENEMY MINE
 			    ArrayList<NewItem> enemyMINELst = sMG.getEnemiesMINE();
@@ -246,7 +253,7 @@ public class GamePlay {
 			   
 			    //-->ENEMY WATCHTOWER
 			    ArrayList<NewItem> enemyWATCHTOWER = sMG.getEnemiesWATCHTOWER();
-			    //for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
+			    for(NewItem sE: enemyWATCHTOWER) {this.gameLogic.generateEnemyWATCHTOWER(sE);}
 			    
 			    
 			    //-->ENEMY DRON
@@ -254,6 +261,10 @@ public class GamePlay {
 			    for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
 			    
 			    
+			    int numEnemies = enemyTANKLst.size() + enemyMINELst.size() + enemyWATCHTOWER.size() + enemyDRONLst.size();
+			    GameLogicInformation.setEnemiesLeft(numEnemies);
+			    
+			   
 			    
 			    gameLogic.configureCollision(tiledMap, sMG.getWallsList(), sMG.getForestList());
 			}
@@ -413,10 +424,10 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) && (this.levelIndex  != GameLogicInformation.SPACE_LEVEL)) {
-					if (this.lights != LIGHTS) {
+					//if (this.lights != LIGHTS) {
 						int[] data = {SimpleMapGeneration.INDEX_FOREST};
 						tiledMapRenderer.render(data);
-					}
+					//}
 				}
 			}
 		}
@@ -466,6 +477,20 @@ public class GamePlay {
 		
 	}
 	
+	public void runLevelTime(float delta) {
+		if (started) {
+			if (tiledMap != null) {
+				this.time_level += delta;
+				if (time_level >= 1) {
+					long time = GameLogicInformation.getTimeLevel();
+					if (time > 0) {
+						GameLogicInformation.setTimeLevel(time-1);
+					}
+					time_level = 0;
+				}
+			}
+		}
+	}
 	
 	
 	public void drawMapGloomingVolcano(float delta) {

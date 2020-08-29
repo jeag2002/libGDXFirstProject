@@ -5,12 +5,12 @@ import com.mygdx.game.logic.GameLogicInformation;
 public enum ElementDataEnum {
 	
 	PLAYER(0,"PLAYER",SpawnType.Player_01,GameLogicInformation.MAX_LIFE_PLAYER,GameLogicInformation.MAX_SHIELD_PLAYER, GameLogicInformation.MAX_AMMO_PLAYER),
-	
 	DRON(1,"DRON",SpawnType.Enemy_01,GameLogicInformation.MAX_LIFE_DRON,GameLogicInformation.MAX_SHIELD_DRON, GameLogicInformation.MAX_AMMO_DRON),
-	TANK(2,"TANK",SpawnType.Enemy_02,GameLogicInformation.MAX_LIFE_TANK,GameLogicInformation.MAX_SHIELD_TANK, GameLogicInformation.MAX_AMMO_TANK),
-	CENTROID(3,"CENTROID",SpawnType.Enemy_03,GameLogicInformation.MAX_LIFE_WATCHTOWER,GameLogicInformation.MAX_SHIELD_WATCHTOWER, GameLogicInformation.MAX_AMMO_WATCHTOWER),
-	
-	MINE(4,"MINE",SpawnType.Item_Mine,0,0,0);
+	TANK_1(2,"TANK_1",SpawnType.Tank_Level_1,GameLogicInformation.MAX_LIFE_TANK_1,GameLogicInformation.MAX_SHIELD_TANK_1, GameLogicInformation.MAX_AMMO_TANK_1),
+	TANK_2(3,"TANK_2",SpawnType.Tank_Level_2,GameLogicInformation.MAX_LIFE_TANK_2,GameLogicInformation.MAX_SHIELD_TANK_2, GameLogicInformation.MAX_AMMO_TANK_2),
+	TANK_3(4,"TANK_3",SpawnType.Tank_Level_3,GameLogicInformation.MAX_LIFE_TANK_3,GameLogicInformation.MAX_SHIELD_TANK_3, GameLogicInformation.MAX_AMMO_TANK_3),
+	CENTROID(5,"CENTROID",SpawnType.Enemy_03,GameLogicInformation.MAX_LIFE_WATCHTOWER,GameLogicInformation.MAX_SHIELD_WATCHTOWER, GameLogicInformation.MAX_AMMO_WATCHTOWER),
+	MINE(6,"MINE",SpawnType.Item_Mine,0,0,0);
 	
 	private int index;
 	private String name;

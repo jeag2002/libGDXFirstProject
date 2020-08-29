@@ -31,6 +31,8 @@ import com.mygdx.game.utils.NewItem;
 
 public class CollisionEngine implements ContactListener{
 	
+	private static final int LIMIT_BONUS = 40;
+	
 	private GamePlayScreen gPS;
 	private TiledMap map;
 	
@@ -41,6 +43,8 @@ public class CollisionEngine implements ContactListener{
 	private Player player;
 	
 	private Random rand;
+	
+	private int bonusGenerator;
 	
 	
 	private ArrayList<StaticTiledMapColl> wallElements;
@@ -58,6 +62,8 @@ public class CollisionEngine implements ContactListener{
 		this.forests = (TiledMapTileLayer)map.getLayers().get(SimpleMapGeneration.INDEX_FOREST);
 		this.pool = gPS.getGamePlay().getGameLogic().getSpawnPool();
 		this.player = gPS.getGamePlay().getGameLogic().getPlayer();
+		
+		this.bonusGenerator = 0;
 		
 		rand = new Random();
 	}
@@ -159,14 +165,15 @@ public class CollisionEngine implements ContactListener{
 	}
 	
 	private void createBonus(NewItem objectStr) {
+			
+			this.bonusGenerator++;
+		
+			if (bonusGenerator >= LIMIT_BONUS) {
+				bonusGenerator = 0;
+				NewItem Bonus = new NewItem(SpawnType.Item,SpawnType.Item_Bonus, objectStr.getIndex_X()*SecondTestGDX.tileWidth_TL, objectStr.getIndex_Y()*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+				gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(Bonus);
+			}
 	
-		int index = rand.nextInt(2);
-		
-		if (index == 1) {
-			NewItem Bonus = new NewItem(SpawnType.Item,SpawnType.Item_Bonus, objectStr.getIndex_X()*SecondTestGDX.tileWidth_TL, objectStr.getIndex_Y()*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
-			gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(Bonus);
-		}
-		
 		
 	}
 	
@@ -422,6 +429,8 @@ public class CollisionEngine implements ContactListener{
 									
 								}
 								
+								long numEnemies = GameLogicInformation.getEnemiesLeft();
+								if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
 								
 							}
 							
@@ -444,6 +453,9 @@ public class CollisionEngine implements ContactListener{
 								other.setHeight(item.getHColl());
 							
 								if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+								
+								long numEnemies = GameLogicInformation.getEnemiesLeft();
+								if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
 								
 								createExplosionDynamic(other);
 							}

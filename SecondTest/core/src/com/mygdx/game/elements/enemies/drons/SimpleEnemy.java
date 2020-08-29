@@ -374,6 +374,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 
 	
 	public void dispose() {
+		light.setActive(false);
 		light.remove();
 		//light.dispose();
 		enemy_parts.clear();

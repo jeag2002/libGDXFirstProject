@@ -113,9 +113,9 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 		 
 		 this.rayHandler = rayHandler;
 		 
-		 this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
-		 this.light.setSoftnessLength(0f);
-		 this.light.attachToBody(this.getBody());
+		 //this.light = new PointLight(rayHandler, 20, Color.WHITE, 1, 0, 0);
+		 //this.light.setSoftnessLength(0f);
+		 //this.light.attachToBody(this.getBody());
 		 
 	}
 	
@@ -186,7 +186,6 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	        
 	        
 	        //CRASH BECAUSE RAYHANDLER IT'S NOT THREAD SAVE (?)
-	        
 	        /*
 	        float x = posRelative.x;
 	        float y = posRelative.y;
@@ -240,7 +239,10 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	}
 	
 	public void dispose() {
-		light.remove();	
+		//light.setActive(false);
+		//light.dispose();
+		//light.remove();
+ 		
 	}
 
 	@Override

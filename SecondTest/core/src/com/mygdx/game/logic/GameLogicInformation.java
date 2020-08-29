@@ -68,39 +68,42 @@ public class GameLogicInformation {
 	public static final int NO_LIGHTS = 0;
 	public static final int LIGHTS = 1;
 	
-	
 	public static final float speedUpFactor = 1.0f;
 	public static final float bgSpeed = 50.0f;
 	public static final float bgSpeedPos = 20.0f;
-	
-	
-	public static final short GROUP_SCENERY = 1;
-	public static final short GROUP_PLAYER = -1;
-	public static final short GROUP_MONSTER = -2;
-	public static final short MISSILE_MONSTER = -3;
-	public static final short MISSILE_PLAYER = -4;
-	
-	
-	public static final int MAX_LIFE_PLAYER = 100;
-	public static final int MAX_SHIELD_PLAYER = 100;
+		
+	public static final int MAX_LIFE_PLAYER = 10;
+	public static final int MAX_SHIELD_PLAYER = 10;
 	public static final int MAX_AMMO_PLAYER = 100;
 	
 	public static final int MAX_LIFE_DRON = 0;
 	public static final int MAX_SHIELD_DRON = 0;
 	public static final int MAX_AMMO_DRON = 0;
 	
-	public static final int MAX_LIFE_TANK = 0;
-	public static final int MAX_SHIELD_TANK = 0;
-	public static final int MAX_AMMO_TANK = 0;
+	public static final int MAX_LIFE_TANK_1 = 0;
+	public static final int MAX_SHIELD_TANK_1 = 0;
+	public static final int MAX_AMMO_TANK_1 = 0;
+	
+	public static final int MAX_LIFE_TANK_2 = 0;
+	public static final int MAX_SHIELD_TANK_2 = 0;
+	public static final int MAX_AMMO_TANK_2 = 0;
+	
+	public static final int MAX_LIFE_TANK_3 = 0;
+	public static final int MAX_SHIELD_TANK_3 = 0;
+	public static final int MAX_AMMO_TANK_3 = 0;
 	
 	public static final int MAX_LIFE_WATCHTOWER = 0;
 	public static final int MAX_SHIELD_WATCHTOWER = 0;
 	public static final int MAX_AMMO_WATCHTOWER = 0;
 	
+	public static final int INI_TIME_LEVEL = 300;
 	
 	private static int level;
 	private static int levelGameplay;
 	
+	private static long time_level;
+	
+	private static long enemiesLeft;
 	
 	public static final String backGround_Start = SecondTestGDX.resources.imgSplash;
     //public static final String backGround_Start = SecondTestGDX.resources.imgSplash_1;
@@ -122,6 +125,24 @@ public class GameLogicInformation {
 	public static int getLevelGamePlay() {
 		return GameLogicInformation.levelGameplay;
 	}
+	
+	public static void setEnemiesLeft(long enemiesLeft) {
+		GameLogicInformation.enemiesLeft = enemiesLeft;
+	}
+	
+	public static long getEnemiesLeft() {
+		return GameLogicInformation.enemiesLeft;
+	}
+	
+	
+	public static void setTimeLevel(long time_level) {
+		GameLogicInformation.time_level = time_level;
+	}
+	
+	public static long getTimeLevel() {
+		return GameLogicInformation.time_level;
+	}
+	
 	
 	public static void setLevel(int level) {
 		
@@ -337,3 +358,11 @@ public class GameLogicInformation {
 	
 	
 }
+
+/*
+public static final short GROUP_SCENERY = 1;
+public static final short GROUP_PLAYER = -1;
+public static final short GROUP_MONSTER = -2;
+public static final short MISSILE_MONSTER = -3;
+public static final short MISSILE_PLAYER = -4;
+*/

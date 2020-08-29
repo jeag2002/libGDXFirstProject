@@ -150,14 +150,14 @@ public class CollisionPlayerObject{
     }
     
     public Vector2 getLateralVelocity() {
-        Vector2 currentRightNormal = body.getWorldVector(new Vector2(1,0));
+        Vector2 currentRightNormal = body.getWorldVector(new Vector2(-1,-1));
         return currentRightNormal.mulAdd(currentRightNormal,(-1)*currentRightNormal.dot(body.getLinearVelocity()));
     }
     
     //http://www.iforce2d.net/b2dtut/top-down-car/
     public void skiddingInIce() {
     	
-    	float maxLateralImpulse = 3f;
+    	float maxLateralImpulse = 0.5f;
     	Vector2 impulse = getLateralVelocity().scl(body.getMass());
     	if ( impulse.len2() > maxLateralImpulse ) {
     	     impulse = impulse.scl(maxLateralImpulse / impulse.len2());

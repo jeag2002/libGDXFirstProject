@@ -83,6 +83,9 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
     private Sound sfxShot;
     private float sfxShotVolume; 
+    
+    private Sound sfxMissile;
+    private float sfxMissileVolume;
 
 
 	private StateMachine<TankEnemy, TankEnemyStateEnum> stateMachine;
@@ -102,7 +105,12 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		this.previousNode = new NewItem();
 		enemy_parts = new ArrayList<DynElementPart>();
 		
+		this.sfxShotVolume = 0.97f;
+		this.sfxMissileVolume = 0.25f;
+    	
+		
 		setShotSound("sounds/laser4.mp3", sfxShotVolume);
+		setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
 		
 	}
 	
@@ -154,8 +162,11 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	     sfxShot = Gdx.audio.newSound(Gdx.files.internal(path));
 	     sfxShotVolume = volume;
 	}
-
 	
+	public void setMissileSound(String path, float volume) {
+		sfxMissile = Gdx.audio.newSound(Gdx.files.internal(path));
+		sfxMissileVolume = volume;
+	}
 	
 	public StateMachine<TankEnemy, TankEnemyStateEnum> getStateMachine(){
 		return stateMachine;
@@ -438,7 +449,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 					sfxShot.play();
 				}else {
 					this.addGun(SpawnType.Missile_Missile, angleTurret-90, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
-					//this.addGun(SpawnType.Missile_Missile, shootAngle, speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
+					sfxMissile.play(sfxMissileVolume);
 				}
 				
 				
