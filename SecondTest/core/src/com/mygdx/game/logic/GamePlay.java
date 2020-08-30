@@ -148,9 +148,9 @@ public class GamePlay {
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		this.lights = sMG.setLights();
+		//this.lights = sMG.setLights();
 		//this.lights = LIGHTS;
-		//this.lights = NO_LIGHTS;
+		this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(this.levelIndex,
@@ -204,6 +204,23 @@ public class GamePlay {
 	}
 	
 	
+	public void dieInmediately() {
+		gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setShield(0);
+		gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(0);
+	}
+	
+	
+	public void processPlayerVariables() {
+		if (started) {
+			if (tiledMap != null) {
+				if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getShield() > 0) {
+					gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setShield(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getShield() - 1);
+				}else if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() > 0) {
+					gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() - 1);
+				}
+			}
+		}
+	}
 	
 	public void initStart() {
 		background();

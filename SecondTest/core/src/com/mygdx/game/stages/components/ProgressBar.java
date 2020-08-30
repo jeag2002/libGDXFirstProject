@@ -79,8 +79,6 @@ public class ProgressBar extends Actor {
 				limitProgressBar = gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getAmmo()/MAX_STEPS;
 			}
 			
-			
-			//for(int i=0; i<gPS.getgLL().getLifePlayer(); i++) {
 			for(int i=0; i<limitProgressBar; i++) {
 				if (typeProgressBar.equals(ElementsGUI.PROGRESSBARAMMO)) {
 					this.step[i].setPosition(this.base.getX()+40+((width+2)*i),this.base.getY()+5);
@@ -94,7 +92,7 @@ public class ProgressBar extends Actor {
 			
 			this.base.draw(batch);
 			//for(int i=0; i<gPS.getgLL().getLifePlayer(); i++) {this.step[i].draw(batch);}
-			for(int i=0; i<MAX_STEPS; i++) {this.step[i].draw(batch);}
+			for(int i=0; i<limitProgressBar; i++) {this.step[i].draw(batch);}
 		}
 	}
 }

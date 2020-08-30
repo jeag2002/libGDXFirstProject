@@ -134,10 +134,12 @@ public class CollisionEngine implements ContactListener{
 		
 		else if (other.getType().equals(SpawnType.Wall_Space)) {
 			//System.out.println("Collision Detected Player vs Wall Space");
+			gPS.getGamePlay().dieInmediately();
 		}
 		
 		else if (other.getType().equals(SpawnType.Wall_Volcano)) {
 			//System.out.println("Collision Detected Player vs Wall Volcano");
+			gPS.getGamePlay().processPlayerVariables();
 		}
 		
 		
@@ -353,6 +355,7 @@ public class CollisionEngine implements ContactListener{
 				other.getType().equals(SpawnType.Item) ||
 				
 				other.getType().equals(SpawnType.MissileEnemy) ||
+				
 				other.getType().equals(SpawnType.Wall_City) ||	
 				other.getType().equals(SpawnType.Wall_Badlands) || 
 				other.getType().equals(SpawnType.Wall_Desert) ||
@@ -360,9 +363,18 @@ public class CollisionEngine implements ContactListener{
 				other.getType().equals(SpawnType.Wall_Jungle) ||
 				other.getType().equals(SpawnType.Wall_Volcano) ||
 				other.getType().equals(SpawnType.Wall_Winter) ||
+				
 				other.getType().equals(SpawnType.Forest_Volcano) ||
 				other.getType().equals(SpawnType.Forest_Winter) ||
 				other.getType().equals(SpawnType.Forest_Space) ||
+				
+				other.getType().equals(SpawnType.Forest_Desert) ||
+				other.getType().equals(SpawnType.Forest_Fabric) ||
+				other.getType().equals(SpawnType.Forest_Jungle) ||
+				other.getType().equals(SpawnType.Forest_Badlands) ||
+				other.getType().equals(SpawnType.Forest_City) ||
+				
+				
 				other.getType().equals(SpawnType.Border)) {
 				
 					SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
@@ -429,9 +441,7 @@ public class CollisionEngine implements ContactListener{
 									
 								}
 								
-								long numEnemies = GameLogicInformation.getEnemiesLeft();
-								if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
-								
+			
 							}
 							
 						}
@@ -525,6 +535,28 @@ public class CollisionEngine implements ContactListener{
 						
 					}
 				}
+				
+				if 	(other.getType().equals(SpawnType.Forest_Desert) ||
+				other.getType().equals(SpawnType.Forest_Fabric) ||
+				other.getType().equals(SpawnType.Forest_Jungle) ||
+				other.getType().equals(SpawnType.Forest_Badlands) ||
+				other.getType().equals(SpawnType.Forest_City)) {
+					
+					Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
+					
+					if (cell != null) {
+						
+						StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+						}
+						
+						createExplosionStatic(other);
+					}
+					
+				}
+					
+					
 			}
 	}
 	
@@ -561,6 +593,10 @@ public class CollisionEngine implements ContactListener{
 							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
 						}
 					}
+				}
+				
+				if (other.getType().equals(SpawnType.Player_01)) {
+					gPS.getGamePlay().processPlayerVariables();
 				}
 				
 				

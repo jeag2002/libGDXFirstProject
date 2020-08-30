@@ -91,7 +91,7 @@ public class GameElementLogic {
 	}
 	
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
-		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_C,this.world,this.gPS);
+		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
 	}
 	
@@ -328,9 +328,16 @@ public class GameElementLogic {
 				
 				if (sO.getType().equals(SpawnType.Enemy_01) || sO.getType().equals(SpawnType.Enemy_02) || sO.getType().equals(SpawnType.Enemy_03) || (sO.getType().equals(SpawnType.Item) && sO.getSubType().equals(SpawnType.Item_Mine))) {
 					sfxExplosion.play(this.sfxExplosionVolume);
+										
 				}
 				  
 				if (sO.getBox2DBody() != null) {
+					
+					if (sO.getType().equals(SpawnType.Enemy_01) || sO.getType().equals(SpawnType.Enemy_02) || sO.getType().equals(SpawnType.Enemy_03) || (sO.getType().equals(SpawnType.Item) && sO.getSubType().equals(SpawnType.Item_Mine))) {
+						long numEnemies = GameLogicInformation.getEnemiesLeft();
+						if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+					}
+					
 					sO.kill(spawnPool);
 					world.destroyBody(sO.getBox2DBody());
 				}
