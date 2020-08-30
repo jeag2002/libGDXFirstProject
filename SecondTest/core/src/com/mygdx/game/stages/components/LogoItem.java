@@ -23,6 +23,7 @@ public class LogoItem extends Actor {
 	float Y;
 	float W;
 	float H;
+	ShapeRenderer shapeRenderer;
 	
 	
 	public LogoItem(ElementsGUI typeProgressBar, Texture textureBase, GamePlayScreen gPS) {
@@ -32,6 +33,8 @@ public class LogoItem extends Actor {
 		this.base = new Sprite(textureBase);	
 		this.isVisible = false;
 		this.gPS = gPS;
+		
+		shapeRenderer = new ShapeRenderer();
 	}	
 	
 	public void setPosition(float X, float Y) {
@@ -80,7 +83,7 @@ public class LogoItem extends Actor {
 		
 	    Gdx.gl.glEnable(GL20.GL_ARRAY_BUFFER_BINDING);
 		
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		
 		
 		for(int i=0; i<SecondTestGDX.sizeMapTileWidth_TL; i++) {
 			for(int j=0; j<SecondTestGDX.sizeMapTileHeight_TL; j++) {

@@ -176,6 +176,12 @@ public class GUIStageGamePlay {
 		enemiesLeft.setVisible(false);
 		stage.addActor(enemiesLeft);
 		
+		frameRate = new Label("1", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.RED));
+		frameRate.setPosition(30, 30, Align.left);
+		frameRate.setVisible(false);
+		stage.addActor(frameRate);
+		
+		
 		
 		radar = new LogoItem(ElementsGUI.RADAR,textradar,gPS);
 		radar.setPosition(SecondTestGDX.screenWidth-266, SecondTestGDX.screenHeight-146);
@@ -237,6 +243,9 @@ public class GUIStageGamePlay {
 	}
 		
 	private void enableTagsProd(boolean show) {
+		
+		
+		frameRate.setVisible(show);
 		pBarHealth.setVisible(show);
 		pBarShield.setVisible(show);
 		pBarAmmo.setVisible(show);
@@ -373,6 +382,9 @@ public class GUIStageGamePlay {
 		
 	
 	private void printGamePlayProdData(float delta) {
+		
+		String frameRate = "FrameRate: " + Gdx.graphics.getFramesPerSecond() +  " fps";
+		this.frameRate.setText(frameRate);
 		
 		String timeStr = TimeConversion.getDurationString((int)GameLogicInformation.getTimeLevel());
 		time.setText(timeStr);
