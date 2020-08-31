@@ -77,7 +77,7 @@ public class CollisionEngine implements ContactListener{
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
 		
-		//System.out.println("Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
+		System.out.println("Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
 		
 		//-->MISSILE ENEMY
 	    if (objectStrA.getType().equals(SpawnType.MissileEnemy)) {

@@ -144,14 +144,14 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//this.levelIndex = rand.nextInt(10);
-		this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
+		this.levelIndex = rand.nextInt(10);
+		//this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		//this.lights = sMG.setLights();
+		this.lights = sMG.setLights();
 		//this.lights = LIGHTS;
-		this.lights = NO_LIGHTS;
+		//this.lights = NO_LIGHTS;
 		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
 		
 		tiledMap = sMG.createSimpleMap(this.levelIndex,

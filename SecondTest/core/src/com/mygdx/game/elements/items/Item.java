@@ -107,7 +107,14 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		
 		this.setSpawnSubTypeColl(subType);
 		
-		if (subType.equals(SpawnType.Item_PlatformPlayer) || subType.equals(SpawnType.Item_PlatformEnemy) || subType.equals(SpawnType.Item_Bonus_Shield) || subType.equals(SpawnType.Item_Bonus_Bullet) ||  subType.equals(SpawnType.Item_Bonus_Gun) || subType.equals(SpawnType.Item_Bonus_Life)){ 
+		if (subType.equals(SpawnType.Item_PlatformPlayer) || 
+			subType.equals(SpawnType.Item_PlatformEnemy) || 
+			subType.equals(SpawnType.Item_Bonus_Shield) || 
+			subType.equals(SpawnType.Item_Bonus_Bullet) || 
+			subType.equals(SpawnType.Item_Bonus_Gun) || 
+			subType.equals(SpawnType.Item_Bonus_Life) || 
+			subType.equals(SpawnType.Item_Bonus_Nuke) || 
+			subType.equals(SpawnType.Item_Bonus_Score)){ 
 			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody, true);
 		}else {
 			createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody, false);
