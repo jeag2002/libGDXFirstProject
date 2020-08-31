@@ -371,7 +371,8 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		subType.equals(SpawnType.Item_Bonus_Shield) ||
 		subType.equals(SpawnType.Item_Bonus_Gun) ||  
 		subType.equals(SpawnType.Item_Bonus_Bullet) ||
-		subType.equals(SpawnType.Item_Bonus_Score)) {
+		subType.equals(SpawnType.Item_Bonus_Score) ||
+		subType.equals(SpawnType.Item_Bonus_Nuke)) {
 			item_parts.get(INDEX_SUBITEM).AnimationLoop(delta, true);
 		}
 		
@@ -386,7 +387,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
     		subType.equals(SpawnType.Item_Bonus_Life) || 
     		subType.equals(SpawnType.Item_Bonus_Shield) ||
     		subType.equals(SpawnType.Item_Bonus_Gun) ||  
-    		subType.equals(SpawnType.Item_Bonus_Bullet)) {
+    		subType.equals(SpawnType.Item_Bonus_Bullet) ||
+    		subType.equals(SpawnType.Item_Bonus_Score) ||
+    		subType.equals(SpawnType.Item_Bonus_Nuke)) {
     		item_parts.get(INDEX_SUBITEM).draw(sb);
     	}
 	}
