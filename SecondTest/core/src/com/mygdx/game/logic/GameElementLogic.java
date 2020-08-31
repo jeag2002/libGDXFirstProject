@@ -346,41 +346,44 @@ public class GameElementLogic {
 			
 		    for (StaticTiledMapColl cell: spawnPool.getDeletedWallsWithCollision()) {
 		    	
-		    	Cell tileCell = ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).getCell(cell.getIndexX(), cell.getIndexY());
+		    	if (cell != null) {
+		    		Cell tileCell = ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).getCell(cell.getIndexX(), cell.getIndexY());
 		    	
-		    	if (tileCell != null) {
-		    		StaticTiledMapColl LightMapCell = (StaticTiledMapColl)tileCell.getTile();
-		    		world.destroyBody(LightMapCell.getBody());
+		    		if (tileCell != null) {
+		    			StaticTiledMapColl LightMapCell = (StaticTiledMapColl)tileCell.getTile();
+		    			world.destroyBody(LightMapCell.getBody());
+		    		}
+		    		
+		    		world.destroyBody(cell.getBody());
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_WALLS)).setCell(cell.getIndexX(),cell.getIndexY(), generateTile(gPS.getGamePlay().getMapGenerationEngine().getTypeMap()));
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSWALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
 		    	}
-		    	
-		        world.destroyBody(cell.getBody());
-		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_WALLS)).setCell(cell.getIndexX(),cell.getIndexY(), generateTile(gPS.getGamePlay().getMapGenerationEngine().getTypeMap()));
-		        ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_ALTERNATIVE)).setCell(cell.getIndexX(),cell.getIndexY(), null);
-			    ((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSWALLS)).setCell(cell.getIndexX(),cell.getIndexY(), null);
-			   
 		    }
 		    spawnPool.getDeletedWallsWithCollision().clear();
 		    
 		    
 		    for (AnimatedTiledMapTile cell: spawnPool.getDeletedAnimForestWithCollision()) {
-		    	StaticTiledMapTile data[] = cell.getFrameTiles();
-		    	for(int i=0; i<data.length; i++) {
-		    		StaticTiledMapColl tile = (StaticTiledMapColl)data[i];
-		    		world.destroyBody(tile.getBody());
-		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
-		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
+		    	
+		    	if (cell != null) {
+			    	StaticTiledMapTile data[] = cell.getFrameTiles();
+			    	for(int i=0; i<data.length; i++) {
+			    		StaticTiledMapColl tile = (StaticTiledMapColl)data[i];
+			    		world.destroyBody(tile.getBody());
+			    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
+			    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(tile.getIndexX(),tile.getIndexY(), null);
+			    	}
 		    	}
-		    	
-		    	
-		    	
 		    }
 		    
 		    spawnPool.getDeletedAnimForestWithCollision().clear();
 		 
 		    for (StaticTiledMapColl cell: spawnPool.getDeletedForestsWithCollision()) {
-		    	world.destroyBody(cell.getBody());
-		    	((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
-		    	((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		    	if (cell != null) {
+		    		world.destroyBody(cell.getBody());
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_FOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		    		((TiledMapTileLayer)this.gPS.getGamePlay().getTiledMap().getLayers().get(SimpleMapGeneration.INDEX_LIGHTMAPSFOREST)).setCell(cell.getIndexX(),cell.getIndexY(), null);
+		    	}
 		    }
 		    
 		    spawnPool.getDeletedForestsWithCollision().clear();

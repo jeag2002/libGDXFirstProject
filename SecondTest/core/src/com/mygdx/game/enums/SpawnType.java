@@ -52,7 +52,8 @@ public enum SpawnType {
     Missile_Flame("Flame",48),
     Fire("Fire",49),
     Item_Bonus_Nuke("Bonus_Nuke",50),
-    Item_Bonus_Score("Bonus_Score",51);
+    Item_Bonus_Score("Bonus_Score",51),
+    Big_Explosion("Big_Explosion",52);
     
     
     

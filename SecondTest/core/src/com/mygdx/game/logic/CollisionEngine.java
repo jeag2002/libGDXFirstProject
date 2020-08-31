@@ -100,14 +100,87 @@ public class CollisionEngine implements ContactListener{
 	    	processEnemy2(objectStrB, objectStrA);
 	    }
 	    
+	    //-->ENEMY3
+	    if (objectStrA.getType().equals(SpawnType.Enemy_03)) {
+	    	processEnemy3(objectStrA);
+	    }else if (objectStrB.getType().equals(SpawnType.Enemy_03)) {
+	    	processEnemy3(objectStrB);
+	    }
+	    
 	    //-->PLAYER
 	    if (objectStrA.getType().equals(SpawnType.Player_01)) {
 	    	processPlayer(objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.Player_01)) {
 	    	processPlayer(objectStrA);
 	    }
-	    
 	}
+	
+	
+	private void processEnemy3(NewItem other) {
+		
+		SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
+		if (object != null) {
+			if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+				gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+				gPS.getGamePlay().processPlayerVariables();
+				
+				long numEnemies = GameLogicInformation.getEnemiesLeft();
+				if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+				
+				createExplosionDynamic(other);
+				gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+			}
+		}
+	}
+	
+	
+	
+	private void removeForestWallforMineExplosion(int index_x, int index_y) {
+		
+		Cell cell = forests.getCell(index_x, index_y);
+		
+		if (cell != null) {
+			StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+			if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+				gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+			}
+		}
+		
+		cell = walls.getCell(index_x, index_y);
+		if (cell != null) {
+			StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+			if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().contains(tile)) {
+				gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedWallsWithCollision().add(tile);
+			}
+		}
+		
+	}
+	
+	
+	
+	private void createVoidForMineExplosion(NewItem other) {
+		
+		float x = other.getX();
+		float y = other.getY();
+		
+		int index_x = Math.round(x)/SecondTestGDX.tileWidth_TL;
+		int index_y = Math.round(y)/SecondTestGDX.tileHeight_TL;
+		
+		removeForestWallforMineExplosion(index_x-1, index_y-1);
+		removeForestWallforMineExplosion(index_x-1, index_y);
+		removeForestWallforMineExplosion(index_x-1, index_y+1);
+		
+		removeForestWallforMineExplosion(index_x, index_y-1);
+		removeForestWallforMineExplosion(index_x, index_y);
+		removeForestWallforMineExplosion(index_x, index_y+1);
+		
+		removeForestWallforMineExplosion(index_x+1, index_y-1);
+		removeForestWallforMineExplosion(index_x+1, index_y);
+		removeForestWallforMineExplosion(index_x+1, index_y+1);
+		
+	}
+	
+	
 	
 	private void processPlayer(NewItem other) {
 		
@@ -130,9 +203,10 @@ public class CollisionEngine implements ContactListener{
 						long numEnemies = GameLogicInformation.getEnemiesLeft();
 						if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
 						
+						createVoidForMineExplosion(other);
 						gPS.getGamePlay().processPlayerVariables(GameLogicInformation.MINE_DAMAGE);
 						gPS.getGamePlay().getGameLogic().bigExplosionSoundPlay();
-						createExplosionDynamic(other);
+						createBigExplosionDynamic(other); 
 						
 					}
 				}
@@ -219,6 +293,13 @@ public class CollisionEngine implements ContactListener{
 		}
 		
 		
+		
+	}
+	
+	private void createBigExplosionDynamic(NewItem objectStr) {
+		
+		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Big_Explosion, objectStr.getX(), objectStr.getY(), objectStr.getWidth(), objectStr.getHeight());
+		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
 		
 	}
 	

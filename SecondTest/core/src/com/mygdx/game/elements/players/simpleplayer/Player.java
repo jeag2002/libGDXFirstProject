@@ -503,6 +503,7 @@ public class Player extends ShootPlayerObject{
     		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
     	}
     	player_parts.get(INDEX_GUN).init(gunTXT, 0);
+    	rotateTurret();
     }
     
     public void movement(float delta, float index) {
