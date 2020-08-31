@@ -18,7 +18,6 @@ import com.mygdx.game.utils.GUID;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
-//https://github.com/julienvillegas/libGDX.info-Box2DLight_Basic/blob/master/core/src/com/mygdx/game/FireEmitter.java
 
 public class SimpleExplosion extends CollisionPlayerObject implements SpawnObject {
 	

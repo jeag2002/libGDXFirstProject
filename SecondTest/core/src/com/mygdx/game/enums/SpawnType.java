@@ -50,7 +50,9 @@ public enum SpawnType {
     Tank_Level_3("Tank_level_3",46),
     Item_Bonus_Gun("Bonus_Gun",47),
     Missile_Flame("Flame",48),
-    Fire("Fire",49);
+    Fire("Fire",49),
+    Item_Bonus_Nuke("Bonus_Nuke",50),
+    Item_Bonus_Score("Bonus_Score",51);
     
     
     

@@ -600,5 +600,25 @@ public class GameLogicElementInformation {
 	};
 	
 	
+	public static final Texture[] bonus_nuke = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_NUKE.getElementStr(),Texture.class),
+					ElementEnum.BONUS_NUKE.getWidthBef(),
+					ElementEnum.BONUS_NUKE.getHeightBef(),
+					ElementEnum.BONUS_NUKE.getWidthShow(),
+					ElementEnum.BONUS_NUKE.getHeightShow())
+	};
+	
+	public static final Texture[] bonus_score = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.BONUS_SCORE.getElementStr(),Texture.class),
+					ElementEnum.BONUS_SCORE.getWidthBef(),
+					ElementEnum.BONUS_SCORE.getHeightBef(),
+					ElementEnum.BONUS_SCORE.getWidthShow(),
+					ElementEnum.BONUS_SCORE.getHeightShow())
+	};
+	
 
 }

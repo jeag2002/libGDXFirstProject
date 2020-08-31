@@ -94,8 +94,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	public TankEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
 		
-		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
-    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
+		
 		
 		
 		this.gPS = gPS;
@@ -125,6 +124,11 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 		setSize(width, height);
 		setPosition(iniPositionX, iniPositionY);
+		
+		
+		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(subType);
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).build();
+		
 		
 		this.angle = angle;
 		this.angleTurret = angle;

@@ -79,7 +79,7 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		super(spawnPool, type, world);
 		
 		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
-    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).build();
 		
 		this.gPS = gPS;
 		this.typeEnemy = type;

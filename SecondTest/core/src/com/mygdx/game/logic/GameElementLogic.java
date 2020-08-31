@@ -49,7 +49,19 @@ public class GameElementLogic {
 	
     private Sound sfxExplosion;
     private float sfxExplosionVolume; 
+    
+    private Sound sfxBigExplosion;
+    private float sfxBigExplosionVolume;
 	
+    private Sound sfxBonus;
+    private float sfxBonusVolume; 
+    
+    private Sound sfxCrash;
+    private float sfxCrashVolume;
+    
+    private Sound sfxFireIgnite;
+    private float sfxFireVolume;
+    
 	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTurrets = new ArrayList<SpawnObject>();
@@ -72,7 +84,12 @@ public class GameElementLogic {
         rayHandler.setAmbientLight(0.1f, 0.1f, 0.1f,1.0f);
         
 		this.rayHandler.setShadows(true);
+		
 		setExplosionSound("sounds/explosion.ogg", 0.25f);
+		setBigExplosionSound("sounds/bigexplosion.mp3", 0.5f);
+		setBonusSound("sounds/bonus.wav", 0.25f); 
+		setCrashSound("sounds/crash.wav", 0.25f);
+		setFireSound("sounds/FireIgnite.mp3", 0.25f);
 		
 	}
 	
@@ -120,6 +137,48 @@ public class GameElementLogic {
 		item.setSpawned(true);
 	}
 	
+	public void setCrashSound(String path, float volume) {
+	     sfxCrash = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxCrashVolume = volume;
+	}
+	
+	public void bigExplosionSoundPlay() {
+		sfxBigExplosion.play(sfxBigExplosionVolume);
+	}
+	
+	public void explosionSoundPlay() {
+		sfxExplosion.play(sfxExplosionVolume);
+	}
+	
+	public void fireSoundPlay() {
+		sfxFireIgnite.play(sfxFireVolume);
+	}
+	
+	public void setFireSound(String path, float volume)
+	{
+		sfxFireIgnite = Gdx.audio.newSound(Gdx.files.internal(path));
+		sfxFireVolume = volume;
+	}
+	
+	
+	public void setBonusSound(String path, float volume) {
+	     sfxBonus = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxBonusVolume = volume;
+	}
+	
+	public void bonusSoundPlay() {
+		sfxBonus.play(sfxBonusVolume);
+	}
+	
+	public void crashSoundPlay() {
+		sfxCrash.play(sfxCrashVolume);
+	}
+	
+	
+	public void setBigExplosionSound(String path, float volume) {
+	     sfxBigExplosion = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxBigExplosionVolume = volume;
+	}
 	
 	public void setExplosionSound(String path, float volume) {
 	     sfxExplosion = Gdx.audio.newSound(Gdx.files.internal(path));
@@ -132,12 +191,14 @@ public class GameElementLogic {
 		Item item = (Item)spawnPool.getFromPool(SpawnType.Item);
 		
 		SpawnType subType = SpawnType.Item_Bonus_Life;
-		int i = rand.nextInt(4);
+		int i = rand.nextInt(6);
 		
 		if (i == 0) {subType = SpawnType.Item_Bonus_Life;}
 		else if (i == 1) {subType = SpawnType.Item_Bonus_Shield;}
 		else if (i == 2) {subType = SpawnType.Item_Bonus_Gun;}
-		else {subType = SpawnType.Item_Bonus_Bullet;}
+		else if (i == 3){subType = SpawnType.Item_Bonus_Bullet;}
+		else if (i == 4){subType = SpawnType.Item_Bonus_Nuke;}
+		else if (i == 5){subType = SpawnType.Item_Bonus_Score;}
 		
 		item.init(rayHandler, subType , x+width/2-32, y+height/2-32, 64, 64);
 		item.setSpawned(true);

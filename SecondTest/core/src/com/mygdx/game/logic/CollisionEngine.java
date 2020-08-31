@@ -111,21 +111,95 @@ public class CollisionEngine implements ContactListener{
 	
 	private void processPlayer(NewItem other) {
 		
-		Player player = gPS.getGamePlay().getGameLogic().getPlayer();
 		
 		if (other.getType().equals(SpawnType.Item)) {
 			if (other.getSubType().equals(SpawnType.Item_Mine)) {
-				//System.out.println("Collision Detected Player vs Mine");
+				
+				SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
+				if (object != null) {
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+						
+						Item item = (Item)object;
+						
+						other.setX(item.getX());
+						other.setY(item.getY());
+						other.setWidth(item.getWidth());
+						other.setHeight(item.getHColl());
+						
+						long numEnemies = GameLogicInformation.getEnemiesLeft();
+						if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+						
+						gPS.getGamePlay().processPlayerVariables(GameLogicInformation.MINE_DAMAGE);
+						gPS.getGamePlay().getGameLogic().bigExplosionSoundPlay();
+						createExplosionDynamic(other);
+						
+					}
+				}
+				
+				
+				
+				
 			}else if (other.getSubType().equals(SpawnType.Item_Bonus_Shield) || 
 					other.getSubType().equals(SpawnType.Item_Bonus_Bullet) || 
 					other.getSubType().equals(SpawnType.Item_Bonus_Gun) ||
 					other.getSubType().equals(SpawnType.Item_Bonus_Life)) {
-				//System.out.println("Collision Detected Player vs Bonus");
+				
+				boolean bonusAccepted = false;
+				
+				if (other.getSubType().equals(SpawnType.Item_Bonus_Life)) {
+					
+					
+					if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() < GameLogicInformation.MAX_LIFE_PLAYER) {
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() + 1);
+						bonusAccepted = true;
+					}
+					
+				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Shield)) {
+					
+					if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getShield() < GameLogicInformation.MAX_SHIELD_PLAYER) {
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setShield(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getShield() + 1);
+						bonusAccepted = true;
+					}
+				
+				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Bullet)) {
+					gPS.getGamePlay().changeTurretPlayer();
+					bonusAccepted = true;
+				}
+				
+				if (bonusAccepted) {
+					gPS.getGamePlay().getGameLogic().bonusSoundPlay();
+					
+					SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
+					if (object != null) {
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+						}
+					}
+				}
 			}
 		}
 		
 		else if (other.getType().equals(SpawnType.Enemy_03)) {
-			//System.out.println("Collision Detected Player vs WatchTower");
+			
+			SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
+			if (object != null) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+					
+					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+					gPS.getGamePlay().processPlayerVariables();
+					
+					
+					long numEnemies = GameLogicInformation.getEnemiesLeft();
+					if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+					
+					createExplosionDynamic(other);
+					gPS.getGamePlay().getGameLogic().crashSoundPlay();
+					gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+				
+				}
+			}
+			
 		}
 		
 		else if (other.getType().equals(SpawnType.MissileEnemy)){
@@ -135,11 +209,13 @@ public class CollisionEngine implements ContactListener{
 		else if (other.getType().equals(SpawnType.Wall_Space)) {
 			//System.out.println("Collision Detected Player vs Wall Space");
 			gPS.getGamePlay().dieInmediately();
+			gPS.getGamePlay().getGameLogic().explosionSoundPlay();
 		}
 		
 		else if (other.getType().equals(SpawnType.Wall_Volcano)) {
 			//System.out.println("Collision Detected Player vs Wall Volcano");
 			gPS.getGamePlay().processPlayerVariables();
+			gPS.getGamePlay().getGameLogic().fireSoundPlay();
 		}
 		
 		
@@ -597,6 +673,7 @@ public class CollisionEngine implements ContactListener{
 				
 				if (other.getType().equals(SpawnType.Player_01)) {
 					gPS.getGamePlay().processPlayerVariables();
+					gPS.getGamePlay().getGameLogic().crashSoundPlay();
 				}
 				
 				

@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
@@ -143,8 +144,8 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		this.levelIndex = rand.nextInt(10);
-		//this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
+		//this.levelIndex = rand.nextInt(10);
+		this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
@@ -209,6 +210,51 @@ public class GamePlay {
 		gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(0);
 	}
 	
+	
+	public void changeTurretPlayer() {
+		if (started) {
+			if (tiledMap != null) {
+				int random = rand.nextInt(4);
+				ElementEnum nextTurret = ElementEnum.GUN_PLAYER_1_A;
+				if (random == 1) {nextTurret = ElementEnum.GUN_PLAYER_1_B;}
+				else if (random == 2) {nextTurret = ElementEnum.GUN_PLAYER_1_C;}
+				else if (random == 3) {nextTurret = ElementEnum.GUN_PLAYER_1_D;}
+				gPS.getGamePlay().getGameLogic().getPlayer().changeTurret(nextTurret);
+				
+				
+			}
+		}
+	}
+	
+	
+	
+	public void processPlayerVariables(int explosionDamage) {
+		
+		if (started) {
+			if (tiledMap != null) {
+				
+				int shield = gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getShield();
+				int res = shield - explosionDamage;
+				
+				if (res <= 0) {
+					gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setShield(0);
+					int life =  gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife();
+					res = life - (-1)*res;
+					if (res <= 0) {
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(0);
+					}else {
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setLife(res);
+					}
+				}else {
+					gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setShield(res);
+				}
+			}
+		}
+	}
+	
+	public boolean isPlayerDead() {
+		return (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() == 0);
+	}
 	
 	public void processPlayerVariables() {
 		if (started) {

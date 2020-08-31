@@ -76,25 +76,27 @@ public class GameLogicInformation {
 	public static final int MAX_SHIELD_PLAYER = 10;
 	public static final int MAX_AMMO_PLAYER = 100;
 	
-	public static final int MAX_LIFE_DRON = 0;
+	public static final int MAX_LIFE_DRON = 1;
 	public static final int MAX_SHIELD_DRON = 0;
 	public static final int MAX_AMMO_DRON = 0;
 	
-	public static final int MAX_LIFE_TANK_1 = 0;
+	public static final int MAX_LIFE_WATCHTOWER = 1;
+	public static final int MAX_SHIELD_WATCHTOWER = 0;
+	public static final int MAX_AMMO_WATCHTOWER = 0;
+	
+	public static final int MAX_LIFE_TANK_1 = 2;
 	public static final int MAX_SHIELD_TANK_1 = 0;
 	public static final int MAX_AMMO_TANK_1 = 0;
 	
-	public static final int MAX_LIFE_TANK_2 = 0;
+	public static final int MAX_LIFE_TANK_2 = 4;
 	public static final int MAX_SHIELD_TANK_2 = 0;
 	public static final int MAX_AMMO_TANK_2 = 0;
 	
-	public static final int MAX_LIFE_TANK_3 = 0;
+	public static final int MAX_LIFE_TANK_3 = 6;
 	public static final int MAX_SHIELD_TANK_3 = 0;
 	public static final int MAX_AMMO_TANK_3 = 0;
 	
-	public static final int MAX_LIFE_WATCHTOWER = 0;
-	public static final int MAX_SHIELD_WATCHTOWER = 0;
-	public static final int MAX_AMMO_WATCHTOWER = 0;
+	public static final int MINE_DAMAGE = 5;
 	
 	public static final int INI_TIME_LEVEL = 300;
 	

@@ -93,7 +93,11 @@ public enum ElementEnum {
 	
 	MISSILE_A(SecondTestGDX.resources.rocket_01, 71, 20,16,64,32),
 	MISSILE_B(SecondTestGDX.resources.rocket_02, 72, 20,16,64,32),
-	MISSILE_C(SecondTestGDX.resources.rocket_03, 73, 20,16,64,32);
+	MISSILE_C(SecondTestGDX.resources.rocket_03, 73, 20,16,64,32),
+	
+	BONUS_NUKE(SecondTestGDX.resources.bonus_Nuke, 74, 128,128,32,32),
+	BONUS_SCORE(SecondTestGDX.resources.bonus_Coin, 75, 128,128,32,32);
+	
 	
 	
 	

@@ -268,6 +268,10 @@ public class Resources extends AssetManager{
 	public String rocket_02 = "elements/shots/missile/rocket_B.png";
 	public String rocket_03 = "elements/shots/missile/rocket_C.png";
 	
+	public String bonus_Nuke = "elements/bonus/Nuke_Bonus.png";
+	public String bonus_Coin = "elements/bonus/Coin_A.png";
+	
+	
 	public void loadAssets() {
 		
 		BitmapFontParameter fontParam = new BitmapFontParameter();
@@ -475,6 +479,8 @@ public class Resources extends AssetManager{
 		load(armor_bonus, Texture.class);
 		load(ammunition_bonus, Texture.class);
 		load(border_bonus, Texture.class);
+		load(bonus_Nuke, Texture.class);
+		load(bonus_Coin, Texture.class);
 		
 		//elements destroyed
 		load(hole_1, Texture.class);

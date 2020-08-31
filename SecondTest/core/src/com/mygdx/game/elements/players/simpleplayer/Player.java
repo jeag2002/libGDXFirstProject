@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -91,6 +92,8 @@ public class Player extends ShootPlayerObject{
     
     private ElementDefinitionObject eDO;
     
+    private Texture textureShield;
+    private Sprite spriteShield;
    
     
     public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
@@ -133,7 +136,9 @@ public class Player extends ShootPlayerObject{
 	    
 	    super.resetGuns();
 		
-    	
+	    textureShield = SecondTestGDX.resources.get(SecondTestGDX.resources.border_bonus,Texture.class);
+    	spriteShield = new Sprite(textureShield);
+	    
     	initShootingEngine(SpawnType.MissilePlayer);
     	setShootingActive(true);
     	
@@ -165,6 +170,12 @@ public class Player extends ShootPlayerObject{
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
 		
 		this.setShootingRayHandler(rayHandler);
+		
+		this.spriteShield.setSize(128, 128);
+		this.spriteShield.setOriginCenter();
+		this.spriteShield.setOriginBasedPosition(getX()+getWidth()/2, getY()+getHeight()/2);
+
+		
 		
 		//LIGHT PLAYER
 		//////////////////////////////////////////////////////////////////////////////////////////////
@@ -504,7 +515,7 @@ public class Player extends ShootPlayerObject{
          Vector2 posRelative = super.getPositionFromBodyToPixel();
          super.setPosition(posRelative.x, posRelative.y);
          
-         
+         this.spriteShield.setOriginBasedPosition(getX()+getWidth()/2, getY()+getHeight()/2);
          
          player_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());
          player_parts.get(INDEX_TRACK_RIGHT).setPosition(getX()+40, getY());
@@ -551,6 +562,8 @@ public class Player extends ShootPlayerObject{
     	player_parts.get(INDEX_EXHAUST_RIGHT).draw(sb);
     	/*HULL*/super.draw(sb);
     	player_parts.get(INDEX_GUN).draw(sb);
+    	
+    	if (this.eDO.getShield() > 0) {this.spriteShield.draw(sb);}
     	
     }
 

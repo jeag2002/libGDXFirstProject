@@ -88,7 +88,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 			subType.equals(SpawnType.Item_Bonus_Shield) || 
 			subType.equals(SpawnType.Item_Bonus_Bullet) || 
 			subType.equals(SpawnType.Item_Bonus_Gun) ||
-			subType.equals(SpawnType.Item_Bonus_Life)) {
+			subType.equals(SpawnType.Item_Bonus_Life) ||
+			subType.equals(SpawnType.Item_Bonus_Nuke) ||
+			subType.equals(SpawnType.Item_Bonus_Score)){
 			setSize(width, height);
 			setPosition(iniPositionX, iniPositionY);
 		}else{
@@ -119,8 +121,11 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		}else if (subType.equals(SpawnType.Item_Bonus_Shield) || 
 				subType.equals(SpawnType.Item_Bonus_Bullet) || 
 				subType.equals(SpawnType.Item_Bonus_Gun) ||
-				subType.equals(SpawnType.Item_Bonus_Life)) {
-			
+				subType.equals(SpawnType.Item_Bonus_Life) ||
+				subType.equals(SpawnType.Item_Bonus_Nuke) ||
+				subType.equals(SpawnType.Item_Bonus_Score)
+				) {
+				
 			posXBonus = getX();
 			posYBonus = getY();
 			positionBonus = this.POSITION_1;
@@ -164,7 +169,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 			subType.equals(SpawnType.Item_Bonus_Shield) || 
 			subType.equals(SpawnType.Item_Bonus_Bullet) || 
 			subType.equals(SpawnType.Item_Bonus_Gun) ||
-			subType.equals(SpawnType.Item_Bonus_Life)) {
+			subType.equals(SpawnType.Item_Bonus_Life) ||
+			subType.equals(SpawnType.Item_Bonus_Nuke) ||
+			subType.equals(SpawnType.Item_Bonus_Score)) {
 			
 			item_parts.get(INDEX_SUBITEM).getSprite().setOriginCenter();
 			item_parts.get(INDEX_SUBITEM).getSprite().setOriginBasedPosition(getX() + getWidth()/2, getY() + getHeight() / 2);
@@ -198,7 +205,12 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 			badge.setSize(ElementEnum.PLATFORM_DOT_R.getWidthShow(), ElementEnum.PLATFORM_DOT_R.getHeightShow());
 	    	item_parts.add(badge);
 			
-		}else if (subType.equals(SpawnType.Item_Bonus_Life) || subType.equals(SpawnType.Item_Bonus_Shield) || subType.equals(SpawnType.Item_Bonus_Bullet) || subType.equals(SpawnType.Item_Bonus_Gun)) {
+		}else if (subType.equals(SpawnType.Item_Bonus_Life) || 
+				subType.equals(SpawnType.Item_Bonus_Shield) || 
+				subType.equals(SpawnType.Item_Bonus_Bullet) || 
+				subType.equals(SpawnType.Item_Bonus_Gun) ||
+				subType.equals(SpawnType.Item_Bonus_Nuke) ||
+				subType.equals(SpawnType.Item_Bonus_Score)) {
 			
 			DynElementPart badge = new DynElementPart(DynamicElementPartType.BONUS);
 			
@@ -228,7 +240,12 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 			Texture[] mine = GameLogicElementInformation.Enemy_03;
 			init(mine, 0);
 			
-		}else if (subType.equals(SpawnType.Item_Bonus_Life) || subType.equals(SpawnType.Item_Bonus_Shield) || subType.equals(SpawnType.Item_Bonus_Bullet) || subType.equals(SpawnType.Item_Bonus_Gun)) {
+		}else if (subType.equals(SpawnType.Item_Bonus_Life) || 
+				subType.equals(SpawnType.Item_Bonus_Shield) || 
+				subType.equals(SpawnType.Item_Bonus_Bullet) || 
+				subType.equals(SpawnType.Item_Bonus_Gun) ||
+				subType.equals(SpawnType.Item_Bonus_Nuke) ||
+				subType.equals(SpawnType.Item_Bonus_Score)) {
 			
 		
 			if (subType.equals(SpawnType.Item_Bonus_Life)) {
@@ -242,6 +259,12 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 				init(bonus, 0);
 			}else if (subType.equals(SpawnType.Item_Bonus_Bullet)) {
 				Texture[] bonus = GameLogicElementInformation.bonus_ammo;
+				init(bonus, 0);
+			}else if (subType.equals(SpawnType.Item_Bonus_Nuke)) {
+				Texture[] bonus = GameLogicElementInformation.bonus_nuke;
+				init(bonus, 0);
+			}else if (subType.equals(SpawnType.Item_Bonus_Score)) {
+				Texture[] bonus = GameLogicElementInformation.bonus_score;
 				init(bonus, 0);
 			}
 						
@@ -276,7 +299,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		}else if (subType.equals(SpawnType.Item_Bonus_Life) || 
 				subType.equals(SpawnType.Item_Bonus_Shield) || 
 				subType.equals(SpawnType.Item_Bonus_Bullet) || 
-				subType.equals(SpawnType.Item_Bonus_Gun)) {
+				subType.equals(SpawnType.Item_Bonus_Gun) ||
+				subType.equals(SpawnType.Item_Bonus_Nuke) ||
+				subType.equals(SpawnType.Item_Bonus_Score) ) {
 			
 			this.timer += delta;
 			if (timer > TRANSITION_PULSE_BONUS) {
@@ -338,7 +363,8 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		if (subType.equals(SpawnType.Item_Bonus_Life) || 
 		subType.equals(SpawnType.Item_Bonus_Shield) ||
 		subType.equals(SpawnType.Item_Bonus_Gun) ||  
-		subType.equals(SpawnType.Item_Bonus_Bullet)) {
+		subType.equals(SpawnType.Item_Bonus_Bullet) ||
+		subType.equals(SpawnType.Item_Bonus_Score)) {
 			item_parts.get(INDEX_SUBITEM).AnimationLoop(delta, true);
 		}
 		

@@ -66,7 +66,7 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		this.typeEnemy = type;
 		
 		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
-    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).build();
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).build();
 		
 		this.pool = spawnPool;
 		
