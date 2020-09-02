@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.ElementsGUI;
 import com.mygdx.game.screens.GamePlayScreen;
 
@@ -112,6 +113,56 @@ public class LogoItem extends Actor {
 	}
 	
 	
+	private void drawGunIcon(Batch batch) {
+		
+		Texture texLaser = SecondTestGDX.resources.get(SecondTestGDX.resources.laser, Texture.class);
+		Texture texMissile = SecondTestGDX.resources.get(SecondTestGDX.resources.missile_1, Texture.class);
+		Texture texFlame = SecondTestGDX.resources.get(SecondTestGDX.resources.flame_4, Texture.class);
+		
+		Sprite sprite_1 = null;
+		Sprite sprite_2 = null;
+		
+		
+		if (gPS.getGamePlay().getGameLogic().getPlayer().getCannonType().equals(ElementEnum.GUN_PLAYER_1_A)) {
+			
+			sprite_1 = new Sprite(texLaser);
+			sprite_1.setSize(16, 32);
+			sprite_1.setPosition(X+W/2-8, Y+16);
+			sprite_1.draw(batch);
+			
+		}else if (gPS.getGamePlay().getGameLogic().getPlayer().getCannonType().equals(ElementEnum.GUN_PLAYER_1_B)) {
+			
+			sprite_1 = new Sprite(texLaser);
+			sprite_1.setSize(16, 32);
+			sprite_1.setPosition(X+W/2-12, Y+16);
+			sprite_1.draw(batch);
+			
+			sprite_2 = new Sprite(texLaser);
+			sprite_2.setSize(16, 32);
+			sprite_2.setPosition(X+W/2, Y+16);
+			sprite_2.draw(batch);
+			
+			
+		}else if (gPS.getGamePlay().getGameLogic().getPlayer().getCannonType().equals(ElementEnum.GUN_PLAYER_1_C)) {
+			
+			sprite_1 = new Sprite(texMissile);
+			sprite_1.rotate(90);
+			sprite_1.setSize(16, 32);
+			sprite_1.setPosition(X+W/2, Y+24);
+			sprite_1.draw(batch);
+			
+		}else if (gPS.getGamePlay().getGameLogic().getPlayer().getCannonType().equals(ElementEnum.GUN_PLAYER_1_D)) {
+			
+			sprite_1 = new Sprite(texFlame);
+			sprite_1.setSize(32, 32);
+			sprite_1.setPosition(X+W/2-16, Y+16);
+			sprite_1.draw(batch);
+		}
+		
+		
+	}
+	
+	
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
@@ -120,6 +171,8 @@ public class LogoItem extends Actor {
 			
 			if (typeProgressBar.equals(ElementsGUI.RADAR)) {
 				drawPlayerExitPosition(batch);
+			}else if (typeProgressBar.equals(ElementsGUI.ICON)) {
+				drawGunIcon(batch);
 			}
 			
 		}

@@ -492,6 +492,11 @@ public class Player extends ShootPlayerObject{
     }
     
     
+    public ElementEnum getCannonType() {
+    	return this.cannonType;
+    }
+    
+    
     public void changeTurret(ElementEnum newGun) {
     	
     	this.eDO.setAmmo(GameLogicInformation.MAX_AMMO_PLAYER);
