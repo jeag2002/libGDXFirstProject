@@ -710,39 +710,41 @@ public class SimpleMapGeneration {
 	
 	//DRON SITUATION
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	private void setEnemiesDRONPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
+	private void setEnemiesDRONPositionSector(DynamicElementPositionEnum ppE, int numEnemies, boolean isSameSectorAsPlayer) {
 		
 		boolean[][] caveMap = caveGenerator.getMap();
 		byte[][] forestMap = forestGenerator.getForest();
 		
+		if (!isSameSectorAsPlayer) {
 		
-		boolean DONE = false;
-		
-		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
-			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
-				//FREE SPACE
-				if ((caveMap[x-1][y-1] == false) && (forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY)) {	
-					//ENEMIES
-					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesDRONSituation)) {
-						//PLAYER
-						if (!noSameSituationAsPlayer(x,y)) {
-							NewItem sE = new NewItem(SpawnType.Enemy_01, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
-							enemiesDRONSituation.add(sE);
-							numEnemies--;							
-							DONE = (numEnemies <= 0);	
+			boolean DONE = false;
+			for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+				for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+					//FREE SPACE
+					if ((caveMap[x-1][y-1] == false) && (forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY)) {	
+						//ENEMIES
+						if (!noMinimunDistanceBetweenEnemies(x,y,enemiesDRONSituation)) {
+							//PLAYER
+							if (!noSameSituationAsPlayer(x,y)) {
+								NewItem sE = new NewItem(SpawnType.Enemy_01, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+								enemiesDRONSituation.add(sE);
+								numEnemies--;							
+								DONE = (numEnemies <= 0);	
+							}
 						}
 					}
-				}
-			}	
-		}		
+				}	
+			}
+			
+		}
 	}
 	
 	
-	public void setEnemiesDRONPosition(int numEnemies) {
-		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
-		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
-	    setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
-		setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);
+	public void setEnemiesDRONPosition(NewItem player,int numEnemies) {
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH));
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN));
+	    setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH));
+		setEnemiesDRONPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN));
 		Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_01 + ") GENERATED (" + enemiesDRONSituation.size() + ")");
 		
 	}
@@ -751,44 +753,46 @@ public class SimpleMapGeneration {
 	//WATCHTOWER SITUATION
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
+	public void setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum ppE, int numEnemies, boolean isSamePlayerSector) {
 		
 		byte[][] forestMap = forestGenerator.getForest();
 		boolean[][] caveMap = caveGenerator.getMap();
 		
 		boolean DONE = false;
 		
-		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
-			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
-				//FREE SPACE
-				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (caveMap[x-1][y-1] == false) ) {	
-					//ENEMIES
-					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation) && 
-					   (!noMinimunDistanceBetweenEnemies(x,y,enemiesCENTROIDSituation))) {
-						//PLAYER
-						if (!noSameSituationAsPlayer(x,y)) {
-							NewItem sE = new NewItem(SpawnType.Enemy_03, 
-									x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL , 
-									y*SecondTestGDX.tileHeight_TL + SecondTestGDX.tilePlayerHeight_TL, 
-									SecondTestGDX.tilePlayerWidth_TL, 
-									SecondTestGDX.tilePlayerHeight_TL, 0,0);
-							enemiesCENTROIDSituation.add(sE);
-							numEnemies--;							
-							DONE = (numEnemies <= 0);	
+		if (!isSamePlayerSector) {
+			for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+				for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+					//FREE SPACE
+					if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (caveMap[x-1][y-1] == false) ) {	
+						//ENEMIES
+						if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation) && 
+						   (!noMinimunDistanceBetweenEnemies(x,y,enemiesCENTROIDSituation))) {
+							//PLAYER
+							if (!noSameSituationAsPlayer(x,y)) {
+								NewItem sE = new NewItem(SpawnType.Enemy_03, 
+										x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL , 
+										y*SecondTestGDX.tileHeight_TL + SecondTestGDX.tilePlayerHeight_TL, 
+										SecondTestGDX.tilePlayerWidth_TL, 
+										SecondTestGDX.tilePlayerHeight_TL, 0,0);
+								enemiesCENTROIDSituation.add(sE);
+								numEnemies--;							
+								DONE = (numEnemies <= 0);	
+							}
 						}
 					}
-				}
-			}	
-		}			
+				}	
+			}
+		}
 	}
 	
-	public void setEnemiesCENTROIDPosition(int numEnemies) {
+	public void setEnemiesCENTROIDPosition(NewItem player, int numEnemies) {
 		
 		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE)) {
-			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
-			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
-			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
-			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);	
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH));
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN));
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH));
+			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN));	
 			Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_03 + ") GENERATED (" + enemiesCENTROIDSituation.size() + ")");
 		}
 	}
@@ -799,44 +803,46 @@ public class SimpleMapGeneration {
 	
 	//MINE SITUATION
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	public void setEnemiesMINEPositionSector(DynamicElementPositionEnum ppE, int numEnemies) {
+	public void setEnemiesMINEPositionSector(DynamicElementPositionEnum ppE, int numEnemies, boolean isSamePlayerSector) {
 		
 		byte[][] forestMap = forestGenerator.getForest();
 		boolean[][] caveMap = caveGenerator.getMap();
 		
 		boolean DONE = false;
 		
-		for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
-			for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
-				//FREE SPACE
-				if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (caveMap[x-1][y-1] == false) ) {	
-					//ENEMIES
-					if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation)) {
-						//PLAYER
-						if (!noSameSituationAsPlayer(x,y)) {
-							NewItem sE = new NewItem(SpawnType.Item, 
-									x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL , 
-									y*SecondTestGDX.tileHeight_TL + SecondTestGDX.tilePlayerHeight_TL, 
-									SecondTestGDX.tilePlayerWidth_TL, 
-									SecondTestGDX.tilePlayerHeight_TL, 0,0);
-							enemiesMINESituation.add(sE);
-							numEnemies--;							
-							DONE = (numEnemies <= 0);	
+		if (!isSamePlayerSector) {
+			for(int x=ppE.getXIni()+1; (x<ppE.getXFin()-1) && (!DONE); x++) {
+				for(int y=ppE.getYIni()+1; (y<ppE.getYFin()-1) && (!DONE); y++) {
+					//FREE SPACE
+					if ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (caveMap[x-1][y-1] == false) ) {	
+						//ENEMIES
+						if (!noMinimunDistanceBetweenEnemies(x,y,enemiesMINESituation)) {
+							//PLAYER
+							if (!noSameSituationAsPlayer(x,y)) {
+								NewItem sE = new NewItem(SpawnType.Item, 
+										x*SecondTestGDX.tileWidth_TL + SecondTestGDX.tilePlayerWidth_TL , 
+										y*SecondTestGDX.tileHeight_TL + SecondTestGDX.tilePlayerHeight_TL, 
+										SecondTestGDX.tilePlayerWidth_TL, 
+										SecondTestGDX.tilePlayerHeight_TL, 0,0);
+								enemiesMINESituation.add(sE);
+								numEnemies--;							
+								DONE = (numEnemies <= 0);	
+							}
 						}
 					}
-				}
-			}	
-		}			
+				}	
+			}
+		}
 	}
 	
 	
-	public void setEnemiesMINEPosition(int numEnemies) {
+	public void setEnemiesMINEPosition(NewItem player, int numEnemies) {
 		
 		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE)) {
-			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4);
-			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4);
-			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4);
-			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4);	
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH));
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN));
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH));
+			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN));	
 			Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Item_Mine + ") GENERATED (" + enemiesMINESituation.size() + ")");
 		}
 	}
@@ -1228,8 +1234,14 @@ public class SimpleMapGeneration {
 	
 	public NewItem setExit() {
 		
+		int data = random.nextInt(3);
+		DynamicElementPositionEnum exitPos = DynamicElementPositionEnum.IDLE; 
 		
-		this.exit = setExitInMap(DynamicElementPositionEnum.CENTER);
+		if (data == 0) {exitPos = DynamicElementPositionEnum.CENTER_LOW;}
+		else if (data == 1) {exitPos = DynamicElementPositionEnum.CENTER;}
+		else if (data == 2) {exitPos = DynamicElementPositionEnum.CENTER_HIGH;}
+		
+		this.exit = setExitInMap(exitPos);
 		if(this.exit != null) {Gdx.app.log("[SINGLEMAPGENERATION]", "EXIT NODE CREATED!");}
 		
 		if (this.exit == null) {
@@ -1351,17 +1363,14 @@ public class SimpleMapGeneration {
 		generateGraph(width_tl, height_tl);
 		/*7-GRAPH*/layers.add(createGraphLayerMap(width_tl, height_tl, 128, 128));
 		
+	
+		NewItem player = playersSituation.get(0);
+		setEnemiesTANKPosition(player,numEnemiesTANK);
 		
 		
-		if (numPlayers == SINGLE_PLAYER) {
-			NewItem player = playersSituation.get(0);
-			setEnemiesTANKPosition(player,numEnemiesTANK);
-		}
-		
-		
-		setEnemiesMINEPosition(numEnemiesMINE);
-		setEnemiesCENTROIDPosition(numEnemiesWATCHTOWER);
-		setEnemiesDRONPosition(numEnemiesDRON);
+		setEnemiesMINEPosition(player, numEnemiesMINE);
+		setEnemiesCENTROIDPosition(player, numEnemiesWATCHTOWER);
+		setEnemiesDRONPosition(player,numEnemiesDRON);
 		
 		return map;
 	}

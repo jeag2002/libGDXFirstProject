@@ -324,7 +324,10 @@ public class Player extends ShootPlayerObject{
 	    	if (orientationSHOOT.equals(PlayerMovementsEnum.SHOOT)) {
 	    		
 	    		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) && SecondTestGDX.isMouseEnabled) {
-	    			shootGeneration(delta);
+	    			if (this.eDO.getAmmo() > 0) {
+	    				shootGeneration(delta);
+	    				
+	    			}
 	    		}
 	    	}
 	    	
@@ -383,16 +386,20 @@ public class Player extends ShootPlayerObject{
 			
 			if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {
 				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-1);
 				sfxShot.play();
 			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {
 				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-2);
 				sfxShot.play();
 			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)){
 				this.addGun(SpawnType.Missile_Missile, shootAngle+180, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-1);
 				sfxMissile.play(sfxMissileVolume);
 			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)){
 				this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-1);
 				sfxFlame.play(sfxFlameVolume);
 			}
 			
@@ -530,6 +537,8 @@ public class Player extends ShootPlayerObject{
     	this.skiddingInIce();
     	Vector2 posRelative = super.getPositionFromBodyToPixel();
         super.setPosition(posRelative.x, posRelative.y);
+        
+        this.spriteShield.setOriginBasedPosition(getX()+getWidth()/2, getY()+getHeight()/2);
         
         player_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());
         player_parts.get(INDEX_TRACK_RIGHT).setPosition(getX()+40, getY());

@@ -127,7 +127,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 		
 		ElementDataEnum eDU = ElementDataEnum.getBySpawnType(subType);
-    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).build();
+    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setScore(eDU.getScore()).build();
 		
 		
 		this.angle = angle;

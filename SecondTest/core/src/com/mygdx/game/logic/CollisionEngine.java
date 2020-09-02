@@ -77,7 +77,7 @@ public class CollisionEngine implements ContactListener{
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
 		
-		System.out.println("Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
+		Gdx.app.log("[COLLISION_ENGINE]","Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
 		
 		//-->MISSILE ENEMY
 	    if (objectStrA.getType().equals(SpawnType.MissileEnemy)) {
@@ -102,10 +102,11 @@ public class CollisionEngine implements ContactListener{
 	    
 	    //-->ENEMY3
 	    if (objectStrA.getType().equals(SpawnType.Enemy_03)) {
-	    	processEnemy3(objectStrA);
+	    	processEnemy3(objectStrA, objectStrB);
 	    }else if (objectStrB.getType().equals(SpawnType.Enemy_03)) {
-	    	processEnemy3(objectStrB);
+	    	processEnemy3(objectStrB, objectStrA);
 	    }
+	    
 	    
 	    //-->PLAYER
 	    if (objectStrA.getType().equals(SpawnType.Player_01)) {
@@ -116,19 +117,17 @@ public class CollisionEngine implements ContactListener{
 	}
 	
 	
-	private void processEnemy3(NewItem other) {
+	private void processEnemy3(NewItem enemy3, NewItem other) {
 		
-		SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
-		if (object != null) {
-			if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
-				gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
-				gPS.getGamePlay().processPlayerVariables();
-				
-				long numEnemies = GameLogicInformation.getEnemiesLeft();
-				if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
-				
-				createExplosionDynamic(other);
-				gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+		if (other.getType().equals(SpawnType.Player_01)) {
+			SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(enemy3.getIdCode());
+			if (object != null) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+					gPS.getGamePlay().processPlayerVariables();
+					createExplosionDynamic(enemy3);
+					gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+				}
 			}
 		}
 	}
@@ -185,6 +184,9 @@ public class CollisionEngine implements ContactListener{
 	private void processPlayer(NewItem other) {
 		
 		
+		
+		
+		
 		if (other.getType().equals(SpawnType.Item)) {
 			if (other.getSubType().equals(SpawnType.Item_Mine)) {
 				
@@ -199,9 +201,8 @@ public class CollisionEngine implements ContactListener{
 						other.setY(item.getY());
 						other.setWidth(item.getWidth());
 						other.setHeight(item.getHColl());
-						
-						long numEnemies = GameLogicInformation.getEnemiesLeft();
-						if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+												
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + object.getStatsDynElement().getScore());
 						
 						createVoidForMineExplosion(other);
 						gPS.getGamePlay().processPlayerVariables(GameLogicInformation.MINE_DAMAGE);
@@ -236,6 +237,17 @@ public class CollisionEngine implements ContactListener{
 						bonusAccepted = true;
 					}
 				
+				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Gun)) {
+					
+					if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getAmmo() < (GameLogicInformation.MAX_AMMO_PLAYER - 100)) {
+						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setAmmo(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getAmmo() + 100);
+						bonusAccepted = true;
+					}
+				
+				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Nuke)) {
+					
+				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Score)) {
+				
 				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Bullet)) {
 					gPS.getGamePlay().changeTurretPlayer();
 					bonusAccepted = true;
@@ -263,10 +275,6 @@ public class CollisionEngine implements ContactListener{
 					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
 					gPS.getGamePlay().processPlayerVariables();
 					
-					
-					long numEnemies = GameLogicInformation.getEnemiesLeft();
-					if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
-					
 					createExplosionDynamic(other);
 					gPS.getGamePlay().getGameLogic().crashSoundPlay();
 					gPS.getGamePlay().getGameLogic().explosionSoundPlay();
@@ -282,14 +290,24 @@ public class CollisionEngine implements ContactListener{
 		
 		else if (other.getType().equals(SpawnType.Wall_Space)) {
 			//System.out.println("Collision Detected Player vs Wall Space");
-			gPS.getGamePlay().dieInmediately();
-			gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+			gPS.getGamePlay().processPlayerVariables();
+			gPS.getGamePlay().getGameLogic().crashSoundPlay();
 		}
 		
 		else if (other.getType().equals(SpawnType.Wall_Volcano)) {
 			//System.out.println("Collision Detected Player vs Wall Volcano");
+			
+			Player player = gPS.getGamePlay().getGameLogic().getPlayer();
+			
+			other.setX(player.getX());
+			other.setY(player.getY());
+			other.setWidth(player.getWidth());
+			other.setHeight(player.getHeight());
+			
+			createFlames(other);
 			gPS.getGamePlay().processPlayerVariables();
 			gPS.getGamePlay().getGameLogic().fireSoundPlay();
+			
 		}
 		
 		
@@ -437,7 +455,6 @@ public class CollisionEngine implements ContactListener{
 							}
 							
 							createExplosionStatic(other);
-							createBonus(other); 
 							
 						}
 						
@@ -481,7 +498,6 @@ public class CollisionEngine implements ContactListener{
 							}
 							
 							createExplosionStatic(other);
-							createBonus(other);
 							
 						}
 						
@@ -568,6 +584,8 @@ public class CollisionEngine implements ContactListener{
 									
 									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
 									
+									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + dron.getStatsDynElement().getScore());
+									
 									createExplosionDynamic(other);
 									
 								}else if (other.getType().equals(SpawnType.Enemy_02)) {
@@ -581,6 +599,8 @@ public class CollisionEngine implements ContactListener{
 									
 									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
 									
+									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + tank.getStatsDynElement().getScore());
+									
 									createExplosionDynamic(other);
 									
 								}else if (other.getType().equals(SpawnType.Enemy_03)) {
@@ -593,6 +613,8 @@ public class CollisionEngine implements ContactListener{
 									other.setHeight(watch.getHColl());
 									
 									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+									
+									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + watch.getStatsDynElement().getScore());
 									
 									createExplosionDynamic(other);
 									
@@ -621,8 +643,10 @@ public class CollisionEngine implements ContactListener{
 							
 								if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
 								
-								long numEnemies = GameLogicInformation.getEnemiesLeft();
-								if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
+								gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + object.getStatsDynElement().getScore());
+								
+								//long numEnemies = GameLogicInformation.getEnemiesLeft();
+								//if (numEnemies > 0) {GameLogicInformation.setEnemiesLeft(numEnemies-1);}
 								
 								createExplosionDynamic(other);
 							}
@@ -774,7 +798,6 @@ public class CollisionEngine implements ContactListener{
 						}
 						
 						createExplosionStatic(other);
-						createBonus(other);
 					}
 				}
 				
@@ -817,7 +840,6 @@ public class CollisionEngine implements ContactListener{
 						}
 						
 						createExplosionStatic(other);
-						createBonus(other);
 						
 					}
 				}

@@ -144,8 +144,8 @@ public class GamePlay {
 	
 	public void processTileGeneration() {
 		
-		//this.levelIndex = rand.nextInt(10);
-		this.levelIndex  = GameLogicInformation.DESERT_LEVEL;
+		this.levelIndex = rand.nextInt(10);
+		//this.levelIndex  = GameLogicInformation.SPACE_LEVEL;
 		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
@@ -322,12 +322,7 @@ public class GamePlay {
 			    //-->ENEMY DRON
 			    ArrayList<NewItem> enemyDRONLst = sMG.getEnemiesDRON();
 			    for(NewItem sE: enemyDRONLst) {this.gameLogic.generateEnemyDRON(sE);}
-			    
-			    
-			    int numEnemies = enemyTANKLst.size() + enemyMINELst.size() + enemyWATCHTOWER.size() + enemyDRONLst.size();
-			    GameLogicInformation.setEnemiesLeft(numEnemies);
-			    
-			   
+			  
 			    
 			    gameLogic.configureCollision(tiledMap, sMG.getWallsList(), sMG.getForestList());
 			}

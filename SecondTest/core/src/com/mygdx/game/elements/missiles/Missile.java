@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.DynamicCollPlayerObject;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
@@ -236,6 +237,10 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	@Override
 	public Body getBox2DBody() {
 		return super.getBody();
+	}
+	
+	public ElementDefinitionObject getStatsDynElement() {
+		return null;
 	}
 	
 	public void dispose() {

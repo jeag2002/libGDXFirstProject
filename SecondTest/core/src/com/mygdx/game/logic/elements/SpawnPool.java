@@ -194,6 +194,10 @@ public class SpawnPool {
     	return returnObject;
     }
     
+   
+    public ArrayList<SpawnObject> getPool(SpawnType type){
+    	return pools.get(type);
+    }
    	
    	
     public void clear() {

@@ -19,7 +19,7 @@ public class ProgressBar extends Actor {
 	
 	boolean isVisible;
 	
-	public static final int MAX_STEPS = 10;
+	public static final int MAX_STEPS = 100;
 	public int limit = 0;
 	
 	

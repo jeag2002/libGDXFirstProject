@@ -7,8 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.BackgroundMusicEnum;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
 import com.mygdx.game.logic.elements.SpawnObject;
+import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.NewItem;
 
 public class GameLogicInformation {
@@ -74,27 +76,34 @@ public class GameLogicInformation {
 		
 	public static final int MAX_LIFE_PLAYER = 10;
 	public static final int MAX_SHIELD_PLAYER = 10;
-	public static final int MAX_AMMO_PLAYER = 100;
+	public static final int MAX_AMMO_PLAYER = 1000;
+	public static final int SCORE_PLAYER = 0;
 	
 	public static final int MAX_LIFE_DRON = 1;
 	public static final int MAX_SHIELD_DRON = 0;
 	public static final int MAX_AMMO_DRON = 0;
+	public static final int SCORE_DRON = 100;
 	
 	public static final int MAX_LIFE_WATCHTOWER = 1;
 	public static final int MAX_SHIELD_WATCHTOWER = 0;
 	public static final int MAX_AMMO_WATCHTOWER = 0;
+	public static final int SCORE_WATCHTOWER = 100;
 	
 	public static final int MAX_LIFE_TANK_1 = 2;
 	public static final int MAX_SHIELD_TANK_1 = 0;
 	public static final int MAX_AMMO_TANK_1 = 0;
+	public static final int SCORE_TANK_1 = 200;
 	
 	public static final int MAX_LIFE_TANK_2 = 4;
 	public static final int MAX_SHIELD_TANK_2 = 0;
 	public static final int MAX_AMMO_TANK_2 = 0;
+	public static final int SCORE_TANK_2 = 400;
+	
 	
 	public static final int MAX_LIFE_TANK_3 = 6;
 	public static final int MAX_SHIELD_TANK_3 = 0;
 	public static final int MAX_AMMO_TANK_3 = 0;
+	public static final int SCORE_TANK_3 = 600;
 	
 	public static final int MINE_DAMAGE = 5;
 	
@@ -128,12 +137,25 @@ public class GameLogicInformation {
 		return GameLogicInformation.levelGameplay;
 	}
 	
-	public static void setEnemiesLeft(long enemiesLeft) {
-		GameLogicInformation.enemiesLeft = enemiesLeft;
+	
+	private static long getEnemiesAlive(GamePlayScreen gPS) {
+		
+		long enemies = 0L;
+		
+		enemies += gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_01).size();
+		enemies += gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_02).size();
+		enemies += gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_03).size();
+		
+		ArrayList<SpawnObject> items = gPS.getGamePlay().getGameLogic().getPool(SpawnType.Item);
+		for(SpawnObject item:items) {if (item.getSubType().equals(SpawnType.Item_Mine)) {enemies+=1;}}
+		
+		return enemies;
+		
 	}
 	
-	public static long getEnemiesLeft() {
-		return GameLogicInformation.enemiesLeft;
+	
+	public static long getEnemiesLeft(GamePlayScreen gPS) {
+		return getEnemiesAlive(gPS);
 	}
 	
 	

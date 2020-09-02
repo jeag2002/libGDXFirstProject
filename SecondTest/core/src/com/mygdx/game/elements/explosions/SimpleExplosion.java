@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.CollisionPlayerObject;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.elements.SpawnObject;
@@ -133,6 +134,10 @@ public class SimpleExplosion extends CollisionPlayerObject implements SpawnObjec
 	@Override
 	public SpawnType getSubType() {
 		return this.subType;
+	}
+	
+	public ElementDefinitionObject getStatsDynElement() {
+		return null;
 	}
 	
 }

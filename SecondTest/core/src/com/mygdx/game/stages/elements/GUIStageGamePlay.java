@@ -392,7 +392,7 @@ public class GUIStageGamePlay {
 		String scoreStr = StringUtils.leftPaddedString(10, gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore());
 		score.setText("SCORE: " + scoreStr);
 		
-		String leftStr = StringUtils.leftPaddedString(3, (int)GameLogicInformation.getEnemiesLeft());
+		String leftStr = StringUtils.leftPaddedString(3, (int)GameLogicInformation.getEnemiesLeft(gPS));
 		enemiesLeft.setText("LEFT: " + leftStr);
 		
 	}

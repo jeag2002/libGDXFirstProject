@@ -10,8 +10,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.DynamicCollPlayerObject;
 import com.mygdx.game.enums.DynamicElementPartType;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
@@ -56,6 +58,8 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	private float posYBonus = 0;
 	private int positionBonus = 0;
 	
+	private ElementDefinitionObject eDO;
+	
 	
 	public Item(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(world,type);
@@ -82,6 +86,14 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		
 		setAnimation();
 		setAnimationPart();
+		
+		
+		this.eDO = null;
+		
+		if (subType.equals(SpawnType.Item_Mine)) {
+			ElementDataEnum eDU = ElementDataEnum.getBySpawnType(subtype);
+			eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
+		}
 		
 
 		if ( 
@@ -410,6 +422,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		return this.type;
 	}
 	
+	public ElementDefinitionObject getStatsDynElement() {
+		return this.eDO;
+	}
 	
 	
 }

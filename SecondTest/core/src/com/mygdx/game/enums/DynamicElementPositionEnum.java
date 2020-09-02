@@ -10,8 +10,9 @@ public enum DynamicElementPositionEnum {
 	RIGHTHIGH (2, SecondTestGDX.sizeMapTileWidth_TL/2, SecondTestGDX.sizeMapTileWidth_TL, SecondTestGDX.sizeMapTileHeight_TL/2, SecondTestGDX.sizeMapTileHeight_TL),
 	RIGHTDOWN (3, SecondTestGDX.sizeMapTileWidth_TL/2, SecondTestGDX.sizeMapTileWidth_TL, 0, SecondTestGDX.sizeMapTileHeight_TL),
 	CENTER(4, 15, 45, 15, 45),
-	
-	IDLE (5,0,0,0,0);
+	CENTER_LOW(5,15,45,0,30),
+	CENTER_HIGH(6,15,45,30,60),
+	IDLE (7,0,0,0,0);
 	
 	int index;
 	int xIni;
