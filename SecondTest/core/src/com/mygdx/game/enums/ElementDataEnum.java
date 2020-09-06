@@ -10,7 +10,14 @@ public enum ElementDataEnum {
 	TANK_2(3,"TANK_2",SpawnType.Tank_Level_2,GameLogicInformation.MAX_LIFE_TANK_2,GameLogicInformation.MAX_SHIELD_TANK_2, GameLogicInformation.MAX_AMMO_TANK_2, GameLogicInformation.SCORE_TANK_2),
 	TANK_3(4,"TANK_3",SpawnType.Tank_Level_3,GameLogicInformation.MAX_LIFE_TANK_3,GameLogicInformation.MAX_SHIELD_TANK_3, GameLogicInformation.MAX_AMMO_TANK_3, GameLogicInformation.SCORE_TANK_3),
 	CENTROID(5,"CENTROID",SpawnType.Enemy_03,GameLogicInformation.MAX_LIFE_WATCHTOWER,GameLogicInformation.MAX_SHIELD_WATCHTOWER, GameLogicInformation.MAX_AMMO_WATCHTOWER, GameLogicInformation.SCORE_WATCHTOWER),
-	MINE(6,"MINE",SpawnType.Item_Mine,0,0,0, GameLogicInformation.SCORE_DRON);
+	MINE(6,"MINE",SpawnType.Item_Mine,0,0,0, GameLogicInformation.SCORE_DRON),
+	
+	LASER(6,"LASER",SpawnType.Missile_Laser,0,0,0,1),
+	PLASMA(7,"PLASMA",SpawnType.Missile_Plasma,0,0,0,1),
+	PULSE(8,"PULSE",SpawnType.Missile_Pulse,0,0,0, 2),
+	MISSILE(9,"MISSILE",SpawnType.Missile_Missile,0,0,0, 4),
+	FLAME(10,"FLAME",SpawnType.Missile_Flame,0,0,0, 5);
+	
 	
 	private int index;
 	private String name;

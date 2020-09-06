@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.elements.players.DynamicCollPlayerObject;
+import com.mygdx.game.enums.ElementDataEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicElementInformation;
@@ -53,6 +54,8 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
     private GamePlayScreen gPS;
     
     private RayHandler rayHandler;
+    
+    private ElementDefinitionObject eDO;
 
 	public Missile(SpawnType type, World world, GamePlayScreen gPS) {
 		super(world, type);
@@ -81,18 +84,23 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 
 	     this.subType = subType;
 		 
-	     
-	     
+		 ElementDataEnum eDU = ElementDataEnum.getBySpawnType(subType);
+			
 	     if (subType.equals(SpawnType.Missile_Laser)) {
 	    	 text_laser_1 = GameLogicElementInformation.laser;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }else if (subType.equals(SpawnType.Missile_Plasma)) {
 	    	 text_laser_1 = GameLogicElementInformation.plasma;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }else if (subType.equals(SpawnType.Missile_Pulse)) {
 	    	 text_laser_1 = GameLogicElementInformation.pulse;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }else if (subType.equals(SpawnType.Missile_Missile)) {
 	    	 text_laser_1 = GameLogicElementInformation.missile_2;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }else if (subType.equals(SpawnType.Missile_Flame)) {
 	    	 text_laser_1 = GameLogicElementInformation.flame;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }
 	     
 		 
@@ -240,7 +248,7 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	}
 	
 	public ElementDefinitionObject getStatsDynElement() {
-		return null;
+		return eDO;
 	}
 	
 	public void dispose() {

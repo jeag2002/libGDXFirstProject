@@ -4,17 +4,16 @@ import com.mygdx.game.logic.*;
 
 public enum LevelEnum {
 	
-	DESERT(0,"LEVEL 1",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 4),
-	JUNGLE(1,"LEVEL 2",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 4),
-	WINTER(2,"LEVEL 3",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100,0,4),
-	VOLCANO(3,"LEVEL 4",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 100,100,100,4),
-	SPACE(4,"LEVEL 5", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS,100,100,100,4),
-	CITY(5,"LEVEL 6", GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS,100, 100,100,4),
-	DESERT_LIGHTS(6,"LEVEL 7",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS,100,100,100,4),
-	FABRIC(7,"LEVEL 8",GameLogicInformation.FABRIC_LEVEL,GameLogicInformation.NO_LIGHTS,100, 100,100,4),
-	VOLCANO_LIGHTS(8,"LEVEL 9",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.LIGHTS,100, 100,100,4),
-	FABRIC_LIGHTS(9,"LEVEL 10",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.LIGHTS,100, 100,100,4),
-	ISLAND(10,"LEVEL 11", GameLogicInformation.ISLAND_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 4);
+	DESERT(0,"DESERT DAY",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0),
+	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 100, 4),
+	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 4),
+	WINTER(3,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100,0, 0),
+	VOLCANO(4,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0),
+	IDLE(12,"IDLE",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0);
+	
+	
+	
+	
 	
 	private int index;
 	private String LevelStr;
@@ -42,7 +41,7 @@ public enum LevelEnum {
 	public static LevelEnum getByIndex(int index) {
 		
 		LevelEnum LE[] = LevelEnum.values();
-		LevelEnum LEnum =  LevelEnum.DESERT;
+		LevelEnum LEnum =  LevelEnum.IDLE;
 		
 		for(int i=0; i<LE.length; i++) {
 			LevelEnum elem = LE[i];

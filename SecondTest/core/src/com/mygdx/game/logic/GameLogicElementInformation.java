@@ -145,6 +145,16 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_PLAYER_1_D.getHeightShow())		
 	};
 	
+	public static final Texture[] cannonPlayer01EText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_PLAYER_1_E.getElementStr(),Texture.class), 
+					ElementEnum.GUN_PLAYER_1_E.getWidthBef(), 
+					ElementEnum.GUN_PLAYER_1_E.getHeightBef(), 
+					ElementEnum.GUN_PLAYER_1_E.getWidthShow(), 
+					ElementEnum.GUN_PLAYER_1_E.getHeightShow())		
+	};
+	
+	
 	
 	public static final Texture[] trackPlayerText = {
 		DrawUtils.resizeTexture(

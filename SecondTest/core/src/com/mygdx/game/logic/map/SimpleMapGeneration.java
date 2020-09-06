@@ -1365,12 +1365,10 @@ public class SimpleMapGeneration {
 		
 	
 		NewItem player = playersSituation.get(0);
-		setEnemiesTANKPosition(player,numEnemiesTANK);
-		
-		
-		setEnemiesMINEPosition(player, numEnemiesMINE);
-		setEnemiesCENTROIDPosition(player, numEnemiesWATCHTOWER);
-		setEnemiesDRONPosition(player,numEnemiesDRON);
+		if (numEnemiesTANK >0 ) {setEnemiesTANKPosition(player,numEnemiesTANK);}
+		if (numEnemiesMINE > 0) {setEnemiesMINEPosition(player, numEnemiesMINE);}
+		if (numEnemiesWATCHTOWER > 0) {setEnemiesCENTROIDPosition(player, numEnemiesWATCHTOWER);}
+		if (numEnemiesDRON > 0) {setEnemiesDRONPosition(player,numEnemiesDRON);}
 		
 		return map;
 	}

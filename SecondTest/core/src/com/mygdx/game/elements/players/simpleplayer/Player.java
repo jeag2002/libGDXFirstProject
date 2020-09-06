@@ -240,6 +240,11 @@ public class Player extends ShootPlayerObject{
     		gun.setSize(ElementEnum.GUN_PLAYER_1_D.getWidthShow(), ElementEnum.GUN_PLAYER_1_D.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_D.getWidthShow()/2), iniPositionY+8);
         	
+    	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {			//--> pulse
+    		gunTXT = GameLogicElementInformation.cannonPlayer01EText;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_PLAYER_1_E.getWidthShow(), ElementEnum.GUN_PLAYER_1_E.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_E.getWidthShow()/2), iniPositionY+8);
     	}
     	
     	player_parts.add(gun);
@@ -374,7 +379,7 @@ public class Player extends ShootPlayerObject{
 			if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)) {
 				x = (float) ((getX() + 16 + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 50.0 * Math.cos(shootAngle*MathUtils.degRad)); 
 				y = (float) (getY() + 16 + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)) {
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D) || cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {
 				
 				x = (float) ((getX() + 8 + getWidth()/2 - ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2) + 60.0 * Math.cos(shootAngle*MathUtils.degRad)); 
 				y = (float) (getY() + 8 + 60.0 * Math.sin(shootAngle*MathUtils.degRad));
@@ -401,6 +406,10 @@ public class Player extends ShootPlayerObject{
 				this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
 				this.eDO.setAmmo(this.eDO.getAmmo()-1);
 				sfxFlame.play(sfxFlameVolume);
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {
+				this.addGun(SpawnType.Missile_Pulse, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-1);
+				sfxShot.play();
 			}
 			
 			//this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
@@ -513,6 +522,8 @@ public class Player extends ShootPlayerObject{
     		gunTXT = GameLogicElementInformation.cannonPlayer01CText;
     	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_D)) {
     		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
+    	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_E)) {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01EText;
     	}
     	player_parts.get(INDEX_GUN).init(gunTXT, 0);
     	rotateTurret();

@@ -52,6 +52,11 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	private static final int NODE_ARRIVE = 70;
 	
 	private static final float INTERVAL_BETWEEN_SHOOT = 1f;
+	
+	
+	private static final float DELAY_1 = 1;
+	private static final float DELAY_2 = 2;
+	private static final float DELAY_3 = 3;
 
 	
 	private GamePlayScreen gPS;
@@ -61,10 +66,14 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	private ArrayList<DynElementPart> enemy_parts;
 	private float timer;
+	
 	private boolean isSpawned;
 	
 	private float angle;
 	private float angleTurret;
+	
+	private float initDelay;
+	private float timer_delay;
 	
 	private PointLight light;
 	private ConeLight cone;
@@ -100,6 +109,7 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		this.gPS = gPS;
 		this.typeEnemy = type;	
 		this.timer = 0.0f;
+		this.timer_delay = 0.0f;
 		this.isSpawned = false;
 		this.previousNode = new NewItem();
 		enemy_parts = new ArrayList<DynElementPart>();
@@ -155,6 +165,15 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		generateIAPathFinding(graph, posTank, posObjective);
 		
 		stateMachine = new DefaultStateMachine<TankEnemy, TankEnemyStateEnum>(this, TankEnemyStateEnum.MOVE);
+		
+		if (subType.equals(SpawnType.Tank_Level_1)) {
+			this.initDelay = DELAY_1;
+		}else if (subType.equals(SpawnType.Tank_Level_2)) {
+			this.initDelay = DELAY_2;
+		}else if (subType.equals(SpawnType.Tank_Level_3)) {
+			this.initDelay = DELAY_3;
+		}
+		
 		
     	initShootingEngine(SpawnType.MissileEnemy);
     	setShootingRayHandler(rayHandler);
@@ -348,8 +367,15 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	
 	@Override
 	public void update(float delta, float boostFactor) {
-		stateMachine.update();
-		processIATank(delta);
+		
+		
+		
+		if (this.timer_delay <= this.initDelay) {
+			this.timer_delay += delta;
+		}else {
+			stateMachine.update();
+			processIATank(delta);
+		}
 	}
 	
 	private void processIATank(float delta) {

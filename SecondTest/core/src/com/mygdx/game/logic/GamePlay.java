@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.ElementEnum;
+import com.mygdx.game.enums.LevelEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
@@ -43,8 +44,7 @@ public class GamePlay {
 	
 	private static final float TIME = 1f;
 	
-	
-	private int lights;
+
 	
 	private GamePlayScreen gPS;
 	private Background background;
@@ -60,6 +60,14 @@ public class GamePlay {
 	
 	private SimpleMapGeneration sMG;
 	private boolean started;
+
+	private boolean endGame; 		//-->END GAME
+	private boolean nextLevel;		//-->NEXT LEVEL
+	private boolean playerDied;		//-->GAMEOVER
+	
+	private int nextLevelIndex;
+	
+	private LevelEnum level;
 	
 	private Random rand;
 	
@@ -74,7 +82,6 @@ public class GamePlay {
 	
 	private ShaderProgram shader;
 	
-	private int levelIndex;
 	
 	//private Vector3 LIGHT_POS;
 	
@@ -95,9 +102,13 @@ public class GamePlay {
 		this.pulse = false;
 		this.pulse_2 = false;
 		
-		this.levelIndex = GameLogicInformation.DESERT_LEVEL;
-		this.lights = GameLogicInformation.NO_LIGHTS;
+		this.endGame = false; 		//-->END GAME
+		this.nextLevel = false;		//-->NEXT LEVEL
+		this.playerDied = false;	//-->GAMEOVER
 		
+		this.level = LevelEnum.IDLE;
+		this.nextLevelIndex = 0;
+
 		this.exit = new NewItem();
 		
 		this.shader = ShaderEngine.generateSepiaShaderMap();
@@ -134,27 +145,24 @@ public class GamePlay {
 	}
 	
 	
-	public int getLevelIndex() {
-		return this.levelIndex;
+	public void setLevelInformation() {
+		this.level = LevelEnum.getByIndex(this.nextLevelIndex);
 	}
 	
-	public int getLights() {
-		return this.lights;
+	public LevelEnum getLevelInformation() {
+		return this.level;
 	}
+	
+	
 	
 	public void processTileGeneration() {
 		
-		this.levelIndex = rand.nextInt(10);
-		//this.levelIndex  = GameLogicInformation.SPACE_LEVEL;
-		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.levelIndex);
+		
+		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.level.getType());
 		this.gameLogic.initWorld();
 		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
-		//this.lights = sMG.setLights();
-		//this.lights = LIGHTS;
-		this.lights = NO_LIGHTS;
-		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.lights == LIGHTS? "ON":"OFF"));
-		
-		tiledMap = sMG.createSimpleMap(this.levelIndex,
+		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.level.getLights() == LIGHTS? "ON":"OFF"));
+		tiledMap = sMG.createSimpleMap(this.level.getType(),
 									   SecondTestGDX.sizeMapTileWidth_BG, 
 									   SecondTestGDX.sizeMapTileHeight_BG,
 									   SecondTestGDX.sizeMapTileWidth_TL, 
@@ -163,12 +171,12 @@ public class GamePlay {
 									   data[INDEX_GAMELOGICINFORMATION_BORDER], 
 									   data[INDEX_GAMELOGICINFORMATION_TILEMAP],
 									   data[INDEX_GAMELOGICINFORMATION_FOREST],
-									   GameLogicInformation.getRandomForestTileMap(this.levelIndex),
+									   GameLogicInformation.getRandomForestTileMap(this.level.getType()),
 									   GameLogicInformation.PLAYERS,
-									   GameLogicInformation.ENEMIESDRON,
-									   GameLogicInformation.ENEMIESTANK,
-									   GameLogicInformation.ENEMIESMINE,
-									   GameLogicInformation.ENEMIESWATCHTOWER);
+									   this.level.getNumDrons(),
+									   this.level.getNumTanks(),
+									   this.level.getNumMines(),
+									   this.level.getNumTurrets());
 		
 		
 		situationPlayer();
@@ -214,11 +222,12 @@ public class GamePlay {
 	public void changeTurretPlayer() {
 		if (started) {
 			if (tiledMap != null) {
-				int random = rand.nextInt(4);
+				int random = rand.nextInt(5);
 				ElementEnum nextTurret = ElementEnum.GUN_PLAYER_1_A;
 				if (random == 1) {nextTurret = ElementEnum.GUN_PLAYER_1_B;}
 				else if (random == 2) {nextTurret = ElementEnum.GUN_PLAYER_1_C;}
 				else if (random == 3) {nextTurret = ElementEnum.GUN_PLAYER_1_D;}
+				else if (random == 4) {nextTurret = ElementEnum.GUN_PLAYER_1_E;}
 				gPS.getGamePlay().getGameLogic().getPlayer().changeTurret(nextTurret);
 				
 				
@@ -227,6 +236,68 @@ public class GamePlay {
 	}
 	
 	
+	public float distanceExitPlayer() {
+		
+		float dst = 0;
+		Vector2 playerPos = new Vector2();
+		Vector2 exitPos = new Vector2();
+		
+		playerPos.x = this.getGameLogic().getPlayer().getX();
+		playerPos.y = this.getGameLogic().getPlayer().getY();
+		
+		exitPos.x = this.exit.getX();
+		exitPos.y = this.exit.getY();
+		
+		dst = playerPos.dst(exitPos);
+		
+		return dst;
+		
+	}
+	
+	
+	public void evaluateEndLevel() {
+		
+		if (started) {
+			if (tiledMap != null) {
+				
+				if (this.getGameLogic().getPlayer().getStatsDynElement().getLife() <= 0) {this.playerDied = true;}
+				else if (GameLogicInformation.getTimeLevel() <= 0) {
+					
+					this.playerDied = true;
+					
+					if 
+					((distanceExitPlayer() <= GameLogicInformation.DST_TANK_EXIT) && 
+					(GameLogicInformation.getEnemiesLeft(gPS) <= GameLogicInformation.MIN_ENEMIES_TO_EXIT)) {
+						this.playerDied = false;
+						this.nextLevel = true;	
+					}
+					
+				}else {
+					if 
+					((distanceExitPlayer() <= GameLogicInformation.DST_TANK_EXIT) && 
+					(GameLogicInformation.getEnemiesLeft(gPS) <= GameLogicInformation.MIN_ENEMIES_TO_EXIT)) {
+						this.playerDied = false;
+						this.nextLevel = true;
+					}
+				}		
+			}
+		}
+	}
+	
+	
+	public void evaluateEndGame() {
+		if (started) {
+			if (tiledMap != null) {
+				if (this.nextLevel) {
+					this.nextLevelIndex++;
+					this.level = LevelEnum.getByIndex(this.nextLevelIndex);
+					if (this.level.equals(LevelEnum.IDLE)) {
+						this.endGame = true;
+					}
+				}
+			}
+		}
+	}
 	
 	public void processPlayerVariables(int explosionDamage) {
 		
@@ -252,9 +323,6 @@ public class GamePlay {
 		}
 	}
 	
-	public boolean isPlayerDead() {
-		return (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() == 0);
-	}
 	
 	public void processPlayerVariables() {
 		if (started) {
@@ -435,31 +503,31 @@ public class GamePlay {
 				
 				
 				
-				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) ) {
+				if ((this.level.getType()  != GameLogicInformation.WINTER_LEVEL) && (this.level.getType()  != GameLogicInformation.VOLCANO_LEVEL) && (this.level.getType()  != GameLogicInformation.CITY_LEVEL) ) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
 					tiledMapRenderer.render(data);
 				
-				}else if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)) {
+				}else if ((this.level.getType()  == GameLogicInformation.VOLCANO_LEVEL)) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
 				
-				}else if ((this.levelIndex  == GameLogicInformation.ISLAND_LEVEL)) {
+				}else if ((this.level.getType()  == GameLogicInformation.ISLAND_LEVEL)) {
 					
 					//int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
-				}else if ((this.levelIndex  == GameLogicInformation.WINTER_LEVEL)){
+				}else if ((this.level.getType()  == GameLogicInformation.WINTER_LEVEL)){
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 					
-				}else if (this.levelIndex == GameLogicInformation.CITY_LEVEL) {
+				}else if (this.level.getType() == GameLogicInformation.CITY_LEVEL) {
 					
-					if (this.lights == LIGHTS) {
+					if (this.level.getLights() == LIGHTS) {
 						int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS, SimpleMapGeneration.INDEX_FOREST};
 						tiledMapRenderer.render(data);
 					}else {
@@ -481,7 +549,7 @@ public class GamePlay {
 	public void drawMapAf() {
 		if (started) {
 			if (tiledMap != null) {
-				if ((this.levelIndex  != GameLogicInformation.WINTER_LEVEL) && (this.levelIndex  != GameLogicInformation.VOLCANO_LEVEL) && (this.levelIndex  != GameLogicInformation.CITY_LEVEL) && (this.levelIndex  != GameLogicInformation.SPACE_LEVEL)) {
+				if ((this.level.getType()  != GameLogicInformation.WINTER_LEVEL) && (this.level.getType()  != GameLogicInformation.VOLCANO_LEVEL) && (this.level.getType()  != GameLogicInformation.CITY_LEVEL) && (this.level.getType() != GameLogicInformation.SPACE_LEVEL)) {
 					//if (this.lights != LIGHTS) {
 						int[] data = {SimpleMapGeneration.INDEX_FOREST};
 						tiledMapRenderer.render(data);
@@ -501,12 +569,12 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((this.levelIndex  == GameLogicInformation.SPACE_LEVEL)) {
+				if ((this.level.getType()  == GameLogicInformation.SPACE_LEVEL)) {
 					
 					int[] index_forest = {SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(index_forest);
 					
-					if (this.lights == LIGHTS) {
+					if (this.level.getLights() == LIGHTS) {
 					
 						tiledMapRenderer.getBatch().begin();
 						tiledMapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_SRC_ALPHA);	
@@ -555,7 +623,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((this.levelIndex  == GameLogicInformation.VOLCANO_LEVEL)/* || this.levelIndex == GameLogicInformation.ISLAND_LEVEL*/) {
+				if ((this.level.getType()  == GameLogicInformation.VOLCANO_LEVEL)/* || this.levelIndex == GameLogicInformation.ISLAND_LEVEL*/) {
 					
 					
 					this.time += delta;
@@ -606,7 +674,7 @@ public class GamePlay {
 	public void renderRayHandler() {
 		if (started) {
 			if (tiledMap != null) {
-				if (this.lights == LIGHTS) {
+				if (this.level.getLights() == LIGHTS) {
 					gameLogic.renderRayHandler();
 				}
 			}
@@ -622,6 +690,31 @@ public class GamePlay {
 	public void dispose() {
 		gameLogic.dispose();
 		shader.dispose();
+	}
+	
+	
+	public boolean isEndGame() {
+		return endGame;
+	}
+
+	public void setEndGame(boolean endGame) {
+		this.endGame = endGame;
+	}
+
+	public boolean isNextLevel() {
+		return nextLevel;
+	}
+
+	public void setNextLevel(boolean nextLevel) {
+		this.nextLevel = nextLevel;
+	}
+
+	public boolean isPlayerDied() {
+		return playerDied;
+	}
+
+	public void setPlayerDied(boolean playerDied) {
+		this.playerDied = playerDied;
 	}
 	
 

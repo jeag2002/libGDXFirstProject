@@ -159,6 +159,10 @@ public class GamePlayScreen implements Screen{
 		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
+				
+				gamePlay.evaluateEndLevel();
+				gamePlay.evaluateEndGame();
+				
 				gamePlay.drawMapCamera();
 				gamePlay.drawMapBef();				
 			}
@@ -170,7 +174,7 @@ public class GamePlayScreen implements Screen{
 		
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
-				if ((gamePlay.getLevelIndex() == GameLogicInformation.CITY_LEVEL) && (gamePlay.getLights() == GamePlay.NO_LIGHTS)){
+				if ((gamePlay.getLevelInformation().getType() == GameLogicInformation.CITY_LEVEL) && (gamePlay.getLevelInformation().getLights() == GamePlay.NO_LIGHTS)){
 					spriteBatch.setShader(gamePlay.getShader());
 				}
 			}

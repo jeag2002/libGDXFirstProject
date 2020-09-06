@@ -1,5 +1,10 @@
 package com.mygdx.game.stages.elements;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.hide;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.show;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
@@ -160,6 +165,12 @@ public class GUIStageGamePlay {
 		clock.setVisible(false);
 		stage.addActor(clock);
 		
+		Enemy_1 = new Label("", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
+		Enemy_1.setPosition(SecondTestGDX.screenWidth/2-16, SecondTestGDX.screenHeight-100, Align.left);
+		Enemy_1.setVisible(false);
+		stage.addActor(Enemy_1);
+		
+		
 		time = new Label("00:00:00", new Label.LabelStyle(SecondTestGDX.resources.font2,Color.WHITE));
 		time.setPosition(SecondTestGDX.screenWidth/2 + 20, SecondTestGDX.screenHeight-35, Align.left);
 		time.setVisible(false);
@@ -244,7 +255,7 @@ public class GUIStageGamePlay {
 		
 	private void enableTagsProd(boolean show) {
 		
-		
+		Enemy_1.setVisible(false);
 		frameRate.setVisible(show);
 		pBarHealth.setVisible(show);
 		pBarShield.setVisible(show);
@@ -255,7 +266,11 @@ public class GUIStageGamePlay {
 		time.setVisible(show);
 		score.setVisible(show);
 		enemiesLeft.setVisible(show);
+		
 	}
+	
+	
+	
 	
 	
 	
@@ -393,7 +408,15 @@ public class GUIStageGamePlay {
 		score.setText("SCORE: " + scoreStr);
 		
 		String leftStr = StringUtils.leftPaddedString(3, (int)GameLogicInformation.getEnemiesLeft(gPS));
-		enemiesLeft.setText("LEFT: " + leftStr);
+		enemiesLeft.setText("LEFT: " + leftStr);	
+		
+		if (gPS.getGamePlay().isPlayerDied()) {
+			this.Enemy_1.setVisible(true);
+			this.Enemy_1.setText("GAME OVER");
+		}else if (gPS.getGamePlay().isNextLevel()) {
+			this.Enemy_1.setVisible(true);
+			this.Enemy_1.setText("LEVEL COMPLETE");
+		}
 		
 	}
 	

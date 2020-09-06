@@ -113,7 +113,7 @@ public class GameElementLogic {
 	
 	
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
-		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_C,this.world,this.gPS);
+		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
 	}
 	
@@ -196,14 +196,13 @@ public class GameElementLogic {
 		Item item = (Item)spawnPool.getFromPool(SpawnType.Item);
 		
 		SpawnType subType = SpawnType.Item_Bonus_Life;
-		int i = rand.nextInt(6);
+		int i = rand.nextInt(5);
 		
 		if (i == 0) {subType = SpawnType.Item_Bonus_Life;}
 		else if (i == 1) {subType = SpawnType.Item_Bonus_Shield;}
 		else if (i == 2) {subType = SpawnType.Item_Bonus_Gun;}
 		else if (i == 3){subType = SpawnType.Item_Bonus_Bullet;}
-		else if (i == 4){subType = SpawnType.Item_Bonus_Nuke;}
-		else if (i == 5){subType = SpawnType.Item_Bonus_Score;}
+		else if (i == 4){subType = SpawnType.Item_Bonus_Score;}
 		
 		item.init(rayHandler, subType , x+width/2-32, y+height/2-32, 64, 64);
 		item.setSpawned(true);

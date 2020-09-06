@@ -77,7 +77,7 @@ public class CollisionEngine implements ContactListener{
 		NewItem objectStrA = (NewItem)contact.getFixtureA().getBody().getUserData();
 		NewItem objectStrB = (NewItem)contact.getFixtureB().getBody().getUserData();
 		
-		Gdx.app.log("[COLLISION_ENGINE]","Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
+		//Gdx.app.log("[COLLISION_ENGINE]","Collision detected A (" + objectStrA.getIdCode() + ")" +  objectStrA.getType().toString() + " B (" + objectStrB.getIdCode() + ")" + objectStrB.getType().toString());
 		
 		//-->MISSILE ENEMY
 	    if (objectStrA.getType().equals(SpawnType.MissileEnemy)) {
@@ -213,12 +213,15 @@ public class CollisionEngine implements ContactListener{
 				}
 				
 				
-				
-				
+			}else if (other.getSubType().equals(SpawnType.Item_PlatformEndLevel)) {
+			
+			
+			
 			}else if (other.getSubType().equals(SpawnType.Item_Bonus_Shield) || 
 					other.getSubType().equals(SpawnType.Item_Bonus_Bullet) || 
 					other.getSubType().equals(SpawnType.Item_Bonus_Gun) ||
-					other.getSubType().equals(SpawnType.Item_Bonus_Life)) {
+					other.getSubType().equals(SpawnType.Item_Bonus_Life) ||
+					other.getSubType().equals(SpawnType.Item_Bonus_Score)) {
 				
 				boolean bonusAccepted = false;
 				
@@ -243,10 +246,11 @@ public class CollisionEngine implements ContactListener{
 						gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setAmmo(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getAmmo() + 100);
 						bonusAccepted = true;
 					}
-				
-				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Nuke)) {
 					
 				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Score)) {
+					
+					gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() * 2);
+					bonusAccepted = true;
 				
 				}else if (other.getSubType().equals(SpawnType.Item_Bonus_Bullet)) {
 					gPS.getGamePlay().changeTurretPlayer();
@@ -567,57 +571,85 @@ public class CollisionEngine implements ContactListener{
 						
 						object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
 						if (object != null) {
-							if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
-								gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
-							}
 							
 							if (!other.getType().equals(SpawnType.MissileEnemy)) {
 								
+								object.getStatsDynElement().setLife(object.getStatsDynElement().getLife()-miss.getStatsDynElement().getScore());
 								
-								if (other.getType().equals(SpawnType.Enemy_01)) {
+								if (object.getStatsDynElement().getLife() <= 0) {
+								
+									if (other.getType().equals(SpawnType.Enemy_01)) {
+										
+										SimpleEnemy dron = (SimpleEnemy)object;
+										other.setX(dron.getX());
+										other.setY(dron.getY());
+										other.setWidth(dron.getWidth());
+										other.setHeight(dron.getHeight());
+										
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + dron.getStatsDynElement().getScore());
+										createExplosionDynamic(other);
+										
+									}else if (other.getType().equals(SpawnType.Enemy_02)) {
+										
+										TankEnemy tank = (TankEnemy)object;
+										other.setX(tank.getX());
+										other.setY(tank.getY());
+										other.setWidth(tank.getWidth());
+										other.setHeight(tank.getHeight());
+										
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + tank.getStatsDynElement().getScore());
+										createExplosionDynamic(other);
+										
+									}else if (other.getType().equals(SpawnType.Enemy_03)) {
+										
+										WatchTowerEnemy watch = (WatchTowerEnemy)object;
+										other.setX(watch.getX());
+										other.setY(watch.getY());
+										other.setWidth(watch.getWidth());
+										other.setHeight(watch.getHeight());
+										
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + watch.getStatsDynElement().getScore());
+										createExplosionDynamic(other);
+										
+									}
 									
-									SimpleEnemy dron = (SimpleEnemy)object;
-									other.setX(dron.getX());
-									other.setY(dron.getY());
-									other.setWidth(dron.getWidth());
-									other.setHeight(dron.getHColl());
+									if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(object)) {
+										gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(object);
+									}
+								
+								}else {
 									
-									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
-									
-									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + dron.getStatsDynElement().getScore());
-									
-									createExplosionDynamic(other);
-									
-								}else if (other.getType().equals(SpawnType.Enemy_02)) {
-									
-									TankEnemy tank = (TankEnemy)object;
-									
-									other.setX(tank.getX());
-									other.setY(tank.getY());
-									other.setWidth(tank.getWidth());
-									other.setHeight(tank.getHColl());
-									
-									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
-									
-									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + tank.getStatsDynElement().getScore());
-									
-									createExplosionDynamic(other);
-									
-								}else if (other.getType().equals(SpawnType.Enemy_03)) {
-									
-									WatchTowerEnemy watch = (WatchTowerEnemy)object;
-									
-									other.setX(watch.getX());
-									other.setY(watch.getY());
-									other.setWidth(watch.getWidth());
-									other.setHeight(watch.getHColl());
-									
-									if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
-									
-									gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore() + watch.getStatsDynElement().getScore());
-									
-									createExplosionDynamic(other);
-									
+									if (other.getType().equals(SpawnType.Enemy_01)) {
+										
+										SimpleEnemy dron = (SimpleEnemy)object;
+										other.setX(dron.getX());
+										other.setY(dron.getY());
+										other.setWidth(dron.getWidth());
+										other.setHeight(dron.getHeight());
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										
+									}else if (other.getType().equals(SpawnType.Enemy_02)) {
+										
+										TankEnemy tank = (TankEnemy)object;
+										other.setX(tank.getX());
+										other.setY(tank.getY());
+										other.setWidth(tank.getWidth());
+										other.setHeight(tank.getHeight());
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										
+									}else if (other.getType().equals(SpawnType.Enemy_03)) {
+										
+										WatchTowerEnemy watch = (WatchTowerEnemy)object;
+										other.setX(watch.getX());
+										other.setY(watch.getY());
+										other.setWidth(watch.getWidth());
+										other.setHeight(watch.getHeight());
+										if (miss.getSubType().equals(SpawnType.Missile_Flame)) {createFlames(other);}
+										
+									}
 								}
 								
 			
@@ -777,7 +809,7 @@ public class CollisionEngine implements ContactListener{
 				}
 				
 				if (other.getType().equals(SpawnType.Player_01)) {
-					gPS.getGamePlay().processPlayerVariables();
+					gPS.getGamePlay().processPlayerVariables(object.getStatsDynElement().getScore());
 					gPS.getGamePlay().getGameLogic().crashSoundPlay();
 				}
 				

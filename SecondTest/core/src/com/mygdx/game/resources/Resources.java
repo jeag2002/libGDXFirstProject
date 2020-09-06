@@ -19,6 +19,10 @@ public class Resources extends AssetManager{
 	public BitmapFont font1;
 	public BitmapFont font2;
 	
+	private String fnt_1 = "fonts/digital.fnt";
+	public BitmapFont font3;
+	public BitmapFont font4;
+	
 	public String musicSplash = "music/start.mp3";
 	public String musicIntermission = "music/intermission.mp3";
 	public String musicGameplay_1 = "music/gameplay_1.mp3";
@@ -125,6 +129,7 @@ public class Resources extends AssetManager{
 	public String gunPlayer_01_B = "elements/player_1/Gun_02.png";
 	public String gunPlayer_01_C = "elements/player_1/Gun_03.png";
 	public String gunPlayer_01_D = "elements/player_1/Gun_04.png";
+	public String gunPlayer_01_E = "elements/player_1/Gun_05.png";
 	
 	public String bodyPlayer_01 = "elements/player_1/Hull_01_a.png";
 	public String track_01 = "elements/player/Track_1_A.png";
@@ -271,6 +276,8 @@ public class Resources extends AssetManager{
 	public String bonus_Nuke = "elements/bonus/Nuke_Bonus.png";
 	public String bonus_Coin = "elements/bonus/Coin_A.png";
 	
+	public String Window = "gui/afterplay/Window.png";
+	
 	
 	public void loadAssets() {
 		
@@ -279,6 +286,7 @@ public class Resources extends AssetManager{
 		fontParam.minFilter = Texture.TextureFilter.Linear;
 		
 		load(fnt,BitmapFont.class,fontParam);
+		load(fnt_1,BitmapFont.class,fontParam);
 		
 		load(testSquare, Texture.class);
 		
@@ -359,6 +367,7 @@ public class Resources extends AssetManager{
 		load(gunPlayer_01_B,Texture.class);
 		load(gunPlayer_01_C,Texture.class);
 		load(gunPlayer_01_D,Texture.class);
+		load(gunPlayer_01_E,Texture.class);
 		
 		
 		load(bodyPlayer_01,Texture.class);
@@ -523,6 +532,8 @@ public class Resources extends AssetManager{
 		load(Icon,Texture.class);
 		//////////////////////////////////////////
 		
+		load(Window,Texture.class);
+		
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}
@@ -537,5 +548,14 @@ public class Resources extends AssetManager{
 		font2 = get(fnt, BitmapFont.class);
 		font2.setColor(Color.WHITE);
 		font2.getData().setScale(0.5f,0.5f);
+		
+		font3 = get(fnt_1, BitmapFont.class);
+		font3.setColor(Color.WHITE);
+		font3.getData().setScale(2.0f,2.0f);
+		
+		font4 = get(fnt_1, BitmapFont.class);
+		font4.setColor(Color.WHITE);
+		font4.getData().setScale(1.0f,1.0f);
+		
 	}
 }
