@@ -54,6 +54,7 @@ public class GameLogicInformation {
 	public static final int CITY_LEVEL = 6;
 	public static final int SPACE_LEVEL = 7;
 	public static final int ISLAND_LEVEL = 8;
+	public static final int IDLE_LEVEL = 9;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;

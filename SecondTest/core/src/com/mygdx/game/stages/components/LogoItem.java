@@ -1,16 +1,21 @@
 package com.mygdx.game.stages.components;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.hide;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.show;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeBitmapFontData;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,6 +26,9 @@ import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.ElementsGUI;
 import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.screens.GamePlayScreen;
+
+import com.badlogic.gdx.files.FileHandle;
+
 
 public class LogoItem extends Actor {
 	
@@ -41,6 +49,11 @@ public class LogoItem extends Actor {
 	private Label objectiveList_2;
 	private Label objectiveList_3;
 	
+	private BitmapFont font;
+	private AssetManager manager;
+	
+	private float timer;
+	private boolean flag;
 	
 	public LogoItem(ElementsGUI typeProgressBar, Texture textureBase, GamePlayScreen gPS) {
 		
@@ -50,7 +63,23 @@ public class LogoItem extends Actor {
 		this.isVisible = false;
 		this.gPS = gPS;
 		
+		this.timer = 0;
+		this.flag = false;
+		
 		shapeRenderer = new ShapeRenderer();
+		
+		FileHandle file = new FileHandle("fonts/DS-DIGI.TTF");
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
+		
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 25;
+		parameter.color = Color.LIME;
+		
+		font = generator.generateFont(parameter);
+		generator.dispose();
+		
+
+		
 	}	
 	
 	public void setPosition(float X, float Y) {
@@ -189,37 +218,63 @@ public class LogoItem extends Actor {
 	private void drawLabelInfo(Batch batch, float parentAlpha) {
 		
 		String label_1 = "NEXT LEVEL: ";
-		text_level = new Label(label_1, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.YELLOW));
+		
+		this.font.draw(batch, label_1, X+30, Y+H-40);
+		
+		this.timer += parentAlpha;
+		
+		if (this.timer > 20) {
+			this.timer = 0;
+			this.flag = !this.flag;
+		}
+		
+		if (this.flag) {
+			this.font.draw(batch, gPS.getGamePlay().getLevelInformation().getLevelStr(), X+210, Y+H-40);
+		}
+		
+		String label_2 = "OBJECTIVES: ";
+		this.font.draw(batch, label_2, X+30, Y+H-90);
+		
+		this.font.draw(batch, "- ARRIVE TO EXIT IN TIME (YELLOW)", X+30, Y+H-120);
+		this.font.draw(batch, "- DESTROY ALL THE ENEMY TANKS", X+30, Y+H-150);
+		this.font.draw(batch, "- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", X+30, Y+H-180);
+		
+		
+		/*
+		text_level = new Label(label_1, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		text_level.setPosition(X+30, Y+H-40, Align.left);
 		text_level.setVisible(true);
 		text_level.draw(batch, parentAlpha);
 		
-		level = new Label(gPS.getGamePlay().getLevelInformation().getLevelStr(), new Label.LabelStyle(SecondTestGDX.resources.font3,Color.YELLOW));
+		level = new Label(gPS.getGamePlay().getLevelInformation().getLevelStr(), new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		level.setPosition(X+210, Y+H-40, Align.left);
 		level.setVisible(true);
 		level.draw(batch, parentAlpha);
-		
+		*/
 	
-		String label_2 = "OBJECTIVES: ";
-		objectives = new Label(label_2, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.YELLOW));
+	
+		
+		/*
+		objectives = new Label(label_2, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		objectives.setPosition(X+30, Y+H-90, Align.left);
 		objectives.setVisible(true);
 		objectives.draw(batch, parentAlpha);
 		
-		objectiveList_1 = new Label("- ARRIVE TO EXIT IN TIME (YELLOW)", new Label.LabelStyle(SecondTestGDX.resources.font4,Color.YELLOW));
+		objectiveList_1 = new Label("- ARRIVE TO EXIT IN TIME (YELLOW)", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		objectiveList_1.setPosition(X+30, Y+H-120, Align.left);
 		objectiveList_1.setVisible(true);
 		objectiveList_1.draw(batch, parentAlpha);
 		
-		objectiveList_2 = new Label("- DESTROY ALL THE ENEMY TANKS", new Label.LabelStyle(SecondTestGDX.resources.font4,Color.YELLOW));
+		objectiveList_2 = new Label("- DESTROY ALL THE ENEMY TANKS", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		objectiveList_2.setPosition(X+30, Y+H-150, Align.left);
 		objectiveList_2.setVisible(true);
 		objectiveList_2.draw(batch, parentAlpha);
 		
-		objectiveList_3 = new Label("- LEFT MAXIMUN " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", new Label.LabelStyle(SecondTestGDX.resources.font4,Color.YELLOW));
+		objectiveList_3 = new Label("- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
 		objectiveList_3.setPosition(X+30, Y+H-180, Align.left);
 		objectiveList_3.setVisible(true);
 		objectiveList_3.draw(batch, parentAlpha);
+		*/
 		
 	}
 	

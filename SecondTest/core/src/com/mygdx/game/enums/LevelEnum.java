@@ -9,7 +9,10 @@ public enum LevelEnum {
 	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 4),
 	WINTER(3,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100,0, 0),
 	VOLCANO(4,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0),
-	IDLE(12,"IDLE",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0);
+	CITY(5,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 6 ),
+	SPACE(6,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0),
+	BADLANDS(7,"BADLANDS DAY", GameLogicInformation.BADLAND_LEVEL, GameLogicInformation.NO_LIGHTS, 100,100,100,0),
+	IDLE(12,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0);
 	
 	
 	
