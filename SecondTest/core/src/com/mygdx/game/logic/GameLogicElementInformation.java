@@ -154,6 +154,15 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_PLAYER_1_E.getHeightShow())		
 	};
 	
+	public static final Texture[] cannonPlayer01FText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_PLAYER_1_F.getElementStr(),Texture.class), 
+					ElementEnum.GUN_PLAYER_1_F.getWidthBef(), 
+					ElementEnum.GUN_PLAYER_1_F.getHeightBef(), 
+					ElementEnum.GUN_PLAYER_1_F.getWidthShow(), 
+					ElementEnum.GUN_PLAYER_1_F.getHeightShow())		
+	};
+	
 	
 	
 	public static final Texture[] trackPlayerText = {
@@ -566,6 +575,17 @@ public class GameLogicElementInformation {
 			
 	};
 	
+	
+	public static final Texture[] grenade = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(
+					ElementEnum.GRENADE.getElementStr(),Texture.class),
+					ElementEnum.GRENADE.getWidthBef(),
+					ElementEnum.GRENADE.getHeightBef(),
+					ElementEnum.GRENADE.getWidthShow(),
+					ElementEnum.GRENADE.getHeightShow())
+			
+	};
 	
 	
 	public static final Texture[] bonus_gun = {

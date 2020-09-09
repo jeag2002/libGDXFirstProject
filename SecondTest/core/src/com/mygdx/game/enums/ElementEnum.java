@@ -98,7 +98,9 @@ public enum ElementEnum {
 	BONUS_NUKE(SecondTestGDX.resources.bonus_Nuke, 74, 128,128,32,32),
 	BONUS_SCORE(SecondTestGDX.resources.bonus_Coin, 75, 128,128,32,32),
 	
-	GUN_PLAYER_1_E(SecondTestGDX.resources.gunPlayer_01_E, 76, 94, 212, 32, 64);
+	GUN_PLAYER_1_E(SecondTestGDX.resources.gunPlayer_01_E, 76, 94, 212, 32, 64),
+	GUN_PLAYER_1_F(SecondTestGDX.resources.gunPlayer_01_F, 77, 94, 212, 32, 64),
+	GRENADE(SecondTestGDX.resources.grenade,78,512,512,32,32);
 	
 	
 	

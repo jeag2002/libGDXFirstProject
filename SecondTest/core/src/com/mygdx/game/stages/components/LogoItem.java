@@ -163,6 +163,7 @@ public class LogoItem extends Actor {
 		Texture texMissile = SecondTestGDX.resources.get(SecondTestGDX.resources.missile_1, Texture.class);
 		Texture texFlame = SecondTestGDX.resources.get(SecondTestGDX.resources.flame_4, Texture.class);
 		Texture texPulse = SecondTestGDX.resources.get(SecondTestGDX.resources.pulse, Texture.class);
+		Texture texGrenade = SecondTestGDX.resources.get(SecondTestGDX.resources.grenade, Texture.class);
 		
 		Sprite sprite_1 = null;
 		Sprite sprite_2 = null;
@@ -209,6 +210,14 @@ public class LogoItem extends Actor {
 			sprite_1.setSize(32, 32);
 			sprite_1.setPosition(X+W/2-16, Y+16);
 			sprite_1.draw(batch);
+			
+		}else if (gPS.getGamePlay().getGameLogic().getPlayer().getCannonType().equals(ElementEnum.GUN_PLAYER_1_F)) {
+			
+			sprite_1 = new Sprite(texGrenade);
+			sprite_1.setSize(32, 32);
+			sprite_1.setPosition(X+W/2-16, Y+16);
+			sprite_1.draw(batch);
+			
 		}
 		
 		
@@ -217,7 +226,7 @@ public class LogoItem extends Actor {
 	
 	private void drawLabelInfo(Batch batch, float parentAlpha) {
 		
-		String label_1 = "NEXT LEVEL: ";
+		String label_1 = "NEXT MISSION: ";
 		
 		this.font.draw(batch, label_1, X+30, Y+H-40);
 		
@@ -238,43 +247,6 @@ public class LogoItem extends Actor {
 		this.font.draw(batch, "- ARRIVE TO EXIT IN TIME (YELLOW)", X+30, Y+H-120);
 		this.font.draw(batch, "- DESTROY ALL THE ENEMY TANKS", X+30, Y+H-150);
 		this.font.draw(batch, "- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", X+30, Y+H-180);
-		
-		
-		/*
-		text_level = new Label(label_1, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		text_level.setPosition(X+30, Y+H-40, Align.left);
-		text_level.setVisible(true);
-		text_level.draw(batch, parentAlpha);
-		
-		level = new Label(gPS.getGamePlay().getLevelInformation().getLevelStr(), new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		level.setPosition(X+210, Y+H-40, Align.left);
-		level.setVisible(true);
-		level.draw(batch, parentAlpha);
-		*/
-	
-	
-		
-		/*
-		objectives = new Label(label_2, new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		objectives.setPosition(X+30, Y+H-90, Align.left);
-		objectives.setVisible(true);
-		objectives.draw(batch, parentAlpha);
-		
-		objectiveList_1 = new Label("- ARRIVE TO EXIT IN TIME (YELLOW)", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		objectiveList_1.setPosition(X+30, Y+H-120, Align.left);
-		objectiveList_1.setVisible(true);
-		objectiveList_1.draw(batch, parentAlpha);
-		
-		objectiveList_2 = new Label("- DESTROY ALL THE ENEMY TANKS", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		objectiveList_2.setPosition(X+30, Y+H-150, Align.left);
-		objectiveList_2.setVisible(true);
-		objectiveList_2.draw(batch, parentAlpha);
-		
-		objectiveList_3 = new Label("- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", new Label.LabelStyle(SecondTestGDX.resources.font3,Color.LIME));
-		objectiveList_3.setPosition(X+30, Y+H-180, Align.left);
-		objectiveList_3.setVisible(true);
-		objectiveList_3.draw(batch, parentAlpha);
-		*/
 		
 	}
 	

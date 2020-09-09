@@ -82,6 +82,21 @@ public class GamePlayScreen implements Screen{
 	}
 	
 	
+	public void initEndLevel() {
+		
+		GameLogicInformation.setLevel(GameLogicInformation.ENDLEVEL);
+		guiStage.activeGUI(GUIEnum.ENDLEVEL);
+		
+		stopMusic();
+		initMusic();
+		
+	}
+	
+	
+	public void initEndGame() {
+		
+	}
+	
 	@SuppressWarnings("deprecation")
 	public void initGamePlay() {
 		GameLogicInformation.setLevel(GameLogicInformation.GAMEPLAY);

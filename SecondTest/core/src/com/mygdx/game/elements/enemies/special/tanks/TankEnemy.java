@@ -95,6 +95,11 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     
     private Sound sfxMissile;
     private float sfxMissileVolume;
+    
+	
+
+	private int index_X;
+    private int index_Y;
 
 
 	private StateMachine<TankEnemy, TankEnemyStateEnum> stateMachine;
@@ -116,8 +121,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		
 		this.sfxShotVolume = 0.97f;
 		this.sfxMissileVolume = 0.25f;
-    	
-		
+	
+		this.index_X = 0;
+		this.index_Y = 0;
+    
 		setShotSound("sounds/laser4.mp3", sfxShotVolume);
 		setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
 		
@@ -553,6 +560,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
         Vector2 posRelative = super.getPositionFromBodyToPixel();
         super.setPosition(posRelative.x, posRelative.y);
         
+        this.index_X = (int)posRelative.x/SecondTestGDX.tileWidth_TL;
+        this.index_Y = (int)posRelative.y/SecondTestGDX.tileHeight_TL;
+        
+        
         enemy_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());
         enemy_parts.get(INDEX_TRACK_RIGHT).setPosition(getX()+40, getY());
         enemy_parts.get(INDEX_GUN).setPosition(getX()+(getWidth()/2)-(ElementEnum.GUN_ENEMY2.getWidthShow()/2), getY()+8);
@@ -607,6 +618,25 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		return this.subTypeEnemy;
 	}
 	
+	public int getIndex_X() {
+		return index_X;
+	}
+
+
+	public void setIndex_X(int index_X) {
+		this.index_X = index_X;
+	}
+
+
+	public int getIndex_Y() {
+		return index_Y;
+	}
+
+
+	public void setIndex_Y(int index_Y) {
+		this.index_Y = index_Y;
+	}
+
 	
 
 }

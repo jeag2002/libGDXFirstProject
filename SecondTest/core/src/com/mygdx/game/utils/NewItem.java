@@ -113,6 +113,31 @@ public class NewItem {
 		
 	}
 	
+	public NewItem(SpawnType type, String idCode, float X, float Y, float W, float H, int index_X, int index_Y) {
+		
+		
+		super();
+		this.type = type;
+		this.subType = SpawnType.Item;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = X;
+		this.Y = Y;
+		
+		this.index_X = index_X;
+		this.index_Y = index_Y;
+		
+		this.width = W;
+		this.height = H;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.index = 0;
+		this.idCode = idCode;
+		
+		
+	}
+	
+	
+	
 	
 	public NewItem(SpawnType type, SpawnType subType, String idCode, float X, float Y, float W, float H) {
 		
@@ -126,6 +151,30 @@ public class NewItem {
 		
 		this.index_X = 0;
 		this.index_Y = 0;
+		
+		this.width = W;
+		this.height = H;
+		this.angle = 0.0f;
+		this.speed = 0.0f;
+		this.index = 0;
+		this.idCode = idCode;
+		
+		
+	}
+	
+	
+	public NewItem(SpawnType type, SpawnType subType, String idCode, float X, float Y, float W, float H, int index_X, int index_Y) {
+		
+		
+		super();
+		this.type = type;
+		this.subType = subType;
+		this.ppEnum = DynamicElementPositionEnum.IDLE;
+		this.X = X;
+		this.Y = Y;
+		
+		this.index_X = index_X;
+		this.index_Y = index_Y;
 		
 		this.width = W;
 		this.height = H;

@@ -4,5 +4,6 @@ public enum GUIEnum {
 	START,
 	INTERMISSION,
 	GAMEPLAY,
+	ENDLEVEL,
 	NOTHING;
 }

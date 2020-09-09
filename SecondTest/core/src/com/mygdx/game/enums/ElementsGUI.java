@@ -7,5 +7,7 @@ public enum ElementsGUI {
 	PROGRESSBARAMMO,
 	RADAR,
 	ICON,
-	MSGWINDOWS;
+	MSGWINDOWS,
+	SCORE,
+	IDLE;
 }

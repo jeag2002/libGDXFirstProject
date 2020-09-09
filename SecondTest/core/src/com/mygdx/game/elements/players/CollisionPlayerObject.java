@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.utils.NewItem;
@@ -18,6 +19,8 @@ public class CollisionPlayerObject{
     private float Y;
 	private float W;
     private float H;
+    private int index_X;
+    private int index_Y;
     
     private World world;
     private Body body;
@@ -37,6 +40,9 @@ public class CollisionPlayerObject{
     	this.Y = 0;
     	this.W = 0;
     	this.H = 0;
+        this.index_X = 0;
+        this.index_Y = 0;
+        
     	this.idCode = idCode;
     	this.world = world;
     	this.spawnType = type;
@@ -53,6 +59,9 @@ public class CollisionPlayerObject{
     	this.Y = 0;
     	this.W = 0;
     	this.H = 0;
+    	this.index_X = 0;
+        this.index_Y = 0;
+        
     	this.idCode = idCode;
     	this.world = world;
     	this.spawnType = type;
@@ -96,7 +105,11 @@ public class CollisionPlayerObject{
     	
     	body.createFixture(fixtureDef);
     	
-    	body.setUserData(new NewItem(spawnType, spawnSubType, idCode, X, Y, W, H));
+        this.index_X = (int)X/SecondTestGDX.tileWidth_TL;
+        this.index_Y = (int)Y/SecondTestGDX.tileHeight_TL;
+    	
+    	
+    	body.setUserData(new NewItem(spawnType, spawnSubType, idCode, X, Y, W, H, index_X, index_Y));
     	shape.dispose();
     
     }

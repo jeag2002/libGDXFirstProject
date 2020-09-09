@@ -92,6 +92,7 @@ public class GUIStageStart {
 	          		@Override
 	          	    public void run() {
 	          			gPS.initGamePlay();
+	          			//gPS.initEndLevel();
 	          			Gdx.app.log("[GUISTAGESTART]", "INIT GAMEPLAY");
 	          		}},6);
 	        	  

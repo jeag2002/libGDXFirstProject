@@ -107,7 +107,7 @@ public class GamePlay {
 		this.playerDied = false;	//-->GAMEOVER
 		
 		this.level = LevelEnum.IDLE;
-		this.nextLevelIndex = 6;
+		this.nextLevelIndex = 0;
 
 		this.exit = new NewItem();
 		
@@ -137,7 +137,8 @@ public class GamePlay {
 		
 		if (
 		(GameLogicInformation.getLevel() == GameLogicInformation.START) || 
-		(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION)){
+		(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION) ||
+		(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL)){
 			initStart();
 		}else if (GameLogicInformation.getLevel() > GameLogicInformation.INTERMISSION) {
 			initGamePlay();
@@ -477,7 +478,8 @@ public class GamePlay {
 	
 	public void drawBackground(SpriteBatch sb) {
 		if ((GameLogicInformation.getLevel() == GameLogicInformation.START) || 
-			(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION)){
+			(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION) ||
+			(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL)){
 			background.draw(sb);
 		}
 	}

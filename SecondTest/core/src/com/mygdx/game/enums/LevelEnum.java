@@ -5,7 +5,7 @@ import com.mygdx.game.logic.*;
 public enum LevelEnum {
 	
 	DESERT(0,"DESERT DAY",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0),
-	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 100, 4),
+	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS, 0, 0, 100, 4),
 	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 4),
 	WINTER(3,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100,0, 0),
 	VOLCANO(4,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0),

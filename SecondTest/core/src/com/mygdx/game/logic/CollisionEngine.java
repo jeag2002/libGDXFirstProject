@@ -153,6 +153,57 @@ public class CollisionEngine implements ContactListener{
 			}
 		}
 		
+		
+		ArrayList<SpawnObject> drons =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_01);
+		for(SpawnObject dron: drons) {
+			SimpleEnemy e1 = (SimpleEnemy)dron;
+			
+			if ((e1.getIndex_X() == index_x) && (e1.getIndex_Y() == index_y)) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(dron)) {
+					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(dron);
+				}
+			}
+		}
+		
+		ArrayList<SpawnObject> tanks =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_02);
+		for(SpawnObject tank: tanks) {
+			TankEnemy e2 = (TankEnemy)tank;
+			
+			if ((e2.getIndex_X() == index_x) && (e2.getIndex_Y() == index_y)) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(e2)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(e2);
+				}
+			}
+			
+			
+		}
+		
+		ArrayList<SpawnObject> turrets =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_03);
+		for(SpawnObject turret: turrets) {
+			WatchTowerEnemy centroid = (WatchTowerEnemy)turret;
+			if ((centroid.getIndex_X() == index_x) && (centroid.getIndex_Y() == index_y)) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(turret)) {
+					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(turret);
+			}
+				
+			}
+		}
+		
+		ArrayList<SpawnObject> mines =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Item);
+		for(SpawnObject mine: mines) {
+			Item item = (Item)mine;
+			if (item.getSubType().equals(SpawnType.Item_Mine)) {
+				if ((item.getIndex_X() == index_x) && (item.getIndex_Y() == index_y)) {
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(mine)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(mine);
+					}
+				}
+			}
+			
+		}
+		
+		
+		
 	}
 	
 	
@@ -562,6 +613,12 @@ public class CollisionEngine implements ContactListener{
 					}
 					
 					Missile miss = (Missile)object;
+					
+					if (miss.getSubType().equals(SpawnType.Missile_Grenade)) {
+						createVoidForMineExplosion(other);
+						createBigExplosionDynamic(other); 
+					}
+					
 					
 				
 					if (other.getType().equals(SpawnType.Enemy_01) ||

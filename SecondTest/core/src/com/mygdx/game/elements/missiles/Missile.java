@@ -101,6 +101,9 @@ public class Missile extends DynamicCollPlayerObject implements SpawnObject {
 	     }else if (subType.equals(SpawnType.Missile_Flame)) {
 	    	 text_laser_1 = GameLogicElementInformation.flame;
 	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
+	     }else if (subType.equals(SpawnType.Missile_Grenade)) {
+	    	 text_laser_1 = GameLogicElementInformation.grenade;
+	    	 eDO = new ElementDefinitionObject.Builder().setScore(eDU.getScore()).build();
 	     }
 	     
 		 

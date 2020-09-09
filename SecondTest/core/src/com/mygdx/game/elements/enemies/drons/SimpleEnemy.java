@@ -73,6 +73,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	
     private Sound sfxShot;
     private float sfxShotVolume; 
+    
+	private int index_X;
+    private int index_Y;
 	
 		
 	public SimpleEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
@@ -91,6 +94,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		
 		this.angle = 0.0f;
 		this.angleShooting = 0.0f;
+		
+	    this.index_X = 0;
+	    this.index_Y = 0;
 		
 		this.isSpawned = false;
 		
@@ -293,6 +299,9 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		float posX = this.getXColl() * GameLogicInformation.PIXELS_TO_METERS - getWidth()/2;
 		float posY = this.getYColl() * GameLogicInformation.PIXELS_TO_METERS - getHeight()/2;
 		super.setPosition(posX, posY);
+		
+        this.index_X = (int)posX/SecondTestGDX.tileWidth_TL;
+        this.index_Y = (int)posY/SecondTestGDX.tileHeight_TL;
 	}
 	
 	
@@ -389,5 +398,22 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 	public SpawnType getSubType() {
 		return this.typeEnemy;
 	}
+	
+	public int getIndex_X() {
+		return index_X;
+	}
+
+	public void setIndex_X(int index_X) {
+		this.index_X = index_X;
+	}
+
+	public int getIndex_Y() {
+		return index_Y;
+	}
+
+	public void setIndex_Y(int index_Y) {
+		this.index_Y = index_Y;
+	}
+
 	
 }

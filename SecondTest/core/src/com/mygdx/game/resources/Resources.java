@@ -30,6 +30,8 @@ public class Resources extends AssetManager{
 	public String musicGameplay_4 = "music/gameplay_4.mp3";
 	public String musicGameplay_5 = "music/gameplay_5.mp3";
 	public String musicGameplay_6 = "music/gameplay_6.mp3";
+	public String musicAfterLevel = "music/afterlevel.mp3";
+	
 	
 	public String testSquare = "test/square.png";
 	
@@ -129,6 +131,7 @@ public class Resources extends AssetManager{
 	public String gunPlayer_01_C = "elements/player_1/Gun_03.png";
 	public String gunPlayer_01_D = "elements/player_1/Gun_04.png";
 	public String gunPlayer_01_E = "elements/player_1/Gun_05.png";
+	public String gunPlayer_01_F = "elements/player_1/Gun_06.png";
 	
 	public String bodyPlayer_01 = "elements/player_1/Hull_01_a.png";
 	public String track_01 = "elements/player/Track_1_A.png";
@@ -206,6 +209,7 @@ public class Resources extends AssetManager{
 	public String pulse = "elements/shots/laser/Proton.png";
 	public String missile = "elements/shots/missile/Heavy_Shell.png";
 	public String missile_1 = "elements/shots/missile/rocket.png";
+	public String grenade = "elements/shots/grenade/grenade.png";
 	
 	
 	//lightmaps
@@ -275,7 +279,22 @@ public class Resources extends AssetManager{
 	public String bonus_Nuke = "elements/bonus/Nuke_Bonus.png";
 	public String bonus_Coin = "elements/bonus/Coin_A.png";
 	
+		
+	
+	//AFTER PLAY
+	//////////////////////////////////////////////////////////////////
+	public String HeaderTable = "gui/afterplay/Header_Table.png";
 	public String Window = "gui/afterplay/Window.png";
+	public String Defeat = "gui/afterplay/Defeat.png";
+	public String Victory = "gui/afterplay/Victory.png";
+	public String Score = "gui/afterplay/Score.png";
+	public String DecorTable = "gui/afterplay/Decor_Table.png";
+	public String MenuBTN = "gui/afterplay/Menu_BTN.png";
+	public String PlayBTN = "gui/afterplay/Play_BTN.png";
+	public String GoldStar = "gui/afterplay/Star_01.png";
+	public String Table01 = "gui/afterplay/Table_01.png";
+	public String Table03 = "gui/afterplay/Table_03.png";
+	///////////////////////////////////////////////////////////////////
 	
 	
 	public void loadAssets() {
@@ -294,6 +313,7 @@ public class Resources extends AssetManager{
 		
 		load(musicSplash,Music.class);
 		load(musicIntermission,Music.class);
+		load(musicAfterLevel, Music.class);
 		
 		load(musicGameplay_1,Music.class);
 		load(musicGameplay_2,Music.class);
@@ -367,6 +387,7 @@ public class Resources extends AssetManager{
 		load(gunPlayer_01_C,Texture.class);
 		load(gunPlayer_01_D,Texture.class);
 		load(gunPlayer_01_E,Texture.class);
+		load(gunPlayer_01_F,Texture.class);
 		
 		
 		load(bodyPlayer_01,Texture.class);
@@ -468,6 +489,7 @@ public class Resources extends AssetManager{
 		load(pulse ,Texture.class);
 		load(missile,Texture.class);
 		load(missile_1,Texture.class);
+		load(grenade,Texture.class);
 		
 		load(flame_1,Texture.class);
 		load(flame_2,Texture.class);
@@ -531,8 +553,19 @@ public class Resources extends AssetManager{
 		load(Icon,Texture.class);
 		//////////////////////////////////////////
 		
+		//////////////////////////////////////////
 		load(Window,Texture.class);
-		
+		load(HeaderTable,Texture.class);
+		load(Defeat,Texture.class);
+		load(Victory,Texture.class);
+		load(Score,Texture.class);
+		load(DecorTable,Texture.class);
+		load(MenuBTN,Texture.class);
+		load(PlayBTN,Texture.class);
+		load(GoldStar,Texture.class);
+		load(Table01,Texture.class);
+		load(Table03,Texture.class);
+		/////////////////////////////////////////
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
 	}

@@ -22,7 +22,9 @@ public class GameLogicInformation {
 	
 	public static final int START = 0;
 	public static final int INTERMISSION = 1;
-	public static final int GAMEPLAY = 2;
+	public static final int ENDLEVEL = 2;
+	public static final int ENDGAME = 3;
+	public static final int GAMEPLAY = 4;
 	
 	public static final float PIXELS_TO_METERS = 100f;
 	
@@ -125,6 +127,7 @@ public class GameLogicInformation {
 	
 	public static final String backGround_Start_MP3 = SecondTestGDX.resources.musicSplash;
 	public static final String backGround_Intermission_MP3 = SecondTestGDX.resources.musicIntermission;
+	public static final String backGround_AfterLevel_MP3 = SecondTestGDX.resources.musicAfterLevel;
 	
 	private static BackgroundMusicEnum mEnum;
 	
@@ -198,6 +201,10 @@ public class GameLogicInformation {
 		if (level == START) {
 			return backGround_Start_MP3;
 		}else if (level == INTERMISSION) {
+			return backGround_Intermission_MP3;
+		}else if (level == ENDLEVEL) {
+			return backGround_AfterLevel_MP3;
+		}else if (level == ENDGAME) {	
 			return backGround_Intermission_MP3;
 		}else {
 			mEnum = BackgroundMusicEnum.MUSIC_1;

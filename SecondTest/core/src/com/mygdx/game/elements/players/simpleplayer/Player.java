@@ -55,7 +55,6 @@ public class Player extends ShootPlayerObject{
 	private PlayerMovementsEnum orientationA;
 	private PlayerMovementsEnum orientationS;
 	private PlayerMovementsEnum orientationSHOOT;
-	private PlayerMovementsEnum orientationCHANGE;
 	private PlayerMovementsEnum orientationMOUSEMOVE;
 	
 	
@@ -73,6 +72,9 @@ public class Player extends ShootPlayerObject{
     
     private Sound sfxMissile;
     private float sfxMissileVolume;
+    
+    private Sound sfxGrenade;
+    private float sfxGrenadeVolume;
     
 	private PointLight myLight_point;
 	private ConeLight myLight_cone;
@@ -114,7 +116,6 @@ public class Player extends ShootPlayerObject{
     	this.orientationA= PlayerMovementsEnum.IDLE;
     	this.orientationS= PlayerMovementsEnum.IDLE;
     	this.orientationSHOOT= PlayerMovementsEnum.IDLE;
-    	this.orientationCHANGE= PlayerMovementsEnum.IDLE;
     	this.orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
     	
     	
@@ -129,10 +130,13 @@ public class Player extends ShootPlayerObject{
     	this.sfxShotVolume = 0.97f;
     	this.sfxFlameVolume = 0.25f;
     	this.sfxMissileVolume = 0.25f;
-    	
+    	this.sfxGrenadeVolume = 0.25f;
+    
+       	
 	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
 	    setFlameSound("sounds/flamethrow.mp3", sfxFlameVolume); 
 	    setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
+	    setGrenadeSound("sounds/grenade.mp3", sfxGrenadeVolume); 
 	    
 	    super.resetGuns();
 		
@@ -219,20 +223,26 @@ public class Player extends ShootPlayerObject{
     	DynElementPart gun = new DynElementPart(DynamicElementPartType.GUN_PLAYER);
     	Texture gunTXT[] = null;
     	if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {				//-->single shoot
+    		
     		gunTXT = GameLogicElementInformation.cannonPlayer01AText;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_PLAYER_1_A.getWidthShow(), ElementEnum.GUN_PLAYER_1_A.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_A.getWidthShow()/2), iniPositionY+8);
+        	
     	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {		 	//-->double shoot
+    		
     		gunTXT = GameLogicElementInformation.cannonPlayer01BText;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_PLAYER_1_B.getWidthShow(), ElementEnum.GUN_PLAYER_1_B.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_B.getWidthShow()/2), iniPositionY+8);
+        	
     	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)) {		   //--> missile
+    		
     		gunTXT = GameLogicElementInformation.cannonPlayer01CText;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_PLAYER_1_C.getWidthShow(), ElementEnum.GUN_PLAYER_1_C.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_C.getWidthShow()/2), iniPositionY+8);
+        	
     	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)) {			//--> flame	
     		
     		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
@@ -241,10 +251,19 @@ public class Player extends ShootPlayerObject{
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_D.getWidthShow()/2), iniPositionY+8);
         	
     	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {			//--> pulse
+    		
     		gunTXT = GameLogicElementInformation.cannonPlayer01EText;
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_PLAYER_1_E.getWidthShow(), ElementEnum.GUN_PLAYER_1_E.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_E.getWidthShow()/2), iniPositionY+8);
+    	
+    	}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_F)) {			//--> grenade
+    		
+    		gunTXT = GameLogicElementInformation.cannonPlayer01FText;
+    		gun.init(gunTXT, 0);
+    		gun.setSize(ElementEnum.GUN_PLAYER_1_F.getWidthShow(), ElementEnum.GUN_PLAYER_1_F.getHeightShow());
+        	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_PLAYER_1_F.getWidthShow()/2), iniPositionY+8);
+    		
     	}
     	
     	player_parts.add(gun);
@@ -410,10 +429,11 @@ public class Player extends ShootPlayerObject{
 				this.addGun(SpawnType.Missile_Pulse, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
 				this.eDO.setAmmo(this.eDO.getAmmo()-1);
 				sfxShot.play();
+			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_F)) {
+				this.addGun(SpawnType.Missile_Grenade, shootAngle, speedGun, x , y, 0, 0, ElementEnum.GRENADE.getWidthShow(), ElementEnum.GRENADE.getHeightShow());
+				this.eDO.setAmmo(this.eDO.getAmmo()-1);
+				sfxGrenade.play();
 			}
-			
-			//this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
-			
 			
 			this.setShootEvent(true);
 			
@@ -632,6 +652,11 @@ public class Player extends ShootPlayerObject{
 	public void setMissileSound(String path, float volume) {
 		sfxMissile = Gdx.audio.newSound(Gdx.files.internal(path));
 		sfxMissileVolume = volume;
+	}
+	
+	public void setGrenadeSound(String path, float volume) {
+		sfxGrenade = Gdx.audio.newSound(Gdx.files.internal(path));
+		sfxGrenadeVolume = volume;
 	}
 
 	

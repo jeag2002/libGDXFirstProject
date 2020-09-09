@@ -16,7 +16,8 @@ public enum ElementDataEnum {
 	PLASMA(7,"PLASMA",SpawnType.Missile_Plasma,0,0,0,1),
 	PULSE(8,"PULSE",SpawnType.Missile_Pulse,0,0,0, 2),
 	MISSILE(9,"MISSILE",SpawnType.Missile_Missile,0,0,0, 4),
-	FLAME(10,"FLAME",SpawnType.Missile_Flame,0,0,0, 5);
+	FLAME(10,"FLAME",SpawnType.Missile_Flame,0,0,0, 5),
+	GRENADE(11,"GRENADE",SpawnType.Missile_Grenade,0,0,0,6);
 	
 	
 	private int index;

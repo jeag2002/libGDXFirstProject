@@ -58,6 +58,11 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
     private Sound sfxShot;
     private float sfxShotVolume; 
 	
+	
+
+	private int index_X;
+    private int index_Y;
+
 		
 	public WatchTowerEnemy(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(spawnPool, type, world);
@@ -75,6 +80,9 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		
 		this.angle = 0.0f;
 		
+		this.index_X = 0;
+		this.index_Y = 0;
+		
 		this.isSpawned = false;
 		
 		setShotSound("sounds/laser4.mp3", sfxShotVolume);
@@ -89,6 +97,10 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		setSize(width, height);
 		setPosition(iniPositionX, iniPositionY);
 		setSpeed(0, 0);
+		
+		
+        this.index_X = (int)iniPositionX/SecondTestGDX.tileWidth_TL;
+        this.index_Y = (int)iniPositionY/SecondTestGDX.tileHeight_TL;
 		
 		setShootingActive(activateGun);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);
@@ -299,6 +311,22 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 	public SpawnType getSubType() {
 		// TODO Auto-generated method stub
 		return this.typeEnemy;
+	}
+	
+	public int getIndex_X() {
+		return index_X;
+	}
+
+	public void setIndex_X(int index_X) {
+		this.index_X = index_X;
+	}
+
+	public int getIndex_Y() {
+		return index_Y;
+	}
+
+	public void setIndex_Y(int index_Y) {
+		this.index_Y = index_Y;
 	}
 	
 }

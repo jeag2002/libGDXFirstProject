@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.utils.NewItem;
@@ -67,7 +68,12 @@ public class CollisionEnemiesObject extends IASteeringBehaviourEnemiesObject{
     	
     	body.createFixture(fixtureDef);
     	
-    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H));
+    	int index_X = (int)X/SecondTestGDX.tileWidth_TL;
+    	int index_Y = (int)Y/SecondTestGDX.tileHeight_TL;
+    	
+    	
+    	body.setUserData(new NewItem(spawnType, idCode, X, Y, W, H, index_X, index_Y));
+    	
     	
     	super.iniBehaviour(body,10.0f);
     	

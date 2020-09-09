@@ -60,6 +60,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	private ElementDefinitionObject eDO;
 	
+	private int index_X;
+    private int index_Y;
+	
 	
 	public Item(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
 		super(world,type);
@@ -110,6 +113,9 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		}
 		setPosition(iniPositionX, iniPositionY);
 	
+        this.index_X = (int)iniPositionX/SecondTestGDX.tileWidth_TL;
+        this.index_Y = (int)iniPositionY/SecondTestGDX.tileHeight_TL;
+		
 		
 		setPositionPart(iniPositionX, iniPositionY);
 		
@@ -383,6 +389,22 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	public ElementDefinitionObject getStatsDynElement() {
 		return this.eDO;
+	}
+	
+	public int getIndex_X() {
+		return index_X;
+	}
+
+	public void setIndex_X(int index_X) {
+		this.index_X = index_X;
+	}
+
+	public int getIndex_Y() {
+		return index_Y;
+	}
+
+	public void setIndex_Y(int index_Y) {
+		this.index_Y = index_Y;
 	}
 	
 	
