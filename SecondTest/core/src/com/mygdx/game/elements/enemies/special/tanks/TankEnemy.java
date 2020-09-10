@@ -1,6 +1,7 @@
 package com.mygdx.game.elements.enemies.special.tanks;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
@@ -20,8 +21,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.game.SecondTestGDX;
 import com.mygdx.game.elements.DynElementPart;
 import com.mygdx.game.elements.ElementDefinitionObject;
-import com.mygdx.game.elements.enemies.drons.SimpleEnemy;
-import com.mygdx.game.elements.enemies.drons.SimpleEnemyStateEnum;
 import com.mygdx.game.elements.enemies.special.ShootTankObject;
 import com.mygdx.game.enums.DynamicElementPartType;
 import com.mygdx.game.enums.ElementDataEnum;
@@ -96,7 +95,14 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     private Sound sfxMissile;
     private float sfxMissileVolume;
     
+    private Sound sfxGrenade;
+    private float sfxGrenadeVolume;
+    
+    private Sound sfxFlame;
+    private float sfxFlameVolume; 
 	
+    private SpawnType typeCannon;
+    
 
 	private int index_X;
     private int index_Y;
@@ -119,14 +125,20 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		this.previousNode = new NewItem();
 		enemy_parts = new ArrayList<DynElementPart>();
 		
-		this.sfxShotVolume = 0.97f;
-		this.sfxMissileVolume = 0.25f;
+    	this.sfxShotVolume = 0.97f;
+    	this.sfxFlameVolume = 0.25f;
+    	this.sfxMissileVolume = 0.25f;
+    	this.sfxGrenadeVolume = 0.25f;
 	
 		this.index_X = 0;
 		this.index_Y = 0;
+		
+		this.typeCannon = SpawnType.Item;
     
-		setShotSound("sounds/laser4.mp3", sfxShotVolume);
-		setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
+	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
+	    setFlameSound("sounds/flamethrow.mp3", sfxFlameVolume); 
+	    setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
+	    setGrenadeSound("sounds/grenade.mp3", sfxGrenadeVolume); 
 		
 	}
 	
@@ -254,27 +266,50 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
     		
     	}
     	
+    	Random ran = new Random();
+    	int next = ran.nextInt(2);
     	
     	
     	DynElementPart gun = new DynElementPart(DynamicElementPartType.GUN_ENEMY_2);
     	Texture gunTXT[] = null;
     	if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
     		
-    		gunTXT = GameLogicElementInformation.cannonEnemy02Text;
+    		if (next == 0) {
+    			gunTXT = GameLogicElementInformation.cannonEnemy02Text;
+    			this.typeCannon = SpawnType.Missile_Laser;
+    		}else {
+    			this.typeCannon = SpawnType.Missile_Pulse;
+    			gunTXT = GameLogicElementInformation.cannonEnemy02_AText;
+    		}
+    		
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_ENEMY2.getWidthShow(), ElementEnum.GUN_ENEMY2.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY2.getWidthShow()/2), iniPositionY+8);
         	
     	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
     		
-    		gunTXT = GameLogicElementInformation.cannonEnemy02_1Text;
+    		if (next == 0) {
+    			gunTXT = GameLogicElementInformation.cannonEnemy02_1Text;
+    			this.typeCannon = SpawnType.Missile_Plasma;
+    		}else {
+    			this.typeCannon = SpawnType.Missile_Flame;
+    			gunTXT = GameLogicElementInformation.cannonEnemy02_1_AText;	
+    		}
+    		
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_ENEMY3.getWidthShow(), ElementEnum.GUN_ENEMY3.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY3.getWidthShow()/2), iniPositionY+8);
         	
     	}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_3)) {
     		
-    		gunTXT = GameLogicElementInformation.cannonEnemy02_2Text;
+    		if (next == 0) {
+    			this.typeCannon = SpawnType.Missile_Missile;
+    			gunTXT = GameLogicElementInformation.cannonEnemy02_2Text;
+    		}else {
+    			this.typeCannon = SpawnType.Missile_Grenade;
+    			gunTXT = GameLogicElementInformation.cannonEnemy02_2_AText;
+    		}
+    		
     		gun.init(gunTXT, 0);
     		gun.setSize(ElementEnum.GUN_ENEMY4.getWidthShow(), ElementEnum.GUN_ENEMY4.getHeightShow());
         	gun.setPosition(iniPositionX+(width/2)-(ElementEnum.GUN_ENEMY4.getWidthShow()/2), iniPositionY+8);
@@ -477,16 +512,25 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 
 				timer = 0.0f;
 				
-				if (this.subTypeEnemy.equals(SpawnType.Tank_Level_1)) {
-					this.addGun(SpawnType.Missile_Plasma, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+				if (this.typeCannon.equals(SpawnType.Missile_Laser)) {
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 					sfxShot.play();
-				}else if (this.subTypeEnemy.equals(SpawnType.Tank_Level_2)) {
+				}else if (this.typeCannon.equals(SpawnType.Missile_Plasma)) {
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
 					sfxShot.play();
-				}else {
+				}else if (this.typeCannon.equals(SpawnType.Missile_Pulse)){
+					this.addGun(SpawnType.Missile_Pulse, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
+					sfxShot.play();
+				}else if (this.typeCannon.equals(SpawnType.Missile_Missile)){
 					this.addGun(SpawnType.Missile_Missile, angleTurret-90, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
 					sfxMissile.play(sfxMissileVolume);
+				}else if (this.typeCannon.equals(SpawnType.Missile_Flame)){
+					this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
+					sfxFlame.play(sfxFlameVolume);
+				}else if (this.typeCannon.equals(SpawnType.Missile_Grenade)) {
+					this.addGun(SpawnType.Missile_Grenade, shootAngle, speedGun, x , y, 0, 0, ElementEnum.GRENADE.getWidthShow(), ElementEnum.GRENADE.getHeightShow());
+					sfxGrenade.play(sfxGrenadeVolume);
 				}
 				
 				
@@ -496,6 +540,15 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	 }
 	
 	
+    public void setFlameSound(String path, float volume) {
+	     sfxFlame = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxFlameVolume = volume;
+	}
+    
+    public void setGrenadeSound(String path, float volume) {
+		sfxGrenade = Gdx.audio.newSound(Gdx.files.internal(path));
+		sfxGrenadeVolume = volume;
+	}
 	
 	
 	private void checkTANKFindNode() {
@@ -560,8 +613,8 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
         Vector2 posRelative = super.getPositionFromBodyToPixel();
         super.setPosition(posRelative.x, posRelative.y);
         
-        this.index_X = (int)posRelative.x/SecondTestGDX.tileWidth_TL;
-        this.index_Y = (int)posRelative.y/SecondTestGDX.tileHeight_TL;
+        this.index_X = Math.round(posRelative.x)/SecondTestGDX.tileWidth_TL;
+        this.index_Y = Math.round(posRelative.y)/SecondTestGDX.tileHeight_TL;
         
         
         enemy_parts.get(INDEX_TRACK_LEFT).setPosition(getX()+8, getY());

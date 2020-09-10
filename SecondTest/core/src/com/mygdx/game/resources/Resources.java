@@ -164,18 +164,24 @@ public class Resources extends AssetManager{
 	
 	//enemy_2 (TANK_1)
 	public String gunEnemy_2_A = "elements/enemy_2/Gun_01.png";
+	public String gunEnemy_2_A_1 = "elements/enemy_2/Gun_02.png";
+	
 	public String hullEnemy_2_A = "elements/enemy_2/Hull_01.png";
 	public String tire_03 = "elements/tires/Tire_Track_03.png";
 	public String tire_04 = "elements/tires/Tire_Track_04.png";
 	
 	//enemy_2 (TANK_2)
 	public String gunEnemy_2_B = "elements/enemy_2_1/Gun_06.png";
+	public String gunEnemy_2_B_1 = "elements/enemy_2_1/Gun_04.png";
+	
 	public String hullEnemy_2_B = "elements/enemy_2_1/Hull_05.png";
 	public String tire_05 = "elements/tires/Tire_Track_05.png";
 	public String tire_06 = "elements/tires/Tire_Track_06.png";
 	
 	//enemy_2 (TANK_3)
 	public String gunEnemy_2_C = "elements/enemy_2_2/Gun_08.png";
+	public String gunEnemy_2_C_1 = "elements/enemy_2_2/Gun_03.png";
+	
 	public String hullEnemy_2_C = "elements/enemy_2_2/Hull_06.png";
 	
 	
@@ -444,6 +450,8 @@ public class Resources extends AssetManager{
 		
 		//enemy_2
 		load(gunEnemy_2_A,Texture.class);
+		load(gunEnemy_2_A_1,Texture.class);
+		
 		load(hullEnemy_2_A ,Texture.class);
 		load(tire_03 ,Texture.class);
 		load(tire_04 ,Texture.class);
@@ -451,12 +459,15 @@ public class Resources extends AssetManager{
 		
 		//enemy_2 (TANK_2)
 		load(gunEnemy_2_B,Texture.class);
+		load(gunEnemy_2_B_1,Texture.class);
+		
 		load(hullEnemy_2_B ,Texture.class);
 		load(tire_05 ,Texture.class);
 		load(tire_06 ,Texture.class);
 		
 		//enemy_2 (TANK_3)
 		load(gunEnemy_2_C ,Texture.class);
+		load(gunEnemy_2_C_1 ,Texture.class);
 		load(hullEnemy_2_C  ,Texture.class);
 		
 		

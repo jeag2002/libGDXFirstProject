@@ -107,7 +107,7 @@ public class GamePlay {
 		this.playerDied = false;	//-->GAMEOVER
 		
 		this.level = LevelEnum.IDLE;
-		this.nextLevelIndex = 0;
+		this.nextLevelIndex = 2;
 
 		this.exit = new NewItem();
 		

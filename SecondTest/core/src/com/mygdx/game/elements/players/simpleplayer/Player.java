@@ -408,35 +408,36 @@ public class Player extends ShootPlayerObject{
 				y = (float) ((getY()) + 50.0 * Math.sin(shootAngle*MathUtils.degRad));
 			}
 			
-			if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {
-				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-1);
-				sfxShot.play();
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {
-				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
-				this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-2);
-				sfxShot.play();
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)){
-				this.addGun(SpawnType.Missile_Missile, shootAngle+180, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-1);
-				sfxMissile.play(sfxMissileVolume);
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)){
-				this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-1);
-				sfxFlame.play(sfxFlameVolume);
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {
-				this.addGun(SpawnType.Missile_Pulse, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-1);
-				sfxShot.play();
-			}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_F)) {
-				this.addGun(SpawnType.Missile_Grenade, shootAngle, speedGun, x , y, 0, 0, ElementEnum.GRENADE.getWidthShow(), ElementEnum.GRENADE.getHeightShow());
-				this.eDO.setAmmo(this.eDO.getAmmo()-1);
-				sfxGrenade.play();
+			if (this.eDO.getAmmo() > 0) {
+				if (cannonType.equals(ElementEnum.GUN_PLAYER_1_A)) {
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-1);
+					sfxShot.play();
+				}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_B)) {
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x-5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					this.addGun(SpawnType.Missile_Laser, shootAngle, speedGun, x+5 , y, 0, 0, ElementEnum.LASER.getWidthShow(), ElementEnum.LASER.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-2);
+					sfxShot.play();
+				}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_C)){
+					this.addGun(SpawnType.Missile_Missile, shootAngle+180, (-1)*speedGun, x, y, 0, 0, ElementEnum.MISSILE_1.getWidthShow(), ElementEnum.MISSILE_1.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-1);
+					sfxMissile.play(sfxMissileVolume);
+				}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_D)){
+					this.addGun(SpawnType.Missile_Flame, shootAngle, speedGun, x , y, 0, 0, ElementEnum.FLAME_1.getWidthShow(), ElementEnum.FLAME_1.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-1);
+					sfxFlame.play(sfxFlameVolume);
+				}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_E)) {
+					this.addGun(SpawnType.Missile_Pulse, shootAngle, speedGun, x , y, 0, 0, ElementEnum.PULSE.getWidthShow(), ElementEnum.PULSE.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-1);
+					sfxShot.play();
+				}else if (cannonType.equals(ElementEnum.GUN_PLAYER_1_F)) {
+					this.addGun(SpawnType.Missile_Grenade, shootAngle, speedGun, x , y, 0, 0, ElementEnum.GRENADE.getWidthShow(), ElementEnum.GRENADE.getHeightShow());
+					this.eDO.setAmmo(this.eDO.getAmmo()-1);
+					sfxGrenade.play();
+				}
+				
+				this.setShootEvent(true);
 			}
-			
-			this.setShootEvent(true);
-			
 		
 		}
     }
@@ -550,7 +551,7 @@ public class Player extends ShootPlayerObject{
     }
     
     public void movement(float delta, float index) {
-    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*2);
+    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*3);
          position.add(movement);
          
          

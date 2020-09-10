@@ -113,8 +113,8 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 		}
 		setPosition(iniPositionX, iniPositionY);
 	
-        this.index_X = (int)iniPositionX/SecondTestGDX.tileWidth_TL;
-        this.index_Y = (int)iniPositionY/SecondTestGDX.tileHeight_TL;
+        this.index_X = Math.round(iniPositionX)/SecondTestGDX.tileWidth_TL;
+        this.index_Y = Math.round(iniPositionY)/SecondTestGDX.tileHeight_TL;
 		
 		
 		setPositionPart(iniPositionX, iniPositionY);

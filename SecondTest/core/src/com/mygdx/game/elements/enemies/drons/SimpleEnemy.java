@@ -300,8 +300,8 @@ public class SimpleEnemy  extends ShootEnemiesObject implements SpawnObject, Tel
 		float posY = this.getYColl() * GameLogicInformation.PIXELS_TO_METERS - getHeight()/2;
 		super.setPosition(posX, posY);
 		
-        this.index_X = (int)posX/SecondTestGDX.tileWidth_TL;
-        this.index_Y = (int)posY/SecondTestGDX.tileHeight_TL;
+        this.index_X = Math.round(posX)/SecondTestGDX.tileWidth_TL;
+        this.index_Y = Math.round(posY)/SecondTestGDX.tileHeight_TL;
 	}
 	
 	

@@ -26,6 +26,17 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_ENEMY2.getHeightShow())		
 	};
 	
+	public static final Texture[] cannonEnemy02_AText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY5.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY5.getWidthBef(), 
+					ElementEnum.GUN_ENEMY5.getHeightBef(), 
+					ElementEnum.GUN_ENEMY5.getWidthShow(), 
+					ElementEnum.GUN_ENEMY5.getHeightShow())		
+	};
+	
+	
+	
 	public static final Texture[] hullEnemy02_1Text = {
 			DrawUtils.resizeTexture(
 					SecondTestGDX.resources.get(ElementEnum.HULL_ENEMY3.getElementStr(),Texture.class),
@@ -42,6 +53,15 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_ENEMY3.getHeightBef(), 
 					ElementEnum.GUN_ENEMY3.getWidthShow(), 
 					ElementEnum.GUN_ENEMY3.getHeightShow())		
+	};
+	
+	public static final Texture[] cannonEnemy02_1_AText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY6.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY6.getWidthBef(), 
+					ElementEnum.GUN_ENEMY6.getHeightBef(), 
+					ElementEnum.GUN_ENEMY6.getWidthShow(), 
+					ElementEnum.GUN_ENEMY6.getHeightShow())		
 	};
 	
 	
@@ -63,7 +83,14 @@ public class GameLogicElementInformation {
 					ElementEnum.GUN_ENEMY4.getHeightShow())		
 	};
 	
-	
+	public static final Texture[] cannonEnemy02_2_AText = {
+			DrawUtils.resizeTexture(
+					SecondTestGDX.resources.get(ElementEnum.GUN_ENEMY7.getElementStr(),Texture.class), 
+					ElementEnum.GUN_ENEMY7.getWidthBef(), 
+					ElementEnum.GUN_ENEMY7.getHeightBef(), 
+					ElementEnum.GUN_ENEMY7.getWidthShow(), 
+					ElementEnum.GUN_ENEMY7.getHeightShow())		
+	};
 	
 	
 	public static final Texture[] trackEnemyText = {

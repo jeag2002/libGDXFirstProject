@@ -100,7 +100,13 @@ public enum ElementEnum {
 	
 	GUN_PLAYER_1_E(SecondTestGDX.resources.gunPlayer_01_E, 76, 94, 212, 32, 64),
 	GUN_PLAYER_1_F(SecondTestGDX.resources.gunPlayer_01_F, 77, 94, 212, 32, 64),
-	GRENADE(SecondTestGDX.resources.grenade,78,512,512,32,32);
+	GRENADE(SecondTestGDX.resources.grenade,78,512,512,32,32),
+	
+	GUN_ENEMY5(SecondTestGDX.resources.gunEnemy_2_A_1,79,94, 212, 32, 64),
+	GUN_ENEMY6(SecondTestGDX.resources.gunEnemy_2_B_1,80,94, 212, 32, 64),
+	GUN_ENEMY7(SecondTestGDX.resources.gunEnemy_2_C_1,81,94, 212, 32, 64);
+	
+	
 	
 	
 	

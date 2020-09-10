@@ -99,8 +99,8 @@ public class WatchTowerEnemy  extends ShootPlayerObject implements SpawnObject, 
 		setSpeed(0, 0);
 		
 		
-        this.index_X = (int)iniPositionX/SecondTestGDX.tileWidth_TL;
-        this.index_Y = (int)iniPositionY/SecondTestGDX.tileHeight_TL;
+        this.index_X = Math.round(iniPositionX)/SecondTestGDX.tileWidth_TL;
+        this.index_Y = Math.round(iniPositionY)/SecondTestGDX.tileHeight_TL;
 		
 		setShootingActive(activateGun);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);

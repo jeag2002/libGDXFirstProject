@@ -856,6 +856,15 @@ public class CollisionEngine implements ContactListener{
 					}
 				}
 				
+				Missile miss = (Missile)object;
+				
+				if (miss.getSubType().equals(SpawnType.Missile_Grenade)) {
+					createVoidForMineExplosion(other);
+					createBigExplosionDynamic(other); 
+				}
+				
+				
+				
 				if (other.getType().equals(SpawnType.MissilePlayer)) {
 					object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(other.getIdCode());
 					if (object != null) {
@@ -892,7 +901,7 @@ public class CollisionEngine implements ContactListener{
 				
 				if (other.getType().equals(SpawnType.Border)) {
 					
-					Missile miss = (Missile)object;
+					miss = (Missile)object;
 					objectStr.setX(miss.getX());
 					objectStr.setY(miss.getY());
 					
