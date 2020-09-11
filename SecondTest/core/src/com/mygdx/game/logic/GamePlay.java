@@ -1,9 +1,14 @@
 package com.mygdx.game.logic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,7 +30,9 @@ import com.mygdx.game.logic.map.SimpleMapGeneration;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.screens.elements.Background;
 import com.mygdx.game.utils.NewItem;
+import com.mygdx.game.utils.ScoreItem;
 import com.mygdx.game.utils.ShaderEngine;
+import com.mygdx.game.utils.StringUtils;
 
 
 public class GamePlay {
@@ -82,6 +89,8 @@ public class GamePlay {
 	
 	private ShaderProgram shader;
 	
+	private Preferences scores;
+	
 	
 	//private Vector3 LIGHT_POS;
 	
@@ -107,7 +116,9 @@ public class GamePlay {
 		this.playerDied = false;	//-->GAMEOVER
 		
 		this.level = LevelEnum.IDLE;
-		this.nextLevelIndex = 2;
+		this.nextLevelIndex = 5;
+		
+		scores = Gdx.app.getPreferences("scores");
 
 		this.exit = new NewItem();
 		
@@ -138,9 +149,11 @@ public class GamePlay {
 		if (
 		(GameLogicInformation.getLevel() == GameLogicInformation.START) || 
 		(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION) ||
-		(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL)){
+		(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL) ||
+		(GameLogicInformation.getLevel() == GameLogicInformation.SETTINGS) ||
+		(GameLogicInformation.getLevel() == GameLogicInformation.RANKING)){
 			initStart();
-		}else if (GameLogicInformation.getLevel() > GameLogicInformation.INTERMISSION) {
+		}else if (GameLogicInformation.getLevel() > GameLogicInformation.ENDGAME) {
 			initGamePlay();
 		}
 	}
@@ -154,7 +167,51 @@ public class GamePlay {
 		return this.level;
 	}
 	
+	public Map<String, ?> getScoreData(){
+		return scores.get();
+	}
 	
+	public void setScoreData(String key, long value) {
+		scores.putLong(key, value);
+		scores.flush();
+	}
+	
+	public void setScore(long value) {
+		Map<String, ?> values = getScoreData();
+		int size = values.size();
+		setScoreData(StringUtils.leftPaddedString(3, (size+1)),value);
+	}
+	
+	public List<ScoreItem> getScoresSorted(){
+		List<ScoreItem> items = new ArrayList<ScoreItem>();
+		
+		Map<String, ?> values = getScoreData();
+		
+		List<String> keys = new ArrayList<String>(values.keySet());
+		List<Long> valuesMap = new ArrayList<Long>();
+		
+		for(String key: keys) {
+			valuesMap.add(scores.getLong(key));
+		}
+		
+		
+		for(int i=0; i<keys.size(); i++) {
+			items.add(new ScoreItem(keys.get(i),valuesMap.get(i)));
+		}
+		
+		Collections.sort(items, new Comparator<ScoreItem>() {
+			  @Override
+			  public int compare(ScoreItem u1, ScoreItem u2) {
+			    return u2.getScore().compareTo(u1.getScore());
+			  }
+		});
+		
+		if (items.size() > 5) {
+			items = items.subList(0, 5);
+		}
+		
+		return items;
+	}
 	
 	public void processTileGeneration() {
 		
@@ -479,7 +536,10 @@ public class GamePlay {
 	public void drawBackground(SpriteBatch sb) {
 		if ((GameLogicInformation.getLevel() == GameLogicInformation.START) || 
 			(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION) ||
-			(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL)){
+			(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL) ||
+			(GameLogicInformation.getLevel() == GameLogicInformation.SETTINGS) ||
+			(GameLogicInformation.getLevel() == GameLogicInformation.RANKING)
+			){
 			background.draw(sb);
 		}
 	}

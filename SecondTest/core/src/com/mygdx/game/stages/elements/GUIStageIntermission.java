@@ -11,6 +11,7 @@ import com.mygdx.game.enums.ElementsGUI;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.stages.components.LoadingBarWithBorders;
 import com.mygdx.game.stages.components.LogoItem;
+import com.mygdx.game.stages.components.WindowsItem;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -23,7 +24,7 @@ public class GUIStageIntermission{
 	
 	private LoadingBarWithBorders bar;
 	private LogoItem msgWindow;
-	
+	private WindowsItem logo_result;
 	
 	private Label lblLevel;
 	
@@ -59,6 +60,17 @@ public class GUIStageIntermission{
 		
 		stage.addActor(bar);
 		
+		
+		Texture textHeaderWindows = SecondTestGDX.resources.get(SecondTestGDX.resources.HeaderTable, Texture.class);
+		Texture textHangar = SecondTestGDX.resources.get(SecondTestGDX.resources.Hangar, Texture.class);
+		
+		logo_result = new WindowsItem(textHeaderWindows,textHangar);
+		logo_result.setPosition(SecondTestGDX.screenWidth/2-100, SecondTestGDX.screenHeight/2+128);
+		logo_result.setSize(200, 50);
+		logo_result.setVisible(false);
+		stage.addActor(logo_result);
+		
+		
 		msgWindow = new LogoItem(ElementsGUI.MSGWINDOWS,textwindows,gPS);
 		msgWindow.setPosition(SecondTestGDX.screenWidth/2-256, SecondTestGDX.screenHeight/2-128);
 		msgWindow.setSize(512, 256);
@@ -71,6 +83,7 @@ public class GUIStageIntermission{
 	public void showIntermissionGUI(boolean show) {
 		lblLevel.setVisible(show);
 		bar.setVisible(show);
+		logo_result.setVisible(show);
 		msgWindow.setVisible(show);
 		
 		if (show) {

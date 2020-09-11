@@ -117,6 +117,7 @@ public class GUIStageStart {
 	    buttonSettings.addListener(new InputListener(){
 	          @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	        	  gPS.initSettings();
 	          }
 	          
 	          @Override
@@ -137,6 +138,7 @@ public class GUIStageStart {
 	    buttonScore.addListener(new InputListener(){
 	          @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	        	  gPS.initRanking();
 	          }
 	          
 	          @Override

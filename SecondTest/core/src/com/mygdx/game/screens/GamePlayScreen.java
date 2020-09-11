@@ -82,9 +82,25 @@ public class GamePlayScreen implements Screen{
 	}
 	
 	
+	public void initSettings() {
+		GameLogicInformation.setLevel(GameLogicInformation.SETTINGS);
+		gamePlay.background();
+		guiStage.activeGUI(GUIEnum.SETTINGS);
+		stopMusic();
+	}
+	
+	public void initRanking() {
+		GameLogicInformation.setLevel(GameLogicInformation.RANKING);
+		gamePlay.background();
+		guiStage.activeGUI(GUIEnum.RANKING);
+		stopMusic();
+	}
+	
+	
 	public void initEndLevel() {
 		
 		GameLogicInformation.setLevel(GameLogicInformation.ENDLEVEL);
+		gamePlay.background();
 		guiStage.activeGUI(GUIEnum.ENDLEVEL);
 		
 		stopMusic();
@@ -111,6 +127,9 @@ public class GamePlayScreen implements Screen{
 		stopMusic();
 	    initMusic();
 	}
+	
+	
+	
 	
 	
 	public void initMusic() {

@@ -23,8 +23,11 @@ public class GameLogicInformation {
 	public static final int START = 0;
 	public static final int INTERMISSION = 1;
 	public static final int ENDLEVEL = 2;
-	public static final int ENDGAME = 3;
-	public static final int GAMEPLAY = 4;
+	public static final int SETTINGS = 3;
+	public static final int SCORE = 4;
+	public static final int ENDGAME = 5;
+	public static final int RANKING = 6;
+	public static final int GAMEPLAY = 7;
 	
 	public static final float PIXELS_TO_METERS = 100f;
 	
@@ -43,7 +46,7 @@ public class GameLogicInformation {
 	
 	
 	public static final double DST_TANK_EXIT = 120;
-	public static final double DST_TANK_PLAYER = 300;
+	public static final double DST_TANK_PLAYER = 400;
 	public static final double DST_TANK_COLL_OTHER = 300;
 	
 	
@@ -190,7 +193,7 @@ public class GameLogicInformation {
 	public static String getBackgroundImage() {
 		if (level == START) {
 			return backGround_Start;
-		}else if (level == INTERMISSION) {
+		}else if ((level == INTERMISSION) || (level == ENDLEVEL) || (level == SETTINGS) || (level == RANKING)){
 			return backGround_Intermission;
 		}else {
 			return "";

@@ -300,6 +300,10 @@ public class Resources extends AssetManager{
 	public String GoldStar = "gui/afterplay/Star_01.png";
 	public String Table01 = "gui/afterplay/Table_01.png";
 	public String Table03 = "gui/afterplay/Table_03.png";
+	
+	public String Hangar = "gui/afterplay/Hangar.png";
+	public String Description = "gui/afterplay/Description.png";
+	public String Rating = "gui/afterplay/Rating.png";
 	///////////////////////////////////////////////////////////////////
 	
 	
@@ -576,6 +580,9 @@ public class Resources extends AssetManager{
 		load(GoldStar,Texture.class);
 		load(Table01,Texture.class);
 		load(Table03,Texture.class);
+		load(Hangar,Texture.class);
+		load(Description,Texture.class);
+		load(Rating,Texture.class);
 		/////////////////////////////////////////
 		
 		Gdx.app.log(TAG, "ASSETS LOADED");
