@@ -1,5 +1,7 @@
 package com.mygdx.game.stages.components;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -22,9 +24,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.enemies.special.tanks.TankEnemy;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.ElementsGUI;
+import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.logic.GameLogicInformation;
+import com.mygdx.game.logic.elements.SpawnObject;
 import com.mygdx.game.screens.GamePlayScreen;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -104,6 +109,23 @@ public class LogoItem extends Actor {
 	}
 	 
 	
+	private void printEnemies(float lim_X, float lim_Y) {
+		
+		ArrayList<SpawnObject> tnkLst = gPS.getGamePlay().getGameLogic().getSpawnPool().getPool(SpawnType.Enemy_02);
+		
+		for(SpawnObject obj: tnkLst) {
+			TankEnemy tnk = (TankEnemy)obj;
+			shapeRenderer.setColor(Color.GREEN);
+			shapeRenderer.begin(ShapeType.Filled);
+			shapeRenderer.circle(lim_X +tnk.getIndex_X()*2, lim_Y+tnk.getIndex_Y()*2, 4);
+			shapeRenderer.flush();
+		    shapeRenderer.end();
+			
+		}
+		
+	}
+	
+	
 	private void drawPlayerExitPosition(Batch batch) {
 		
 		int player_x = Math.round(gPS.getGamePlay().getGameLogic().getPlayer().getX()); 
@@ -130,7 +152,7 @@ public class LogoItem extends Actor {
 		
 		
 		
-		for(int i=0; i<SecondTestGDX.sizeMapTileWidth_TL; i++) {
+	    for(int i=0; i<SecondTestGDX.sizeMapTileWidth_TL; i++) {
 			for(int j=0; j<SecondTestGDX.sizeMapTileHeight_TL; j++) {
 				
 				if ((i == player_y) && (j == player_x)){
@@ -145,15 +167,13 @@ public class LogoItem extends Actor {
 					shapeRenderer.circle(lim_X +j*2, lim_Y+i*2, 4);
 					shapeRenderer.flush();
 					shapeRenderer.end();
-				}
-				
+				}	
 			}
-		}
+	   }
 		
+	   printEnemies(lim_X, lim_Y);
 	   Gdx.gl.glDisable(GL20.GL_BLEND);
 	   batch.begin();
-		
-		
 	}
 	
 	

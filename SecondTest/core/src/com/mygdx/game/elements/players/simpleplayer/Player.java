@@ -551,7 +551,7 @@ public class Player extends ShootPlayerObject{
     }
     
     public void movement(float delta, float index) {
-    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*3);
+    	 movement.set(direction).scl(GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta * index*4);
          position.add(movement);
          
          

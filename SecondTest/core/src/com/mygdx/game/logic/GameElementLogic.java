@@ -196,13 +196,14 @@ public class GameElementLogic {
 		Item item = (Item)spawnPool.getFromPool(SpawnType.Item);
 		
 		SpawnType subType = SpawnType.Item_Bonus_Life;
-		int i = rand.nextInt(5);
+		int i = rand.nextInt(6);
 		
 		if (i == 0) {subType = SpawnType.Item_Bonus_Life;}
 		else if (i == 1) {subType = SpawnType.Item_Bonus_Shield;}
 		else if (i == 2) {subType = SpawnType.Item_Bonus_Gun;}
-		else if (i == 3){subType = SpawnType.Item_Bonus_Bullet;}
-		else if (i == 4){subType = SpawnType.Item_Bonus_Score;}
+		else if (i == 3) {subType = SpawnType.Item_Bonus_Bullet;}
+		else if (i == 4) {subType = SpawnType.Item_Bonus_Score;}
+		else if (i == 5) {subType = SpawnType.Item_Bonus_Nuke;}
 		
 		item.init(rayHandler, subType , x+width/2-32, y+height/2-32, 64, 64);
 		item.setSpawned(true);
@@ -316,6 +317,9 @@ public class GameElementLogic {
 				//
 			}else if (item.getType().equals(SpawnType.Item) && item.getSubType().equals(SpawnType.Item_Bonus)) {
 				this.generateBonus(item.getX(), item.getY(), item.getWidth(), item.getHeight());
+				
+			}else if (item.getType().equals(SpawnType.Enemy_02)) {
+				this.generateEnemyTANK(gPS.getGamePlay().getMapGenerationEngine().getGraph(), item, gPS.getGamePlay().getExit());
 			}
 			
 		}

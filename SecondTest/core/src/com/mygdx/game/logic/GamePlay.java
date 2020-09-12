@@ -116,7 +116,8 @@ public class GamePlay {
 		this.playerDied = false;	//-->GAMEOVER
 		
 		this.level = LevelEnum.IDLE;
-		this.nextLevelIndex = 5;
+		
+		this.nextLevelIndex = rand.nextInt(7);
 		
 		scores = Gdx.app.getPreferences("scores");
 

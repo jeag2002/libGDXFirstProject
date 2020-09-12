@@ -167,6 +167,10 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 		position.set(iniPositionX, iniPositionY);	
 		direction.set((float)Math.cos(Math.toRadians(angle+270)), (float)Math.sin(Math.toRadians(angle+270))).nor();
 		
+        
+        this.index_X = Math.round(getX())/SecondTestGDX.tileWidth_TL;
+        this.index_Y = Math.round(getY())/SecondTestGDX.tileHeight_TL;
+		
 		setSpeed(0, 0);
 		setShootingActive(activateGun);
 		createCollisionObject(getX(),getY(),getWidth(),getHeight(),BodyType.DynamicBody);

@@ -123,6 +123,8 @@ public class Resources extends AssetManager{
 	public String platform = "elements/Platform.png";
 	public String dot_a = "elements/Dot_A.png";
 	public String dot_b = "elements/Dot_B.png";
+	public String dot_b_light = "elements/Dot_B_light.png";
+	
 	public String dot_c = "elements/Dot_C.png";
 	
 	//player 
@@ -306,6 +308,8 @@ public class Resources extends AssetManager{
 	public String Rating = "gui/afterplay/Rating.png";
 	///////////////////////////////////////////////////////////////////
 	
+	public String Track_Print = "elements/player/Track_Print.png";
+	
 	
 	public void loadAssets() {
 		
@@ -391,6 +395,7 @@ public class Resources extends AssetManager{
 		load(dot_a,Texture.class);
 		load(dot_b,Texture.class);
 		load(dot_c,Texture.class);
+		load(dot_b_light,Texture.class);
 		
 		load(gunPlayer_01_A,Texture.class);
 		load(gunPlayer_01_B,Texture.class);
@@ -584,9 +589,9 @@ public class Resources extends AssetManager{
 		load(Description,Texture.class);
 		load(Rating,Texture.class);
 		/////////////////////////////////////////
-		
+		 
 		Gdx.app.log(TAG, "ASSETS LOADED");
-	}
+ 	}
 	
 	
 	public void initLoadedAssets() {
