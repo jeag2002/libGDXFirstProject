@@ -32,7 +32,7 @@ import com.mygdx.game.utils.NewItem;
 
 public class CollisionEngine implements ContactListener{
 	
-	private static final int LIMIT_BONUS = 40;
+	private static final int LIMIT_BONUS = 50;
 	
 	private GamePlayScreen gPS;
 	private TiledMap map;

@@ -96,6 +96,7 @@ public class GUIStageSettings {
 		button_Menu.addListener(new InputListener(){
 	    	  @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	    		  gPS.initStart();
 	    	  }
 	          @Override
 	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {

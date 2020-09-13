@@ -46,7 +46,7 @@ public class GameLogicInformation {
 	
 	
 	public static final double DST_TANK_EXIT = 120;
-	public static final double DST_TANK_PLAYER = 400;
+	public static final double DST_TANK_PLAYER = 500;
 	public static final double DST_TANK_COLL_OTHER = 300;
 	
 	

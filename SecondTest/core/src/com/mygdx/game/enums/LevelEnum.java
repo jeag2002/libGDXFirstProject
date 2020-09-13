@@ -5,13 +5,14 @@ import com.mygdx.game.logic.*;
 public enum LevelEnum {
 	
 	DESERT(0,"DESERT DAY",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0),
-	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS, 0, 0, 100, 4),
-	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0,7),
-	FABRIC(3,"FABRIC DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0,7),
-	WINTER(4,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100,0, 0),
-	VOLCANO(5,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 4),
-	CITY(6,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 6 ),
-	//SPACE(7,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0),
+	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS, 0, 0, 0, 6),
+	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6),
+	JUNGLE_NIGHT(3,"JUNGLE NIGHT",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.LIGHTS, 100, 100, 100, 0),
+	FABRIC(4,"INDUSTRY AREA DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6),
+	WINTER(5,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0),
+	VOLCANO(6,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0),
+	CITY(7,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6 ),
+	SPACE(8,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0),
 	//BADLANDS(8,"BADLANDS DAY", GameLogicInformation.BADLAND_LEVEL, GameLogicInformation.NO_LIGHTS, 100,100,100,0),
 	IDLE(12,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0);
 	

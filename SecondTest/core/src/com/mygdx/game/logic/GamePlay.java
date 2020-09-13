@@ -117,7 +117,7 @@ public class GamePlay {
 		
 		this.level = LevelEnum.IDLE;
 		
-		this.nextLevelIndex = rand.nextInt(7);
+		this.nextLevelIndex = rand.nextInt(9);
 		
 		scores = Gdx.app.getPreferences("scores");
 

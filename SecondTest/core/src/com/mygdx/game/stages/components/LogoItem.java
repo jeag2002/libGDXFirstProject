@@ -73,7 +73,7 @@ public class LogoItem extends Actor {
 		
 		shapeRenderer = new ShapeRenderer();
 		
-		FileHandle file = new FileHandle("fonts/DS-DIGI.TTF");
+		FileHandle file = Gdx.files.internal("fonts/font.ttf");
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
 		
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();

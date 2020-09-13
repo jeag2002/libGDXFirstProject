@@ -56,6 +56,15 @@ public class GamePlayScreen implements Screen{
 	}
 	
 	
+	public void initStart() {
+		
+		GameLogicInformation.setLevel(GameLogicInformation.START);
+		gamePlay.background();
+		guiStage.activeGUI(GUIEnum.START);
+  	  	stopMusic();
+  	  	initMusic();
+	}
+	
 	
 	public void initGame() {
 		gameInput = new GameInput(gamePlay);
