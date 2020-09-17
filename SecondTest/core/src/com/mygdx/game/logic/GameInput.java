@@ -1,6 +1,7 @@
 package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Input.Keys;
+import com.mygdx.game.SecondTestGDX;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -42,6 +43,12 @@ public class GameInput implements InputProcessor {
 				gamePlay.playerTurretClockWise();
 			}else if (keycode == Keys.SPACE) {
 				gamePlay.playerShoot();
+			}else if ((keycode == Keys.N) && (SecondTestGDX.isDebugKeys)) {
+				gamePlay.setNextLevel(true);
+			}else if ((keycode == Keys.D) && (SecondTestGDX.isDebugKeys)) {
+				gamePlay.setPlayerDied(true);
+			}else if ((keycode == Keys.E) && (SecondTestGDX.isDebugKeys)) {
+				gamePlay.setEndGame(true);
 			}
 		}
 		
@@ -71,6 +78,8 @@ public class GameInput implements InputProcessor {
 				gamePlay.playerTurretClockWise();
 			}else if (keycode == Keys.SPACE) {
 				gamePlay.playerShoot();
+			}else if (keycode == Keys.P) {
+				gamePlay.setNextLevel(true);
 			}
 			
 		}

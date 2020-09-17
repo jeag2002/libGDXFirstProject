@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.enums.ElementsGUI;
+import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.utils.StringUtils;
 
@@ -67,8 +68,23 @@ public class WindowsElem extends Actor {
 	
 	private void processText(Batch batch) {
 		if (type.equals(ElementsGUI.SCORE)) {
-			String score = StringUtils.leftPaddedString(15, gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore());
+			
+			int scoreValue = 0;
+			
+			if (gPS.getGamePlay().getGameLogic().getPlayer()!=null) {
+				scoreValue = gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore();
+			}else {
+				scoreValue = GameLogicInformation.getCurrentPlayerVariables().getScore();
+			}
+			
+			String score = StringUtils.leftPaddedString(10, scoreValue);
 			this.font.draw(batch, score, X+W/4-20, Y+H-10);
+			
+		}else if (type.equals(ElementsGUI.LEVEL)) {
+			
+			String level = StringUtils.leftPaddedString(2, GameLogicInformation.getLevelGamePlay()+1);
+			this.font.draw(batch, level, X+10, Y+H-10);
+			
 		}
 	}
 	

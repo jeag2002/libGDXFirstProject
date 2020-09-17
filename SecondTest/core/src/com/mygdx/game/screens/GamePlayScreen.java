@@ -19,7 +19,7 @@ import com.mygdx.game.stages.GUIStage;
 
 public class GamePlayScreen implements Screen{
 	
-	private static final float volumeMusic = 0.25f;
+	private static final float volumeMusic = 0.15f;
 
 	public SecondTestGDX game;
 	
@@ -107,20 +107,13 @@ public class GamePlayScreen implements Screen{
 	
 	
 	public void initEndLevel() {
-		
 		GameLogicInformation.setLevel(GameLogicInformation.ENDLEVEL);
 		gamePlay.background();
 		guiStage.activeGUI(GUIEnum.ENDLEVEL);
-		
 		stopMusic();
 		initMusic();
-		
 	}
 	
-	
-	public void initEndGame() {
-		
-	}
 	
 	@SuppressWarnings("deprecation")
 	public void initGamePlay() {
@@ -137,12 +130,26 @@ public class GamePlayScreen implements Screen{
 	    initMusic();
 	}
 	
-	
+	public void reinitGamePlay() {
+		
+		GameLogicInformation.setLevel(GameLogicInformation.GAMEPLAY);
+		gamePlay.start();
+		
+		gamePlay.initGamePlay();
+		guiStage.activeGUI(GUIEnum.GAMEPLAY);
+
+		gamePlay.getGameLogic().getRayHandler().setCombinedMatrix(gamePlay.getCamera().combined.cpy().scl(GameLogicInformation.PIXELS_TO_METERS));
+		
+		stopMusic();
+	    initMusic();
+		
+		
+	}
 	
 	
 	
 	public void initMusic() {
-		music = SecondTestGDX.resources.get(GameLogicInformation.getBackgroundMusic());
+		music = SecondTestGDX.resources.get(GameLogicInformation.getBackgroundMusic(this));
 		music.setVolume(volumeMusic);
 		music.setLooping(true);
 		music.play();
@@ -183,28 +190,27 @@ public class GamePlayScreen implements Screen{
 		
 		//DRAW BACKGROUND WHEN NO GAMEPLAY
 		spriteBatch.begin();		
-		
 		if (gamePlay != null) {
 			gamePlay.drawBackground(spriteBatch);
 		}
 		spriteBatch.end();
 		
+		
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				spriteBatch.setProjectionMatrix(gamePlay.getCamera().combined);
+			}else {
+				spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, game.screenWidth, game.screenHeight);
 			}
 		}
-		
-		
 
-		
-		
 		//DRAW BACKGROUND WHEN GAMEPLAY (BACKGROUND, BORDER, WALLS)
 		if (gamePlay != null) {
 			if (gamePlay.isStart()) {
 				
 				gamePlay.evaluateEndLevel();
 				gamePlay.evaluateEndGame();
+				gamePlay.processIfEndLevelGame(delta);
 				
 				gamePlay.drawMapCamera();
 				gamePlay.drawMapBef();				
@@ -220,6 +226,8 @@ public class GamePlayScreen implements Screen{
 				if ((gamePlay.getLevelInformation().getType() == GameLogicInformation.CITY_LEVEL) && (gamePlay.getLevelInformation().getLights() == GamePlay.NO_LIGHTS)){
 					spriteBatch.setShader(gamePlay.getShader());
 				}
+			}else {
+				spriteBatch.setShader(null);
 			}
 		}
 		

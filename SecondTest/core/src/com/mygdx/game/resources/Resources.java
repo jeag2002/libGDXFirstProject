@@ -30,7 +30,10 @@ public class Resources extends AssetManager{
 	public String musicGameplay_4 = "music/gameplay_4.mp3";
 	public String musicGameplay_5 = "music/gameplay_5.mp3";
 	public String musicGameplay_6 = "music/gameplay_6.mp3";
-	public String musicAfterLevel = "music/afterlevel.mp3";
+	
+	public String musicPlayerDied = "music/afterlevel.mp3";
+	public String musicEndLevel = "music/victory.mp3";
+	public String musicEndGame = "music/victory_end.mp3";
 	
 	
 	public String testSquare = "test/square.png";
@@ -327,7 +330,10 @@ public class Resources extends AssetManager{
 		
 		load(musicSplash,Music.class);
 		load(musicIntermission,Music.class);
-		load(musicAfterLevel, Music.class);
+		
+		load(musicPlayerDied,Music.class);
+		load(musicEndLevel,Music.class);
+		load(musicEndGame,Music.class);
 		
 		load(musicGameplay_1,Music.class);
 		load(musicGameplay_2,Music.class);

@@ -14,6 +14,14 @@ public class ElementDefinitionObject {
 		score = 0;
 	}
 	
+	public ElementDefinitionObject(ElementDefinitionObject edoClone) {
+		life = edoClone.getLife();
+		shield = edoClone.getShield();
+		ammo = edoClone.getAmmo();
+		score = edoClone.getScore();
+	}
+	
+	
 	public static class Builder{
 		
 		

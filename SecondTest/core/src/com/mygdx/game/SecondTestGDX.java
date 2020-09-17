@@ -92,11 +92,10 @@ public class SecondTestGDX extends Game{
 	public GamePlayScreen gamePlayScreen;
 	
 	public static boolean isMouseEnabled = false;
+	public static boolean isDebugKeys = true;
 	public static boolean debugEngineEnabled = false;
 	public static boolean debugEngineGridEnabled = false;
 	public static boolean rotateCameraWithPlayer = false;
-	
-	//public static boolean graphGridEnabled = false;
 	
 	
 	@Override

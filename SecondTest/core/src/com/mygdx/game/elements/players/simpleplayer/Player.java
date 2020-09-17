@@ -64,7 +64,9 @@ public class Player extends ShootPlayerObject{
     private SpawnType type;
     private ElementEnum cannonType;
     
-    private Sound sfxShot;
+    
+
+	private Sound sfxShot;
     private float sfxShotVolume; 
     
     private Sound sfxFlame;
@@ -526,6 +528,14 @@ public class Player extends ShootPlayerObject{
     	return this.cannonType;
     }
     
+    public void setCannonType(ElementEnum cannonType) {
+		this.cannonType = cannonType;
+	}
+    
+    public void setCurrentPlayerVariables(ElementDefinitionObject eDO) {
+    	this.eDO = new ElementDefinitionObject(eDO);
+    }
+    
     
     public void changeTurret(ElementEnum newGun) {
     	
@@ -545,7 +555,12 @@ public class Player extends ShootPlayerObject{
     		gunTXT = GameLogicElementInformation.cannonPlayer01DText;
     	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_E)) {
     		gunTXT = GameLogicElementInformation.cannonPlayer01EText;
+    	}else if (newGun.equals(ElementEnum.GUN_PLAYER_1_F)) {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01FText;
+    	}else {
+    		gunTXT = GameLogicElementInformation.cannonPlayer01AText;
     	}
+    	
     	player_parts.get(INDEX_GUN).init(gunTXT, 0);
     	rotateTurret();
     }

@@ -173,7 +173,7 @@ public enum ElementEnum {
 	
 	
 	
-	public ElementEnum getByIndex(int index) {
+	public static ElementEnum getByIndex(int index) {
 		
 		ElementEnum EE[] = ElementEnum.values();
 		ElementEnum elem =  ElementEnum.HULL_PLAYER_1;

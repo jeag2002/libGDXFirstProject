@@ -69,7 +69,7 @@ public class GUIStageIntermission{
 		logo_result.setSize(200, 50);
 		logo_result.setVisible(false);
 		stage.addActor(logo_result);
-		
+		bar.resetValues();
 		
 		msgWindow = new LogoItem(ElementsGUI.MSGWINDOWS,textwindows,gPS);
 		msgWindow.setPosition(SecondTestGDX.screenWidth/2-256, SecondTestGDX.screenHeight/2-128);
@@ -88,6 +88,8 @@ public class GUIStageIntermission{
 		
 		if (show) {
 			lblLevel.addAction(sequence(hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show(), delay(1.0f), hide()));
+		}else {
+			bar.resetValues();
 		}
 		
 	}

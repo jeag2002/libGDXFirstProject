@@ -3,6 +3,7 @@ package com.mygdx.game.logic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.SecondTestGDX;
@@ -116,6 +117,13 @@ public class GameElementLogic {
 		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
 		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
 	}
+	
+	
+	public void initPlayer(SpawnType playerType, ElementEnum gunPlayer, float iniPositionX, float iniPositionY, float width, float height) {
+		player = new Player(this.spawnPool,playerType, gunPlayer,this.world,this.gPS);
+		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
+	}
+	
 	
 	public void generateEnemyDRON(NewItem itemEnemy) {
 		SimpleEnemy sE = (SimpleEnemy)spawnPool.getFromPool(SpawnType.Enemy_01);
@@ -250,6 +258,17 @@ public class GameElementLogic {
 		items.clear();
 		
 		spawnPool.clear();
+		
+		spawnPool.getCreatedBodiesWithCollision().clear();
+		spawnPool.getDeletedWallsWithCollision().clear();
+		spawnPool.getDeletedAnimForestWithCollision().clear();
+		spawnPool.getDeletedForestsWithCollision().clear();
+		spawnPool.getDeletedBodiesWithCollision().clear();
+		spawnPool.getDeletedBodiesWithOutCollision().clear();
+		
+		 
+		
+		
 	}
 	
 	public void drawSpawns(SpriteBatch sb) {
@@ -281,6 +300,10 @@ public class GameElementLogic {
 		if (player != null) {
 			player.draw(sb);
 		}
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	
 	public void updateSpawns(float delta) {
@@ -438,6 +461,27 @@ public class GameElementLogic {
 	public void stepWorld(float delta) {
 		world.step(delta, 1, 1);
 	}
+	
+	
+	private void removeAllBodies(){
+		Array<Body> bodies = new Array<Body>();
+		world.getBodies(bodies);
+		for(Body body: bodies) {
+			world.destroyBody(body);
+		}
+	}
+	
+	
+	private void removeAllLights() {
+		rayHandler.removeAll();
+	}
+	
+	public void endLevel() {
+		removeAllBodies();
+		removeAllLights();
+		spawnPool.clear();
+	}
+	
 	
 	
 	public void dispose() {

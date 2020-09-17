@@ -1280,6 +1280,24 @@ public class SimpleMapGeneration {
 	public ArrayList<NewItem> getEnemiesWATCHTOWER(){return this.enemiesCENTROIDSituation;}
 	public ArrayList<NewItem> getTankIniNodes(){return this.tankIniNodeSituation;}
 	
+	
+	public void restart() {
+		this.playersSituation.clear();
+		this.enemiesDRONSituation.clear();
+		this.enemiesTANKSituation.clear();
+		this.enemiesMINESituation.clear();
+		this.enemiesCENTROIDSituation.clear();
+		this.tankIniNodeSituation.clear();
+		
+		wallsLst = new ArrayList<StaticTiledMapColl>();
+		forestLst = new ArrayList<StaticTiledMapColl>();   
+		graph = new MapGraph();   
+		exit = null;
+		random = new Random();
+		map = new TiledMap();
+		
+	}
+	
 
 	public int getTypeMap() {return typeMap;}
 	public MapGraph getGraph() {return graph;}

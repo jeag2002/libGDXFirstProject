@@ -1,6 +1,7 @@
 package com.mygdx.game.stages.elements;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,13 +10,27 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
+import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.ElementsGUI;
+import com.mygdx.game.enums.LevelEnum;
+import com.mygdx.game.logic.GameLogicInformation;
 import com.mygdx.game.screens.GamePlayScreen;
 import com.mygdx.game.stages.components.WindowsElem;
 import com.mygdx.game.stages.components.WindowsItem;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.hide;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.show;
+
 
 public class GUIStageEndLevel {
 	
@@ -25,6 +40,8 @@ public class GUIStageEndLevel {
 	
 	private WindowsElem wItem;
 	private WindowsElem wStar;
+	
+	private WindowsElem level;
 	private WindowsElem score;
 	
 	private WindowsElem wStarElem_1;
@@ -36,9 +53,22 @@ public class GUIStageEndLevel {
 	private ImageButton button_Menu;
 	private ImageButton button_Next;
 	
+	private Label WIN;
+	private Label CONGRATULATION;
+	
+	private BitmapFont font;
+	private BitmapFont font_1;
+	
 	public GUIStageEndLevel(Stage stage, GamePlayScreen gPS) {
 		this.stage = stage;
 		this.gPS = gPS;
+		
+		this.font = new BitmapFont(Gdx.files.internal("fonts/Bangers_bitmap.fnt"),false);
+		this.font.getData().setScale(1.5f, 1.5f);
+		
+		font_1 = new BitmapFont(Gdx.files.internal("fonts/Bangers_bitmap.fnt"),false);
+		font_1.getData().setScale(1f, 1f);
+
 	}
 	
 	public Stage getStage() {
@@ -53,6 +83,9 @@ public class GUIStageEndLevel {
 		
 		grpMenuUI = new Group();
 		
+		
+		
+		
 		//LAYER
 		Texture textHeaderWindows = SecondTestGDX.resources.get(SecondTestGDX.resources.HeaderTable, Texture.class);
 		
@@ -65,8 +98,8 @@ public class GUIStageEndLevel {
 		}
 		
 		logo_result = new WindowsItem(textHeaderWindows,logoWindows);
-		logo_result.setPosition(SecondTestGDX.screenWidth/2-150, SecondTestGDX.screenHeight/2+200);
-		logo_result.setSize(300, 100);
+		logo_result.setPosition(SecondTestGDX.screenWidth/2-100, SecondTestGDX.screenHeight/2+200);
+		logo_result.setSize(200, 50);
 		logo_result.setVisible(false);
 		grpMenuUI.addActor(logo_result);
 		
@@ -78,23 +111,46 @@ public class GUIStageEndLevel {
 		wItem.setVisible(false);
 		grpMenuUI.addActor(wItem);
 		
+		
+		WIN = new Label("THE END", new Label.LabelStyle(font, Color.WHITE));
+		WIN.setPosition( (SecondTestGDX.screenWidth / 2) - 20, (SecondTestGDX.screenHeight / 2)+150, Align.center);
+		WIN.setSize(100, 50);
+		WIN.setVisible(true);
+	    grpMenuUI.addActor(WIN);
+	    
+	    
+	    CONGRATULATION = new Label("CONGRATULATIONS!!", new Label.LabelStyle(font_1, Color.WHITE));
+	    CONGRATULATION.setPosition( (SecondTestGDX.screenWidth / 2) , (SecondTestGDX.screenHeight / 2)+80, Align.center);
+	    CONGRATULATION.setSize(100, 50);
+	    CONGRATULATION.setVisible(true);
+	    grpMenuUI.addActor(CONGRATULATION);
+		
+		
 		//SCORE
 		Texture texConsole = SecondTestGDX.resources.get(SecondTestGDX.resources.Table03, Texture.class);
 		Texture texConsoleText = SecondTestGDX.resources.get(SecondTestGDX.resources.Score, Texture.class);
 		
 		logo_score = new WindowsItem(texConsole,texConsoleText);
-		logo_score.setPosition(SecondTestGDX.screenWidth/2-250, SecondTestGDX.screenHeight/2+50);
+		logo_score.setPosition(SecondTestGDX.screenWidth/2-250, SecondTestGDX.screenHeight/2-10);
 		logo_score.setSize(150, 50);
 		logo_score.setVisible(false);
 		grpMenuUI.addActor(logo_score);
 		
 		
+		level = new WindowsElem(texConsole, ElementsGUI.LEVEL ,gPS);
+		level.setPosition(SecondTestGDX.screenWidth/2-70, SecondTestGDX.screenHeight/2-10);
+		level.setSize(50, 50);
+		level.setVisible(false);
+		grpMenuUI.addActor(level);
+		
+		
 		Texture texConsoleScore = SecondTestGDX.resources.get(SecondTestGDX.resources.Table01, Texture.class);
 		score = new WindowsElem(texConsoleScore, ElementsGUI.SCORE ,gPS);
-		score.setPosition(SecondTestGDX.screenWidth/2-75, SecondTestGDX.screenHeight/2+50);
-		score.setSize(325, 50);
+		score.setPosition(SecondTestGDX.screenWidth/2+20, SecondTestGDX.screenHeight/2-10);
+		score.setSize(225, 50);
 		score.setVisible(false);
 		grpMenuUI.addActor(score);
+		
 		
 		
 		Texture textImgStar = SecondTestGDX.resources.get(SecondTestGDX.resources.DecorTable, Texture.class);
@@ -137,6 +193,23 @@ public class GUIStageEndLevel {
 		button_Menu.addListener(new InputListener(){
 	    	  @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	    		  
+	    		  gPS.getGamePlay().setNextLevel(false);
+	    		  gPS.getGamePlay().getGameLogic().endLevel();
+	    		  gPS.getGamePlay().restartTileGenerator();
+	    		  GameLogicInformation.setLevelGamePlay(0);
+	    		  
+	    		  if (gPS.getGamePlay().isEndGame() || gPS.getGamePlay().isPlayerDied()) {
+	    			  gPS.getGamePlay().setEndGame(false);
+	    			  gPS.getGamePlay().setPlayerDied(false);
+	    			  gPS.getGamePlay().setScore(GameLogicInformation.getCurrentPlayerVariables().getScore());		  
+	    			  GameLogicInformation.setCurrentPlayerVariables(new ElementDefinitionObject(), ElementEnum.GUN_PLAYER_1_A);
+	    			  gPS.initRanking();
+	    		  }else {
+	    			  gPS.initStart();
+	    		  }
+	    		  
+	    		 
 	    	  }
 	          @Override
 	          public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -155,6 +228,31 @@ public class GUIStageEndLevel {
 	    button_Next.addListener(new InputListener(){
 	    	  @Override
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+	    		  
+	    		  gPS.getGamePlay().setNextLevel(false);
+	    		  gPS.getGamePlay().getGameLogic().endLevel();
+	    		  GameLogicInformation.setLevelGamePlay(GameLogicInformation.getLevelGamePlay()+1);
+	    		  gPS.getGamePlay().setLevelInformation(GameLogicInformation.getLevelGamePlay());
+	        	  gPS.initIntermision();
+	        	  
+	        	  Gdx.app.postRunnable(new Runnable() {
+	        		  @Override
+	        		  public void run() {
+	        			  gPS.getGamePlay().restartTileGenerator();
+	        			  gPS.getGamePlay().processTileGeneration(GameLogicInformation.getCurrentCannon());
+	        			  Gdx.app.log("[GUISTAGESTART]", "TILE GENERATION MAP FINISHED");
+	        		  }
+	        	  });
+
+	        	  
+	        	  Timer.schedule(new Task() {
+	          		@Override
+	          	    public void run() {
+	          			gPS.reinitGamePlay();
+	          			gPS.getGamePlay().setPlayerCurrentVariables();
+	          			Gdx.app.log("[GUISTAGESTART]", "INIT GAMEPLAY");
+	          		}},6);
+	    		  
 	    		   		  
 	    	  }
 	          @Override
@@ -175,18 +273,88 @@ public class GUIStageEndLevel {
 		logo_result.setVisible(show);
 		logo_score.setVisible(show);
 		score.setVisible(show);
+		level.setVisible(show);
 		wItem.setVisible(show);
 		wStar.setVisible(show);
 		wStarElem_1.setVisible(show);
 		wStarElem_2.setVisible(show);
 		wStarElem_3.setVisible(show);
 		button_Menu.setVisible(show);
-		button_Next.setVisible(show);
+		button_Next.setVisible(show);	
+		
+		WIN.setVisible(show);
+		CONGRATULATION.setVisible(show);
+		
+		
+		if (show) {
+			
+			wStarElem_2.addAction(sequence(hide(), delay(1.0f), show()));
+			wStarElem_1.addAction(sequence(hide(), delay(2.0f), show()));
+			wStarElem_3.addAction(sequence(hide(), delay(3.0f), show()));
+			
+			
+			if (gPS.getGamePlay().isNextLevel()) {
+				button_Menu.setVisible(true);
+				button_Next.setVisible(true);
+				button_Menu.setPosition((SecondTestGDX.screenWidth / 2) - 100,SecondTestGDX.screenHeight/2-300);
+				button_Next.setPosition((SecondTestGDX.screenWidth / 2),SecondTestGDX.screenHeight/2-300);
+				
+				
+				WIN.setText("END LEVEL");
+				WIN.setVisible(true);
+				CONGRATULATION.setVisible(false);
+				
+			}else if (gPS.getGamePlay().isPlayerDied() || gPS.getGamePlay().isEndGame()){
+				button_Menu.setVisible(true);
+				button_Next.setVisible(false);
+				button_Menu.setPosition((SecondTestGDX.screenWidth / 2) - 50,SecondTestGDX.screenHeight/2-300);
+				
+				
+				if (gPS.getGamePlay().isEndGame()) {
+					
+					WIN.setText("END GAME");
+					WIN.setVisible(true);
+					
+					CONGRATULATION.setText("CONGRATULATIONS!!");
+					CONGRATULATION.setVisible(true);
+					CONGRATULATION.addAction(sequence(hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show(), delay(1.0f), hide(), delay(1.0f), show()));
+					
+				}else {
+					
+					WIN.setText("YOU LOSE");
+					WIN.setVisible(true);
+					CONGRATULATION.setVisible(false);
+					
+					
+				}
+				
+				
+			}
+			
+		}
+		
 		
 	}
 	
+	
+	public void processStageEndLevel(){
+		
+		Texture logoWindows = null;
+		
+		if (gPS.getGamePlay().isNextLevel() || gPS.getGamePlay().isEndGame()) {
+			logoWindows = SecondTestGDX.resources.get(SecondTestGDX.resources.Victory, Texture.class);
+		}else {
+			logoWindows = SecondTestGDX.resources.get(SecondTestGDX.resources.Defeat, Texture.class);
+		}
+		
+		logo_result.setTextureLogo(logoWindows);
+		
+	}
+	
+	
 	public void draw(float delta) {
 		if (stage != null) {
+			processStageEndLevel();
 			stage.act(delta);
 			stage.draw();
 		}

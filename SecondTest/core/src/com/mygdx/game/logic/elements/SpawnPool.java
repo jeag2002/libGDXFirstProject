@@ -202,14 +202,16 @@ public class SpawnPool {
    	
     public void clear() {
     	
-        pools.get(SpawnType.MissileEnemy).clear();
-        pools.get(SpawnType.MissilePlayer).clear();
-        pools.get(SpawnType.Enemy_01).clear();
-        pools.get(SpawnType.Enemy_02).clear();
-        pools.get(SpawnType.Enemy_03).clear();
-        pools.get(SpawnType.Item).clear();
-        pools.get(SpawnType.Explosion).clear();
-        pools.clear();
+    	if (pools.size() > 0) {
+    		pools.get(SpawnType.MissileEnemy).clear();
+    		pools.get(SpawnType.MissilePlayer).clear();
+    		pools.get(SpawnType.Enemy_01).clear();
+    		pools.get(SpawnType.Enemy_02).clear();
+    		pools.get(SpawnType.Enemy_03).clear();
+    		pools.get(SpawnType.Item).clear();
+    		pools.get(SpawnType.Explosion).clear();
+    		pools.clear();
+    	}
         
         deletedForestWithCollision.clear();
         deletedWallsWithCollision.clear();
@@ -286,31 +288,7 @@ public class SpawnPool {
 	public ArrayList<AnimatedTiledMapTile> getDeletedAnimForestWithCollision() {
 		return deletedAnimForestWithCollision;
 	}
-    
-    
-
 }
 
-/*
-  private void printPoolSize() {
-        //Debug pool size
-        Iterator it = pools.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            SpawnType type = (SpawnType) pair.getKey();
-            ArrayList<SpawnObject> pool = (ArrayList<SpawnObject>) pair.getValue();
-            int countNotSpawned = 0;
-            int countSpawned = 0;
-            for (SpawnObject spawn: pool) {
-                if (!spawn.isSpawned())
-                    countNotSpawned++;
-                else
-                    countSpawned++;
-            }
-            System.out.println("Pool: " + type.name() + " -> Size:  " + pool.size() +  ", Spawned: " + countSpawned);
-            //it.remove(); // avoids a ConcurrentModificationException
-        }
-    }
- */
 
 

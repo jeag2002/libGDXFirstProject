@@ -471,7 +471,7 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	
 	
 	public void dispose() {
-		//if (this.light != null) {this.light.remove();}
+		if (this.light != null) {this.light.remove();}
 	}
 
 	@Override

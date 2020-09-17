@@ -19,14 +19,21 @@ public class LoadingBarWithBorders extends ProgressBar {
 	private TextureRegion leftBorder;
 	private TextureRegion rightBorder;
 	
+	private DrawUtils utils;
+	
+	private float iniX;
+	private float iniY;
+	private float iniWidth;
+	private float iniHeight;
+	
 	public LoadingBarWithBorders(int width, int height) {
 		super(0f, 1f, 0.01f, false, new ProgressBarStyle());
 		
-		DrawUtils utils = new DrawUtils();
+		utils = new DrawUtils();
 		
 		TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("gui/elements/progress-bars.pack"));
 		getStyle().background = new TextureRegionDrawable(textureAtlas.findRegion("loading-bar-2-background"));
-		getStyle().knob = utils.getColoredDrawable(0, height, Color.ORANGE);
+		getStyle().knob = utils.getColoredDrawable(0, height, Color.WHITE);
 		getStyle().knobBefore = new TextureRegionDrawable(textureAtlas.findRegion("loading-bar-2-knobbefore"));
 		
 		leftBorder = textureAtlas.findRegion("loading-bar-2-left");
@@ -34,9 +41,20 @@ public class LoadingBarWithBorders extends ProgressBar {
 		
 		setWidth(width);
 		setHeight(height);
-
+		
+		this.iniX = getX();
+		this.iniY = getY();
+		this.iniWidth = getWidth();
+		this.iniHeight = getHeight();
+		
 		setAnimateDuration(5f);
 	}
+	
+	public void resetValues() {
+		
+		this.setValue(0);
+	}
+	
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {

@@ -76,7 +76,7 @@ public class GUIStageStart {
 	          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
 	        	  
 	        	  
-	        	  gPS.getGamePlay().setLevelInformation();
+	        	  gPS.getGamePlay().setLevelInformation(0);
 	        	  gPS.initIntermision();
 	        	  
 	        	  Gdx.app.postRunnable(new Runnable() {

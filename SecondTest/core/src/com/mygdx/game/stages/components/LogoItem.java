@@ -263,10 +263,9 @@ public class LogoItem extends Actor {
 		
 		String label_2 = "OBJECTIVES: ";
 		this.font.draw(batch, label_2, X+30, Y+H-90);
-		
-		this.font.draw(batch, "- ARRIVE TO EXIT IN TIME (YELLOW)", X+30, Y+H-120);
-		this.font.draw(batch, "- DESTROY ALL THE ENEMY TANKS", X+30, Y+H-150);
-		this.font.draw(batch, "- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ", X+30, Y+H-180);
+		this.font.draw(batch, gPS.getGamePlay().getLevelInformation().getMsg_1(), X+30, Y+H-120);
+		this.font.draw(batch, gPS.getGamePlay().getLevelInformation().getMsg_2(), X+30, Y+H-150);
+		this.font.draw(batch, gPS.getGamePlay().getLevelInformation().getMsg_3(), X+30, Y+H-180);
 		
 	}
 	

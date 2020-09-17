@@ -51,6 +51,8 @@ public class GamePlay {
 	
 	private static final float TIME = 1f;
 	
+	private static final float END_LEVEL_TIME = 2f;
+	
 
 	
 	private GamePlayScreen gPS;
@@ -81,6 +83,8 @@ public class GamePlay {
 	private float time;
 	private float time_level;
 	private float time_2;
+	private float time_final_level;
+	
 	
 	private boolean pulse;
 	private boolean pulse_2;
@@ -108,6 +112,8 @@ public class GamePlay {
 		this.time_level = 0;
 		this.time_2 = 0;
 		
+		
+		
 		this.pulse = false;
 		this.pulse_2 = false;
 		
@@ -117,7 +123,7 @@ public class GamePlay {
 		
 		this.level = LevelEnum.IDLE;
 		
-		this.nextLevelIndex = rand.nextInt(9);
+		//this.nextLevelIndex = 0;
 		
 		scores = Gdx.app.getPreferences("scores");
 
@@ -160,8 +166,8 @@ public class GamePlay {
 	}
 	
 	
-	public void setLevelInformation() {
-		this.level = LevelEnum.getByIndex(this.nextLevelIndex);
+	public void setLevelInformation(int levelIndex) {
+		this.level = LevelEnum.getByIndex(levelIndex);
 	}
 	
 	public LevelEnum getLevelInformation() {
@@ -214,6 +220,40 @@ public class GamePlay {
 		return items;
 	}
 	
+	public void restartTileGenerator() {
+		sMG.restart();
+	}
+	
+	
+	public void processTileGeneration(ElementEnum gunPlayer) {
+		
+		
+		TileMapEnum[] data = GameLogicInformation.getRandomTileMap(this.level.getType());
+		this.gameLogic.initWorld();
+		sMG.setWorld(this.gameLogic.getSpawnPool(),this.gameLogic.getWorld(), gPS);
+		Gdx.app.log("[SINGLEMAPGENERATION]", "SET LIGHTS " + (this.level.getLights() == LIGHTS? "ON":"OFF"));
+		tiledMap = sMG.createSimpleMap(this.level.getType(),
+									   SecondTestGDX.sizeMapTileWidth_BG, 
+									   SecondTestGDX.sizeMapTileHeight_BG,
+									   SecondTestGDX.sizeMapTileWidth_TL, 
+									   SecondTestGDX.sizeMapTileHeight_TL, 
+									   data[INDEX_GAMELOGICINFORMATION_BACKGROUND],
+									   data[INDEX_GAMELOGICINFORMATION_BORDER], 
+									   data[INDEX_GAMELOGICINFORMATION_TILEMAP],
+									   data[INDEX_GAMELOGICINFORMATION_FOREST],
+									   GameLogicInformation.getRandomForestTileMap(this.level.getType()),
+									   GameLogicInformation.PLAYERS,
+									   this.level.getNumDrons(),
+									   this.level.getNumTanks(),
+									   this.level.getNumMines(),
+									   this.level.getNumTurrets());
+		
+		
+		situationPlayer(gunPlayer);
+	}
+	
+	
+	
 	public void processTileGeneration() {
 		
 		
@@ -241,8 +281,43 @@ public class GamePlay {
 		situationPlayer();
 	}
 	
+	
+	public void setPlayerCurrentVariables() {
+		this.gameLogic.getPlayer().setCurrentPlayerVariables(GameLogicInformation.getCurrentPlayerVariables());
+	}
+	
+	
 	public SimpleMapGeneration getMapGenerationEngine() {
 		return sMG;
+	}
+	
+	
+	
+	public void situationPlayer(ElementEnum gunPlayer) {
+		
+		ArrayList<NewItem> posPlayers = sMG.getPlayers();
+		
+		if (posPlayers.size() == INDEX_SINGLE_PLAYER) {
+			
+			NewItem posPlayer = posPlayers.get(0);
+			
+			this.gameLogic.initPlayer(posPlayer.getType(),
+									  gunPlayer,
+									  posPlayer.getX(), 
+									  posPlayer.getY(),
+									  SecondTestGDX.tilePlayerWidth_TL, 
+									  SecondTestGDX.tilePlayerHeight_TL);
+			
+			
+			
+			//public NewItem(SpawnType type, float x, float y, float width, float height, float angle, float speed) 
+			
+			NewItem playerFlag = new NewItem(SpawnType.Item, posPlayer.getX()-SecondTestGDX.tilePlayerWidth_TL, posPlayer.getY(),SecondTestGDX.tilePlayerWidth_TL, SecondTestGDX.tilePlayerHeight_TL, 0,0);
+			this.gameLogic.generateItem(SpawnType.Item_PlatformPlayer, playerFlag);
+			
+			
+		}
+		
 	}
 	
 	
@@ -281,15 +356,14 @@ public class GamePlay {
 	public void changeTurretPlayer() {
 		if (started) {
 			if (tiledMap != null) {
-				int random = rand.nextInt(5);
+				int random = rand.nextInt(6);
 				ElementEnum nextTurret = ElementEnum.GUN_PLAYER_1_A;
 				if (random == 1) {nextTurret = ElementEnum.GUN_PLAYER_1_B;}
 				else if (random == 2) {nextTurret = ElementEnum.GUN_PLAYER_1_C;}
 				else if (random == 3) {nextTurret = ElementEnum.GUN_PLAYER_1_D;}
 				else if (random == 4) {nextTurret = ElementEnum.GUN_PLAYER_1_E;}
+				else if (random == 5) {nextTurret = ElementEnum.GUN_PLAYER_1_F;}
 				gPS.getGamePlay().getGameLogic().getPlayer().changeTurret(nextTurret);
-				
-				
 			}
 		}
 	}
@@ -348,15 +422,49 @@ public class GamePlay {
 		if (started) {
 			if (tiledMap != null) {
 				if (this.nextLevel) {
-					this.nextLevelIndex++;
-					this.level = LevelEnum.getByIndex(this.nextLevelIndex);
-					if (this.level.equals(LevelEnum.IDLE)) {
-						this.endGame = true;
-					}
+					
 				}
 			}
 		}
 	}
+	
+	
+	public void processIfEndLevelGame(float delta) {
+		
+		if (started) {
+			if (tiledMap != null) {
+				if (this.nextLevel || this.playerDied) {
+					
+					time_final_level += delta;
+					
+					if (time_final_level > END_LEVEL_TIME) {
+						
+						this.time_final_level = 0;
+						this.time_level = 0;
+						started = false;
+						
+						GameLogicInformation.setLevel(GameLogicInformation.ENDLEVEL);
+						//background();
+						
+						this.level = LevelEnum.getByIndex(GameLogicInformation.getLevelGamePlay()+1);
+						
+						if (this.level.equals(LevelEnum.IDLE)) {
+							this.nextLevel = false;
+							this.endGame = true;
+						}
+						
+						if (this.nextLevel) {
+							GameLogicInformation.setCurrentPlayerVariables(this.getGameLogic().getPlayer().getStatsDynElement(), this.getGameLogic().getPlayer().getCannonType());
+						}	
+						
+						gPS.initEndLevel();
+					}
+				}
+			}
+		}
+		
+	}
+	
 	
 	public void processPlayerVariables(int explosionDamage) {
 		
@@ -535,6 +643,9 @@ public class GamePlay {
 	}
 	
 	public void drawBackground(SpriteBatch sb) {
+		
+		
+		
 		if ((GameLogicInformation.getLevel() == GameLogicInformation.START) || 
 			(GameLogicInformation.getLevel() == GameLogicInformation.INTERMISSION) ||
 			(GameLogicInformation.getLevel() == GameLogicInformation.ENDLEVEL) ||

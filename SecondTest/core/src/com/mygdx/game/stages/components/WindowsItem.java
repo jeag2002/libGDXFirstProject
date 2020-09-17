@@ -44,6 +44,14 @@ public class WindowsItem extends Actor{
 		this.logo.setTexture(textureLogo);
 	}
 	
+	public void setTextureBase(Texture textureBase) {
+		this.base.setTexture(textureBase);
+	}
+	
+	public void setTextureLogo(Texture textureLogo) {
+		this.logo.setTexture(textureLogo);
+	}
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);

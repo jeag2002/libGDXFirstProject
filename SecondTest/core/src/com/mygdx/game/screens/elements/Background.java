@@ -16,7 +16,11 @@ public class Background {
 	public void backgroundImage() {		
 		String spriteBMP = GameLogicInformation.getBackgroundImage();
 		Texture text = SecondTestGDX.resources.get(spriteBMP);
-		sprite = new Sprite(text);
+		if (sprite == null) {
+			sprite = new Sprite(text);
+		}else {
+			sprite.setTexture(text);
+		}
 	}
 	
 	public void setBounds(float X, float Y, float Width, float Height) {

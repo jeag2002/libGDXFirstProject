@@ -6,7 +6,9 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.enums.BackgroundMusicEnum;
+import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.SpawnType;
 import com.mygdx.game.enums.TileMapEnum;
 import com.mygdx.game.logic.elements.SpawnObject;
@@ -18,7 +20,7 @@ public class GameLogicInformation {
 	
 	public static final int NUM_LEVELS = 10;
 	public static final int FIRST_LEVEL = 0;
-	public static final int END_GAME = 10;
+	public static final int END_GAME = 99;
 	
 	public static final int START = 0;
 	public static final int INTERMISSION = 1;
@@ -124,14 +126,20 @@ public class GameLogicInformation {
 	
 	private static long enemiesLeft;
 	
+	
+	private static ElementDefinitionObject currentStatePlayer;
+	private static ElementEnum currentCannon;
+	
 	public static final String backGround_Start = SecondTestGDX.resources.imgSplash;
     //public static final String backGround_Start = SecondTestGDX.resources.imgSplash_1;
 	public static final String backGround_Intermission = SecondTestGDX.resources.imgIntermission;
 	
 	public static final String backGround_Start_MP3 = SecondTestGDX.resources.musicSplash;
 	public static final String backGround_Intermission_MP3 = SecondTestGDX.resources.musicIntermission;
-	public static final String backGround_AfterLevel_MP3 = SecondTestGDX.resources.musicAfterLevel;
 	
+	public static final String backGround_AfterLevel_DIED_MP3 = SecondTestGDX.resources.musicPlayerDied;
+	public static final String backGround_AfterLevel_NEXT_MP3 = SecondTestGDX.resources.musicEndLevel;
+	public static final String backGround_AfterLevel_END_MP3 = SecondTestGDX.resources.musicEndGame;
 	private static BackgroundMusicEnum mEnum;
 	
 	public static void setLevelGamePlay(int level) {
@@ -146,6 +154,18 @@ public class GameLogicInformation {
 		return GameLogicInformation.levelGameplay;
 	}
 	
+	public static void setCurrentPlayerVariables(ElementDefinitionObject currentStatePlayer, ElementEnum currentCannon) {
+		GameLogicInformation.currentStatePlayer = new ElementDefinitionObject(currentStatePlayer);
+		GameLogicInformation.currentCannon = ElementEnum.getByIndex(currentCannon.getIndex());
+	}
+	
+	public static ElementDefinitionObject getCurrentPlayerVariables() {
+		return GameLogicInformation.currentStatePlayer;
+	}
+	
+	public static ElementEnum getCurrentCannon() {
+		return GameLogicInformation.currentCannon;
+	}
 	
 	private static long getEnemiesAlive(GamePlayScreen gPS) {
 		
@@ -200,15 +220,17 @@ public class GameLogicInformation {
 		}
 	}
 	
-	public static String getBackgroundMusic() {
+	public static String getBackgroundMusic(GamePlayScreen gPS) {
 		if (level == START) {
 			return backGround_Start_MP3;
 		}else if (level == INTERMISSION) {
 			return backGround_Intermission_MP3;
-		}else if (level == ENDLEVEL) {
-			return backGround_AfterLevel_MP3;
-		}else if (level == ENDGAME) {	
-			return backGround_Intermission_MP3;
+		}else if ((level == ENDLEVEL) && (gPS.getGamePlay().isNextLevel())){
+			return backGround_AfterLevel_NEXT_MP3;
+		}else if ((level == ENDLEVEL) && (gPS.getGamePlay().isEndGame())){
+			return backGround_AfterLevel_END_MP3;
+		}else if ((level == ENDLEVEL) && (gPS.getGamePlay().isPlayerDied())){
+			return backGround_AfterLevel_DIED_MP3;
 		}else {
 			mEnum = BackgroundMusicEnum.MUSIC_1;
 			Random ran = new Random();

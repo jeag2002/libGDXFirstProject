@@ -954,8 +954,17 @@ public class CollisionEngine implements ContactListener{
 				}
 				
 				if (other.getType().equals(SpawnType.Player_01)) {
+					
 					gPS.getGamePlay().processPlayerVariables(object.getStatsDynElement().getScore());
 					gPS.getGamePlay().getGameLogic().crashSoundPlay();
+					
+					if (gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getLife() <= 0) {
+						gPS.getGamePlay().setPlayerDied(true);
+						createExplosionDynamic(gPS.getGamePlay().getGameLogic().getPlayer().getX(), 
+								               gPS.getGamePlay().getGameLogic().getPlayer().getY(), 
+								               gPS.getGamePlay().getGameLogic().getPlayer().getWidth(), 
+								               gPS.getGamePlay().getGameLogic().getPlayer().getHeight());
+					}
 				}
 				
 				

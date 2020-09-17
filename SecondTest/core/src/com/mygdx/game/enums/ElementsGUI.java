@@ -9,5 +9,6 @@ public enum ElementsGUI {
 	ICON,
 	MSGWINDOWS,
 	SCORE,
+	LEVEL,
 	IDLE;
 }
