@@ -1,17 +1,24 @@
 package com.mygdx.game.elements;
 
+import java.util.Random;
+
+import com.mygdx.game.enums.ElementEnum;
+
 public class ElementDefinitionObject {
 
 	private int life;
 	private int shield;
 	private int ammo;
 	private int score;
+	private ElementEnum cannon;
+	public Random rand;
 	
 	public ElementDefinitionObject() {
 		life = 0;
 		shield = 0;
 		ammo = 0;
 		score = 0;
+		cannon = ElementEnum.GUN_PLAYER_1_A;
 	}
 	
 	public ElementDefinitionObject(ElementDefinitionObject edoClone) {
@@ -19,6 +26,7 @@ public class ElementDefinitionObject {
 		shield = edoClone.getShield();
 		ammo = edoClone.getAmmo();
 		score = edoClone.getScore();
+		cannon = edoClone.getCannon();
 	}
 	
 	
@@ -26,6 +34,8 @@ public class ElementDefinitionObject {
 		
 		
 		private ElementDefinitionObject elementDO = new ElementDefinitionObject();
+		private Random rand= new Random();
+		
 		
 		public Builder setLife(int life) {
 			elementDO.life = life;
@@ -47,11 +57,40 @@ public class ElementDefinitionObject {
 			return this;
 		}
 		
+		
+		public Builder setRandomLife(int life) {
+			int random_life = rand.nextInt(life/2);
+			elementDO.life = random_life + life/2;
+			return this;
+		}
+		
+		
+		public Builder setRandomShield(int shield) {
+			int random_shield = rand.nextInt(shield/2);
+			elementDO.shield = random_shield + shield/2;
+			return this;
+		}
+		
+		
+		public Builder setRandomAmmo(int ammo) {
+			int random_ammo = rand.nextInt(ammo/2);
+			elementDO.ammo = random_ammo + ammo/2;
+			return this;
+		}
+		
+		
+		
 		public ElementDefinitionObject build() {
 			return elementDO;
 		}
 		
 	}
+	
+
+	public void setCannon(ElementEnum cannon) {
+		this.cannon = cannon;
+	}
+	
 	
 	public int getLife() {
 		return life;
@@ -86,7 +125,18 @@ public class ElementDefinitionObject {
 	}
 
 
-	
+	public ElementEnum getCannon() {
+		
+		rand = new Random();
+		int cannon = rand.nextInt(6);
+		if (cannon == 0) {return ElementEnum.GUN_PLAYER_1_A;}
+		else if (cannon == 1) {return ElementEnum.GUN_PLAYER_1_B;}
+		else if (cannon == 2) {return ElementEnum.GUN_PLAYER_1_C;}
+		else if (cannon == 3) {return ElementEnum.GUN_PLAYER_1_D;}
+		else if (cannon == 4) {return ElementEnum.GUN_PLAYER_1_E;}
+		else if (cannon == 5) {return ElementEnum.GUN_PLAYER_1_F;}
+		else {return ElementEnum.GUN_PLAYER_1_A;}
+	}
 	
 	
 }

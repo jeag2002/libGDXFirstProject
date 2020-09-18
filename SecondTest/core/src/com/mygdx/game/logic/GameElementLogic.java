@@ -114,7 +114,7 @@ public class GameElementLogic {
 	
 	
 	public void initPlayer(SpawnType playerType, float iniPositionX, float iniPositionY, float width, float height) {
-		player = new Player(this.spawnPool,playerType,ElementEnum.GUN_PLAYER_1_A,this.world,this.gPS);
+		player = new Player(this.spawnPool,playerType,this.world,this.gPS);
 		player.setLocationAndSize(rayHandler, iniPositionX, iniPositionY, width, height);
 	}
 	

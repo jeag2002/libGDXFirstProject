@@ -100,16 +100,67 @@ public class Player extends ShootPlayerObject{
     private Sprite spriteShield;
    
     
-    public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannonType, World world, GamePlayScreen gPS) {
+    public Player(SpawnPool spawnPool, SpawnType type, World world, GamePlayScreen gPS) {
     	super(spawnPool, type, world);
     	
     	ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
-    	this.eDO = new ElementDefinitionObject.Builder().setLife(eDU.getLife()).setShield(eDU.getShield()).setAmmo(eDU.getAmmo()).setScore(0).build();
+    	this.eDO = new ElementDefinitionObject.Builder().setRandomLife(eDU.getLife()).setRandomShield(eDU.getShield()).setRandomAmmo(eDU.getAmmo()).setScore(0).build();
     	
     	this.gPS = gPS;
     	
     	this.type = type;
-    	this.cannonType = cannonType;
+    	this.cannonType = eDO.getCannon();
+    	
+    	this.orientationUP= PlayerMovementsEnum.IDLE;
+    	this.orientationDOWN= PlayerMovementsEnum.IDLE;
+    	this.orientationLEFT= PlayerMovementsEnum.IDLE;
+    	this.orientationRIGHT= PlayerMovementsEnum.IDLE;
+    	this.orientationA= PlayerMovementsEnum.IDLE;
+    	this.orientationS= PlayerMovementsEnum.IDLE;
+    	this.orientationSHOOT= PlayerMovementsEnum.IDLE;
+    	this.orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
+    	
+    	
+    	this.dU = new DrawUtils();
+    	this.player_parts = new ArrayList<DynElementPart>();
+    	this.angle = 0.0f;
+    	this.angleTurret = 0.0f;
+    	
+    	this.time = 0.0f;
+    	
+    	this.collDetection = false;
+    	this.sfxShotVolume = 0.97f;
+    	this.sfxFlameVolume = 0.25f;
+    	this.sfxMissileVolume = 0.25f;
+    	this.sfxGrenadeVolume = 0.25f;
+    
+       	
+	    setShotSound("sounds/laser4.mp3", sfxShotVolume);
+	    setFlameSound("sounds/flamethrow.mp3", sfxFlameVolume); 
+	    setMissileSound("sounds/Missile.mp3", sfxMissileVolume);
+	    setGrenadeSound("sounds/grenade.mp3", sfxGrenadeVolume); 
+	    
+	    super.resetGuns();
+		
+	    textureShield = SecondTestGDX.resources.get(SecondTestGDX.resources.border_bonus,Texture.class);
+    	spriteShield = new Sprite(textureShield);
+	    
+    	initShootingEngine(SpawnType.MissilePlayer);
+    	setShootingActive(true);
+    	
+    }
+    
+    
+    public Player(SpawnPool spawnPool, SpawnType type, ElementEnum cannon, World world, GamePlayScreen gPS) {
+    	super(spawnPool, type, world);
+    	
+    	ElementDataEnum eDU = ElementDataEnum.getBySpawnType(type);
+    	this.eDO = new ElementDefinitionObject.Builder().setRandomLife(eDU.getLife()).setRandomLife(eDU.getShield()).setRandomAmmo(eDU.getAmmo()).setScore(0).build();
+    	
+    	this.gPS = gPS;
+    	
+    	this.type = type;
+    	this.cannonType = cannon;
     	
     	this.orientationUP= PlayerMovementsEnum.IDLE;
     	this.orientationDOWN= PlayerMovementsEnum.IDLE;

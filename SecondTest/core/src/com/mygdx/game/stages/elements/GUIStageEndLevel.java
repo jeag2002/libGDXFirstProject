@@ -299,6 +299,10 @@ public class GUIStageEndLevel {
 				button_Menu.setPosition((SecondTestGDX.screenWidth / 2) - 100,SecondTestGDX.screenHeight/2-300);
 				button_Next.setPosition((SecondTestGDX.screenWidth / 2),SecondTestGDX.screenHeight/2-300);
 				
+
+				button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
+				button_Next.addAction(sequence(hide(), delay(5.5f), show()));
+				
 				
 				WIN.setText("END LEVEL");
 				WIN.setVisible(true);
@@ -308,6 +312,8 @@ public class GUIStageEndLevel {
 				button_Menu.setVisible(true);
 				button_Next.setVisible(false);
 				button_Menu.setPosition((SecondTestGDX.screenWidth / 2) - 50,SecondTestGDX.screenHeight/2-300);
+				
+				button_Menu.addAction(sequence(hide(), delay(5.0f), show()));
 				
 				
 				if (gPS.getGamePlay().isEndGame()) {

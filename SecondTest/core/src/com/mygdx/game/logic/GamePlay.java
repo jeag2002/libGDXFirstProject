@@ -52,7 +52,7 @@ public class GamePlay {
 	
 	private static final float TIME = 1f;
 	
-	private static final float END_LEVEL_TIME = 2f;
+	private static final float END_LEVEL_TIME = 1f;
 	
 
 	
