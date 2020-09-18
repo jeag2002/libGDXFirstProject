@@ -21,6 +21,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.SecondTestGDX;
+import com.mygdx.game.elements.ElementDefinitionObject;
 import com.mygdx.game.enums.ElementEnum;
 import com.mygdx.game.enums.LevelEnum;
 import com.mygdx.game.enums.PlayerMovementsEnum;
@@ -455,7 +456,9 @@ public class GamePlay {
 						
 						if (this.nextLevel) {
 							GameLogicInformation.setCurrentPlayerVariables(this.getGameLogic().getPlayer().getStatsDynElement(), this.getGameLogic().getPlayer().getCannonType());
-						}	
+						}else {
+							GameLogicInformation.setCurrentPlayerVariables(new ElementDefinitionObject(), ElementEnum.GUN_PLAYER_1_A);
+						}
 						
 						gPS.initEndLevel();
 					}
@@ -838,7 +841,7 @@ public class GamePlay {
 	public void drawElements(SpriteBatch sb) {
 		if (started) {
 			if (tiledMap != null) {
-				gameLogic.drawPlayer(sb);
+				if (!this.playerDied) {gameLogic.drawPlayer(sb);}
 				gameLogic.drawSpawns(sb);
 			}
 		}
