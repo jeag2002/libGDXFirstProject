@@ -63,6 +63,13 @@ public class GameElementLogic {
     private Sound sfxFireIgnite;
     private float sfxFireVolume;
     
+    
+    private Sound sfxGoodLuck;
+    private float sfxGoodLuckVolume;
+    
+    private Sound sfxLevelComplete;
+    private float sfxLevelCompleteVolume;
+    
 	private ArrayList<SpawnObject> enemiesDron = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTank = new ArrayList<SpawnObject>();
 	private ArrayList<SpawnObject> enemiesTurrets = new ArrayList<SpawnObject>();
@@ -91,6 +98,8 @@ public class GameElementLogic {
 		setBonusSound("sounds/bonus.wav", 0.25f); 
 		setCrashSound("sounds/crash.wav", 0.25f);
 		setFireSound("sounds/FireIgnite.mp3", 0.25f);
+		setLevelCompleteSound("sounds/levelcomplete.wav", 0.25f);
+		setGoodLuckSound("sounds/goodluck.wav", 0.25f);
 		
 	}
 	
@@ -179,6 +188,17 @@ public class GameElementLogic {
 	     sfxBonusVolume = volume;
 	}
 	
+	public void setLevelCompleteSound(String path, float volume) {
+	     sfxLevelComplete = Gdx.audio.newSound(Gdx.files.internal(path));
+	     sfxLevelCompleteVolume = volume;
+	}
+	
+	public void setGoodLuckSound(String path, float volume) {
+		this.sfxGoodLuck = Gdx.audio.newSound(Gdx.files.internal(path));
+		this.sfxGoodLuckVolume = volume;
+	}
+	
+	
 	public void bonusSoundPlay() {
 		sfxBonus.play(sfxBonusVolume);
 	}
@@ -187,6 +207,13 @@ public class GameElementLogic {
 		sfxCrash.play(sfxCrashVolume);
 	}
 	
+	public void levelCompleteSoundPlay() {
+		sfxLevelComplete.play(sfxLevelCompleteVolume);
+	}
+	
+	public void goodLuckSoundPlay() {
+		sfxGoodLuck.play(sfxGoodLuckVolume);
+	}
 	
 	public void setBigExplosionSound(String path, float volume) {
 	     sfxBigExplosion = Gdx.audio.newSound(Gdx.files.internal(path));

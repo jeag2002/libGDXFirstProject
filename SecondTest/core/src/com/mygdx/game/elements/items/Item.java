@@ -35,7 +35,7 @@ public class Item extends DynamicCollPlayerObject implements SpawnObject{
 	private static final float TRANSITION_BETWEEN_ANIM = 0.05f;
 	private static final float TRANSITION_PULSE_BONUS = 0.05f;
 	
-	private static final int TRANSITION_SPAWN = 20;
+	private static final int TRANSITION_SPAWN = 15;
 	private static final int TRANSITION_SPAWN_LIGHT = 2;
 	
 	private static final int POSITION_1 = 0;

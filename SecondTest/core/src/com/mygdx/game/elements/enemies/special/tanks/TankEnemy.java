@@ -53,9 +53,9 @@ public class TankEnemy extends ShootTankObject implements SpawnObject, Telegraph
 	private static final float INTERVAL_BETWEEN_SHOOT = 1f;
 	
 	
-	private static final float DELAY_1 = 1;
-	private static final float DELAY_2 = 2;
-	private static final float DELAY_3 = 3;
+	private static final float DELAY_1 = 0;
+	private static final float DELAY_2 = 4;
+	private static final float DELAY_3 = 8;
 
 	
 	private GamePlayScreen gPS;

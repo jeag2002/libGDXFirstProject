@@ -128,6 +128,8 @@ public class GamePlayScreen implements Screen{
 		
 		stopMusic();
 	    initMusic();
+	    
+	    gamePlay.getGameLogic().goodLuckSoundPlay();
 	}
 	
 	public void reinitGamePlay() {
@@ -142,6 +144,8 @@ public class GamePlayScreen implements Screen{
 		
 		stopMusic();
 	    initMusic();
+	    
+	    gamePlay.getGameLogic().goodLuckSoundPlay();
 		
 		
 	}

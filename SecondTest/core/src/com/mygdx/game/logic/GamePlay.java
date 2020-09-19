@@ -404,6 +404,9 @@ public class GamePlay {
 					(GameLogicInformation.getEnemiesLeft(gPS) <= GameLogicInformation.MIN_ENEMIES_TO_EXIT)) {
 						this.playerDied = false;
 						this.nextLevel = true;	
+						
+						
+						
 					}
 					
 				}else {
@@ -436,9 +439,20 @@ public class GamePlay {
 			if (tiledMap != null) {
 				if (this.nextLevel || this.playerDied) {
 					
+					if (time_final_level == 0 ) { 
+						if (this.nextLevel) {
+							gameLogic.levelCompleteSoundPlay();
+						}
+					}
+					
+					
+					
 					time_final_level += delta;
 					
+					
+					
 					if (time_final_level > END_LEVEL_TIME) {
+						
 						
 						this.time_final_level = 0;
 						this.time_level = 0;

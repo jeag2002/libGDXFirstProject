@@ -128,13 +128,10 @@ public class ElementDefinitionObject {
 	public ElementEnum getCannon() {
 		
 		rand = new Random();
-		int cannon = rand.nextInt(6);
+		int cannon = rand.nextInt(3);
 		if (cannon == 0) {return ElementEnum.GUN_PLAYER_1_A;}
 		else if (cannon == 1) {return ElementEnum.GUN_PLAYER_1_B;}
 		else if (cannon == 2) {return ElementEnum.GUN_PLAYER_1_C;}
-		else if (cannon == 3) {return ElementEnum.GUN_PLAYER_1_D;}
-		else if (cannon == 4) {return ElementEnum.GUN_PLAYER_1_E;}
-		else if (cannon == 5) {return ElementEnum.GUN_PLAYER_1_F;}
 		else {return ElementEnum.GUN_PLAYER_1_A;}
 	}
 	
