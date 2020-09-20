@@ -131,7 +131,7 @@ public class ElementDefinitionObject {
 		int cannon = rand.nextInt(3);
 		if (cannon == 0) {return ElementEnum.GUN_PLAYER_1_A;}
 		else if (cannon == 1) {return ElementEnum.GUN_PLAYER_1_B;}
-		else if (cannon == 2) {return ElementEnum.GUN_PLAYER_1_C;}
+		else if (cannon == 2) {return ElementEnum.GUN_PLAYER_1_E;}
 		else {return ElementEnum.GUN_PLAYER_1_A;}
 	}
 	

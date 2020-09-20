@@ -344,89 +344,92 @@ public class Player extends ShootPlayerObject{
     
     public void movement(float delta) {
     	
-    	   	
-		    if (orientationUP.equals(PlayerMovementsEnum.UP)) {
-		    		if (Gdx.input.isKeyPressed(Keys.UP) || (Gdx.input.isKeyPressed(Keys.W))) {
-		    			movement(delta, -1);
-		    			gPS.getGamePlay().update(getX(),getY());
-		    			animatedTracks(delta,true,true); 
-		    		    animatedExhaust(delta,true,true);
-		    		}
-		    }
+    		if (!gPS.getGamePlay().isPlayerDied()) {
+    	
+			    if (orientationUP.equals(PlayerMovementsEnum.UP)) {
+			    		if (Gdx.input.isKeyPressed(Keys.UP) || (Gdx.input.isKeyPressed(Keys.W))) {
+			    			movement(delta, -1);
+			    			gPS.getGamePlay().update(getX(),getY());
+			    			animatedTracks(delta,true,true); 
+			    		    animatedExhaust(delta,true,true);
+			    		}
+			    }
+			    	
+			    if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
+			    		if (Gdx.input.isKeyPressed(Keys.DOWN) || (Gdx.input.isKeyPressed(Keys.S))) {	
+			    			movement(delta, 1);		    			
+			    			gPS.getGamePlay().update(getX(),getY());
+			    			animatedTracks(delta, true, true);
+			    			animatedExhaust(delta,false,false);
+			    		}
+		
+			    }
 		    	
-		    if (orientationDOWN.equals(PlayerMovementsEnum.DOWN)) {
-		    		if (Gdx.input.isKeyPressed(Keys.DOWN) || (Gdx.input.isKeyPressed(Keys.S))) {	
-		    			movement(delta, 1);		    			
-		    			gPS.getGamePlay().update(getX(),getY());
-		    			animatedTracks(delta, true, true);
-		    			animatedExhaust(delta,false,false);
+		    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
+		    		if (Gdx.input.isKeyPressed(Keys.LEFT) || (Gdx.input.isKeyPressed(Keys.A))) {
+		    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+		    			rotate();
+		    			animatedTracks(delta, true, false);
+		    			animatedExhaust(delta,false,true);
 		    		}
 	
-		    }
-	    	
-	    	if (orientationLEFT.equals(PlayerMovementsEnum.LEFT)) {	
-	    		if (Gdx.input.isKeyPressed(Keys.LEFT) || (Gdx.input.isKeyPressed(Keys.A))) {
-	    			angle +=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-	    			rotate();
-	    			animatedTracks(delta, true, false);
-	    			animatedExhaust(delta,false,true);
-	    		}
-
-	    	}
-	    	
-	    	if (orientationRIGHT.equals(PlayerMovementsEnum.RIGHT)) {
-	    		if (Gdx.input.isKeyPressed(Keys.RIGHT) || (Gdx.input.isKeyPressed(Keys.D))) {
-	    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-	    			rotate();
-	    			animatedTracks(delta, false, true);
-	    			animatedExhaust(delta,true, false);
-	    		}
-
-	    	}
-	    	
-	    	if (orientationS.equals(PlayerMovementsEnum.TURRETCLOCKWISE)) {
-	    		if (Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Keys.ALT_LEFT)) {
-	    			this.angleTurret -= GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-	    			rotateTurret();
-	    		}
-	    	}
-	    	
-	    	if (orientationA.equals(PlayerMovementsEnum.TURRETANTICLOCKWISE)) {
-	    		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) {
-	    			this.angleTurret += GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
-	    			rotateTurret();
-	    		}
-	    	}
-	    	
-	    	if (orientationSHOOT.equals(PlayerMovementsEnum.SHOOT)) {
-	    		
-	    		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) && SecondTestGDX.isMouseEnabled) {
-	    			if (this.eDO.getAmmo() > 0) {
-	    				shootGeneration(delta);
-	    				
-	    			}
-	    		}
-	    	}
-	    	
-	    	if (orientationMOUSEMOVE.equals(PlayerMovementsEnum.MOUSEMOVED)) {
-		    	if ((SecondTestGDX.isMouseEnabled) && (!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.S))) {
-		    		rotateTurretMouse();
-		    		orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
 		    	}
-	    	}
+		    	
+		    	if (orientationRIGHT.equals(PlayerMovementsEnum.RIGHT)) {
+		    		if (Gdx.input.isKeyPressed(Keys.RIGHT) || (Gdx.input.isKeyPressed(Keys.D))) {
+		    			angle -=  GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+		    			rotate();
+		    			animatedTracks(delta, false, true);
+		    			animatedExhaust(delta,true, false);
+		    		}
+	
+		    	}
+		    	
+		    	if (orientationS.equals(PlayerMovementsEnum.TURRETCLOCKWISE)) {
+		    		if (Gdx.input.isKeyPressed(Keys.CONTROL_RIGHT) || Gdx.input.isKeyPressed(Keys.ALT_LEFT)) {
+		    			this.angleTurret -= GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+		    			rotateTurret();
+		    		}
+		    	}
+		    	
+		    	if (orientationA.equals(PlayerMovementsEnum.TURRETANTICLOCKWISE)) {
+		    		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT) || Gdx.input.isKeyPressed(Keys.ALT_RIGHT)) {
+		    			this.angleTurret += GameLogicInformation.speedUpFactor * GameLogicInformation.bgSpeed * delta;
+		    			rotateTurret();
+		    		}
+		    	}
+		    	
+		    	if (orientationSHOOT.equals(PlayerMovementsEnum.SHOOT)) {
+		    		
+		    		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isButtonPressed(Input.Buttons.LEFT) && SecondTestGDX.isMouseEnabled) {
+		    			if (this.eDO.getAmmo() > 0) {
+		    				shootGeneration(delta);
+		    				
+		    			}
+		    		}
+		    	}
+		    	
+		    	if (orientationMOUSEMOVE.equals(PlayerMovementsEnum.MOUSEMOVED)) {
+			    	if ((SecondTestGDX.isMouseEnabled) && (!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.S))) {
+			    		rotateTurretMouse();
+			    		orientationMOUSEMOVE = PlayerMovementsEnum.IDLE;
+			    	}
+		    	}
+		    	
+		    	if (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		    		
+		    		super.setCollisionVel(0.0f, 0.0f);
+		    		animatedExhaust(delta, false, false);
+		    		
+		    		if (gPS.getGamePlay().getMapGenerationEngine().getTypeMap() == SimpleMapGeneration.TYPE_WINTER) {
+		    			movementIce();
+		     		 }
+		    		
+		    	}
+		    	
+		    	gPS.getGamePlay().update(getX(), getY());
+    		}
 	    	
-	    	if (!Gdx.input.isKeyPressed(Keys.UP) && !Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
-	    		
-	    		super.setCollisionVel(0.0f, 0.0f);
-	    		animatedExhaust(delta, false, false);
-	    		
-	    		if (gPS.getGamePlay().getMapGenerationEngine().getTypeMap() == SimpleMapGeneration.TYPE_WINTER) {
-	    			movementIce();
-	     		 }
-	    		
-	    	}
-	    	
-	    	gPS.getGamePlay().update(getX(), getY());
     }
     
     

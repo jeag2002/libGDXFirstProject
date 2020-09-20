@@ -313,6 +313,14 @@ public class Resources extends AssetManager{
 	
 	public String Track_Print = "elements/player/Track_Print.png";
 	
+	public String Slime_1 = "maps/terrain/slime_1.jpg";
+	public String Slime_2 = "maps/terrain/slime_2.jpg";
+	
+	public String Barrel_1 = "maps/terrain/wasteland_barrell_01.png";
+	public String Barrel_2 = "maps/terrain/wasteland_barrell_02.png";
+	public String Barrel_3 = "maps/terrain/wasteland_box.png";
+	
+	
 	
 	public void loadAssets() {
 		
@@ -594,6 +602,16 @@ public class Resources extends AssetManager{
 		load(Hangar,Texture.class);
 		load(Description,Texture.class);
 		load(Rating,Texture.class);
+		/////////////////////////////////////////
+		
+		//WASTELAND
+		/////////////////////////////////////////
+		load(Slime_1,Texture.class);
+		load(Slime_2,Texture.class);
+		
+		load(Barrel_1,Texture.class);
+		load(Barrel_2,Texture.class);
+		load(Barrel_3,Texture.class);
 		/////////////////////////////////////////
 		 
 		Gdx.app.log(TAG, "ASSETS LOADED");

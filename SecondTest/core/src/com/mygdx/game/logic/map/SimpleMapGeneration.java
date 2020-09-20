@@ -101,6 +101,7 @@ public class SimpleMapGeneration {
    public static final int TYPE_CITY = 6;
    public static final int TYPE_SPACE = 7;
    public static final int TYPE_ISLAND = 8;
+   public static final int TYPE_WASTELAND = 9;
    
   
    public SimpleMapGeneration() {
@@ -295,14 +296,17 @@ public class SimpleMapGeneration {
 		alternativeCaveLayer = new TiledMapTileLayer(width, height, width_tile, height_tile);
 		Texture text = null;
 		
-		/*
-		if (typeMap == this.TYPE_ISLAND) {
-			text = SecondTestGDX.resources.get(TileMapEnum.WATER_3.getTileMapStr());
-			text = DrawUtils.resizeTexture(text, TileMapEnum.WATER_3.getWidthBef(), TileMapEnum.WATER_3.getHeightBef(), TileMapEnum.WATER_3.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
-		}else {*/
+		
+		if (typeMap == this.TYPE_WASTELAND) {
+			text = SecondTestGDX.resources.get(TileMapEnum.SLIME_2.getTileMapStr());
+			text = DrawUtils.resizeTexture(text, TileMapEnum.SLIME_2.getWidthBef(), TileMapEnum.SLIME_2.getHeightBef(), TileMapEnum.SLIME_2.getWidthShow(), TileMapEnum.SLIME_2.getHeightShow());
+		}else if (typeMap == this.TYPE_VOLCANO) {
 			text = SecondTestGDX.resources.get(TileMapEnum.VOLCANO_FOREST_2.getTileMapStr());
 			text = DrawUtils.resizeTexture(text, TileMapEnum.VOLCANO_FOREST_2.getWidthBef(), TileMapEnum.VOLCANO_FOREST_2.getHeightBef(), TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
-		//}
+		}else {
+			text = SecondTestGDX.resources.get(TileMapEnum.VOLCANO_FOREST_2.getTileMapStr());
+			text = DrawUtils.resizeTexture(text, TileMapEnum.VOLCANO_FOREST_2.getWidthBef(), TileMapEnum.VOLCANO_FOREST_2.getHeightBef(), TileMapEnum.VOLCANO_FOREST_2.getWidthShow(), TileMapEnum.VOLCANO_FOREST_2.getHeightShow());
+		}
 
 		TextureRegion tRegion = new TextureRegion(text);
 		
@@ -464,7 +468,7 @@ public class SimpleMapGeneration {
 							TextureRegion tRegion = bufferForest[index];
 							
 							StaticTiledMapColl forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+22), 
+									SpawnType.getByIndex(typeMap+23), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -487,7 +491,7 @@ public class SimpleMapGeneration {
 							TextureRegion tRegion = bufferForest[index];
 							
 							StaticTiledMapColl forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+22), 
+									SpawnType.getByIndex(typeMap+23), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -504,7 +508,7 @@ public class SimpleMapGeneration {
 							//tile-2
 							tRegion = bufferForest[index+1];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+22), 
+									SpawnType.getByIndex(typeMap+23), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -519,7 +523,7 @@ public class SimpleMapGeneration {
 							//tile-3
 							tRegion = bufferForest[index+2];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+22), 
+									SpawnType.getByIndex(typeMap+23), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -534,7 +538,7 @@ public class SimpleMapGeneration {
 							//tile-4
 							tRegion = bufferForest[index+3];
 							forest = new StaticTiledMapColl(
-									SpawnType.getByIndex(typeMap+22), 
+									SpawnType.getByIndex(typeMap+23), 
 									tRegion, 
 									(float)x*tileMapElem_1.getWidthShow(), 
 									(float)y*tileMapElem_1.getHeightShow(), 
@@ -556,7 +560,7 @@ public class SimpleMapGeneration {
 						TextureRegion tRegion = bufferForest[index];
 						
 						StaticTiledMapColl forest = new StaticTiledMapColl(
-								SpawnType.getByIndex(typeMap+22), 
+								SpawnType.getByIndex(typeMap+23), 
 								tRegion, 
 								(float)x*tileMapElem_1.getWidthShow(), 
 								(float)y*tileMapElem_1.getHeightShow(), 
@@ -564,7 +568,7 @@ public class SimpleMapGeneration {
 								(float)tileMapElem_1.getHeightShow(),
 								x,y,
 								world,
-								(typeMap == TYPE_WINTER) || (typeMap == TYPE_VOLCANO)
+								(typeMap == TYPE_WINTER) || (typeMap == TYPE_VOLCANO)  || (typeMap == TYPE_WASTELAND)
 								);
 						
 						forestLst.add(forest);
@@ -788,7 +792,7 @@ public class SimpleMapGeneration {
 	
 	public void setEnemiesCENTROIDPosition(NewItem player, int numEnemies) {
 		
-		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE)) {
+		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE) && (typeMap != TYPE_WASTELAND)) {
 			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH));
 			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN));
 			setEnemiesCENTROIDPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH));
@@ -838,7 +842,7 @@ public class SimpleMapGeneration {
 	
 	public void setEnemiesMINEPosition(NewItem player, int numEnemies) {
 		
-		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE)) {
+		if ((typeMap != TYPE_WINTER) && (typeMap != TYPE_VOLCANO) && (typeMap != TYPE_SPACE) && (typeMap != TYPE_WASTELAND)) {
 			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTDOWN, numEnemies/4 + numEnemies%4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH));
 			setEnemiesMINEPositionSector(DynamicElementPositionEnum.LEFTHIGH, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTHIGH) || player.getPlayerPosition().equals(DynamicElementPositionEnum.LEFTDOWN));
 			setEnemiesMINEPositionSector(DynamicElementPositionEnum.RIGHTDOWN, numEnemies/4, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTDOWN) || player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH));
@@ -941,57 +945,7 @@ public class SimpleMapGeneration {
 		setEnemiesTANKPosition(DynamicElementPositionEnum.RIGHTHIGH, numTanks/3, player.getPlayerPosition().equals(DynamicElementPositionEnum.RIGHTHIGH)); 
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]","NUM ENEMIES TYPE (" + SpawnType.Enemy_02 + ") GENERATED (" + enemiesTANKSituation.size() + ")");
-		Gdx.app.log("[SINGLEMAPGENERATION]","SPAWN ENEMIES NODES (" + SpawnType.Item_PlatformEnemy + ") GENERATED (" + tankIniNodeSituation.size() + ")");
-		
-		
-		//TEST
-		/*
-		NewItem tank = new NewItem(SpawnType.Enemy_02, 
-				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 256, 
-                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		enemiesTANKSituation.add(tank);
-		
-		
-		NewItem node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
-				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 192, 
-                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		this.tankIniNodeSituation.add(node_tank);
-		
-		tank = new NewItem(SpawnType.Enemy_02, 
-				SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 256, 
-                (SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		enemiesTANKSituation.add(tank);
-		
-		node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
-                SecondTestGDX.sizeMapTileWidth_TL * SecondTestGDX.tileHeight_TL - 192, 
-                (SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		this.tankIniNodeSituation.add(node_tank);
-		
-		
-		tank = new NewItem(SpawnType.Enemy_02, 
-                128+64, 
-                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		enemiesTANKSituation.add(tank);
-		
-		node_tank = new NewItem(SpawnType.Item_PlatformEnemy, 
-                128, 
-                3*(SecondTestGDX.sizeMapTileHeight_TL/4) * SecondTestGDX.tileHeight_TL, 
-                SecondTestGDX.tilePlayerWidth_TL, 
-                SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		this.tankIniNodeSituation.add(node_tank);
-		*/
-		
-		
+		Gdx.app.log("[SINGLEMAPGENERATION]","SPAWN ENEMIES NODES (" + SpawnType.Item_PlatformEnemy + ") GENERATED (" + tankIniNodeSituation.size() + ")");		
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -1009,7 +963,6 @@ public class SimpleMapGeneration {
 		List<MapConnection> connections = graph.getEdges();
 		
 		MapConnection conn = new MapConnection(fromItem, new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0),1);
-		//MapConnection revConn = new MapConnection(new NewItem(SpawnType.Path_Node, i*SecondTestGDX.tileWidth_TL, j*SecondTestGDX.tileHeight_TL, i, j, 0), fromItem);
 		
 		if (i < 0 || i >= width) {
 			return false;
@@ -1017,14 +970,11 @@ public class SimpleMapGeneration {
 			return false;
 		}else if ((caveMap[i-1][j-1])) {
 			return false;
-		}else if ((forestMap[i-1][j-1] == ForestGenerationImpl.FOREST) && ((this.typeMap == TYPE_WINTER) || (this.typeMap == TYPE_VOLCANO))){
+		}else if ((forestMap[i-1][j-1] == ForestGenerationImpl.FOREST) && ((this.typeMap == TYPE_WINTER) || (this.typeMap == TYPE_VOLCANO) || (typeMap != TYPE_WASTELAND))){
 			return false;
 		}else if (connections.contains(conn)) {
 			return false;
 		}
-		//else if (connections.contains(revConn)) {
-		//	return false;
-		//}
 	    else {
 			return true;
 		}	
@@ -1041,7 +991,7 @@ public class SimpleMapGeneration {
 			for(int y=1; y<height-1; y++) {
 				if (caveMap[x-1][y-1] == false) {
 					if ((forestMap[x-1][y-1] == ForestGenerationImpl.EMPTY) ||
-					   ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (this.typeMap != TYPE_WINTER) && (this.typeMap != TYPE_VOLCANO))) {
+					   ((forestMap[x-1][y-1] == ForestGenerationImpl.FOREST) && (this.typeMap != TYPE_WINTER) && (this.typeMap != TYPE_VOLCANO) && (typeMap != TYPE_WASTELAND) )) {
 						graph.addNode(new NewItem(SpawnType.Path_Node, x*SecondTestGDX.tileWidth_TL, y*SecondTestGDX.tileHeight_TL, x, y, index));
 						index++;
 						
@@ -1056,25 +1006,6 @@ public class SimpleMapGeneration {
 		for(int i=0; i<nodes.size(); i++) {
 			NewItem fromItem = nodes.get(i);
 			
-			/*
-			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()+1, width, height)) {
-				
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()-1,
-						fromItem.getIndex_Y()+1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				
-				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),2);
-					graph.addEdge(nodes.get(index),fromItem,2);
-				}
-			
-			} 
-			*/
 			
 			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()+1, width, height)) {
 				
@@ -1091,25 +1022,6 @@ public class SimpleMapGeneration {
 				}
 			
 			}
-			
-			/*
-			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()+1, width, height)) {
-				
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL, 
-						(fromItem.getIndex_Y()+1)*SecondTestGDX.tileHeight_TL,
-						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()+1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				if (index != -1) {
-					graph.addEdge(fromItem,  nodes.get(index),2);
-					graph.addEdge(nodes.get(index),fromItem,2);
-				}
-			
-			}
-			*/
 			
 			
 			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y(), width, height)) {
@@ -1146,24 +1058,6 @@ public class SimpleMapGeneration {
 			}
 			
 			
-			/*
-			if (checkNode(fromItem, fromItem.getIndex_X()-1, fromItem.getIndex_Y()-1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node,
-						(fromItem.getIndex_X()-1)*SecondTestGDX.tileWidth_TL,
-						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()-1, 
-						fromItem.getIndex_Y()-1, 0 );
-				index = nodes.indexOf(toItem);
-				
-				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),2);
-					graph.addEdge(nodes.get(index),fromItem,2);
-				}
-			
-			}
-			*/
-			
 			if (checkNode(fromItem, fromItem.getIndex_X(), fromItem.getIndex_Y()-1, width, height)) {
 				
 				NewItem toItem = new NewItem(SpawnType.Path_Node, 
@@ -1180,23 +1074,6 @@ public class SimpleMapGeneration {
 				
 			}
 			
-			/*
-			if (checkNode(fromItem, fromItem.getIndex_X()+1, fromItem.getIndex_Y()-1, width, height)) {
-				
-				NewItem toItem = new NewItem(SpawnType.Path_Node, 
-						(fromItem.getIndex_X()+1)*SecondTestGDX.tileWidth_TL,
-						(fromItem.getIndex_Y()-1)*SecondTestGDX.tileHeight_TL, 
-						fromItem.getIndex_X()+1, 
-						fromItem.getIndex_Y()-1, 0 );
-				
-				index = nodes.indexOf(toItem);
-				
-				if (index != -1) {
-					graph.addEdge(fromItem, nodes.get(index),2);
-					graph.addEdge(nodes.get(index),fromItem,2);
-				}
-			}
-			*/
 		}
 		
 		Gdx.app.log("[SINGLEMAPGENERATION]", "AI A* MAP GENERATION DONE");
@@ -1244,26 +1121,6 @@ public class SimpleMapGeneration {
 		this.exit = setExitInMap(exitPos);
 		if(this.exit != null) {Gdx.app.log("[SINGLEMAPGENERATION]", "EXIT NODE CREATED!");}
 		
-		if (this.exit == null) {
-			
-			//test position
-			
-			/*
-			this.exit = new NewItem(SpawnType.Item,
-					 SecondTestGDX.sizeMapTileWidth_TL* SecondTestGDX.tileWidth_TL-192, 
-					 SecondTestGDX.sizeMapTileHeight_TL/2 * SecondTestGDX.tileHeight_TL, 
-					 SecondTestGDX.tilePlayerWidth_TL, 
-					 SecondTestGDX.tilePlayerHeight_TL, 0,0);
-					 
-			*/		 
-			/*
-			this.exit = new NewItem(SpawnType.Item,
-					 (SecondTestGDX.sizeMapTileWidth_TL/2) * SecondTestGDX.tileWidth_TL, 
-					 (SecondTestGDX.sizeMapTileHeight_TL/2) * SecondTestGDX.tileHeight_TL, 
-					 SecondTestGDX.tilePlayerWidth_TL, 
-					 SecondTestGDX.tilePlayerHeight_TL, 0,0);
-		   */
-		}
 		
 		
 		return this.exit;

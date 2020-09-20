@@ -197,12 +197,14 @@ public class GUIStageEndLevel {
 	    		  gPS.getGamePlay().setNextLevel(false);
 	    		  gPS.getGamePlay().getGameLogic().endLevel();
 	    		  gPS.getGamePlay().restartTileGenerator();
+	    		  
+	    		  int levelGamePlay = GameLogicInformation.getLevelGamePlay();
 	    		  GameLogicInformation.setLevelGamePlay(0);
 	    		  
 	    		  if (gPS.getGamePlay().isEndGame() || gPS.getGamePlay().isPlayerDied()) {
 	    			  gPS.getGamePlay().setEndGame(false);
 	    			  gPS.getGamePlay().setPlayerDied(false);
-	    			  gPS.getGamePlay().setScore(gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore());		  
+	    			  gPS.getGamePlay().setScore(levelGamePlay,gPS.getGamePlay().getGameLogic().getPlayer().getStatsDynElement().getScore());		  
 	    			  GameLogicInformation.setCurrentPlayerVariables(new ElementDefinitionObject(), ElementEnum.GUN_PLAYER_1_A);
 	    			  gPS.initRanking();
 	    		  }else {

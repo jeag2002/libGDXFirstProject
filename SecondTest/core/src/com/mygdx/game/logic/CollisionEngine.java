@@ -133,6 +133,97 @@ public class CollisionEngine implements ContactListener{
 		}
 	}
 	
+
+	
+	private void destroyForestEnemiesInChainRoot(int index_x, int index_y) {
+		
+		destroyForestEnemiesInChain(index_x-1, index_y-1);
+		destroyForestEnemiesInChain(index_x-1, index_y);
+		destroyForestEnemiesInChain(index_x-1, index_y+1);
+		
+		destroyForestEnemiesInChain(index_x, index_y-1);
+		destroyForestEnemiesInChain(index_x, index_y);
+		destroyForestEnemiesInChain(index_x, index_y+1);
+		
+		destroyForestEnemiesInChain(index_x+1, index_y-1);
+		destroyForestEnemiesInChain(index_x+1, index_y);
+		destroyForestEnemiesInChain(index_x+1, index_y+1);
+	}
+	
+	
+	
+	
+	private void destroyForestEnemiesInChain(int index_x, int index_y) {
+		
+		Cell cell = forests.getCell(index_x, index_y);
+		
+		if (cell != null) {
+			
+			TiledMapTile til = cell.getTile();
+			
+			if (til != null) {
+				if (til instanceof StaticTiledMapColl) {
+					StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+						
+						createExplosionStatic(index_x, index_y);
+						gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+						destroyForestEnemiesInChainRoot(index_x, index_y);
+					}
+				}
+			}	
+		}
+		
+		
+		ArrayList<SpawnObject> drons =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_01);
+		for(SpawnObject dron: drons) {
+			SimpleEnemy e1 = (SimpleEnemy)dron;
+			
+			if ((e1.getIndex_X() == index_x) && (e1.getIndex_Y() == index_y)) {
+				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(dron)) {
+					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(dron);
+					
+					createExplosionDynamic(e1.getX(), e1.getY(), e1.getWidth(), e1.getHeight());
+					gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+					
+				}
+			}
+		}
+		
+		ArrayList<SpawnObject> turrets =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_03);
+		for(SpawnObject turret: turrets) {
+			WatchTowerEnemy centroid = (WatchTowerEnemy)turret;
+				if ((centroid.getIndex_X() == index_x) && (centroid.getIndex_Y() == index_y)) {
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(turret)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(turret);
+						
+						createExplosionDynamic(centroid.getX(), centroid.getY(), centroid.getWidth(), centroid.getHeight());
+						gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+					}
+				}
+		}
+		
+		ArrayList<SpawnObject> mines =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Item);
+		for(SpawnObject mine: mines) {
+			Item item = (Item)mine;
+			if (item.getSubType().equals(SpawnType.Item_Mine)) {
+				if ((item.getIndex_X() == index_x) && (item.getIndex_Y() == index_y)) {
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(mine)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(mine);
+						
+						createExplosionDynamic(item.getX(), item.getY(), item.getWidth(), item.getHeight());
+						gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+						
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
 	
 	
 	private void removeForestWallforMineExplosion(int index_x, int index_y) {
@@ -179,32 +270,25 @@ public class CollisionEngine implements ContactListener{
 			if ((e1.getIndex_X() == index_x) && (e1.getIndex_Y() == index_y)) {
 				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(dron)) {
 					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(dron);
+					
+					createExplosionDynamic(e1.getX(), e1.getY(), e1.getWidth(), e1.getHeight());
+					gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+					
 				}
 			}
-		}
-		
-		ArrayList<SpawnObject> tanks =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_02);
-		for(SpawnObject tank: tanks) {
-			TankEnemy e2 = (TankEnemy)tank;
-			
-			if ((e2.getIndex_X() == index_x) && (e2.getIndex_Y() == index_y)) {
-				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(e2)) {
-						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(e2);
-				}
-			}
-			
-			
 		}
 		
 		ArrayList<SpawnObject> turrets =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Enemy_03);
 		for(SpawnObject turret: turrets) {
 			WatchTowerEnemy centroid = (WatchTowerEnemy)turret;
-			if ((centroid.getIndex_X() == index_x) && (centroid.getIndex_Y() == index_y)) {
-				if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(turret)) {
-					gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(turret);
-			}
-				
-			}
+				if ((centroid.getIndex_X() == index_x) && (centroid.getIndex_Y() == index_y)) {
+					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(turret)) {
+						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(turret);
+						
+						createExplosionDynamic(centroid.getX(), centroid.getY(), centroid.getWidth(), centroid.getHeight());
+						gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+					}
+				}
 		}
 		
 		ArrayList<SpawnObject> mines =  gPS.getGamePlay().getGameLogic().getPool(SpawnType.Item);
@@ -214,10 +298,13 @@ public class CollisionEngine implements ContactListener{
 				if ((item.getIndex_X() == index_x) && (item.getIndex_Y() == index_y)) {
 					if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().contains(mine)) {
 						gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedBodiesWithCollision().add(mine);
+						
+						createExplosionDynamic(item.getX(), item.getY(), item.getWidth(), item.getHeight());
+						gPS.getGamePlay().getGameLogic().explosionSoundPlay();
+						
 					}
 				}
 			}
-			
 		}
 		
 		
@@ -272,9 +359,6 @@ public class CollisionEngine implements ContactListener{
 			}
 			
 		}
-		
-		
-		
 	}
 	
 	
@@ -439,6 +523,23 @@ public class CollisionEngine implements ContactListener{
 			gPS.getGamePlay().processPlayerVariables();
 			gPS.getGamePlay().getGameLogic().fireSoundPlay();
 			
+			
+		}else if (other.getType().equals(SpawnType.Wall_Wasteland)) {
+			
+			
+			Player player = gPS.getGamePlay().getGameLogic().getPlayer();
+			
+			other.setX(player.getX());
+			other.setY(player.getY());
+			other.setWidth(player.getWidth());
+			other.setHeight(player.getHeight());
+			
+			createFlames(other);
+			gPS.getGamePlay().processPlayerVariables();
+			gPS.getGamePlay().getGameLogic().acidSoundPlay();
+			
+			
+			
 		}
 		
 		
@@ -473,6 +574,12 @@ public class CollisionEngine implements ContactListener{
 		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
 	}
 	
+	
+	
+	private void createExplosionStatic(int index_x, int index_y) {
+		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Simple_Explosion, index_x*SecondTestGDX.tileWidth_TL, index_y*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
+		gPS.getGamePlay().getGameLogic().getSpawnPool().getCreatedBodiesWithCollision().add(explosion);
+	}
 	
 	private void createExplosionStatic(NewItem objectStr) {		
 		NewItem explosion = new NewItem(SpawnType.Explosion,SpawnType.Simple_Explosion, objectStr.getIndex_X()*SecondTestGDX.tileWidth_TL, objectStr.getIndex_Y()*SecondTestGDX.tileHeight_TL, SecondTestGDX.tileWidth_TL, SecondTestGDX.tileHeight_TL);
@@ -526,9 +633,11 @@ public class CollisionEngine implements ContactListener{
 			other.getType().equals(SpawnType.Wall_Winter) ||
 			other.getType().equals(SpawnType.Wall_Space) ||
 			other.getType().equals(SpawnType.Wall_Island) ||
+			other.getType().equals(SpawnType.Wall_Wasteland) ||
 			other.getType().equals(SpawnType.Forest_Volcano) ||
 			other.getType().equals(SpawnType.Forest_Winter) ||
 			other.getType().equals(SpawnType.Forest_Space) ||
+			other.getType().equals(SpawnType.Forest_Wasteland) ||
 			other.getType().equals(SpawnType.Border)) {
 				
 				SpawnObject object = gPS.getGamePlay().getGameLogic().getSpawnPool().getDynamicElementtWithCollisionById(objectStr.getIdCode());
@@ -567,6 +676,7 @@ public class CollisionEngine implements ContactListener{
 				
 				}else if (other.getType().equals(SpawnType.Border) || 
 						other.getType().equals(SpawnType.Wall_Volcano) || 
+						other.getType().equals(SpawnType.Wall_Wasteland) || 
 						other.getType().equals(SpawnType.Wall_Island) || 
 						other.getType().equals(SpawnType.Wall_Space)) {	
 					
@@ -606,7 +716,19 @@ public class CollisionEngine implements ContactListener{
 							
 						//Gdx.app.log("[COLL]"," ENEMY COLL (" + objectStr.getIdCode() + ") WITH WALL_DESTROYABLE (" + other.getIdCode() + ") MOVE MSG");
 						
-						
+				}else if (other.getType().equals(SpawnType.Forest_Wasteland)) {
+					
+					Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
+					if (cell != null) {
+						StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+							destroyForestEnemiesInChainRoot(other.getIndex_X(), other.getIndex_Y());
+						}
+					}
+					createExplosionStatic(other);
+					
+				
 				}else if (other.getType().equals(SpawnType.Forest_Volcano) ||
 						other.getType().equals(SpawnType.Forest_Winter) ||
 						other.getType().equals(SpawnType.Forest_Space)) {
@@ -675,10 +797,14 @@ public class CollisionEngine implements ContactListener{
 				other.getType().equals(SpawnType.Wall_Jungle) ||
 				other.getType().equals(SpawnType.Wall_Volcano) ||
 				other.getType().equals(SpawnType.Wall_Winter) ||
+				other.getType().equals(SpawnType.Wall_Wasteland) ||
+				
 				
 				other.getType().equals(SpawnType.Forest_Volcano) ||
 				other.getType().equals(SpawnType.Forest_Winter) ||
 				other.getType().equals(SpawnType.Forest_Space) ||
+				
+				other.getType().equals(SpawnType.Forest_Wasteland) ||
 				
 				other.getType().equals(SpawnType.Forest_Desert) ||
 				other.getType().equals(SpawnType.Forest_Fabric) ||
@@ -885,6 +1011,21 @@ public class CollisionEngine implements ContactListener{
 					}
 				}
 				
+				
+				if (other.getType().equals(SpawnType.Forest_Wasteland)) {
+					Cell cell = forests.getCell(other.getIndex_X(), other.getIndex_Y());
+					if (cell != null) {
+						StaticTiledMapColl tile = (StaticTiledMapColl)cell.getTile();
+						if (!gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().contains(tile)) {
+							gPS.getGamePlay().getGameLogic().getSpawnPool().getDeletedForestsWithCollision().add(tile);
+							destroyForestEnemiesInChainRoot(other.getIndex_X(), other.getIndex_Y());
+						}
+					}
+					createExplosionStatic(other);	
+				}	
+					
+					
+					
 				if 	(other.getType().equals(SpawnType.Forest_Desert) ||
 				other.getType().equals(SpawnType.Forest_Fabric) ||
 				other.getType().equals(SpawnType.Forest_Jungle) ||
@@ -924,6 +1065,8 @@ public class CollisionEngine implements ContactListener{
 				other.getType().equals(SpawnType.Wall_Volcano) ||
 				other.getType().equals(SpawnType.Wall_Winter) ||
 				other.getType().equals(SpawnType.Forest_Volcano) ||
+				other.getType().equals(SpawnType.Wall_Wasteland) ||
+				other.getType().equals(SpawnType.Forest_Wasteland) ||
 				other.getType().equals(SpawnType.Forest_Winter) ||
 				other.getType().equals(SpawnType.Forest_Space) ||
 				other.getType().equals(SpawnType.Border)) {

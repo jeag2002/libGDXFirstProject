@@ -63,6 +63,8 @@ public class GameElementLogic {
     private Sound sfxFireIgnite;
     private float sfxFireVolume;
     
+    private Sound sfxAcidBurn;
+    private float sfxAcidBurnVolume;
     
     private Sound sfxGoodLuck;
     private float sfxGoodLuckVolume;
@@ -100,7 +102,7 @@ public class GameElementLogic {
 		setFireSound("sounds/FireIgnite.mp3", 0.25f);
 		setLevelCompleteSound("sounds/levelcomplete.wav", 0.25f);
 		setGoodLuckSound("sounds/goodluck.wav", 0.25f);
-		
+		setAcidBurnSound("sounds/acid_burn.mp3", 0.25f);
 	}
 	
 	public void initWorld () {
@@ -198,6 +200,14 @@ public class GameElementLogic {
 		this.sfxGoodLuckVolume = volume;
 	}
 	
+	public void setAcidBurnSound(String path, float volume) {
+		this.sfxAcidBurn = Gdx.audio.newSound(Gdx.files.internal(path));
+		this.sfxAcidBurnVolume = volume;
+	}
+	
+	public void acidSoundPlay() {
+		sfxAcidBurn.play(sfxAcidBurnVolume);
+	}
 	
 	public void bonusSoundPlay() {
 		sfxBonus.play(sfxBonusVolume);

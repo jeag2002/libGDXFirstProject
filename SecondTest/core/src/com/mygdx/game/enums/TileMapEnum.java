@@ -100,7 +100,15 @@ public enum TileMapEnum {
 	BACKGROUND_ISLAND(SecondTestGDX.resources.island_background,66,256,256,256,256),
 	
 	WATER_2(SecondTestGDX.resources.water_2,67,64,64,128,128),
-	WATER_3(SecondTestGDX.resources.water_3,68,64,64,128,128);
+	WATER_3(SecondTestGDX.resources.water_3,68,64,64,128,128),
+	
+	SLIME_1(SecondTestGDX.resources.Slime_1,69,64,64,128,128),
+	SLIME_2(SecondTestGDX.resources.Slime_2,70,64,64,128,128),
+	
+	BARREL_1(SecondTestGDX.resources.Barrel_1,71,256,256,128,128),
+	BARREL_2(SecondTestGDX.resources.Barrel_2,72,256,256,128,128),
+	BARREL_3(SecondTestGDX.resources.Barrel_3,73,128,128,128,128);
+	
 	
 	
 	private String tileMapStr;

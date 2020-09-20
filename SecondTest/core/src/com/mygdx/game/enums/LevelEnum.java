@@ -4,28 +4,20 @@ import com.mygdx.game.logic.*;
 
 public enum LevelEnum {
 	
-	DESERT(0,"DESERT DAY",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	CITY(3,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6,"- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	SPACE(4,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	FABRIC(5,"INDUSTRY AREA DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	WINTER(6,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	VOLCANO(7,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	IDLE(12,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0,"","","");
 	
-	/*
 	DESERT(0,"DESERT DAY",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
 	DESERT_NIGHT(1,"DESERT NIGHT",GameLogicInformation.DESERT_LEVEL, GameLogicInformation.LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
 	JUNGLE(2,"JUNGLE DAY",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
 	JUNGLE_NIGHT(3,"JUNGLE NIGHT",GameLogicInformation.JUNGLE_LEVEL, GameLogicInformation.LIGHTS, 100, 100, 100, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	FABRIC(4,"INDUSTRY AREA DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	WINTER(5,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	VOLCANO(6,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	CITY(7,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6,"- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
-	SPACE(8,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	CITY(4,"CITY DAY",GameLogicInformation.CITY_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6,"- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
+	SPACE(5,"SPACE", GameLogicInformation.SPACE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	FABRIC(6,"INDUSTRY AREA DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
+	WINTER(7,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	VOLCANO(8,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	WASTELAND(9, "WASTELAND DAY",GameLogicInformation.WASTELAND_LEVEL, GameLogicInformation.NO_LIGHTS,  0, 100, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
 	IDLE(12,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0,"","","");
-	*/
+	
+	
 	private int index;
 	private String LevelStr;
 	private int type;

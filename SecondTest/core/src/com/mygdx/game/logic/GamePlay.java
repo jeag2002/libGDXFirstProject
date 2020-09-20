@@ -126,7 +126,7 @@ public class GamePlay {
 		
 		//this.nextLevelIndex = 0;
 		
-		scores = Gdx.app.getPreferences("scores");
+		scores = Gdx.app.getPreferences("scoresTankGame");
 
 		this.exit = new NewItem();
 		
@@ -179,15 +179,16 @@ public class GamePlay {
 		return scores.get();
 	}
 	
-	public void setScoreData(String key, long value) {
-		scores.putLong(key, value);
+	public void setScoreData(String key, String value) {
+		
+		scores.putString(key, value);
 		scores.flush();
 	}
 	
-	public void setScore(long value) {
+	public void setScore(int level , long value) {
 		Map<String, ?> values = getScoreData();
 		int size = values.size();
-		setScoreData(StringUtils.leftPaddedString(3, (size+1)),value);
+		setScoreData(StringUtils.leftPaddedString(3, (size+1)), StringUtils.leftPaddedString(3, (level+1)) + "_" + value);
 	}
 	
 	public List<ScoreItem> getScoresSorted(){
@@ -196,15 +197,23 @@ public class GamePlay {
 		Map<String, ?> values = getScoreData();
 		
 		List<String> keys = new ArrayList<String>(values.keySet());
-		List<Long> valuesMap = new ArrayList<Long>();
+		List<String> valuesMap = new ArrayList<String>();
 		
 		for(String key: keys) {
-			valuesMap.add(scores.getLong(key));
+			valuesMap.add(scores.getString(key));
 		}
 		
-		
 		for(int i=0; i<keys.size(); i++) {
-			items.add(new ScoreItem(keys.get(i),valuesMap.get(i)));
+			
+			String valueStr = valuesMap.get(i);
+			String[] valueLst = valueStr.split("_"); 
+			Long valueLong = 0L;
+			try {
+				valueLong = Long.parseLong(valueLst[1]);
+			}catch(Exception e) {
+				valueLong = -1L;
+			}
+			items.add(new ScoreItem(valueLst[0],valueLong));
 		}
 		
 		Collections.sort(items, new Comparator<ScoreItem>() {
@@ -694,7 +703,7 @@ public class GamePlay {
 				
 				
 				
-				if ((this.level.getType()  != GameLogicInformation.WINTER_LEVEL) && (this.level.getType()  != GameLogicInformation.VOLCANO_LEVEL) && (this.level.getType()  != GameLogicInformation.CITY_LEVEL) ) {
+				if ((this.level.getType()  != GameLogicInformation.WINTER_LEVEL) && (this.level.getType()  != GameLogicInformation.VOLCANO_LEVEL) && (this.level.getType()  != GameLogicInformation.CITY_LEVEL)  && (this.level.getType()  != GameLogicInformation.ISLAND_LEVEL) && (this.level.getType()  != GameLogicInformation.WASTELAND_LEVEL)) {
 					
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_WALLS};
 					tiledMapRenderer.render(data);
@@ -704,6 +713,10 @@ public class GamePlay {
 					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
 					tiledMapRenderer.render(data);
 				
+				}else if ((this.level.getType()  == GameLogicInformation.WASTELAND_LEVEL)) {
+					
+					int[] data  = {SimpleMapGeneration.INDEX_BACKGROUND, SimpleMapGeneration.INDEX_BORDER, SimpleMapGeneration.INDEX_FOREST};
+					tiledMapRenderer.render(data);
 				
 				}else if ((this.level.getType()  == GameLogicInformation.ISLAND_LEVEL)) {
 					
@@ -814,7 +827,7 @@ public class GamePlay {
 		
 		if (started) {
 			if (tiledMap != null) {
-				if ((this.level.getType()  == GameLogicInformation.VOLCANO_LEVEL)/* || this.levelIndex == GameLogicInformation.ISLAND_LEVEL*/) {
+				if ((this.level.getType()  == GameLogicInformation.VOLCANO_LEVEL) || (this.level.getType() == GameLogicInformation.WASTELAND_LEVEL)) {
 					
 					
 					this.time += delta;

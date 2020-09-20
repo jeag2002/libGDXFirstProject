@@ -61,7 +61,8 @@ public class GameLogicInformation {
 	public static final int CITY_LEVEL = 6;
 	public static final int SPACE_LEVEL = 7;
 	public static final int ISLAND_LEVEL = 8;
-	public static final int IDLE_LEVEL = 9;
+	public static final int WASTELAND_LEVEL = 9;
+	public static final int IDLE_LEVEL = 10;
 	
 	public static final int FOREST_DESERT = 3;
 	public static final int FOREST_JUNGLE = 3;
@@ -72,6 +73,7 @@ public class GameLogicInformation {
 	public static final int FOREST_CITY = 1;
 	public static final int FOREST_SPACE = 2;
 	public static final int FOREST_ISLAND = 3;
+	public static final int FOREST_WASTELAND = 2;
 	
 	public static final int FOREST_DEFAULT = 1;
 	
@@ -250,6 +252,7 @@ public class GameLogicInformation {
 		else if (index == CITY_LEVEL) {return FOREST_CITY;}
 		else if (index == SPACE_LEVEL) {return FOREST_SPACE;}
 		else if (index == ISLAND_LEVEL) {return FOREST_ISLAND;}
+		else if (index == WASTELAND_LEVEL) {return FOREST_WASTELAND;}
 		else {return FOREST_DEFAULT;}
 	}
 	
@@ -396,6 +399,26 @@ public class GameLogicInformation {
 			
 			levelMap[6] = null;
 			levelMap[7] = null;
+		
+			
+		}else if (index == WASTELAND_LEVEL) {
+			
+			Gdx.app.log("[GAMELOGICINFORMATION]", "GENERATING WASTELAND_LEVEL");
+			
+			levelMap[0] = TileMapEnum.GROUND_TILE_02_A;
+			
+			levelMap[1] = TileMapEnum.BLOCK_A_02;
+			levelMap[2] = TileMapEnum.SLIME_1;
+			
+			levelMap[3] = TileMapEnum.BARREL_1;
+			levelMap[4] = TileMapEnum.BARREL_2;
+			//levelMap[5] = TileMapEnum.BARREL_3;
+			levelMap[5] = null;
+			
+			levelMap[6] = null;
+			levelMap[7] = null;
+			
+			
 			
 		}else {
 			
