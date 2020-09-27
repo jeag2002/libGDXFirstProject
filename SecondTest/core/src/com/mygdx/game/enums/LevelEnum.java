@@ -14,8 +14,10 @@ public enum LevelEnum {
 	FABRIC(6,"INDUSTRY AREA DAY",GameLogicInformation.FABRIC_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 0, 0, 6, "- ARRIVE TO EXIT IN TIME (YELLOW)","- DESTROY ALL THE ENEMY TANKS",""),
 	WINTER(7,"WINTER DAY",GameLogicInformation.WINTER_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
 	VOLCANO(8,"VOLCANO DAY",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	WASTELAND(9, "WASTELAND DAY",GameLogicInformation.WASTELAND_LEVEL, GameLogicInformation.NO_LIGHTS,  0, 100, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
-	IDLE(12,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0,"","","");
+	BADLANDS(9,"BADLAND DAY",GameLogicInformation.BADLAND_LEVEL, GameLogicInformation.NO_LIGHTS, 100, 100, 100, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	VOLCANO_NIGHT(10,"VOLCANO NIGHT",GameLogicInformation.VOLCANO_LEVEL, GameLogicInformation.LIGHTS, 0, 200, 0, 0,"- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	WASTELAND(11, "WASTELAND DAY",GameLogicInformation.WASTELAND_LEVEL, GameLogicInformation.NO_LIGHTS,  0, 100, 0, 0, "- ARRIVE TO EXIT IN TIME (YELLOW)","- LEFT MAXIMUM " + GameLogicInformation.MIN_ENEMIES_TO_EXIT + " ENEMIES ",""),
+	IDLE(20,"IDLE",GameLogicInformation.IDLE_LEVEL, GameLogicInformation.NO_LIGHTS, 0, 100, 0, 0,"","","");
 	
 	
 	private int index;

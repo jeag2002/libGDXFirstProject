@@ -474,7 +474,7 @@ public class GamePlay {
 						
 						if (this.level.equals(LevelEnum.IDLE)) {
 							this.nextLevel = false;
-							this.endGame = true;
+							if (!this.playerDied) {this.endGame = true;}
 						}
 						
 						if (this.nextLevel) {

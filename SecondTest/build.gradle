@@ -62,6 +62,7 @@ project(":android") {
 
     dependencies {
         implementation project(":core")
+		api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
@@ -96,6 +97,8 @@ project(":html") {
 
     dependencies {
         implementation project(":core")
+		api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10.1"
+		api "com.github.intrigus.gdx-freetype-gwt:gdx-freetype-gwt:1.9.10.1:sources"
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"

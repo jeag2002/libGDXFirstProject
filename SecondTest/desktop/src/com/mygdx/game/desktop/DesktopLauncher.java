@@ -13,6 +13,8 @@ public class DesktopLauncher {
 		
 		config.resizable = false;
 		
+		config.forceExit = false;
+		
 		config.title = "TanksDemo";
 		//config.useGL30 = true;
 		
